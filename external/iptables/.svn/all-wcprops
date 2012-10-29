@@ -1,0 +1,257 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables
+END
+xtables.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/xtables.c
+END
+xshared.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/xshared.h
+END
+release.sh
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/release.sh
+END
+config.guess
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/config.guess
+END
+ip6tables-restore.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables-restore.c
+END
+libiptc.pc.in
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libiptc.pc.in
+END
+config.sub
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/config.sub
+END
+config.h.in
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/config.h.in
+END
+ip6tables-standalone.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables-standalone.c
+END
+configure.ac
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/configure.ac
+END
+iptables-restore.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-restore.c
+END
+INCOMPATIBILITIES
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/INCOMPATIBILITIES
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/Makefile.am
+END
+missing
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/missing
+END
+ip6tables.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables.c
+END
+iptables-standalone.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-standalone.c
+END
+autogen.sh
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/autogen.sh
+END
+configure
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/configure
+END
+iptables-xml.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-xml.c
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/Makefile.in
+END
+iptables.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables.c
+END
+Android.mk
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/Android.mk
+END
+depcomp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/depcomp
+END
+compile
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/compile
+END
+iptables.xslt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables.xslt
+END
+ltmain.sh
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ltmain.sh
+END
+COMMIT_NOTES
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/COMMIT_NOTES
+END
+ip6tables-multi.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables-multi.c
+END
+CleanSpec.mk
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/CleanSpec.mk
+END
+ip6tables.8.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables.8.in
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/INSTALL
+END
+ip6tables-save.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables-save.c
+END
+ip6tables-multi.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/ip6tables-multi.h
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/COPYING
+END
+xtables.pc.in
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/xtables.pc.in
+END
+iptables-multi.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-multi.c
+END
+aclocal.m4
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/aclocal.m4
+END
+iptables.8.in
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables.8.in
+END
+install-sh
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/install-sh
+END
+xshared.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/xshared.c
+END
+iptables-save.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-save.c
+END
+iptables-multi.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/iptables-multi.h
+END

@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4
+END
+ipt_TTL.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_TTL.h
+END
+ipt_ttl.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_ttl.h
+END
+ipt_ecn.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_ecn.h
+END
+ipt_SAME.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_SAME.h
+END
+ipt_ECN.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_ECN.h
+END
+ip_tables.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ip_tables.h
+END
+ipt_ULOG.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_ULOG.h
+END
+ipt_ah.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_ah.h
+END
+ipt_CLUSTERIP.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_CLUSTERIP.h
+END
+ipt_REJECT.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_REJECT.h
+END
+ipt_addrtype.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_addrtype.h
+END
+ipt_realm.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_realm.h
+END
+ipt_LOG.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/include/linux/netfilter_ipv4/ipt_LOG.h
+END

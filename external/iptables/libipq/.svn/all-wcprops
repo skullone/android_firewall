@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq
+END
+ipq_read.3
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_read.3
+END
+ipq_set_verdict.3
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_set_verdict.3
+END
+ipq_get_msgerr.3
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_get_msgerr.3
+END
+ipq_create_handle.3
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_create_handle.3
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/Makefile.am
+END
+ipq_set_mode.3
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_set_mode.3
+END
+ipq_errstr.3
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_errstr.3
+END
+ipq_destroy_handle.3
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_destroy_handle.3
+END
+ipq_message_type.3
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_message_type.3
+END
+ipq_get_packet.3
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_get_packet.3
+END
+libipq.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/libipq.c
+END
+libipq.3
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/libipq.3
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/Makefile.in
+END
+ipq_perror.3
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/libipq/ipq_perror.3
+END

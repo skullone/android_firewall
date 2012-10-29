@@ -1,0 +1,79 @@
+10
+
+dir
+250
+http://droidwall.googlecode.com/svn/tags/v1.5.7/res
+http://droidwall.googlecode.com/svn
+
+
+
+2011-11-25T13:26:44.851016Z
+233
+rodrigo.zr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f190bac4-7986-11de-adf2-cbd3851e0ccf
+
+drawable-ldpi
+dir
+
+values-it
+dir
+
+values-cz
+dir
+
+layout
+dir
+
+drawable
+dir
+
+values-ru
+dir
+
+values-de
+dir
+
+values-ja
+dir
+
+raw
+dir
+
+values-zh-rCN
+dir
+
+values-ar
+dir
+
+values
+dir
+
+xml
+dir
+
+values-pt-rBR
+dir
+
+drawable-hdpi
+dir
+
+values-es
+dir
+
+values-fr
+dir
+

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils/Makefile.am
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils/Makefile.in
+END
+pf.os
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils/pf.os
+END
+nfnl_osf.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils/nfnl_osf.c
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/250/tags/v1.5.7/external/iptables/utils/.gitignore
+END
