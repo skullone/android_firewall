@@ -2,6 +2,7 @@
  * Broadcast receiver responsible for removing rules that affect uninstalled apps.
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
+ * Copyright (C) 2012-2013	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Rodrigo Zechin Rosauro
+ * @author Jason Tschohl
  * @version 1.0
  */
 package com.jtschohl.androidfirewall;

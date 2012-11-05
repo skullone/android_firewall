@@ -3,6 +3,7 @@
  * All iptables "communication" is handled by this class.
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
+ * Copyright (C) 2012-2013	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Rodrigo Zechin Rosauro
+ * @author Jason Tschohl
  * @version 1.0
  */
 
@@ -54,7 +56,7 @@ import android.widget.Toast;
  */
 public final class Api {
 	/** application version string */
-	public static final String VERSION = "0.9.9.9";
+	/** public static final String VERSION = "1.0.0"; */
 	/** special application UID used to indicate "any application" */
 	public static final int SPECIAL_UID_ANY	= -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -88,6 +90,10 @@ public final class Api {
 	public static DroidApp applications[] = null;
 	// Do we have root access?
 	private static boolean hasroot = false;
+	
+	// Grab the default Interface
+	// This should make it so no matter what connection is being used the firewall will work
+	
 
     /**
      * Display a simple alert box
@@ -182,7 +188,7 @@ public final class Api {
 		}
 		assertBinaries(ctx, showErrors);
 		final String ITFS_WIFI[] = {"tiwlan+", "wlan+", "eth+", "ra+", "wlan0+"};
-		final String ITFS_3G[] = {"rmnet+","pdp+","ppp+","uwbr+","wimax+","vsnet+","ccmni+","usb+","rmnet1+","rmnet_sdio0+"};
+		final String ITFS_3G[] = {"rmnet+","pdp+","ppp+","uwbr+","wimax+","vsnet+","ccmni+","usb+","rmnet1+","rmnet_sdio+","rmnet_sdio0+","rmnet_sdio1+","qmi+","wwan0+","svnet0+"};
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST).equals(MODE_WHITELIST);
 		final boolean blacklist = !whitelist;
@@ -999,7 +1005,7 @@ public final class Api {
 				file.createNewFile();
 				final String abspath = file.getAbsolutePath();
 				// make sure we have execution permission on the script file
-				Runtime.getRuntime().exec("chmod 777 "+abspath).waitFor();
+				Runtime.getRuntime().exec("chmod 700 "+abspath).waitFor();
 				// Write the script to be executed
 				final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file));
 				if (new File("/system/bin/sh").exists()) {

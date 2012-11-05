@@ -3,6 +3,7 @@
  * This is the screen displayed when you open the application
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
+ * Copyright (C) 2012-2013	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Rodrigo Zechin Rosauro
+ * @author Jason Tschohl
  * @version 1.0
  */
 
@@ -152,7 +154,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		int resid = (mode.equals(Api.MODE_WHITELIST) ? R.string.mode_whitelist : R.string.mode_blacklist);
 		labelmode.setText(res.getString(R.string.mode_header, res.getString(resid)));
 		resid = (Api.isEnabled(this) ? R.string.title_enabled : R.string.title_disabled);
-		setTitle(res.getString(resid, Api.VERSION));
+		setTitle(res.getString(resid));
     }
     /**
      * Displays a dialog box to select the operation mode (black or white list)
