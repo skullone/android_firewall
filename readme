@@ -1,2 +1,6 @@
-This is a fork of the Droidwall application.  The original code is located here:  http://code.google.com/p/droidwall/
+This is a fork of the Droidwall application.  The original code is located here:  http://codegoogle.com/p/droidwall/     My code is located here:  http://github.com/skullone/android_firewall
 
+Changelog:  
+
+1.0.1 - Added a number of translations.
+1.0.0 - initial release. Updated for Android 4.x.  Added new interfaces for new devices.
