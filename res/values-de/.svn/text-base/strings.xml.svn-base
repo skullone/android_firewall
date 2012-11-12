@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Translated by Zionis137 -->
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (Firewall deaktiviert)</string>
+    <string name="showrules">Regeln zeigen</string>
+    <string name="applyrules">Regeln anwenden</string>
+    <string name="saverules">Regeln speichern</string>
+    <string name="purgerules">Alle Regeln löschen</string>
+    <string name="setpwd">Erstelle Passwort</string>
+    <string name="help">Hilfe</string>
+    <string name="close">Schließen</string>
+    <string name="exit">Beenden</string>
+    <string name="fw_enabled">Firewall aktiviert</string>
+    <string name="fw_disabled">Firewall deaktiviert</string>
+    <string name="log_enabled">Log aktiviert</string>
+    <string name="log_disabled">Log deaktiviert</string>
+    <string name="log_was_enabled">Log wurde aktiviert</string>
+    <string name="log_was_disabled">Log wurde deaktiviert</string>
+    <string name="log_cleared">Log gelöscht</string>
+    <string name="show_log">Log zeigen</string>
+    <string name="clear_log">Log löschen</string>
+    <string name="applying_rules">iptables Regeln anwenden.</string>
+    <string name="saving_rules">iptables Regeln speichern.</string>
+    <string name="deleting_rules">iptables Regeln löschen.</string>
+    <string name="rules_applied">Regeln werden angewendet</string>
+    <string name="rules_saved">Regeln wurden gespeichert</string>
+    <string name="rules_deleted">Regeln wurden gelöscht</string>
+    <string name="pass_titleset">Setze Passwort</string>
+    <string name="pass_titleget">Passwort benötigt</string>
+    <string name="enterpass">Bitte Passwort eingeben:</string>
+    <string name="enternewpass">Neues Passwort eingeben (freilassen um Passwort zu entfernen):</string>
+    <string name="passdefined">Passwort wurde festgelegt</string>
+    <string name="passremoved">Passwort wurde gelöscht</string>
+    <string name="passerror">Fehler beim Ändern des Passwortes</string>
+    <string name="working">lädt...</string>
+    <string name="reading_apps">Lese installierte Applications</string>
+    <string name="please_wait">Bitte warten</string>
+    <string name="mode_header">Modus: %s</string>
+    <string name="mode_whitelist">White list (erlaube ausgewählte)</string>
+    <string name="mode_blacklist">Black list (blockiere ausgewählte)</string>
+    <string name="toast_bin_installed">DroidWall: Binary files wurden installiert!</string>
+    <string name="toast_error_enabling">DroidWall: Fehler beim Aktivieren der Firewall!</string>
+    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro</i>
+﻿  ﻿  \n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+﻿  ﻿  \n
+﻿  ﻿  \n<i>DroidWall - Android Firewall</i>Benutzer Application für die starke <b>iptables</b> Linux Firewall.
+﻿  ﻿  Sie macht es möglich auszuwählen, welche Applicationen Zugriff auf das Internet haben.
+﻿  ﻿  \nDas ist die perfekte Lösung, wenn du eine begrenzte Internetverbindung hast, oder den Akku schonen willst.
+﻿  ﻿  \n
+﻿  ﻿  \n<b>Using DroidWall:</b>
+﻿  ﻿  \n<b>1.</b> Klick auf <b>Modus</b> um zwischen <i>White List</i> und <i>Black List</i> zu wechseln.
+﻿  ﻿  \n<b>2.</b> Markiere die Application, die du blockieren oder erlauben möchtest (abhängig von dem ausgewählten Modus).
+﻿  ﻿  \n<b>3.</b> Öffne das Menü und aktiviere die Firewall. Wenn die Firewall schon aktiviert ist, wähle einfach <b>Regeln anwenden</b>.
+﻿  ﻿  \nDie Regeln werden automatisch gespeichert und wiederhergestellt, wenn du das Handy neu startest.
+﻿  ﻿  \nWenn du alle Regeln überprüfen willst, wähle <b>Regeln zeigen</b> inm Menü aus.
+﻿  ﻿  \n
+﻿  ﻿  \n<b>Widget:</b>
+﻿  ﻿  \nUm die Firewall schnell zu aktivieren oder zu deaktivieren, füge das Widget deinem Startbildschirm hinzu
+﻿  ﻿  \n
+﻿  ﻿  \n<b>Firewall logs:</b>
+﻿  ﻿  \nWenn du sehen willst, welche Applicationen von <i>DroidWall</i> geblockt wurden, öffne das Menü und aktiviere den Log
+﻿  ﻿  \nDroidWall wird dann jede geblockte Application speichern. Du kannst den Log überprüfen, indem du das Menü öffnest und  <b>More -> Show log</b> auswählst.
+﻿  ﻿  \n
+﻿  ﻿  \n<b>Passwort:</b>
+﻿  ﻿  \nDu kannst ein Passwort setzen, indem du <b>Erstelle Passwort</b> im Menü wählst.
+﻿  ﻿  \nUm das Passwort zu löschen, lass das Passwort Feld leer.
+
+    \n \nÜbersetz von Zionis137
+﻿    </string>
+</resources>

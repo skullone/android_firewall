@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (Firewall disabilitato)</string>
+    <string name="showrules">Mostra regole</string>
+    <string name="applyrules">Applica regole</string>
+    <string name="saverules">Salva regole</string>
+    <string name="purgerules">Cancella regole</string>
+    <string name="setpwd">Imposta password</string>
+    <string name="help">Aiuto</string>
+    <string name="close">Chiudi</string>
+    <string name="exit">Esci</string>
+    <string name="fw_enabled">Firewall abilitato</string>
+    <string name="fw_disabled">Firewall disabilitato</string>
+    <string name="log_enabled">Log abilitati</string>
+    <string name="log_disabled">Log disabilitati</string>
+    <string name="log_was_enabled">I log sono stati attivati</string>
+    <string name="log_was_disabled">I log sono stati disattivati</string>
+    <string name="log_cleared">Log svuotati</string>
+    <string name="show_log">Mostra log</string>
+    <string name="clear_log">Pulisci log</string>
+    <string name="applying_rules">Applicazione regole iptables.</string>
+    <string name="saving_rules">Salvataggio regole iptables.</string>
+    <string name="deleting_rules">Eliminazione regole iptables.</string>
+    <string name="rules_applied">Regole applicate con successo</string>
+    <string name="rules_saved">Regole salvate con successo</string>
+    <string name="rules_deleted">Regole eliminate con successo</string>
+    <string name="pass_titleset">Imposta blocco password</string>
+    <string name="pass_titleget">Password richiesta</string>
+    <string name="enterpass">Inserisci la password:</string>
+    <string name="enternewpass">Inserisci la nuova password (lascia bianco per rimuovere):</string>
+    <string name="passdefined">Blocco password definito</string>
+    <string name="passremoved">Blocco password rimosso</string>
+    <string name="passerror">Errore cambiamento blocco password</string>
+    <string name="working">Attendere...</string>
+    <string name="reading_apps">Lettura applicazioni installate</string>
+    <string name="please_wait">Attendi perfavore</string>
+    <string name="mode_header">Modo: %s</string>
+    <string name="mode_whitelist">White list (abilita selezionati)</string>
+    <string name="mode_blacklist">Black list (blocca selezionati)</string>
+    <string name="toast_bin_installed">DroidWall: File binari installati!</string>    
+    <string name="toast_enabled">DroidWall: Firewall abilitato!</string>
+    <string name="toast_error_enabling">DroidWall: Errore di abilitazione firewall!</string>
+    <string name="toast_disabled">DroidWall: Firewall disabilitato!</string>
+    <string name="toast_error_disabling">DroidWall: Errore di disabilitare firewall!</string>
+	<string name="help_dialog_text"><i>Autore: Rodrigo Zechin Rosauro</i>
+		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n
+		\n<i>DroidWall - Android Firewall</i> è un\'applicazione front-end per le potenti <b>iptables</b> del firewall Linux.
+		Ti permette di definire quali applicazioni possono accedere alla rete dati e quali no.
+		\nQuesta è una soluzione perfetta se non hai un piano dati illimitato, o solamente se vuoi aumentare la longevità della tua batteria.
+		\n
+		\n<b>Utilizzare DroidWall:</b>
+		\n<b>1.</b> Clicca su <b>Modo</b> per cambiare tra le modalità <i>White List</i> e <i>Black List</i>.
+		\n<b>2.</b> Spunta le applicazioni che vuoi bloccare o abilitare (relativamente alla modalità selezionata), per ogni interfaccia.
+		\n<b>3.</b> Apri il menu per abilitare il firewall. Se questo è già attivato, seleziona <b>Applica regole</b>.
+		\nLe regole saranno salvate e ripristinate automaticamente quando riavvierai il telefono.
+		\nSe vuoi controllare le iptables correnti, seleziona <b>Mostra regole</b> dal menu.
+		\n
+		\n<b>Widget:</b>
+		\nPer abilitare o disabilitare velocemente il firewall, aggiungi il widget DroidWall alla tua schermata home.
+		\n
+		\n<b>Log firewall:</b>
+		\nSe vuoi vedere quali applicazioni sono state bloccare da DroidWall, apri il menu ed abilita i log.
+		\nDroidWall salverà i log di ogni applicazione bloccata. Puoi poi visualizzarli aprendo il menu e selezionando <b>Altro -> Mostra log</b>.
+		\n
+		\n<b>Blocco password:</b>
+		\nPuoi impostare un blocco password per DroidWall tramite <b>Imposta password</b> dal menu.
+		\nPer rimuovere la protezione ti basterà lasciarla in bianco.
+	</string>
+</resources>

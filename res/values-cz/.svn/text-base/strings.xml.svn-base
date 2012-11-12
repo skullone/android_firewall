@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (Firewall vypnut)</string>
+    <string name="showrules">Zobrazit pravidla</string>
+    <string name="applyrules">Nastavit pravidla</string>
+    <string name="saverules">Uložit pravidla</string>
+    <string name="purgerules">Vymazat pravidla</string>
+    <string name="setpwd">Nastavit heslo</string>
+    <string name="help">Nápověda</string>
+    <string name="close">Zavřít</string>
+    <string name="exit">Ukončit</string>
+    <string name="fw_enabled">Firewall zapnut</string>
+    <string name="fw_disabled">Firewall vypnut</string>
+    <string name="log_enabled">Logování zapnuto</string>
+    <string name="log_disabled">Logování vypnuto</string>
+    <string name="log_was_enabled">Logování bylo zapnuto</string>
+    <string name="log_was_disabled">Logování bylo vypnuto</string>
+    <string name="log_cleared">Log vymazán</string>
+    <string name="show_log">Zobrazit log</string>
+    <string name="clear_log">Vymazat log</string>
+    <string name="applying_rules">Nastavuji pravidla iptables.</string>
+    <string name="saving_rules">Ukládám pravidla iptables.</string>
+    <string name="deleting_rules">Mažu pravidla rules.</string>
+    <string name="rules_applied">Pravidla úspěšně nastavena</string>
+    <string name="rules_saved">Pravidla úspěšně uložena</string>
+    <string name="rules_deleted">Pravidla úspěšně smazána</string>
+    <string name="pass_titleset">Nastavit heslo</string>
+    <string name="pass_titleget">Požadováno heslo</string>
+    <string name="enterpass">Vložte heslo:</string>
+    <string name="enternewpass">Vložte nové heslo (nechte pole prázdné pro vypnutí):</string>
+    <string name="passdefined">Heslo nastaveno</string>
+    <string name="passremoved">Heslo zrušeno</string>
+    <string name="passerror">Chyba při změně nastavení hesla</string>
+    <string name="working">Pracuji...</string>
+    <string name="reading_apps">Načítám nainstalované aplikace</string>
+    <string name="please_wait">Prosím čekejte</string>
+    <string name="mode_header">Režim: %s</string>
+    <string name="mode_whitelist">Povolit zvolené</string>
+    <string name="mode_blacklist">Zakázat zvolené</string>
+    <string name="toast_bin_installed">DroidWall: Binární soubory nainstalovány!</string>
+    <string name="toast_enabled">DroidWall: Firewall zapnut!</string>
+    <string name="toast_error_enabling">DroidWall: Chyba při spouštění firewallu!</string>
+    <string name="toast_disabled">DroidWall: Firewall vypnut!</string>
+    <string name="toast_error_disabling">DroidWall: Chyba při svypínání firewallu!</string>
+        <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro</i>
+                \n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+                \n
+                \n<i>DroidWall - Android Firewall</i> je pokročilá aplikace pro účinný <b>iptables</b> Linuxový firewall.
+                Umožnuje vám nastavit které aplikace budou mít přístup k síti Internet a které nikoliv.
+                \nToto je perfektní řešení pokud nemáte neomezený datový tarif, či jen chcete zlepšit výdrž vaší baterie.
+                \n
+                \n<b>Použití DroidWall:</b>
+                \n<b>1.</b> Klikněte na <b>Režim</b> pro přepnutí mezi <i>Povolením</i> a <i>Zakázáním</i> zvolených položek.
+                \n<b>2.</b> Zvolte aplikace které chcete zablokovat a které chcete povolit (v závislosti na dříve nastaveném režimu).
+                \n<b>3.</b> Otevřete nabídku a zapněte firewall. Pokud již byl zapnut, stačí zvolit <b>Nastavit pravidla</b>.
+                \nPravidla budou uložena a budou automaticky nastavena po restartování telefonu.
+                \nPokud chcete zkontrolovat současné iptables nastavení, zvolte <b>Zobrazit pravidla</b> v nabídce.
+                \n
+                \n<b>Widget:</b>
+                \nPro rychlé zapnutí či deaktivování firewallu, přidejte DroidWall widget na vaší domovskou stránku.
+                \n
+                \n<b>Firewall logy:</b>
+                \nPro případy kdy chcete zjistit které aplikace byly zablokovány DroidWallem, otevřete menu a zapněte logování.
+                \nDroidWall poté do logu zaznamená veškeré blokované aplikace. Můžete log prohlédnout pomocí nabídky menu a zvolením <b>Více -> Zobrazit Log</b>.
+                \n
+                \n<b>Heslo:</b>
+                \nMůžete nastavit heslo pro DroidWall otevřením menu a zvolením <b>Nastavit heslo</b>.
+                \nPro zrušení hesla jej prostě nechte prázdné.
+        </string>
+</resources>

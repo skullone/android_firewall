@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (防火墙已禁用)</string>
+    <string name="showrules">显示规则</string>
+    <string name="applyrules">应用规则</string>
+    <string name="saverules">保存规则</string>
+    <string name="purgerules">清空规则</string>
+    <string name="setpwd">设置密码</string>
+    <string name="help">帮助</string>
+    <string name="close">关闭</string>
+    <string name="exit">退出</string>
+    <string name="fw_enabled">防火墙已启用</string>
+    <string name="fw_disabled">防火墙已禁用</string>
+    <string name="log_enabled">日志已启用</string>
+    <string name="log_disabled">日志已禁用</string>
+    <string name="log_was_enabled">日志已被启用</string>
+    <string name="log_was_disabled">日志已被禁用</string>
+    <string name="log_cleared">日志已清除</string>
+    <string name="show_log">显示日志</string>
+    <string name="clear_log">清除日志</string>
+    <string name="applying_rules">应用iptables规则.</string>
+    <string name="saving_rules">保存iptables规则.</string>
+    <string name="deleting_rules">删除iptables规则.</string>
+    <string name="rules_applied">规则应用成功</string>
+    <string name="rules_saved">规则保存成功</string>
+    <string name="rules_deleted">规则删除成功</string>
+    <string name="pass_titleset">设置密码锁定</string>
+    <string name="pass_titleget">需要密码</string>
+    <string name="enterpass">输入密码:</string>
+    <string name="enternewpass">输入新密码(放空则删除):</string>
+    <string name="passdefined">密码锁定已设置</string>
+    <string name="passremoved">密码锁定已移除</string>
+    <string name="passerror">改变密码锁定出错</string>
+    <string name="working">工作中...</string>
+    <string name="reading_apps">正在读取安装的程序</string>
+    <string name="please_wait">请稍等</string>
+    <string name="mode_header">模式: %s</string>
+    <string name="mode_whitelist">白名单(允许选中)</string>
+    <string name="mode_blacklist">黑名单(阻止选中)</string>
+    <string name="toast_bin_installed">DroidWall: 二进制文件已安装!</string>
+    <string name="toast_enabled">DroidWall: 防火墙已启用!</string>
+    <string name="toast_error_enabling">DroidWall: 启用防火墙时出错!</string>
+    <string name="toast_disabled">DroidWall: 防火墙已禁用!</string>
+    <string name="toast_error_disabling">DroidWall: 禁用用防火墙时出错!</string>
+    <string name="set_custom_script">设置自定义脚本</string>
+    <string name="custom_script_defined">自定义脚本已定义</string>
+    <string name="custom_script_removed">自定义脚本已删除</string>
+    <string name="custom_script_error">保存自定义脚本时出错</string>
+    <string name="custom_script_info"><b>在这里输入你的自定义脚本.</b>
+		\n<i>(放空则删除)</i>
+		\n查看自定义脚本的更多信息, 点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
+	</string>
+    <string name="unsaved_changes">未保存更改</string>
+    <string name="unsaved_changes_message">有未保存更改.\n你想保存还是丢弃它们?</string>
+    <string name="apply">应用</string>
+    <string name="discard">丢弃</string>
+    <string name="help_dialog_text"><i>作者: Rodrigo Zechin Rosauro</i>
+		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n
+		\n<i>DroidWall - Android 防火墙</i> 是Linux上功能强大的<b>iptables</b>防火墙前端程序.
+		它可以让你限定哪些程序可以访问你的数据网络.
+		\n如果你没有不限流量的套餐或只是想延长电池使用时间,这将是一个完美的解决方案.
+		\n
+		\n<b>使用DroidWall:</b>
+		\n<b>1.</b> 点击<b>模式</b>切换 <i>白名单</i> 和 <i>黑名单</i> 模式.
+		\n<b>2.</b> 标记你想阻止或允许(取决于已选择的模式)的程序, 针对每一个接口.
+		\n<b>3.</b> 打开菜单启用防火墙. 如果防火墙已启用,只需要选择<b>应用规则</b>.
+		\n规则将被保存并在你重启手机后自动恢复.
+		\n如果你想检查当前iptables规则, 在菜单中选择<b>显示规则</b>.
+		\n
+		\n<b>桌面部件:</b>
+		\n为了快速启用或禁用防火墙, 添加DroidWall桌面部件到主屏幕.
+		\n
+		\n<b>防火墙日志:</b>
+		\n如果你想看到哪些程序被DroidWall阻止, 打开菜单并启用日志.
+		\nDroidWall将会记录每一个被阻止的程序. 你可以打开菜单并选择 <b>更多 -> 显示日志</b> 来检查日志.
+		\n
+		\n<b>程序锁:</b>
+		\n你可以使用菜单中的<b>设置密码</b>选项来为DroidWall设置密码锁.
+		\n若要移除密码保护,只需要将它重置为空白.
+	</string>
+</resources>

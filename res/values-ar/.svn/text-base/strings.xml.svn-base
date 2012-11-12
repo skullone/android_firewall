@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (الجدار الناري معطل)</string>
+    <string name="showrules">عرض القواعد</string>
+    <string name="applyrules">تطبيق القواعد</string>
+    <string name="saverules">حفظ القواعد</string>
+    <string name="purgerules">تنظيف القواعد</string>
+    <string name="setpwd">تعيين كلمة مرور</string>
+    <string name="help">المساعدة</string>
+    <string name="close">إغلاق</string>
+    <string name="exit">خروج</string>
+    <string name="fw_enabled">الجدار الناري مفعل</string>
+    <string name="fw_disabled">الجدار الناري معطل</string>
+    <string name="log_enabled">السجلات مفعلة</string>
+    <string name="log_disabled">السجلات معطلة</string>
+    <string name="log_was_enabled">تم تفعيل السجلات</string>
+    <string name="log_was_disabled">تم تعطيل السجلات</string>
+    <string name="log_cleared">تم مسح السجلات</string>
+    <string name="show_log">عرض السجلات</string>
+    <string name="clear_log">مسح السجلات</string>
+    <string name="applying_rules">تطبيق قواعد iptables.</string>
+    <string name="saving_rules">حفظ قواعد iptables.</string>
+    <string name="deleting_rules">حذف قواعد iptables.</string>
+    <string name="rules_applied">تم تطبيق القواعد بنجاح</string>
+    <string name="rules_saved">تم حفظ القواعد بنجاح</string>
+    <string name="rules_deleted">تم حذف القواعد بنجاح</string>
+    <string name="pass_titleset">تعيين كلمة مرور</string>
+    <string name="pass_titleget">كلمة المرور مطلوبة</string>
+    <string name="enterpass">أدخل كلمة المرور:</string>
+    <string name="enternewpass">أدخل كلمة المرور الجديدة (اتركه فارغاً لحذفها):</string>
+    <string name="passdefined">تم تعريف كلمة المرور</string>
+    <string name="passremoved">تم إلغاء كلمة المرور</string>
+    <string name="passerror">خطأ بتغيير كلمة المرور</string>
+    <string name="working">جاري العمل...</string>
+    <string name="reading_apps">قراءة التطبيقات الموجودة</string>
+    <string name="please_wait">يرجى الانتظار</string>
+    <string name="mode_header">الوضعية: %s</string>
+    <string name="mode_whitelist">قائمة السماح (سماح للمحدد)</string>
+    <string name="mode_blacklist">قائمة الحظر (حظر للمحدد)</string>
+    <string name="toast_bin_installed">DroidWall: تم تنصيب الملفات الثنائية!</string>
+    <string name="toast_error_enabling">"DroidWall: خطأ بتفعيل الجدار الناري!"</string>
+	<string name="help_dialog_text"><i>المبرمج: Rodrigo Zechin Rosauro</i>
+		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n
+		\n<i>DroidWall - جدار ناري للاندرويد</i> هو واجهة أمامية لميزة <b>iptables</b> الجدار الناري لنظام لينوكس.
+		حيث يتيح لك التحكم بأي برنامج ترغب بالسماح له بالوصول للشبكة.
+		\nوهو الخيار الأمثل في حال كان لديك اشتراك انترنت محدود التحميل أو ترغب بزيادة عمر البطارية.
+		\n
+		\n<b>كيفية استخدام DroidWall:</b>
+		\n<b>1.</b> اضغط على <b>الوضعية</b> للاختيار بين وضعية <i>قائمة السماح</i> و وضعية <i>قائمة الحظر</i> .
+		\n<b>2.</b> ضع إشارة صح على التطبيقات التي ترغب بالسماح لها أو حظرها (حسب الوضعية المختارة).
+		\n<b>3.</b> افتح القائمة و فعل الجدار الناري. إذا كان الجدار الناري مفعل مسبقاً، فقط إضغط على <b>تطبيق القواعد</b>.
+		\nسيتم حفظ القواعد و إستعادتها آليا عند إعادة تشغيل الجوال.
+		\nإذا رغبت بعرض جميع قواعد iptables ، اختر <b>عرض القواعد</b> في القائمة.
+		\n
+		\n<b>الويدغيت:</b>
+		\nلتفعيل أو تعطيل الجدار الناري فورياً ، أضف الويدغيت إلى الشاشة الجوال الرئيسية.
+		\n
+		\n<b>سجلات الجدار الناري:</b>
+		\nإذا رغبت بمعرفة البرامج التي قامت بطلب الشبكة و تم حجبها من قبل DroidWall ، افتح القائمة و فعل السجلات.
+		\nDroidWall سقوم عندها بتسجيل عمليات الحجب للتطبيقات. بإمكانك عرض السجلات من خلال فتح القائمة ثم اختيار <b>المزيد -> عرض السجلات</b>.
+		\n
+		\n<b>القفل بكلمة مرور:</b>
+		\nبإمكانك تعيين كلمة مرور لقفل DroidWall باستخدام <b>تعيين كلمة مرور</b> من القائمة.
+		\nلإزالة حماية كلمة المرور ، فقط قم بتغييرها إلى كلمة مرور فارغة.
+	</string>
+</resources>

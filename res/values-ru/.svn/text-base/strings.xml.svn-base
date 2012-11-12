@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (брандмауэр отключен)</string>
+    <string name="showrules">Показать правила</string>
+    <string name="applyrules">Применить правила</string>
+    <string name="saverules">Сохранить правила</string>
+    <string name="purgerules">Очистить правила</string>
+    <string name="setpwd">Установить пароль</string>
+    <string name="help">Справка</string>
+    <string name="close">Закрыть</string>
+    <string name="exit">Выход</string>
+    <string name="fw_enabled">Брандмауэр включен</string>
+    <string name="fw_disabled">Брандмауэр отключен</string>
+    <string name="log_enabled">Журнал включен</string>
+    <string name="log_disabled">Журнал отключен</string>
+    <string name="log_was_enabled">Протоколирование включено</string>
+    <string name="log_was_disabled">Протоколирование отключено</string>
+    <string name="log_cleared">Журнал очищен</string>
+    <string name="show_log">Показать журнал</string>
+    <string name="clear_log">Очистить журнал</string>
+    <string name="applying_rules">Применение правил iptables</string>
+    <string name="saving_rules">Сохранение правил iptables</string>
+    <string name="deleting_rules">Удаление правил iptables</string>
+    <string name="rules_applied">Правила успешно применены</string>
+    <string name="rules_saved">Правила успешно сохранены</string>
+    <string name="rules_deleted">Правила успешно удалены</string>
+    <string name="pass_titleset">Установить пароль блокировки</string>
+    <string name="pass_titleget">Необходимо ввести пароль</string>
+    <string name="enterpass">Введите пароль:</string>
+    <string name="enternewpass">Введите новый пароль (оставьте пустым для удаления):</string>
+    <string name="passdefined">Пароль блокировки определен</string>
+    <string name="passremoved">Пароль блокировки удален</string>
+    <string name="passerror">Ошибка при смене пароля блокировки</string>
+    <string name="working">Обработка...</string>
+    <string name="reading_apps">Чтение установленных приложений</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="mode_header">Режим: %s</string>
+    <string name="mode_whitelist">Белый список (разрешить выбранные)</string>
+    <string name="mode_blacklist">Черный список (блокировать выбранные)</string>
+    <string name="toast_bin_installed">DroidWall: Исполняемые файлы установлены!</string>
+    <string name="toast_enabled">DroidWall:  Брандмауэр включен!</string>
+    <string name="toast_error_enabling">DroidWall: Ошибка включения брандмауэра!</string>
+    <string name="toast_disabled">DroidWall:  Брандмауэр отключен!</string>
+    <string name="toast_error_disabling">DroidWall: Ошибка отключения брандмауэра!</string>
+    <string name="set_custom_script">Установить сценарий</string>
+    <string name="custom_script_defined">Пользовательский сценарий определён</string>
+    <string name="custom_script_removed">Пользовательский сценарий удалён</string>
+    <string name="custom_script_error">Ошибка при сохранении пользовательского сценария</string>
+    <string name="custom_script_info"><b>Введите ниже Ваш сценарий.</b>
+		\n<i>(Оставьте это поле пустым для удаления)</i>
+		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">здесь</a>.
+	</string>
+    <string name="unsaved_changes">Несохраненные изменения</string>
+    <string name="unsaved_changes_message">У вас есть несохраненные изменения.\nВы хотите применить или сбросить их?</string>
+    <string name="apply">Применить</string>
+    <string name="discard">Сбросить</string>
+        <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro</i>
+                \n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+                \n<i>Перевод: Евгений Мартыненко</i>\n
+                \n<i>DroidWall - Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
+                Он позволяет ограничить круг приложений имеющих доступ к сетям передачи данных.
+                \nЭто идеальное решение, если у вас не безлимитный тарифный план, или Вы просто хотите сэкономить заряд вашей батареи.
+                \n
+                \n<b>Использование DroidWall:</b>
+                \n<b>1.</b> Нажмите на <b>Режим</b> для переключения между режимами <i>Белый список</i> и <i>Черный список</i>.
+                \n<b>2.</b> Пометьте приложения, которые Вы хотите заблокировать или разрешить (в зависимости от выбранного режима), для каждого интерфейса.
+                \n<b>3.</b> Откройте меню и включите брандмауэр. Если брандмауэр уже включен, просто выберите <b>Применить правила</b>.
+                \nПравила будут сохранены и автоматически восстановлены, после перезагрузки Вашего телефона.
+                \nЕсли хотите проверить все действующие правила iptables, выберите в меню <b>Показать правила</b>.
+                \n
+                \n<b>Виджет:</b>
+                \nДля быстрого включения или отключения брандмауэра добавьте на Ваш домашний экран виджет DroidWall.
+                \n
+                \n<b>Журналы брандмауэра:</b>
+                \nЕсли Вы хотите увидеть, какие приложения были заблокированы DroidWall, откройте меню и включите ведение журнала.
+                \nDroidWall зарегистрирует каждое заблокированное приложение. Вы можете проверить журнал, открыв меню и выбрав <b>Еще -> Показать журнал</b>.
+                \n
+                \n<b>Пароль блокировки:</b>
+                \nВы можете установить пароль блокировки для DroidWall с помощью параметра меню <b>Установить пароль</b>.
+                \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым
+        </string>
+</resources>

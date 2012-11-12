@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s </string>
+    <string name="title_disabled">DroidWall v%s (停止中)</string>
+    <string name="showrules">ルール表示</string>
+    <string name="applyrules">ルール適用</string>
+    <string name="saverules">ルール保存</string>
+    <string name="purgerules">ルール消去</string>
+    <string name="setpwd">パスワード設定</string>
+    <string name="help">ヘルプ</string>
+    <string name="close">閉じる</string>
+    <string name="exit">終了する</string>
+    <string name="fw_enabled">Firewall オン</string>
+    <string name="fw_disabled">Firewall オフ</string>
+    <string name="log_enabled">通信ログ オン</string>
+    <string name="log_disabled">通信ログ オフ</string>
+    <string name="log_was_enabled">通信ログを監視します</string>
+    <string name="log_was_disabled">通信ログの監視を止めました</string>
+    <string name="log_cleared">通信ログを消去しました</string>
+    <string name="show_log">通信ログを表示する</string>
+    <string name="clear_log">通信ログを消去する</string>
+    <string name="applying_rules">ルールを適用しています</string>
+    <string name="saving_rules">ルールを保存しています</string>
+    <string name="deleting_rules">ルールを消しています</string>
+    <string name="rules_applied">ルールを適用しました</string>
+    <string name="rules_saved">ルールを保存しました</string>
+    <string name="rules_deleted">ルールを消去しました</string>
+    <string name="pass_titleset">パスワード設定</string>
+    <string name="pass_titleget">パスワードロック</string>
+    <string name="enterpass">パスワードを入力して下さい</string>
+    <string name="enternewpass">新しいパスワードを入力してください (空白の場合は、未設定になります) : </string>
+    <string name="passdefined">パスワードを定義しました</string>
+    <string name="passremoved">パスワードをリセットしました</string>
+    <string name="passerror">パスワードに誤りがあります</string>
+    <string name="working">実行中...</string>
+    <string name="reading_apps">アプリを読み込み中です</string>
+    <string name="please_wait">しばらく待たれ...</string>
+    <string name="mode_header">モード: %s</string>
+    <string name="mode_whitelist">ホワイトリスト (チェックで許可)</string>
+    <string name="mode_blacklist">ブラックリスト (チェックで拒否)</string>
+    <string name="toast_bin_installed">DroidWall: Binary files installed!</string>
+    <string name="toast_enabled">DroidWall: Firewall 許可!</string>
+    <string name="toast_error_enabling">DroidWall: 適用中にエラーが発生しました。</string>
+    <string name="toast_disabled">DroidWall: Firewall 停止!</string>
+    <string name="toast_error_disabling">DroidWall: 停止中にエラーが発生しました。</string>
+<string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro</i>
+\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+\n
+\n<i>DroidWall - Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
+\nDroidWallは、あなたがインストールしたアプリケーションの通信を設定により制限することができます。
+\nもしあなたのデバイスがデータ通信定額プランでは無い、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
+\n
+\n<b>DroidWallの使い方</b>
+\n<b>1.</b> <b>モード</b>をタッチすることでホワイトリストまたはブラックリストのモード切替ができます。
+\n<b>2.</b> アプリをチェックすることにより、通信許可または拒否することができます。
+\n<b>3.</b> メニューを開いて、Firewallを許可するとルールが適用されます。
+\n既にFirewallを実行している場合は、<b>ルール適用</b>を選択してください。デバイスを再起動した時、ルールは保存されて自動で復元されます。
+\n現在適応しているiptablesルールの詳細を確認したい時は、メニューを開いて<b>ルール表示</b>を選択してください。
+\n
+\n<b>ウィジェット</b>
+\nホーム画面にDroidWallウィジェットと置くことで、簡単にFirewallを実行または停止することができます。
+\n
+\n<b>Firewall 通信ログ</b>
+\nDroidWallでしたアプリによる通信を監視したい場合は、通信ログをオンにしてください。
+\n通信ログを確認したい場合はメニューを開いて<b>ログ表示</b>を選択して下さい。
+\n
+\n<b>パスワードロック設定</b>
+\nアプリケーションをパスワードでロックしたい場合はメニューにある<b>パスワード設定</b>を選択してください。
+\nパスワードの入力フォームを空白にすることでパスワードを解除できます。
+\n
+\n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
+\nJapanese Translation by Hiroki Ogawa.
+</string>
+</resources>

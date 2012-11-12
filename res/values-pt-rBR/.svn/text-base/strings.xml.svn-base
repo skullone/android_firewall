@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidWall</string>
+    <string name="title_enabled">DroidWall v%s</string>
+    <string name="title_disabled">DroidWall v%s (Firewall desligado)</string>
+    <string name="showrules">Exibir regras</string>
+    <string name="applyrules">Aplicar regras</string>
+    <string name="saverules">Salvar regras</string>
+    <string name="purgerules">Deletar regras</string>
+    <string name="setpwd">Definir senha</string>
+    <string name="help">Ajuda</string>
+    <string name="close">Fechar</string>
+    <string name="exit">Sair</string>
+    <string name="fw_enabled">Firewall ligado</string>
+    <string name="fw_disabled">Firewall desligado</string>
+    <string name="log_enabled">Log ligado</string>
+    <string name="log_disabled">Log desligado</string>
+    <string name="log_was_enabled">Log ligado</string>
+    <string name="log_was_disabled">Log desligado</string>
+    <string name="log_cleared">Log limpo</string>
+    <string name="show_log">Exibir log</string>
+    <string name="clear_log">Limpar log</string>
+    <string name="applying_rules">Aplicando regras do iptables.</string>
+    <string name="saving_rules">Salvando regras do iptables.</string>
+    <string name="deleting_rules">Deletando regras do iptables.</string>
+    <string name="rules_applied">Regras aplicadas com sucesso</string>
+    <string name="rules_saved">Regras salvas com sucesso</string>
+    <string name="rules_deleted">Regras deletadas com sucesso</string>
+    <string name="pass_titleset">Definir senha de acesso</string>
+    <string name="pass_titleget">Senha requerida</string>
+    <string name="enterpass">Digite a senha:</string>
+    <string name="enternewpass">Digite a nova senha (deixe em branco para remover):</string>
+    <string name="passdefined">Senha de acesso definida</string>
+    <string name="passremoved">Senha de acesso removida</string>
+    <string name="passerror">Erro definindo senha de acesso</string>
+    <string name="working">Trabalhando...</string>
+    <string name="reading_apps">Lendo aplicativos instalados</string>
+    <string name="please_wait">Por favor aguarde</string>
+    <string name="mode_header">Modo: %s</string>
+    <string name="mode_whitelist">Lista branca (permitir selecionados)</string>
+    <string name="mode_blacklist">Lista negra (bloquear selecionados)</string>
+    <string name="toast_bin_installed">DroidWall: Arquivos binários instalados!</string>
+    <string name="toast_enabled">DroidWall: Firewall ligado!</string>
+    <string name="toast_error_enabling">DroidWall: Erro ligando o firewall!</string>
+    <string name="toast_disabled">DroidWall: Firewall desligado!</string>
+    <string name="toast_error_disabling">DroidWall: Erro desligando o firewall!</string>
+    <string name="set_custom_script">Definir script personalizado</string>
+    <string name="custom_script_defined">Script personalizado definido</string>
+    <string name="custom_script_removed">Script personalizado removido</string>
+    <string name="custom_script_error">Erro salvando script personalizado</string>
+    <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>
+		\n<i>(Deixe em branco para remover)</i>
+		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
+	</string>
+    <string name="custom_script2_info">
+    	\n<b>Script personalizado ao desligar</b>
+    	\nVocê pode definir também um script personalizado para ser executado quando o firewall é <b>desligado</b>:</string>
+    <string name="unsaved_changes">Alterações não salvas</string>
+    <string name="unsaved_changes_message">Você tem alterações não salvas.\nDeseja aplicar ou descartar essas alterações?</string>
+    <string name="apply">Aplicar</string>
+    <string name="discard">Descartar</string>
+	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro</i>
+		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n
+		\n<i>DroidWall - Android Firewall</i> é um aplicativo que utiliza o poderoso firewall <b>iptables</b> do Linux.
+		Ele permite restringir o acesso de cada aplicativo Android à rede de dados.
+		\nEsta é a solução perfeita se você não possui um plano de dados ilimitado, ou apenas deseja economizar bateria.
+		\n
+		\n<b>Utilizando o DroidWall:</b>
+		\n<b>1.</b> Clique em <b>Modo</b> para escolher qual o modo de bloqueio (<i>Lista Branca</i> ou <i>Lista Negra</i>).
+		\n<b>2.</b> Marque os aplicativos que você deseja bloquear ou permitir (dependendo do modo selecionado), para cada interface de dados.
+		\n<b>3.</b> Abra o menu e ligue o firewall. Caso o firewall já esteja ligado, selecione <b>Aplicar regras</b>.
+		\nAs regras serão salvas e automaticamente re-aplicadas quando o dispositivo for re-iniciado.
+		\nSe desejar ver as regras do iptables, selecione <b>Exibir regras</b> no menu.
+		\n
+		\n<b>Widget:</b>
+		\nPara ligar ou desligar rápidamente o firewall, adicione o widget do DroidWall em sua área de trabalho (home).
+		\n
+		\n<b>Logs do firewall:</b>
+		\nSe desejar saber quais aplicativos foram bloqueados pelo DroidWall, abra o menu e ligue o log.
+		\nO DroidWall irá então logar todos as tentativas de conexão bloqueadas. Você pode verificar o log abrido o menu e selecionando <b>Mais -> Exibir log</b>.
+		\n
+		\n<b>Senha de acesso:</b>
+		\nVocê pode definir uma senha de acesso para o DroidWall utilizando a função <b>Definir senha</b> do menu.
+		\nPara remover a senha de acesso, deixe ela em branco.
+	</string>
+</resources>
