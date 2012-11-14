@@ -56,7 +56,7 @@ import android.widget.Toast;
  */
 public final class Api {
 	/** application version string */
-	/** public static final String VERSION = "1.0.1"; */
+	/** public static final String VERSION = "1.0.2"; */
 	/** special application UID used to indicate "any application" */
 	public static final int SPECIAL_UID_ANY	= -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -213,7 +213,8 @@ public final class Api {
 				"$IPTABLES -F droidwall-3g || exit 8\n" +
 				"$IPTABLES -F droidwall-wifi || exit 9\n" +
 				"$IPTABLES -F droidwall-reject || exit 10\n" +
-				"$IPTABLES -A droidwall -p udp --dport 53 -j RETURN || exit 11\n" +			
+				// "$IPTABLES -A droidwall -p udp --dport 53 -j RETURN || exit 11\n" +
+				"$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 11\n" +
 			"");
 			// Check if logging is enabled
 			if (logenabled) {
