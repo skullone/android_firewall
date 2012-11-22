@@ -5,15 +5,12 @@
  * This program is distributed under the terms of GNU GPL v2, 1991
  *
  */
-#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <netdb.h>
-#include <ctype.h>
-
-#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <xtables.h>
 #include <linux/dccp.h>
 #include <linux/netfilter/x_tables.h>
@@ -26,12 +23,12 @@
 #define DEBUGP(format, fist...) 
 #endif
 
-static void dccp_init(struct xt_entry_match *m)
-{
-	struct xt_dccp_info *einfo = (struct xt_dccp_info *)m->data;
-
-	memset(einfo, 0, sizeof(struct xt_dccp_info));
-}
+enum {
+	O_SOURCE_PORT = 0,
+	O_DEST_PORT,
+	O_DCCP_TYPES,
+	O_DCCP_OPTION,
+};
 
 static void dccp_help(void)
 {
@@ -40,44 +37,30 @@ static void dccp_help(void)
 "[!] --source-port port[:port]                          match source port(s)\n"
 " --sport ...\n"
 "[!] --destination-port port[:port]                     match destination port(s)\n"
-" --dport ...\n");
+" --dport ...\n"
+"[!] --dccp-types type[,...]                            match when packet is one of the given types\n"
+"[!] --dccp-option option                               match if option (by number!) is set\n"
+);
 }
 
-static const struct option dccp_opts[] = {
-	{.name = "source-port",      .has_arg = true, .val = '1'},
-	{.name = "sport",            .has_arg = true, .val = '1'},
-	{.name = "destination-port", .has_arg = true, .val = '2'},
-	{.name = "dport",            .has_arg = true, .val = '2'},
-	{.name = "dccp-types",       .has_arg = true, .val = '3'},
-	{.name = "dccp-option",      .has_arg = true, .val = '4'},
-	XT_GETOPT_TABLEEND,
+#define s struct xt_dccp_info
+static const struct xt_option_entry dccp_opts[] = {
+	{.name = "source-port", .id = O_SOURCE_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, spts)},
+	{.name = "sport", .id = O_SOURCE_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, spts)},
+	{.name = "destination-port", .id = O_DEST_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, dpts)},
+	{.name = "dport", .id = O_DEST_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, dpts)},
+	{.name = "dccp-types", .id = O_DCCP_TYPES, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT},
+	{.name = "dccp-option", .id = O_DCCP_OPTION, .type = XTTYPE_UINT8,
+	 .min = 1, .max = UINT8_MAX, .flags = XTOPT_INVERT | XTOPT_PUT,
+	 XTOPT_POINTER(s, option)},
+	XTOPT_TABLEEND,
 };
-
-static void
-parse_dccp_ports(const char *portstring, 
-		 u_int16_t *ports)
-{
-	char *buffer;
-	char *cp;
-
-	buffer = strdup(portstring);
-	DEBUGP("%s\n", portstring);
-	if ((cp = strchr(buffer, ':')) == NULL) {
-		ports[0] = ports[1] = xtables_parse_port(buffer, "dccp");
-	}
-	else {
-		*cp = '\0';
-		cp++;
-
-		ports[0] = buffer[0] ? xtables_parse_port(buffer, "dccp") : 0;
-		ports[1] = cp[0] ? xtables_parse_port(cp, "dccp") : 0xFFFF;
-
-		if (ports[0] > ports[1])
-			xtables_error(PARAMETER_PROBLEM,
-				   "invalid portrange (min > max)");
-	}
-	free(buffer);
-}
+#undef s
 
 static const char *const dccp_pkt_types[] = {
 	[DCCP_PKT_REQUEST] 	= "REQUEST",
@@ -93,10 +76,10 @@ static const char *const dccp_pkt_types[] = {
 	[DCCP_PKT_INVALID]	= "INVALID",
 };
 
-static u_int16_t
+static uint16_t
 parse_dccp_types(const char *typestring)
 {
-	u_int16_t typemask = 0;
+	uint16_t typemask = 0;
 	char *ptr, *buffer;
 
 	buffer = strdup(typestring);
@@ -117,82 +100,40 @@ parse_dccp_types(const char *typestring)
 	return typemask;
 }
 
-static u_int8_t parse_dccp_option(char *optstring)
+static void dccp_parse(struct xt_option_call *cb)
 {
-	unsigned int ret;
+	struct xt_dccp_info *einfo = cb->data;
 
-	if (!xtables_strtoui(optstring, NULL, &ret, 1, UINT8_MAX))
-		xtables_error(PARAMETER_PROBLEM, "Bad DCCP option \"%s\"",
-			   optstring);
-
-	return ret;
-}
-
-static int
-dccp_parse(int c, char **argv, int invert, unsigned int *flags,
-           const void *entry, struct xt_entry_match **match)
-{
-	struct xt_dccp_info *einfo
-		= (struct xt_dccp_info *)(*match)->data;
-
-	switch (c) {
-	case '1':
-		if (*flags & XT_DCCP_SRC_PORTS)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Only one `--source-port' allowed");
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_SOURCE_PORT:
 		einfo->flags |= XT_DCCP_SRC_PORTS;
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_dccp_ports(optarg, einfo->spts);
-		if (invert)
+		if (cb->invert)
 			einfo->invflags |= XT_DCCP_SRC_PORTS;
-		*flags |= XT_DCCP_SRC_PORTS;
 		break;
-
-	case '2':
-		if (*flags & XT_DCCP_DEST_PORTS)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--destination-port' allowed");
+	case O_DEST_PORT:
 		einfo->flags |= XT_DCCP_DEST_PORTS;
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_dccp_ports(optarg, einfo->dpts);
-		if (invert)
+		if (cb->invert)
 			einfo->invflags |= XT_DCCP_DEST_PORTS;
-		*flags |= XT_DCCP_DEST_PORTS;
 		break;
-
-	case '3':
-		if (*flags & XT_DCCP_TYPE)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--dccp-types' allowed");
+	case O_DCCP_TYPES:
 		einfo->flags |= XT_DCCP_TYPE;
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		einfo->typemask = parse_dccp_types(optarg);
-		if (invert)
+		einfo->typemask = parse_dccp_types(cb->arg);
+		if (cb->invert)
 			einfo->invflags |= XT_DCCP_TYPE;
-		*flags |= XT_DCCP_TYPE;
 		break;
-
-	case '4':
-		if (*flags & XT_DCCP_OPTION)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--dccp-option' allowed");
+	case O_DCCP_OPTION:
 		einfo->flags |= XT_DCCP_OPTION;
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		einfo->option = parse_dccp_option(optarg);
-		if (invert)
+		if (cb->invert)
 			einfo->invflags |= XT_DCCP_OPTION;
-		*flags |= XT_DCCP_OPTION;
 		break;
-	default:
-		return 0;
 	}
-	return 1;
 }
 
-static char *
+static const char *
 port_to_service(int port)
 {
-	struct servent *service;
+	const struct servent *service;
 
 	if ((service = getservbyport(htons(port), "dccp")))
 		return service->s_name;
@@ -201,9 +142,9 @@ port_to_service(int port)
 }
 
 static void
-print_port(u_int16_t port, int numeric)
+print_port(uint16_t port, int numeric)
 {
-	char *service;
+	const char *service;
 
 	if (numeric || (service = port_to_service(port)) == NULL)
 		printf("%u", port);
@@ -212,13 +153,13 @@ print_port(u_int16_t port, int numeric)
 }
 
 static void
-print_ports(const char *name, u_int16_t min, u_int16_t max,
+print_ports(const char *name, uint16_t min, uint16_t max,
 	    int invert, int numeric)
 {
 	const char *inv = invert ? "!" : "";
 
 	if (min != 0 || max != 0xFFFF || invert) {
-		printf("%s", name);
+		printf(" %s", name);
 		if (min == max) {
 			printf(":%s", inv);
 			print_port(min, numeric);
@@ -228,18 +169,18 @@ print_ports(const char *name, u_int16_t min, u_int16_t max,
 			printf(":");
 			print_port(max, numeric);
 		}
-		printf(" ");
 	}
 }
 
 static void
-print_types(u_int16_t types, int inverted, int numeric)
+print_types(uint16_t types, int inverted, int numeric)
 {
 	int have_type = 0;
 
 	if (inverted)
-		printf("! ");
+		printf(" !");
 
+	printf(" ");
 	while (types) {
 		unsigned int i;
 
@@ -260,10 +201,10 @@ print_types(u_int16_t types, int inverted, int numeric)
 }
 
 static void
-print_option(u_int8_t option, int invert, int numeric)
+print_option(uint8_t option, int invert, int numeric)
 {
 	if (option || invert)
-		printf("option=%s%u ", invert ? "!" : "", option);
+		printf(" option=%s%u", invert ? "!" : "", option);
 }
 
 static void
@@ -272,7 +213,7 @@ dccp_print(const void *ip, const struct xt_entry_match *match, int numeric)
 	const struct xt_dccp_info *einfo =
 		(const struct xt_dccp_info *)match->data;
 
-	printf("dccp ");
+	printf(" dccp");
 
 	if (einfo->flags & XT_DCCP_SRC_PORTS) {
 		print_ports("spt", einfo->spts[0], einfo->spts[1],
@@ -305,32 +246,33 @@ static void dccp_save(const void *ip, const struct xt_entry_match *match)
 
 	if (einfo->flags & XT_DCCP_SRC_PORTS) {
 		if (einfo->invflags & XT_DCCP_SRC_PORTS)
-			printf("! ");
+			printf(" !");
 		if (einfo->spts[0] != einfo->spts[1])
-			printf("--sport %u:%u ", 
+			printf(" --sport %u:%u",
 			       einfo->spts[0], einfo->spts[1]);
 		else
-			printf("--sport %u ", einfo->spts[0]);
+			printf(" --sport %u", einfo->spts[0]);
 	}
 
 	if (einfo->flags & XT_DCCP_DEST_PORTS) {
 		if (einfo->invflags & XT_DCCP_DEST_PORTS)
-			printf("! ");
+			printf(" !");
 		if (einfo->dpts[0] != einfo->dpts[1])
-			printf("--dport %u:%u ",
+			printf(" --dport %u:%u",
 			       einfo->dpts[0], einfo->dpts[1]);
 		else
-			printf("--dport %u ", einfo->dpts[0]);
+			printf(" --dport %u", einfo->dpts[0]);
 	}
 
 	if (einfo->flags & XT_DCCP_TYPE) {
-		printf("--dccp-type ");
-		print_types(einfo->typemask, einfo->invflags & XT_DCCP_TYPE,0);
+		printf("%s --dccp-types",
+		       einfo->invflags & XT_DCCP_TYPE ? " !" : "");
+		print_types(einfo->typemask, false, 0);
 	}
 
 	if (einfo->flags & XT_DCCP_OPTION) {
-		printf("--dccp-option %s%u ", 
-			einfo->typemask & XT_DCCP_OPTION ? "! " : "",
+		printf("%s --dccp-option %u",
+			einfo->invflags & XT_DCCP_OPTION ? " !" : "",
 			einfo->option);
 	}
 }
@@ -342,14 +284,13 @@ static struct xtables_match dccp_match = {
 	.size		= XT_ALIGN(sizeof(struct xt_dccp_info)),
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_dccp_info)),
 	.help		= dccp_help,
-	.init		= dccp_init,
-	.parse		= dccp_parse,
 	.print		= dccp_print,
 	.save		= dccp_save,
-	.extra_opts	= dccp_opts,
+	.x6_parse	= dccp_parse,
+	.x6_options	= dccp_opts,
 };
 
-void libxt_dccp_init(void)
+void _init(void)
 {
 	xtables_register_match(&dccp_match);
 }

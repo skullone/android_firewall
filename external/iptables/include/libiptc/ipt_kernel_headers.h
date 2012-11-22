@@ -15,9 +15,7 @@
 #include <sys/types.h>
 #else /* libc5 */
 #include <sys/socket.h>
-#if 0
 #include <linux/ip.h>
-#endif
 #include <linux/in.h>
 #include <linux/if.h>
 #include <linux/icmp.h>

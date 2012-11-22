@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (الجدار الناري معطل)</string>
+    <string name="title_enabled">Android Firewall (الجدار الناري مفعل)</string>
+    <string name="title_disabled">Android Firewall (الجدار الناري معطل)</string>
     <string name="showrules">عرض القواعد</string>
     <string name="applyrules">تطبيق القواعد</string>
     <string name="saverules">حفظ القواعد</string>
@@ -42,7 +42,7 @@
     <string name="toast_bin_installed">Android Firewall: تم تنصيب الملفات الثنائية!</string>
     <string name="toast_error_enabling">"Android Firewall: خطأ بتفعيل الجدار الناري!"</string>
 	<string name="help_dialog_text"><i>المبرمج: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://Android Firewall.googlecode.com">http://Android Firewall.googlecode.com</a></i>
+		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 		\n
 		\n<i>Android Firewall - جدار ناري للاندرويد</i> هو واجهة أمامية لميزة <b>iptables</b> الجدار الناري لنظام لينوكس.
 		حيث يتيح لك التحكم بأي برنامج ترغب بالسماح له بالوصول للشبكة.

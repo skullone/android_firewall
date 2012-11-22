@@ -5,20 +5,9 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <stddef.h>
-
 #include <xtables.h>
-#include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_cluster.h>
-
-/* hack to keep for check */
-static unsigned int total_nodes;
-static unsigned int node_mask;
 
 static void
 cluster_help(void)
@@ -32,162 +21,80 @@ cluster_help(void)
 }
 
 enum {
-	CLUSTER_OPT_TOTAL_NODES,
-	CLUSTER_OPT_LOCAL_NODE,
-	CLUSTER_OPT_NODE_MASK,
-	CLUSTER_OPT_HASH_SEED,
+	O_CL_TOTAL_NODES = 0,
+	O_CL_LOCAL_NODE,
+	O_CL_LOCAL_NODEMASK,
+	O_CL_HASH_SEED,
+	F_CL_TOTAL_NODES    = 1 << O_CL_TOTAL_NODES,
+	F_CL_LOCAL_NODE     = 1 << O_CL_LOCAL_NODE,
+	F_CL_LOCAL_NODEMASK = 1 << O_CL_LOCAL_NODEMASK,
+	F_CL_HASH_SEED      = 1 << O_CL_HASH_SEED,
 };
 
-static const struct option cluster_opts[] = {
-	{.name = "cluster-total-nodes",    .has_arg = true, .val = CLUSTER_OPT_TOTAL_NODES},
-	{.name = "cluster-local-node",     .has_arg = true, .val = CLUSTER_OPT_LOCAL_NODE},
-	{.name = "cluster-local-nodemask", .has_arg = true, .val = CLUSTER_OPT_NODE_MASK},
-	{.name = "cluster-hash-seed",      .has_arg = true, .val = CLUSTER_OPT_HASH_SEED},
-	XT_GETOPT_TABLEEND,
+#define s struct xt_cluster_match_info
+static const struct xt_option_entry cluster_opts[] = {
+	{.name = "cluster-total-nodes", .id = O_CL_TOTAL_NODES,
+	 .type = XTTYPE_UINT32, .min = 1, .max = XT_CLUSTER_NODES_MAX,
+	 .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, total_nodes)},
+	{.name = "cluster-local-node", .id = O_CL_LOCAL_NODE,
+	 .excl = F_CL_LOCAL_NODEMASK, .flags = XTOPT_INVERT,
+	 .type = XTTYPE_UINT32, .min = 1, .max = XT_CLUSTER_NODES_MAX},
+	{.name = "cluster-local-nodemask", .id = O_CL_LOCAL_NODEMASK,
+	 .excl = F_CL_LOCAL_NODE, .type = XTTYPE_UINT32,
+	 .min = 1, .max = XT_CLUSTER_NODES_MAX,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, node_mask)},
+	{.name = "cluster-hash-seed", .id = O_CL_HASH_SEED,
+	 .type = XTTYPE_UINT32, .flags = XTOPT_MAND | XTOPT_PUT,
+	 XTOPT_POINTER(s, hash_seed)},
+	XTOPT_TABLEEND,
 };
 
-static int 
-cluster_parse(int c, char **argv, int invert, unsigned int *flags,
-	      const void *entry, struct xt_entry_match **match)
+static void cluster_parse(struct xt_option_call *cb)
 {
-	struct xt_cluster_match_info *info = (void *)(*match)->data;
-	unsigned int num;
+	struct xt_cluster_match_info *info = cb->data;
 
-	switch (c) {
-	case CLUSTER_OPT_TOTAL_NODES:
-		if (*flags & (1 << c)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Can only specify "
-				      "`--cluster-total-nodes' once");
-		}
-		if (!xtables_strtoui(optarg, NULL, &num, 1,
-				     XT_CLUSTER_NODES_MAX)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Unable to parse `%s' in "
-				      "`--cluster-total-nodes'", optarg);
-		}
-		total_nodes = num;
-		info->total_nodes = total_nodes = num;
-		*flags |= 1 << c;
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_CL_LOCAL_NODE:
+		if (cb->invert)
+			info->flags |= XT_CLUSTER_F_INV;
+		info->node_mask = 1 << (cb->val.u32 - 1);
 		break;
-	case CLUSTER_OPT_LOCAL_NODE:
-		if (*flags & (1 << c)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Can only specify "
-				      "`--cluster-local-node' once");
-		}
-		if (*flags & (1 << CLUSTER_OPT_NODE_MASK)) {
-			xtables_error(PARAMETER_PROBLEM, "You cannot use "
-				      "`--cluster-local-nodemask' and "
-				      "`--cluster-local-node'");
-		}
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-
-		if (!xtables_strtoui(optarg, NULL, &num, 1,
-				     XT_CLUSTER_NODES_MAX)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Unable to parse `%s' in "
-				      "`--cluster-local-node'", optarg);
-		}
-		if (invert)
-			info->flags |= (1 << XT_CLUSTER_F_INV);
-
-		info->node_mask = node_mask = (1 << (num - 1));
-		*flags |= 1 << c;
+	case O_CL_LOCAL_NODEMASK:
+		if (cb->invert)
+			info->flags |= XT_CLUSTER_F_INV;
 		break;
-	case CLUSTER_OPT_NODE_MASK:
-		if (*flags & (1 << c)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Can only specify "
-				      "`--cluster-local-node' once");
-		}
-		if (*flags & (1 << CLUSTER_OPT_LOCAL_NODE)) {
-			xtables_error(PARAMETER_PROBLEM, "You cannot use "
-				      "`--cluster-local-nodemask' and "
-				      "`--cluster-local-node'");
-		}
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-
-		if (!xtables_strtoui(optarg, NULL, &num, 1,
-				     XT_CLUSTER_NODES_MAX)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Unable to parse `%s' in "
-				      "`--cluster-local-node'", optarg);
-		}
-		if (invert)
-			info->flags |= (1 << XT_CLUSTER_F_INV);
-
-		info->node_mask = node_mask = num;
-		*flags |= 1 << c;
-		break;
-
-	case CLUSTER_OPT_HASH_SEED:
-		if (*flags & (1 << c)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Can only specify "
-				      "`--cluster-hash-seed' once");
-		}
-		if (!xtables_strtoui(optarg, NULL, &num, 0, UINT32_MAX)) {
-			xtables_error(PARAMETER_PROBLEM,
-				      "Unable to parse `%s'", optarg);
-		}
-		info->hash_seed = num;
-		*flags |= 1 << c;
-		break;
-	default:
-		return 0;
 	}
-
-	return 1;
 }
 
-static void
-cluster_check(unsigned int flags)
+static void cluster_check(struct xt_fcheck_call *cb)
 {
-	if ((flags & ((1 << CLUSTER_OPT_TOTAL_NODES) |
-		      (1 << CLUSTER_OPT_LOCAL_NODE) |
-		      (1 << CLUSTER_OPT_HASH_SEED)))
-		== ((1 << CLUSTER_OPT_TOTAL_NODES) |
-		    (1 << CLUSTER_OPT_LOCAL_NODE) |
-		    (1 << CLUSTER_OPT_HASH_SEED))) {
-		if (node_mask >= (1ULL << total_nodes)) {
+	const struct xt_cluster_match_info *info = cb->data;
+	unsigned int test;
+
+	test = F_CL_TOTAL_NODES | F_CL_LOCAL_NODE | F_CL_HASH_SEED;
+	if ((cb->xflags & test) == test) {
+		if (info->node_mask >= (1ULL << info->total_nodes))
 			xtables_error(PARAMETER_PROBLEM,
 				      "cluster match: "
 				      "`--cluster-local-node' "
 				      "must be <= `--cluster-total-nodes'");
-		}
 		return;
 	}
-	if ((flags & ((1 << CLUSTER_OPT_TOTAL_NODES) |
-		      (1 << CLUSTER_OPT_NODE_MASK) |
-		      (1 << CLUSTER_OPT_HASH_SEED)))
-		== ((1 << CLUSTER_OPT_TOTAL_NODES) |
-		    (1 << CLUSTER_OPT_NODE_MASK) |
-		    (1 << CLUSTER_OPT_HASH_SEED))) {
-		if (node_mask >= (1ULL << total_nodes)) {
+
+	test = F_CL_TOTAL_NODES | F_CL_LOCAL_NODEMASK | F_CL_HASH_SEED;
+	if ((cb->xflags & test) == test) {
+		if (info->node_mask >= (1ULL << info->total_nodes))
 			xtables_error(PARAMETER_PROBLEM,
 				      "cluster match: "
 				      "`--cluster-local-nodemask' too big "
 				      "for `--cluster-total-nodes'");
-		}
 		return;
 	}
-	if (!(flags & (1 << CLUSTER_OPT_TOTAL_NODES))) {
-		xtables_error(PARAMETER_PROBLEM,
-			      "cluster match: `--cluster-total-nodes' "
-			      "is missing");
-	}
-	if (!(flags & (1 << CLUSTER_OPT_HASH_SEED))) {
-		xtables_error(PARAMETER_PROBLEM,
-			      "cluster match: `--cluster-hash-seed' "
-			      "is missing");
-	}
-	if (!(flags & ((1 << (CLUSTER_OPT_LOCAL_NODE) |
-		       (1 << (CLUSTER_OPT_NODE_MASK)))))) {
+	if (!(cb->xflags & (F_CL_LOCAL_NODE | F_CL_LOCAL_NODEMASK)))
 		xtables_error(PARAMETER_PROBLEM,
 			      "cluster match: `--cluster-local-node' or"
 			      "`--cluster-local-nodemask' is missing");
-	}
 }
 
 static void
@@ -195,13 +102,13 @@ cluster_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
 	const struct xt_cluster_match_info *info = (void *)match->data;
 
-	printf("cluster ");
+	printf(" cluster ");
 	if (info->flags & XT_CLUSTER_F_INV)
-		printf("!node_mask=0x%08x ", info->node_mask);
+		printf("!node_mask=0x%08x", info->node_mask);
 	else
-		printf("node_mask=0x%08x ", info->node_mask);
+		printf("node_mask=0x%08x", info->node_mask);
 
-	printf("total_nodes=%u hash_seed=0x%08x ", 
+	printf(" total_nodes=%u hash_seed=0x%08x",
 		info->total_nodes, info->hash_seed);
 }
 
@@ -211,11 +118,11 @@ cluster_save(const void *ip, const struct xt_entry_match *match)
 	const struct xt_cluster_match_info *info = (void *)match->data;
 
 	if (info->flags & XT_CLUSTER_F_INV)
-		printf("! --cluster-local-nodemask 0x%08x ", info->node_mask);
+		printf(" ! --cluster-local-nodemask 0x%08x", info->node_mask);
 	else
-		printf("--cluster-local-nodemask 0x%08x ", info->node_mask);
+		printf(" --cluster-local-nodemask 0x%08x", info->node_mask);
 
-	printf("--cluster-total-nodes %u --cluster-hash-seed 0x%08x ",
+	printf(" --cluster-total-nodes %u --cluster-hash-seed 0x%08x",
 		info->total_nodes, info->hash_seed);
 }
 
@@ -226,14 +133,14 @@ static struct xtables_match cluster_mt_reg = {
 	.size		= XT_ALIGN(sizeof(struct xt_cluster_match_info)),
 	.userspacesize  = XT_ALIGN(sizeof(struct xt_cluster_match_info)),
  	.help		= cluster_help,
-	.parse		= cluster_parse,
-	.final_check	= cluster_check,
 	.print		= cluster_print,
 	.save		= cluster_save,
-	.extra_opts	= cluster_opts,
+	.x6_parse	= cluster_parse,
+	.x6_fcheck	= cluster_check,
+	.x6_options	= cluster_opts,
 };
 
-void libxt_cluster_init(void)
+void _init(void)
 {
 	xtables_register_match(&cluster_mt_reg);
 }

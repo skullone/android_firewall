@@ -9,44 +9,49 @@
  *
  *	Based on libipt_time.c.
  */
-#include <sys/types.h>
-#include <getopt.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <time.h>
-#include <limits.h>
-
+#include <linux/types.h>
 #include <linux/netfilter/xt_time.h>
 #include <xtables.h>
 
-enum { /* getopt "seen" bits */
-	F_DATE_START = 1 << 0,
-	F_DATE_STOP  = 1 << 1,
-	F_TIME_START = 1 << 2,
-	F_TIME_STOP  = 1 << 3,
-	F_MONTHDAYS  = 1 << 4,
-	F_WEEKDAYS   = 1 << 5,
-	F_TIMEZONE   = 1 << 6,
+enum {
+	O_DATE_START = 0,
+	O_DATE_STOP,
+	O_TIME_START,
+	O_TIME_STOP,
+	O_MONTHDAYS,
+	O_WEEKDAYS,
+	O_LOCAL_TZ,
+	O_UTC,
+	O_KERNEL_TZ,
+	F_LOCAL_TZ  = 1 << O_LOCAL_TZ,
+	F_UTC       = 1 << O_UTC,
+	F_KERNEL_TZ = 1 << O_KERNEL_TZ,
 };
 
 static const char *const week_days[] = {
 	NULL, "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
 };
 
-static const struct option time_opts[] = {
-	{.name = "datestart", .has_arg = true,  .val = 'D'},
-	{.name = "datestop",  .has_arg = true,  .val = 'E'},
-	{.name = "timestart", .has_arg = true,  .val = 'X'},
-	{.name = "timestop",  .has_arg = true,  .val = 'Y'},
-	{.name = "weekdays",  .has_arg = true,  .val = 'w'},
-	{.name = "monthdays", .has_arg = true,  .val = 'm'},
-	{.name = "localtz",   .has_arg = false, .val = 'l'},
-	{.name = "utc",       .has_arg = false, .val = 'u'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry time_opts[] = {
+	{.name = "datestart", .id = O_DATE_START, .type = XTTYPE_STRING},
+	{.name = "datestop", .id = O_DATE_STOP, .type = XTTYPE_STRING},
+	{.name = "timestart", .id = O_TIME_START, .type = XTTYPE_STRING},
+	{.name = "timestop", .id = O_TIME_STOP, .type = XTTYPE_STRING},
+	{.name = "weekdays", .id = O_WEEKDAYS, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT},
+	{.name = "monthdays", .id = O_MONTHDAYS, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT},
+	{.name = "localtz", .id = O_LOCAL_TZ, .type = XTTYPE_NONE,
+	 .excl = F_UTC},
+	{.name = "utc", .id = O_UTC, .type = XTTYPE_NONE,
+	 .excl = F_LOCAL_TZ | F_KERNEL_TZ},
+	{.name = "kerneltz", .id = O_KERNEL_TZ, .type = XTTYPE_NONE,
+	 .excl = F_UTC},
+	XTOPT_TABLEEND,
 };
 
 static void time_help(void)
@@ -62,7 +67,7 @@ static void time_help(void)
 "[!] --weekdays value     List of weekdays on which to match, sep. by comma\n"
 "                         (Possible days: Mon,Tue,Wed,Thu,Fri,Sat,Sun or 1 to 7\n"
 "                         Defaults to all weekdays.)\n"
-"    --localtz/--utc      Time is interpreted as UTC/local time\n");
+"    --kerneltz           Work with the kernel timezone instead of UTC\n");
 }
 
 static void time_init(struct xt_entry_match *m)
@@ -78,9 +83,6 @@ static void time_init(struct xt_entry_match *m)
 	/* ...and have no date-begin or date-end boundary */
 	info->date_start = 0;
 	info->date_stop  = INT_MAX;
-
-	/* local time is default */
-	info->flags |= XT_TIME_LOCAL_TZ;
 }
 
 static time_t time_parse_date(const char *s, bool end)
@@ -138,6 +140,13 @@ static time_t time_parse_date(const char *s, bool end)
 	tm.tm_hour = hour;
 	tm.tm_min  = minute;
 	tm.tm_sec  = second;
+	tm.tm_isdst = 0;
+	/*
+	 * Offsetting, if any, is done by xt_time.ko,
+	 * so we have to disable it here in userspace.
+	 */
+	setenv("TZ", "UTC", true);
+	tzset();
 	ret = mktime(&tm);
 	if (ret >= 0)
 		return ret;
@@ -246,86 +255,44 @@ static unsigned int time_parse_weekdays(const char *arg)
 	return ret;
 }
 
-static int time_parse(int c, char **argv, int invert, unsigned int *flags,
-                      const void *entry, struct xt_entry_match **match)
+static void time_parse(struct xt_option_call *cb)
 {
-	struct xt_time_info *info = (void *)(*match)->data;
+	struct xt_time_info *info = cb->data;
 
-	switch (c) {
-	case 'D': /* --datestart */
-		if (*flags & F_DATE_START)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --datestart twice");
-		if (invert)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Unexpected \"!\" with --datestart");
-		info->date_start = time_parse_date(optarg, false);
-		*flags |= F_DATE_START;
-		return 1;
-	case 'E': /* --datestop */
-		if (*flags & F_DATE_STOP)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --datestop more than once");
-		if (invert)
-			xtables_error(PARAMETER_PROBLEM,
-			           "unexpected \"!\" with --datestop");
-		info->date_stop = time_parse_date(optarg, true);
-		*flags |= F_DATE_STOP;
-		return 1;
-	case 'X': /* --timestart */
-		if (*flags & F_TIME_START)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --timestart more than once");
-		if (invert)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Unexpected \"!\" with --timestart");
-		info->daytime_start = time_parse_minutes(optarg);
-		*flags |= F_TIME_START;
-		return 1;
-	case 'Y': /* --timestop */
-		if (*flags & F_TIME_STOP)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --timestop more than once");
-		if (invert)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Unexpected \"!\" with --timestop");
-		info->daytime_stop = time_parse_minutes(optarg);
-		*flags |= F_TIME_STOP;
-		return 1;
-	case 'l': /* --localtz */
-		if (*flags & F_TIMEZONE)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Can only specify exactly one of --localtz or --utc");
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_DATE_START:
+		info->date_start = time_parse_date(cb->arg, false);
+		break;
+	case O_DATE_STOP:
+		info->date_stop = time_parse_date(cb->arg, true);
+		break;
+	case O_TIME_START:
+		info->daytime_start = time_parse_minutes(cb->arg);
+		break;
+	case O_TIME_STOP:
+		info->daytime_stop = time_parse_minutes(cb->arg);
+		break;
+	case O_LOCAL_TZ:
+		fprintf(stderr, "WARNING: --localtz is being replaced by "
+		        "--kerneltz, since \"local\" is ambiguous. Note the "
+		        "kernel timezone has caveats - "
+		        "see manpage for details.\n");
+		/* fallthrough */
+	case O_KERNEL_TZ:
 		info->flags |= XT_TIME_LOCAL_TZ;
-		*flags |= F_TIMEZONE;
-		return 1;
-	case 'm': /* --monthdays */
-		if (*flags & F_MONTHDAYS)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --monthdays more than once");
-		info->monthdays_match = time_parse_monthdays(optarg);
-		if (invert)
+		break;
+	case O_MONTHDAYS:
+		info->monthdays_match = time_parse_monthdays(cb->arg);
+		if (cb->invert)
 			info->monthdays_match ^= XT_TIME_ALL_MONTHDAYS;
-		*flags |= F_MONTHDAYS;
-		return 1;
-	case 'w': /* --weekdays */
-		if (*flags & F_WEEKDAYS)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --weekdays more than once");
-		info->weekdays_match = time_parse_weekdays(optarg);
-		if (invert)
+		break;
+	case O_WEEKDAYS:
+		info->weekdays_match = time_parse_weekdays(cb->arg);
+		if (cb->invert)
 			info->weekdays_match ^= XT_TIME_ALL_WEEKDAYS;
-		*flags |= F_WEEKDAYS;
-		return 1;
-	case 'u': /* --utc */
-		if (*flags & F_TIMEZONE)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Can only specify exactly one of --localtz or --utc");
-		info->flags &= ~XT_TIME_LOCAL_TZ;
-		*flags |= F_TIMEZONE;
-		return 1;
+		break;
 	}
-	return 0;
 }
 
 static void time_print_date(time_t date, const char *command)
@@ -336,17 +303,17 @@ static void time_print_date(time_t date, const char *command)
 	if (date == 0 || date == LONG_MAX)
 		return;
 
-	t = localtime(&date);
+	t = gmtime(&date);
 	if (command != NULL)
 		/*
 		 * Need a contiguous string (no whitespaces), hence using
 		 * the ISO 8601 "T" variant.
 		 */
-		printf("%s %04u-%02u-%02uT%02u:%02u:%02u ",
+		printf(" %s %04u-%02u-%02uT%02u:%02u:%02u",
 		       command, t->tm_year + 1900, t->tm_mon + 1,
 		       t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
 	else
-		printf("%04u-%02u-%02u %02u:%02u:%02u ",
+		printf(" %04u-%02u-%02u %02u:%02u:%02u",
 		       t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 		       t->tm_hour, t->tm_min, t->tm_sec);
 }
@@ -355,6 +322,7 @@ static void time_print_monthdays(uint32_t mask, bool human_readable)
 {
 	unsigned int i, nbdays = 0;
 
+	printf(" ");
 	for (i = 1; i <= 31; ++i)
 		if (mask & (1 << i)) {
 			if (nbdays++ > 0)
@@ -376,13 +344,13 @@ static void time_print_monthdays(uint32_t mask, bool human_readable)
 						break;
 				}
 		}
-	printf(" ");
 }
 
 static void time_print_weekdays(unsigned int mask)
 {
 	unsigned int i, nbdays = 0;
 
+	printf(" ");
 	for (i = 1; i <= 7; ++i)
 		if (mask & (1 << i)) {
 			if (nbdays > 0)
@@ -391,7 +359,6 @@ static void time_print_weekdays(unsigned int mask)
 				printf("%s", week_days[i]);
 			++nbdays;
 		}
-	printf(" ");
 }
 
 static inline void divide_time(unsigned int fulltime, unsigned int *hours,
@@ -409,33 +376,33 @@ static void time_print(const void *ip, const struct xt_entry_match *match,
 	const struct xt_time_info *info = (const void *)match->data;
 	unsigned int h, m, s;
 
-	printf("TIME ");
+	printf(" TIME");
 
 	if (info->daytime_start != XT_TIME_MIN_DAYTIME ||
 	    info->daytime_stop != XT_TIME_MAX_DAYTIME) {
 		divide_time(info->daytime_start, &h, &m, &s);
-		printf("from %02u:%02u:%02u ", h, m, s);
+		printf(" from %02u:%02u:%02u", h, m, s);
 		divide_time(info->daytime_stop, &h, &m, &s);
-		printf("to %02u:%02u:%02u ", h, m, s);
+		printf(" to %02u:%02u:%02u", h, m, s);
 	}
 	if (info->weekdays_match != XT_TIME_ALL_WEEKDAYS) {
-		printf("on ");
+		printf(" on");
 		time_print_weekdays(info->weekdays_match);
 	}
 	if (info->monthdays_match != XT_TIME_ALL_MONTHDAYS) {
-		printf("on ");
+		printf(" on");
 		time_print_monthdays(info->monthdays_match, true);
 	}
 	if (info->date_start != 0) {
-		printf("starting from ");
+		printf(" starting from");
 		time_print_date(info->date_start, NULL);
 	}
 	if (info->date_stop != INT_MAX) {
-		printf("until date ");
+		printf(" until date");
 		time_print_date(info->date_stop, NULL);
 	}
 	if (!(info->flags & XT_TIME_LOCAL_TZ))
-		printf("UTC ");
+		printf(" UTC");
 }
 
 static void time_save(const void *ip, const struct xt_entry_match *match)
@@ -446,23 +413,22 @@ static void time_save(const void *ip, const struct xt_entry_match *match)
 	if (info->daytime_start != XT_TIME_MIN_DAYTIME ||
 	    info->daytime_stop != XT_TIME_MAX_DAYTIME) {
 		divide_time(info->daytime_start, &h, &m, &s);
-		printf("--timestart %02u:%02u:%02u ", h, m, s);
+		printf(" --timestart %02u:%02u:%02u", h, m, s);
 		divide_time(info->daytime_stop, &h, &m, &s);
-		printf("--timestop %02u:%02u:%02u ", h, m, s);
+		printf(" --timestop %02u:%02u:%02u", h, m, s);
 	}
 	if (info->monthdays_match != XT_TIME_ALL_MONTHDAYS) {
-		printf("--monthdays ");
+		printf(" --monthdays");
 		time_print_monthdays(info->monthdays_match, false);
 	}
 	if (info->weekdays_match != XT_TIME_ALL_WEEKDAYS) {
-		printf("--weekdays ");
+		printf(" --weekdays");
 		time_print_weekdays(info->weekdays_match);
-		printf(" ");
 	}
 	time_print_date(info->date_start, "--datestart");
 	time_print_date(info->date_stop, "--datestop");
-	if (!(info->flags & XT_TIME_LOCAL_TZ))
-		printf("--utc ");
+	if (info->flags & XT_TIME_LOCAL_TZ)
+		printf(" --kerneltz");
 }
 
 static struct xtables_match time_match = {
@@ -473,13 +439,13 @@ static struct xtables_match time_match = {
 	.userspacesize = XT_ALIGN(sizeof(struct xt_time_info)),
 	.help          = time_help,
 	.init          = time_init,
-	.parse         = time_parse,
 	.print         = time_print,
 	.save          = time_save,
-	.extra_opts    = time_opts,
+	.x6_parse      = time_parse,
+	.x6_options    = time_opts,
 };
 
-void libxt_time_init(void)
+void _init(void)
 {
 	xtables_register_match(&time_match);
 }

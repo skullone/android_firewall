@@ -9,23 +9,30 @@
  * published by the Free Software Foundation.
  *
  */
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <getopt.h>
-#include <stddef.h>
-
 #include <xtables.h>
-
 #include <linux/netfilter/xt_LED.h>
 
-static const struct option LED_opts[] = {
-	{.name = "led-trigger-id",   .has_arg = true,  .val = 'i'},
-	{.name = "led-delay",        .has_arg = true,  .val = 'd'},
-	{.name = "led-always-blink", .has_arg = false, .val = 'a'},
-	XT_GETOPT_TABLEEND,
+enum {
+	O_LED_TRIGGER_ID = 0,
+	O_LED_DELAY,
+	O_LED_ALWAYS_BLINK,
 };
+
+#define s struct xt_led_info
+static const struct xt_option_entry LED_opts[] = {
+	{.name = "led-trigger-id", .id = O_LED_TRIGGER_ID,
+	 .flags = XTOPT_MAND, .type = XTTYPE_STRING, .min = 0,
+	 .max = sizeof(((struct xt_led_info *)NULL)->id) -
+	        sizeof("netfilter-")},
+	{.name = "led-delay", .id = O_LED_DELAY, .type = XTTYPE_STRING},
+	{.name = "led-always-blink", .id = O_LED_ALWAYS_BLINK,
+	 .type = XTTYPE_NONE},
+	XTOPT_TABLEEND,
+};
+#undef s
 
 static void LED_help(void)
 {
@@ -39,50 +46,29 @@ static void LED_help(void)
 	);
 }
 
-static int LED_parse(int c, char **argv, int invert, unsigned int *flags,
-		     const void *entry, struct xt_entry_target **target)
+static void LED_parse(struct xt_option_call *cb)
 {
-	struct xt_led_info *led = (void *)(*target)->data;
+	struct xt_led_info *led = cb->data;
+	unsigned int delay;
 
-	switch (c) {
-	case 'i':
-		xtables_param_act(XTF_NO_INVERT, "LED",
-			"--led-trigger-id", invert);
-		if (strlen("netfilter-") + strlen(optarg) > sizeof(led->id))
-			xtables_error(PARAMETER_PROBLEM,
-				"--led-trigger-id must be 16 chars or less");
-		if (optarg[0] == '\0')
-			xtables_error(PARAMETER_PROBLEM,
-				"--led-trigger-id cannot be blank");
-
-		/* "netfilter-" + 16 char id == 26 == sizeof(led->id) */
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_LED_TRIGGER_ID:
 		strcpy(led->id, "netfilter-");
-		strcat(led->id, optarg);
-		*flags = 1;
-		return true;
-
-	case 'd':
-		xtables_param_act(XTF_NO_INVERT, "LED", "--led-delay", invert);
-		if (strncasecmp(optarg, "inf", 3) == 0)
+		strcat(led->id, cb->arg);
+		break;
+	case O_LED_DELAY:
+		if (strncasecmp(cb->arg, "inf", 3) == 0)
 			led->delay = -1;
-		else
-			led->delay = strtoul(optarg, NULL, 0);
-
-		return true;
-
-	case 'a':
-		if (!invert)
-			led->always_blink = 1;
-		return true;
+		else if (!xtables_strtoui(cb->arg, NULL, &delay, 0, UINT32_MAX))
+			xtables_error(PARAMETER_PROBLEM,
+				"Delay value must be within range 0..%u",
+				UINT32_MAX);
+		break;
+	case O_LED_ALWAYS_BLINK:
+		led->always_blink = 1;
+		break;
 	}
-	return false;
-}
-
-static void LED_final_check(unsigned int flags)
-{
-	if (flags == 0)
-		xtables_error(PARAMETER_PROBLEM,
-			"--led-trigger-id must be specified");
 }
 
 static void LED_print(const void *ip, const struct xt_entry_target *target,
@@ -91,22 +77,22 @@ static void LED_print(const void *ip, const struct xt_entry_target *target,
 	const struct xt_led_info *led = (void *)target->data;
 	const char *id = led->id + strlen("netfilter-"); /* trim off prefix */
 
-	printf("led-trigger-id:\"");
+	printf(" led-trigger-id:\"");
 	/* Escape double quotes and backslashes in the ID */
 	while (*id != '\0') {
 		if (*id == '"' || *id == '\\')
 			printf("\\");
 		printf("%c", *id++);
 	}
-	printf("\" ");
+	printf("\"");
 
 	if (led->delay == -1)
-		printf("led-delay:inf ");
+		printf(" led-delay:inf");
 	else
-		printf("led-delay:%dms ", led->delay);
+		printf(" led-delay:%dms", led->delay);
 
 	if (led->always_blink)
-		printf("led-always-blink ");
+		printf(" led-always-blink");
 }
 
 static void LED_save(const void *ip, const struct xt_entry_target *target)
@@ -114,24 +100,24 @@ static void LED_save(const void *ip, const struct xt_entry_target *target)
 	const struct xt_led_info *led = (void *)target->data;
 	const char *id = led->id + strlen("netfilter-"); /* trim off prefix */
 
-	printf("--led-trigger-id \"");
+	printf(" --led-trigger-id \"");
 	/* Escape double quotes and backslashes in the ID */
 	while (*id != '\0') {
 		if (*id == '"' || *id == '\\')
 			printf("\\");
 		printf("%c", *id++);
 	}
-	printf("\" ");
+	printf("\"");
 
 	/* Only print the delay if it's not zero (the default) */
 	if (led->delay > 0)
-		printf("--led-delay %d ", led->delay);
+		printf(" --led-delay %d", led->delay);
 	else if (led->delay == -1)
-		printf("--led-delay inf ");
+		printf(" --led-delay inf");
 
 	/* Only print always_blink if it's not set to the default */
 	if (led->always_blink)
-		printf("--led-always-blink ");
+		printf(" --led-always-blink");
 }
 
 static struct xtables_target led_tg_reg = {
@@ -142,14 +128,13 @@ static struct xtables_target led_tg_reg = {
 	.size          = XT_ALIGN(sizeof(struct xt_led_info)),
 	.userspacesize = offsetof(struct xt_led_info, internal_data),
 	.help          = LED_help,
-	.parse         = LED_parse,
-	.final_check   = LED_final_check,
-	.extra_opts    = LED_opts,
 	.print         = LED_print,
 	.save          = LED_save,
+	.x6_parse      = LED_parse,
+	.x6_options    = LED_opts,
 };
 
-void libxt_LED_init(void)
+void _init(void)
 {
 	xtables_register_target(&led_tg_reg);
 }

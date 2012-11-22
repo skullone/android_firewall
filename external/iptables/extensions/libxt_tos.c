@@ -16,17 +16,24 @@
 #include "tos_values.c"
 
 struct ipt_tos_info {
-	u_int8_t tos;
-	u_int8_t invert;
+	uint8_t tos;
+	uint8_t invert;
 };
 
 enum {
-	FLAG_TOS = 1 << 0,
+	O_TOS = 1 << 0,
 };
 
-static const struct option tos_mt_opts[] = {
-	{.name = "tos", .has_arg = true, .val = 't'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry tos_mt_opts_v0[] = {
+	{.name = "tos", .id = O_TOS, .type = XTTYPE_TOSMASK,
+	 .flags = XTOPT_INVERT | XTOPT_MAND, .max = 0xFF},
+	XTOPT_TABLEEND,
+};
+
+static const struct xt_option_entry tos_mt_opts[] = {
+	{.name = "tos", .id = O_TOS, .type = XTTYPE_TOSMASK,
+	 .flags = XTOPT_INVERT | XTOPT_MAND, .max = 0x3F},
+	XTOPT_TABLEEND,
 };
 
 static void tos_mt_help(void)
@@ -46,56 +53,29 @@ static void tos_mt_help(void)
 	printf("\n");
 }
 
-static int tos_mt_parse_v0(int c, char **argv, int invert, unsigned int *flags,
-                           const void *entry, struct xt_entry_match **match)
+static void tos_mt_parse_v0(struct xt_option_call *cb)
 {
-	struct ipt_tos_info *info = (void *)(*match)->data;
-	struct tos_value_mask tvm;
+	struct ipt_tos_info *info = cb->data;
 
-	switch (c) {
-	case 't':
-		xtables_param_act(XTF_ONLY_ONCE, "tos", "--tos", *flags & FLAG_TOS);
-		if (!tos_parse_symbolic(optarg, &tvm, 0xFF))
-			xtables_param_act(XTF_BAD_VALUE, "tos", "--tos", optarg);
-		if (tvm.mask != 0xFF)
-			xtables_error(PARAMETER_PROBLEM, "tos: Your kernel is "
-			           "too old to support anything besides /0xFF "
-				   "as a mask.");
-		info->tos = tvm.value;
-		if (invert)
-			info->invert = true;
-		*flags |= FLAG_TOS;
-		return true;
-	}
-	return false;
+	xtables_option_parse(cb);
+	if (cb->val.tos_mask != 0xFF)
+		xtables_error(PARAMETER_PROBLEM, "tos: Your kernel is "
+		           "too old to support anything besides /0xFF "
+			   "as a mask.");
+	info->tos = cb->val.tos_value;
+	if (cb->invert)
+		info->invert = true;
 }
 
-static int tos_mt_parse(int c, char **argv, int invert, unsigned int *flags,
-                        const void *entry, struct xt_entry_match **match)
+static void tos_mt_parse(struct xt_option_call *cb)
 {
-	struct xt_tos_match_info *info = (void *)(*match)->data;
-	struct tos_value_mask tvm = {.mask = 0xFF};
+	struct xt_tos_match_info *info = cb->data;
 
-	switch (c) {
-	case 't':
-		xtables_param_act(XTF_ONLY_ONCE, "tos", "--tos", *flags & FLAG_TOS);
-		if (!tos_parse_symbolic(optarg, &tvm, 0x3F))
-			xtables_param_act(XTF_BAD_VALUE, "tos", "--tos", optarg);
-		info->tos_value = tvm.value;
-		info->tos_mask  = tvm.mask;
-		if (invert)
-			info->invert = true;
-		*flags |= FLAG_TOS;
-		return true;
-	}
-	return false;
-}
-
-static void tos_mt_check(unsigned int flags)
-{
-	if (flags == 0)
-		xtables_error(PARAMETER_PROBLEM,
-		           "tos: --tos parameter required");
+	xtables_option_parse(cb);
+	info->tos_value = cb->val.tos_value;
+	info->tos_mask  = cb->val.tos_mask;
+	if (cb->invert)
+		info->invert = true;
 }
 
 static void tos_mt_print_v0(const void *ip, const struct xt_entry_match *match,
@@ -103,11 +83,11 @@ static void tos_mt_print_v0(const void *ip, const struct xt_entry_match *match,
 {
 	const struct ipt_tos_info *info = (const void *)match->data;
 
-	printf("tos match ");
+	printf(" tos match ");
 	if (info->invert)
 		printf("!");
 	if (numeric || !tos_try_print_symbolic("", info->tos, 0x3F))
-		printf("0x%02x ", info->tos);
+		printf("0x%02x", info->tos);
 }
 
 static void tos_mt_print(const void *ip, const struct xt_entry_match *match,
@@ -115,12 +95,12 @@ static void tos_mt_print(const void *ip, const struct xt_entry_match *match,
 {
 	const struct xt_tos_match_info *info = (const void *)match->data;
 
-	printf("tos match ");
+	printf(" tos match");
 	if (info->invert)
 		printf("!");
 	if (numeric ||
 	    !tos_try_print_symbolic("", info->tos_value, info->tos_mask))
-		printf("0x%02x/0x%02x ", info->tos_value, info->tos_mask);
+		printf("0x%02x/0x%02x", info->tos_value, info->tos_mask);
 }
 
 static void tos_mt_save_v0(const void *ip, const struct xt_entry_match *match)
@@ -128,8 +108,8 @@ static void tos_mt_save_v0(const void *ip, const struct xt_entry_match *match)
 	const struct ipt_tos_info *info = (const void *)match->data;
 
 	if (info->invert)
-		printf("! ");
-	printf("--tos 0x%02x ", info->tos);
+		printf(" !");
+	printf(" --tos 0x%02x", info->tos);
 }
 
 static void tos_mt_save(const void *ip, const struct xt_entry_match *match)
@@ -137,8 +117,8 @@ static void tos_mt_save(const void *ip, const struct xt_entry_match *match)
 	const struct xt_tos_match_info *info = (const void *)match->data;
 
 	if (info->invert)
-		printf("! ");
-	printf("--tos 0x%02x/0x%02x ", info->tos_value, info->tos_mask);
+		printf(" !");
+	printf(" --tos 0x%02x/0x%02x", info->tos_value, info->tos_mask);
 }
 
 static struct xtables_match tos_mt_reg[] = {
@@ -150,11 +130,10 @@ static struct xtables_match tos_mt_reg[] = {
 		.size          = XT_ALIGN(sizeof(struct ipt_tos_info)),
 		.userspacesize = XT_ALIGN(sizeof(struct ipt_tos_info)),
 		.help          = tos_mt_help,
-		.parse         = tos_mt_parse_v0,
-		.final_check   = tos_mt_check,
 		.print         = tos_mt_print_v0,
 		.save          = tos_mt_save_v0,
-		.extra_opts    = tos_mt_opts,
+		.x6_parse      = tos_mt_parse_v0,
+		.x6_options    = tos_mt_opts_v0,
 	},
 	{
 		.version       = XTABLES_VERSION,
@@ -164,15 +143,14 @@ static struct xtables_match tos_mt_reg[] = {
 		.size          = XT_ALIGN(sizeof(struct xt_tos_match_info)),
 		.userspacesize = XT_ALIGN(sizeof(struct xt_tos_match_info)),
 		.help          = tos_mt_help,
-		.parse         = tos_mt_parse,
-		.final_check   = tos_mt_check,
 		.print         = tos_mt_print,
 		.save          = tos_mt_save,
-		.extra_opts    = tos_mt_opts,
+		.x6_parse      = tos_mt_parse,
+		.x6_options    = tos_mt_opts,
 	},
 };
 
-void libxt_tos_init(void)
+void _init(void)
 {
 	xtables_register_matches(tos_mt_reg, ARRAY_SIZE(tos_mt_reg));
 }

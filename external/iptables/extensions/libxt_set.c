@@ -22,8 +22,10 @@
 #include <linux/netfilter/xt_set.h>
 #include "libxt_set.h"
 
+/* Revision 0 */
+
 static void
-set_help(void)
+set_help_v0(void)
 {
 	printf("set match options:\n"
 	       " [!] --match-set name flags\n"
@@ -32,14 +34,14 @@ set_help(void)
 	       "		 'src' and 'dst' specifications.\n");
 }
 
-static const struct option set_opts[] = {
+static const struct option set_opts_v0[] = {
 	{.name = "match-set", .has_arg = true, .val = '1'},
 	{.name = "set",       .has_arg = true, .val = '2'},
 	XT_GETOPT_TABLEEND,
 };
 
 static void
-set_check(unsigned int flags)
+set_check_v0(unsigned int flags)
 {
 	if (!flags)
 		xtables_error(PARAMETER_PROBLEM,
@@ -62,8 +64,6 @@ set_parse_v0(int c, char **argv, int invert, unsigned int *flags,
 		if (info->u.flags[0])
 			xtables_error(PARAMETER_PROBLEM,
 				      "--match-set can be specified only once");
-
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
 		if (invert)
 			info->u.flags[0] |= IPSET_MATCH_INV;
 
@@ -85,9 +85,6 @@ set_parse_v0(int c, char **argv, int invert, unsigned int *flags,
 		
 		*flags = 1;
 		break;
-
-	default:
-		return 0;
 	}
 
 	return 1;
@@ -100,8 +97,8 @@ print_match_v0(const char *prefix, const struct xt_set_info_v0 *info)
 	char setname[IPSET_MAXNAMELEN];
 
 	get_set_byid(setname, info->index);
-	printf("%s%s %s", 
-	       (info->u.flags[0] & IPSET_MATCH_INV) ? "! " : "",
+	printf("%s %s %s",
+	       (info->u.flags[0] & IPSET_MATCH_INV) ? " !" : "",
 	       prefix,
 	       setname); 
 	for (i = 0; i < IPSET_DIM_MAX; i++) {
@@ -111,7 +108,6 @@ print_match_v0(const char *prefix, const struct xt_set_info_v0 *info)
 		       i == 0 ? " " : ",",
 		       info->u.flags[i] & IPSET_SRC ? "src" : "dst");
 	}
-	printf(" ");
 }
 
 /* Prints out the matchinfo. */
@@ -131,12 +127,13 @@ set_save_v0(const void *ip, const struct xt_entry_match *match)
 	print_match_v0("--match-set", &info->match_set);
 }
 
+/* Revision 1 */
 static int
-set_parse(int c, char **argv, int invert, unsigned int *flags,
-	  const void *entry, struct xt_entry_match **match)
+set_parse_v1(int c, char **argv, int invert, unsigned int *flags,
+	     const void *entry, struct xt_entry_match **match)
 {
-	struct xt_set_info_match *myinfo = 
-		(struct xt_set_info_match *) (*match)->data;
+	struct xt_set_info_match_v1 *myinfo = 
+		(struct xt_set_info_match_v1 *) (*match)->data;
 	struct xt_set_info *info = &myinfo->match_set;
 
 	switch (c) {
@@ -147,8 +144,6 @@ set_parse(int c, char **argv, int invert, unsigned int *flags,
 		if (info->dim)
 			xtables_error(PARAMETER_PROBLEM,
 				      "--match-set can be specified only once");
-
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
 		if (invert)
 			info->flags |= IPSET_INV_MATCH;
 
@@ -170,9 +165,6 @@ set_parse(int c, char **argv, int invert, unsigned int *flags,
 		
 		*flags = 1;
 		break;
-
-	default:
-		return 0;
 	}
 
 	return 1;
@@ -185,8 +177,8 @@ print_match(const char *prefix, const struct xt_set_info *info)
 	char setname[IPSET_MAXNAMELEN];
 
 	get_set_byid(setname, info->index);
-	printf("%s%s %s", 
-	       (info->flags & IPSET_INV_MATCH) ? "! " : "",
+	printf("%s %s %s",
+	       (info->flags & IPSET_INV_MATCH) ? " !" : "",
 	       prefix,
 	       setname); 
 	for (i = 1; i <= info->dim; i++) {		
@@ -194,24 +186,107 @@ print_match(const char *prefix, const struct xt_set_info *info)
 		       i == 1 ? " " : ",",
 		       info->flags & (1 << i) ? "src" : "dst");
 	}
-	printf(" ");
 }
 
 /* Prints out the matchinfo. */
 static void
-set_print(const void *ip, const struct xt_entry_match *match, int numeric)
+set_print_v1(const void *ip, const struct xt_entry_match *match, int numeric)
 {
-	const struct xt_set_info_match *info = (const void *)match->data;
+	const struct xt_set_info_match_v1 *info = (const void *)match->data;
 
 	print_match("match-set", &info->match_set);
 }
 
 static void
-set_save(const void *ip, const struct xt_entry_match *match)
+set_save_v1(const void *ip, const struct xt_entry_match *match)
 {
-	const struct xt_set_info_match *info = (const void *)match->data;
+	const struct xt_set_info_match_v1 *info = (const void *)match->data;
 
 	print_match("--match-set", &info->match_set);
+}
+
+/* Revision 2 */
+static void
+set_help_v2(void)
+{
+	printf("set match options:\n"
+	       " [!] --match-set name flags [--return-nomatch]\n"
+	       "		 'name' is the set name from to match,\n" 
+	       "		 'flags' are the comma separated list of\n"
+	       "		 'src' and 'dst' specifications.\n");
+}
+
+static const struct option set_opts_v2[] = {
+	{.name = "match-set",		.has_arg = true,	.val = '1'},
+	{.name = "set",			.has_arg = true,	.val = '2'},
+	{.name = "return-nomatch",	.has_arg = false,	.val = '3'},
+	XT_GETOPT_TABLEEND,
+};
+
+static int
+set_parse_v2(int c, char **argv, int invert, unsigned int *flags,
+	     const void *entry, struct xt_entry_match **match)
+{
+	struct xt_set_info_match_v1 *myinfo = 
+		(struct xt_set_info_match_v1 *) (*match)->data;
+	struct xt_set_info *info = &myinfo->match_set;
+
+	switch (c) {
+	case '3':
+		info->flags |= IPSET_RETURN_NOMATCH;
+		break;
+	case '2':
+		fprintf(stderr,
+			"--set option deprecated, please use --match-set\n");
+	case '1':		/* --match-set <set> <flag>[,<flag> */
+		if (info->dim)
+			xtables_error(PARAMETER_PROBLEM,
+				      "--match-set can be specified only once");
+		if (invert)
+			info->flags |= IPSET_INV_MATCH;
+
+		if (!argv[optind]
+		    || argv[optind][0] == '-'
+		    || argv[optind][0] == '!')
+			xtables_error(PARAMETER_PROBLEM,
+				      "--match-set requires two args.");
+
+		if (strlen(optarg) > IPSET_MAXNAMELEN - 1)
+			xtables_error(PARAMETER_PROBLEM,
+				      "setname `%s' too long, max %d characters.",
+				      optarg, IPSET_MAXNAMELEN - 1);
+
+		get_set_byname(optarg, info);
+		parse_dirs(argv[optind], info);
+		DEBUGP("parse: set index %u\n", info->index);
+		optind++;
+		
+		*flags = 1;
+		break;
+	}
+
+	return 1;
+}
+
+/* Prints out the matchinfo. */
+static void
+set_print_v2(const void *ip, const struct xt_entry_match *match, int numeric)
+{
+	const struct xt_set_info_match_v1 *info = (const void *)match->data;
+
+	print_match("match-set", &info->match_set);
+	if (info->match_set.flags & IPSET_RETURN_NOMATCH)
+		printf(" return-nomatch");
+}
+
+static void
+set_save_v2(const void *ip, const struct xt_entry_match *match)
+{
+	const struct xt_set_info_match_v1 *info = (const void *)match->data;
+
+	print_match("--match-set", &info->match_set);
+	if (info->match_set.flags & IPSET_RETURN_NOMATCH)
+		printf(" --return-nomatch");
 }
 
 static struct xtables_match set_mt_reg[] = {
@@ -222,30 +297,44 @@ static struct xtables_match set_mt_reg[] = {
 		.family		= NFPROTO_IPV4,
 		.size		= XT_ALIGN(sizeof(struct xt_set_info_match_v0)),
 		.userspacesize	= XT_ALIGN(sizeof(struct xt_set_info_match_v0)),
-		.help		= set_help,
+		.help		= set_help_v0,
 		.parse		= set_parse_v0,
-		.final_check	= set_check,
+		.final_check	= set_check_v0,
 		.print		= set_print_v0,
 		.save		= set_save_v0,
-		.extra_opts	= set_opts,
+		.extra_opts	= set_opts_v0,
 	},
 	{
 		.name		= "set",
 		.revision	= 1,
 		.version	= XTABLES_VERSION,
 		.family		= NFPROTO_UNSPEC,
-		.size		= XT_ALIGN(sizeof(struct xt_set_info_match)),
-		.userspacesize	= XT_ALIGN(sizeof(struct xt_set_info_match)),
-		.help		= set_help,
-		.parse		= set_parse,
-		.final_check	= set_check,
-		.print		= set_print,
-		.save		= set_save,
-		.extra_opts	= set_opts,
+		.size		= XT_ALIGN(sizeof(struct xt_set_info_match_v1)),
+		.userspacesize	= XT_ALIGN(sizeof(struct xt_set_info_match_v1)),
+		.help		= set_help_v0,
+		.parse		= set_parse_v1,
+		.final_check	= set_check_v0,
+		.print		= set_print_v1,
+		.save		= set_save_v1,
+		.extra_opts	= set_opts_v0,
+	},
+	{
+		.name		= "set",
+		.revision	= 2,
+		.version	= XTABLES_VERSION,
+		.family		= NFPROTO_UNSPEC,
+		.size		= XT_ALIGN(sizeof(struct xt_set_info_match_v1)),
+		.userspacesize	= XT_ALIGN(sizeof(struct xt_set_info_match_v1)),
+		.help		= set_help_v2,
+		.parse		= set_parse_v2,
+		.final_check	= set_check_v0,
+		.print		= set_print_v2,
+		.save		= set_save_v2,
+		.extra_opts	= set_opts_v2,
 	},
 };
 
-void libxt_set_init(void)
+void _init(void)
 {
 	xtables_register_matches(set_mt_reg, ARRAY_SIZE(set_mt_reg));
 }

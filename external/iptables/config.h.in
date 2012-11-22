@@ -6,6 +6,18 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the <linux/dccp.h> header file. */
+#undef HAVE_LINUX_DCCP_H
+
+/* Define to 1 if you have the <linux/ip_vs.h> header file. */
+#undef HAVE_LINUX_IP_VS_H
+
+/* Define to 1 if you have the <linux/magic.h> header file. */
+#undef HAVE_LINUX_MAGIC_H
+
+/* Define to 1 if you have the <linux/proc_fs.h> header file. */
+#undef HAVE_LINUX_PROC_FS_H
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -57,6 +69,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* The size of `struct ip6_hdr', as computed by sizeof. */
+#undef SIZEOF_STRUCT_IP6_HDR
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

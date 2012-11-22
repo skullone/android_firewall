@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (Firewall vypnut)</string>
+    <string name="title_enabled">Android Firewall (Firewall zapnut)</string>
+    <string name="title_disabled">Android Firewall (Firewall vypnut)</string>
     <string name="showrules">Zobrazit pravidla</string>
     <string name="applyrules">Nastavit pravidla</string>
     <string name="saverules">Uložit pravidla</string>
@@ -45,9 +45,9 @@
     <string name="toast_disabled">Android Firewall: Firewall vypnut!</string>
     <string name="toast_error_disabling">Android Firewall: Chyba při svypínání firewallu!</string>
         <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-                \n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
                 \n
-                \n<i>Android Firewall - Android Firewall</i> je pokročilá aplikace pro účinný <b>iptables</b> Linuxový firewall.
+                \n<i>Android Firewall</i> je pokročilá aplikace pro účinný <b>iptables</b> Linuxový firewall.
                 Umožnuje vám nastavit které aplikace budou mít přístup k síti Internet a které nikoliv.
                 \nToto je perfektní řešení pokud nemáte neomezený datový tarif, či jen chcete zlepšit výdrž vaší baterie.
                 \n

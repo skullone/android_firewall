@@ -11,18 +11,20 @@
  *
  * Based on libip6t_{icmpv6,udp}.c
  */
-#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
-#include <netdb.h>
 #include <string.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <xtables.h>
 #include <linux/netfilter_ipv6/ip6t_mh.h>
 
+enum {
+	O_MH_TYPE = 0,
+};
+
 struct mh_name {
 	const char *name;
-	u_int8_t type;
+	uint8_t type;
 };
 
 static const struct mh_name mh_names[] = {
@@ -100,7 +102,7 @@ static unsigned int name_to_type(const char *name)
 	}
 }
 
-static void parse_mh_types(const char *mhtype, u_int8_t *types)
+static void parse_mh_types(const char *mhtype, uint8_t *types)
 {
 	char *buffer;
 	char *cp;
@@ -122,33 +124,17 @@ static void parse_mh_types(const char *mhtype, u_int8_t *types)
 	free(buffer);
 }
 
-#define MH_TYPES 0x01
-
-static int mh_parse(int c, char **argv, int invert, unsigned int *flags,
-                    const void *entry, struct xt_entry_match **match)
+static void mh_parse(struct xt_option_call *cb)
 {
-	struct ip6t_mh *mhinfo = (struct ip6t_mh *)(*match)->data;
+	struct ip6t_mh *mhinfo = cb->data;
 
-	switch (c) {
-	case '1':
-		if (*flags & MH_TYPES)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--mh-type' allowed");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_mh_types(optarg, mhinfo->types);
-		if (invert)
-			mhinfo->invflags |= IP6T_MH_INV_TYPE;
-		*flags |= MH_TYPES;
-		break;
-
-	default:
-		return 0;
-	}
-
-	return 1;
+	xtables_option_parse(cb);
+	parse_mh_types(cb->arg, mhinfo->types);
+	if (cb->invert)
+		mhinfo->invflags |= IP6T_MH_INV_TYPE;
 }
 
-static const char *type_to_name(u_int8_t type)
+static const char *type_to_name(uint8_t type)
 {
 	unsigned int i;
 
@@ -159,7 +145,7 @@ static const char *type_to_name(u_int8_t type)
 	return NULL;
 }
 
-static void print_type(u_int8_t type, int numeric)
+static void print_type(uint8_t type, int numeric)
 {
 	const char *name;
 	if (numeric || !(name = type_to_name(type)))
@@ -168,11 +154,12 @@ static void print_type(u_int8_t type, int numeric)
 		printf("%s", name);
 }
 
-static void print_types(u_int8_t min, u_int8_t max, int invert, int numeric)
+static void print_types(uint8_t min, uint8_t max, int invert, int numeric)
 {
 	const char *inv = invert ? "!" : "";
 
 	if (min != 0 || max != 0xFF || invert) {
+		printf(" ");
 		if (min == max) {
 			printf("%s", inv);
 			print_type(min, numeric);
@@ -182,7 +169,6 @@ static void print_types(u_int8_t min, u_int8_t max, int invert, int numeric)
 			printf(":");
 			print_type(max, numeric);
 		}
-		printf(" ");
 	}
 }
 
@@ -191,12 +177,12 @@ static void mh_print(const void *ip, const struct xt_entry_match *match,
 {
 	const struct ip6t_mh *mhinfo = (struct ip6t_mh *)match->data;
 
-	printf("mh ");
+	printf(" mh");
 	print_types(mhinfo->types[0], mhinfo->types[1],
 		    mhinfo->invflags & IP6T_MH_INV_TYPE,
 		    numeric);
 	if (mhinfo->invflags & ~IP6T_MH_INV_MASK)
-		printf("Unknown invflags: 0x%X ",
+		printf(" Unknown invflags: 0x%X",
 		       mhinfo->invflags & ~IP6T_MH_INV_MASK);
 }
 
@@ -208,17 +194,18 @@ static void mh_save(const void *ip, const struct xt_entry_match *match)
 		return;
 
 	if (mhinfo->invflags & IP6T_MH_INV_TYPE)
-		printf("! ");
+		printf(" !");
 
 	if (mhinfo->types[0] != mhinfo->types[1])
-		printf("--mh-type %u:%u ", mhinfo->types[0], mhinfo->types[1]);
+		printf(" --mh-type %u:%u", mhinfo->types[0], mhinfo->types[1]);
 	else
-		printf("--mh-type %u ", mhinfo->types[0]);
+		printf(" --mh-type %u", mhinfo->types[0]);
 }
 
-static const struct option mh_opts[] = {
-	{.name = "mh-type", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry mh_opts[] = {
+	{.name = "mh-type", .id = O_MH_TYPE, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT},
+	XTOPT_TABLEEND,
 };
 
 static struct xtables_match mh_mt6_reg = {
@@ -229,10 +216,10 @@ static struct xtables_match mh_mt6_reg = {
 	.userspacesize	= XT_ALIGN(sizeof(struct ip6t_mh)),
 	.help		= mh_help,
 	.init		= mh_init,
-	.parse		= mh_parse,
+	.x6_parse	= mh_parse,
 	.print		= mh_print,
 	.save		= mh_save,
-	.extra_opts	= mh_opts,
+	.x6_options	= mh_opts,
 };
 
 void _init(void)

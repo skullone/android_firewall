@@ -1,7 +1,6 @@
 /* Shared library add-on to iptables to add static NAT support.
    Author: Svenning Soerensen <svenning@post5.tele.dk>
 */
-#include <stdbool.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <string.h>
@@ -12,9 +11,14 @@
 
 #define MODULENAME "NETMAP"
 
-static const struct option NETMAP_opts[] = {
-	{.name = "to", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+enum {
+	O_TO = 0,
+};
+
+static const struct xt_option_entry NETMAP_opts[] = {
+	{.name = "to", .id = O_TO, .type = XTTYPE_HOSTMASK,
+	 .flags = XTOPT_MAND},
+	XTOPT_TABLEEND,
 };
 
 static void NETMAP_help(void)
@@ -25,22 +29,10 @@ static void NETMAP_help(void)
 	       NETMAP_opts[0].name);
 }
 
-static u_int32_t
-bits2netmask(int bits)
-{
-	u_int32_t netmask, bm;
-
-	if (bits >= 32 || bits < 0)
-		return(~0);
-	for (netmask = 0, bm = 0x80000000; bits; bits--, bm >>= 1)
-		netmask |= bm;
-	return htonl(netmask);
-}
-
 static int
-netmask2bits(u_int32_t netmask)
+netmask2bits(uint32_t netmask)
 {
-	u_int32_t bm;
+	uint32_t bm;
 	int bits;
 
 	netmask = ntohl(netmask);
@@ -57,84 +49,17 @@ static void NETMAP_init(struct xt_entry_target *t)
 
 	/* Actually, it's 0, but it's ignored at the moment. */
 	mr->rangesize = 1;
-
 }
 
-/* Parses network address */
-static void
-parse_to(char *arg, struct nf_nat_range *range)
+static void NETMAP_parse(struct xt_option_call *cb)
 {
-	char *slash;
-	const struct in_addr *ip;
-	u_int32_t netmask;
-	unsigned int bits;
+	struct nf_nat_multi_range *mr = cb->data;
+	struct nf_nat_range *range = &mr->range[0];
 
+	xtables_option_parse(cb);
 	range->flags |= IP_NAT_RANGE_MAP_IPS;
-	slash = strchr(arg, '/');
-	if (slash)
-		*slash = '\0';
-
-	ip = xtables_numeric_to_ipaddr(arg);
-	if (!ip)
-		xtables_error(PARAMETER_PROBLEM, "Bad IP address \"%s\"\n",
-			   arg);
-	range->min_ip = ip->s_addr;
-	if (slash) {
-		if (strchr(slash+1, '.')) {
-			ip = xtables_numeric_to_ipmask(slash+1);
-			if (!ip)
-				xtables_error(PARAMETER_PROBLEM, "Bad netmask \"%s\"\n",
-					   slash+1);
-			netmask = ip->s_addr;
-		}
-		else {
-			if (!xtables_strtoui(slash+1, NULL, &bits, 0, 32))
-				xtables_error(PARAMETER_PROBLEM, "Bad netmask \"%s\"\n",
-					   slash+1);
-			netmask = bits2netmask(bits);
-		}
-		/* Don't allow /0 (/1 is probably insane, too) */
-		if (netmask == 0)
-			xtables_error(PARAMETER_PROBLEM, "Netmask needed\n");
-	}
-	else
-		netmask = ~0;
-
-	if (range->min_ip & ~netmask) {
-		if (slash)
-			*slash = '/';
-		xtables_error(PARAMETER_PROBLEM, "Bad network address \"%s\"\n",
-			   arg);
-	}
-	range->max_ip = range->min_ip | ~netmask;
-}
-
-static int NETMAP_parse(int c, char **argv, int invert, unsigned int *flags,
-                        const void *entry, struct xt_entry_target **target)
-{
-	struct nf_nat_multi_range *mr
-		= (struct nf_nat_multi_range *)(*target)->data;
-
-	switch (c) {
-	case '1':
-		if (xtables_check_inverse(optarg, &invert, NULL, 0, argv))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Unexpected `!' after --%s", NETMAP_opts[0].name);
-
-		parse_to(optarg, &mr->range[0]);
-		*flags = 1;
-		return 1;
-
-	default:
-		return 0;
-	}
-}
-
-static void NETMAP_check(unsigned int flags)
-{
-	if (!flags)
-		xtables_error(PARAMETER_PROBLEM,
-			   MODULENAME" needs --%s", NETMAP_opts[0].name);
+	range->min_ip = cb->val.haddr.ip & cb->val.hmask.ip;
+	range->max_ip = range->min_ip | ~cb->val.hmask.ip;
 }
 
 static void NETMAP_print(const void *ip, const struct xt_entry_target *target,
@@ -157,7 +82,7 @@ static void NETMAP_print(const void *ip, const struct xt_entry_target *target,
 
 static void NETMAP_save(const void *ip, const struct xt_entry_target *target)
 {
-	printf("--%s ", NETMAP_opts[0].name);
+	printf(" --%s ", NETMAP_opts[0].name);
 	NETMAP_print(ip, target, 0);
 }
 
@@ -169,14 +94,13 @@ static struct xtables_target netmap_tg_reg = {
 	.userspacesize	= XT_ALIGN(sizeof(struct nf_nat_multi_range)),
 	.help		= NETMAP_help,
 	.init		= NETMAP_init,
-	.parse		= NETMAP_parse,
-	.final_check	= NETMAP_check,
+	.x6_parse	= NETMAP_parse,
 	.print		= NETMAP_print,
 	.save		= NETMAP_save,
-	.extra_opts	= NETMAP_opts,
+	.x6_options	= NETMAP_opts,
 };
 
-void libipt_NETMAP_init(void)
+void _init(void)
 {
 	xtables_register_target(&netmap_tg_reg);
 }

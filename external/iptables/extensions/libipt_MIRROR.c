@@ -9,7 +9,7 @@ static struct xtables_target mirror_tg_reg = {
 	.userspacesize	= XT_ALIGN(0),
 };
 
-void libipt_MIRROR_init(void)
+void _init(void)
 {
 	xtables_register_target(&mirror_tg_reg);
 }

@@ -4,22 +4,15 @@
  *
  * Michal Ludvig <michal@logix.cz>
  */
-#include <stdbool.h>
 #include <stdio.h>
-#include <netdb.h>
 #include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-#if defined(__GLIBC__) && __GLIBC__ == 2
-#include <net/ethernet.h>
-#else
-#include <linux/if_ether.h>
-#endif
 #include <xtables.h>
 #include <linux/if_packet.h>
 #include <linux/netfilter/xt_pkttype.h>
 
-#define	PKTTYPE_VERSION	"0.1"
+enum {
+	O_PKTTYPE = 0,
+};
 
 struct pkttypes {
 	const char *name;
@@ -61,9 +54,10 @@ static void pkttype_help(void)
 	print_types();
 }
 
-static const struct option pkttype_opts[] = {
-	{.name = "pkt-type", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry pkttype_opts[] = {
+	{.name = "pkt-type", .id = O_PKTTYPE, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_INVERT},
+	XTOPT_TABLEEND,
 };
 
 static void parse_pkttype(const char *pkttype, struct xt_pkttype_info *info)
@@ -80,32 +74,14 @@ static void parse_pkttype(const char *pkttype, struct xt_pkttype_info *info)
 	xtables_error(PARAMETER_PROBLEM, "Bad packet type '%s'", pkttype);
 }
 
-static int pkttype_parse(int c, char **argv, int invert, unsigned int *flags,
-                         const void *entry, struct xt_entry_match **match)
+static void pkttype_parse(struct xt_option_call *cb)
 {
-	struct xt_pkttype_info *info = (struct xt_pkttype_info *)(*match)->data;
-	
-	switch(c)
-	{
-		case '1':
-			xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-			parse_pkttype(optarg, info);
-			if(invert)
-				info->invert=1;
-			*flags=1;
-			break;
+	struct xt_pkttype_info *info = cb->data;
 
-		default: 
-			return 0;
-	}
-
-	return 1;
-}
-
-static void pkttype_check(unsigned int flags)
-{
-	if (!flags)
-		xtables_error(PARAMETER_PROBLEM, "You must specify \"--pkt-type\"");
+	xtables_option_parse(cb);
+	parse_pkttype(cb->arg, info);
+	if (cb->invert)
+		info->invert = 1;
 }
 
 static void print_pkttype(const struct xt_pkttype_info *info)
@@ -115,11 +91,11 @@ static void print_pkttype(const struct xt_pkttype_info *info)
 	for (i = 0; i < ARRAY_SIZE(supported_types); ++i)
 		if(supported_types[i].pkttype==info->pkttype)
 		{
-			printf("%s ", supported_types[i].name);
+			printf("%s", supported_types[i].name);
 			return;
 		}
 
-	printf("%d ", info->pkttype);	/* in case we didn't find an entry in named-packtes */
+	printf("%d", info->pkttype);	/* in case we didn't find an entry in named-packtes */
 }
 
 static void pkttype_print(const void *ip, const struct xt_entry_match *match,
@@ -127,7 +103,7 @@ static void pkttype_print(const void *ip, const struct xt_entry_match *match,
 {
 	const struct xt_pkttype_info *info = (const void *)match->data;
 	
-	printf("PKTTYPE %s= ", info->invert?"!":"");
+	printf(" PKTTYPE %s= ", info->invert ? "!" : "");
 	print_pkttype(info);
 }
 
@@ -135,7 +111,7 @@ static void pkttype_save(const void *ip, const struct xt_entry_match *match)
 {
 	const struct xt_pkttype_info *info = (const void *)match->data;
 	
-	printf("%s--pkt-type ", info->invert ? "! " : "");
+	printf("%s --pkt-type ", info->invert ? " !" : "");
 	print_pkttype(info);
 }
 
@@ -146,14 +122,13 @@ static struct xtables_match pkttype_match = {
 	.size		= XT_ALIGN(sizeof(struct xt_pkttype_info)),
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_pkttype_info)),
 	.help		= pkttype_help,
-	.parse		= pkttype_parse,
-	.final_check	= pkttype_check,
 	.print		= pkttype_print,
 	.save		= pkttype_save,
-	.extra_opts	= pkttype_opts,
+	.x6_parse	= pkttype_parse,
+	.x6_options	= pkttype_opts,
 };
 
-void libxt_pkttype_init(void)
+void _init(void)
 {
 	xtables_register_match(&pkttype_match);
 }

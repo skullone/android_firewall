@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (Firewall inactivo)</string>
+    <string name="title_enabled">Android Firewall (Firewall activo)</string>
+    <string name="title_disabled">Android Firewall (Firewall inactivo)</string>
     <string name="showrules">Mostrar reglas</string>
     <string name="applyrules">Aplicar reglas</string>
     <string name="saverules">Guardar reglas</string>
@@ -50,16 +50,16 @@
     <string name="custom_script_error">Error grabando script personalizado</string>
     <string name="custom_script_info"><b>Ingrese su script personalizado abajo.</b>
         \n<i>(Dejar vacio para borrar)</i>
-        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/Android Firewall/wiki/CustomScripts">aqui</a>.
+        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
     </string>
     <string name="unsaved_changes">Cambios no grabados</string>
     <string name="unsaved_changes_message">Se realizaron cambios que no fueron grabados.\n¿Aplicar cambios o descartar?</string>
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
 	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 		\n
-		\n<i>Android Firewall - Android Firewall</i> es una interfaz de usuario para el poderoso firewall de Linux <b>iptables</b>.
+		\n<i>Android Firewall</i> es una interfaz de usuario para el poderoso firewall de Linux <b>iptables</b>.
 		Permite definir cuales aplicaciones tienen acceso a las diferentes redes de datos.
 		\nEsta es la solución perfecta si usted no posee plan de datos ilimitado, o si simplemente quiere que su batería dure mas tiempo.
 		\n

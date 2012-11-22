@@ -1,11 +1,6 @@
-/* Shared library add-on to iptables to add LOG support. */
-#include <stdbool.h>
 #include <stdio.h>
-#include <netdb.h>
 #include <string.h>
-#include <stdlib.h>
 #include <syslog.h>
-#include <getopt.h>
 #include <xtables.h>
 #include <linux/netfilter_ipv4/ipt_LOG.h>
 
@@ -16,6 +11,16 @@
 #undef  IPT_LOG_MASK
 #define IPT_LOG_MASK	0x0f
 #endif
+
+enum {
+	O_LOG_LEVEL = 0,
+	O_LOG_PREFIX,
+	O_LOG_TCPSEQ,
+	O_LOG_TCPOPTS,
+	O_LOG_IPOPTS,
+	O_LOG_UID,
+	O_LOG_MAC,
+};
 
 static void LOG_help(void)
 {
@@ -30,16 +35,20 @@ static void LOG_help(void)
 " --log-macdecode		Decode MAC addresses and protocol.\n\n");
 }
 
-static const struct option LOG_opts[] = {
-	{.name = "log-level",        .has_arg = true,  .val = '!'},
-	{.name = "log-prefix",       .has_arg = true,  .val = '#'},
-	{.name = "log-tcp-sequence", .has_arg = false, .val = '1'},
-	{.name = "log-tcp-options",  .has_arg = false, .val = '2'},
-	{.name = "log-ip-options",   .has_arg = false, .val = '3'},
-	{.name = "log-uid",          .has_arg = false, .val = '4'},
-	{.name = "log-macdecode",    .has_arg = false, .val = '5'},
-	XT_GETOPT_TABLEEND,
+#define s struct ipt_log_info
+static const struct xt_option_entry LOG_opts[] = {
+	{.name = "log-level", .id = O_LOG_LEVEL, .type = XTTYPE_SYSLOGLEVEL,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, level)},
+	{.name = "log-prefix", .id = O_LOG_PREFIX, .type = XTTYPE_STRING,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, prefix), .min = 1},
+	{.name = "log-tcp-sequence", .id = O_LOG_TCPSEQ, .type = XTTYPE_NONE},
+	{.name = "log-tcp-options", .id = O_LOG_TCPOPTS, .type = XTTYPE_NONE},
+	{.name = "log-ip-options", .id = O_LOG_IPOPTS, .type = XTTYPE_NONE},
+	{.name = "log-uid", .id = O_LOG_UID, .type = XTTYPE_NONE},
+	{.name = "log-macdecode", .id = O_LOG_MAC, .type = XTTYPE_NONE},
+	XTOPT_TABLEEND,
 };
+#undef s
 
 static void LOG_init(struct xt_entry_target *t)
 {
@@ -66,136 +75,33 @@ static const struct ipt_log_names ipt_log_names[]
     { .name = "warning", .level = LOG_WARNING }
 };
 
-static u_int8_t
-parse_level(const char *level)
+static void LOG_parse(struct xt_option_call *cb)
 {
-	unsigned int lev = -1;
-	unsigned int set = 0;
+	struct ipt_log_info *info = cb->data;
 
-	if (!xtables_strtoui(level, NULL, &lev, 0, 7)) {
-		unsigned int i = 0;
-
-		for (i = 0; i < ARRAY_SIZE(ipt_log_names); ++i)
-			if (strncasecmp(level, ipt_log_names[i].name,
-					strlen(level)) == 0) {
-				if (set++)
-					xtables_error(PARAMETER_PROBLEM,
-						   "log-level `%s' ambiguous",
-						   level);
-				lev = ipt_log_names[i].level;
-			}
-
-		if (!set)
-			xtables_error(PARAMETER_PROBLEM,
-				   "log-level `%s' unknown", level);
-	}
-
-	return lev;
-}
-
-#define IPT_LOG_OPT_LEVEL 0x01
-#define IPT_LOG_OPT_PREFIX 0x02
-#define IPT_LOG_OPT_TCPSEQ 0x04
-#define IPT_LOG_OPT_TCPOPT 0x08
-#define IPT_LOG_OPT_IPOPT 0x10
-#define IPT_LOG_OPT_UID 0x20
-#define IPT_LOG_OPT_MACDECODE 0x40
-
-static int LOG_parse(int c, char **argv, int invert, unsigned int *flags,
-                     const void *entry, struct xt_entry_target **target)
-{
-	struct ipt_log_info *loginfo = (struct ipt_log_info *)(*target)->data;
-
-	switch (c) {
-	case '!':
-		if (*flags & IPT_LOG_OPT_LEVEL)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-level twice");
-
-		if (xtables_check_inverse(optarg, &invert, NULL, 0, argv))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Unexpected `!' after --log-level");
-
-		loginfo->level = parse_level(optarg);
-		*flags |= IPT_LOG_OPT_LEVEL;
-		break;
-
-	case '#':
-		if (*flags & IPT_LOG_OPT_PREFIX)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-prefix twice");
-
-		if (xtables_check_inverse(optarg, &invert, NULL, 0, argv))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Unexpected `!' after --log-prefix");
-
-		if (strlen(optarg) > sizeof(loginfo->prefix) - 1)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Maximum prefix length %u for --log-prefix",
-				   (unsigned int)sizeof(loginfo->prefix) - 1);
-
-		if (strlen(optarg) == 0)
-			xtables_error(PARAMETER_PROBLEM,
-				   "No prefix specified for --log-prefix");
-
-		if (strlen(optarg) != strlen(strtok(optarg, "\n")))
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_LOG_PREFIX:
+		if (strchr(cb->arg, '\n') != NULL)
 			xtables_error(PARAMETER_PROBLEM,
 				   "Newlines not allowed in --log-prefix");
-
-		strcpy(loginfo->prefix, optarg);
-		*flags |= IPT_LOG_OPT_PREFIX;
 		break;
-
-	case '1':
-		if (*flags & IPT_LOG_OPT_TCPSEQ)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-tcp-sequence "
-				   "twice");
-
-		loginfo->logflags |= IPT_LOG_TCPSEQ;
-		*flags |= IPT_LOG_OPT_TCPSEQ;
+	case O_LOG_TCPSEQ:
+		info->logflags |= IPT_LOG_TCPSEQ;
 		break;
-
-	case '2':
-		if (*flags & IPT_LOG_OPT_TCPOPT)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-tcp-options twice");
-
-		loginfo->logflags |= IPT_LOG_TCPOPT;
-		*flags |= IPT_LOG_OPT_TCPOPT;
+	case O_LOG_TCPOPTS:
+		info->logflags |= IPT_LOG_TCPOPT;
 		break;
-
-	case '3':
-		if (*flags & IPT_LOG_OPT_IPOPT)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-ip-options twice");
-
-		loginfo->logflags |= IPT_LOG_IPOPT;
-		*flags |= IPT_LOG_OPT_IPOPT;
+	case O_LOG_IPOPTS:
+		info->logflags |= IPT_LOG_IPOPT;
 		break;
-
-	case '4':
-		if (*flags & IPT_LOG_OPT_UID)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify --log-uid twice");
-
-		loginfo->logflags |= IPT_LOG_UID;
-		*flags |= IPT_LOG_OPT_UID;
+	case O_LOG_UID:
+		info->logflags |= IPT_LOG_UID;
 		break;
-
-	case '5':
-		if (*flags & IPT_LOG_OPT_MACDECODE)
-			xtables_error(PARAMETER_PROBLEM,
-				      "Can't specifiy --log-macdecode twice");
-
-		loginfo->logflags |= IPT_LOG_MACDECODE;
-		*flags |= IPT_LOG_OPT_MACDECODE;
+	case O_LOG_MAC:
+		info->logflags |= IPT_LOG_MACDECODE;
 		break;
-	default:
-		return 0;
 	}
-
-	return 1;
 }
 
 static void LOG_print(const void *ip, const struct xt_entry_target *target,
@@ -205,34 +111,34 @@ static void LOG_print(const void *ip, const struct xt_entry_target *target,
 		= (const struct ipt_log_info *)target->data;
 	unsigned int i = 0;
 
-	printf("LOG ");
+	printf(" LOG");
 	if (numeric)
-		printf("flags %u level %u ",
+		printf(" flags %u level %u",
 		       loginfo->logflags, loginfo->level);
 	else {
 		for (i = 0; i < ARRAY_SIZE(ipt_log_names); ++i)
 			if (loginfo->level == ipt_log_names[i].level) {
-				printf("level %s ", ipt_log_names[i].name);
+				printf(" level %s", ipt_log_names[i].name);
 				break;
 			}
 		if (i == ARRAY_SIZE(ipt_log_names))
-			printf("UNKNOWN level %u ", loginfo->level);
+			printf(" UNKNOWN level %u", loginfo->level);
 		if (loginfo->logflags & IPT_LOG_TCPSEQ)
-			printf("tcp-sequence ");
+			printf(" tcp-sequence");
 		if (loginfo->logflags & IPT_LOG_TCPOPT)
-			printf("tcp-options ");
+			printf(" tcp-options");
 		if (loginfo->logflags & IPT_LOG_IPOPT)
-			printf("ip-options ");
+			printf(" ip-options");
 		if (loginfo->logflags & IPT_LOG_UID)
-			printf("uid ");
+			printf(" uid");
 		if (loginfo->logflags & IPT_LOG_MACDECODE)
-			printf("macdecode ");
+			printf(" macdecode");
 		if (loginfo->logflags & ~(IPT_LOG_MASK))
-			printf("unknown-flags ");
+			printf(" unknown-flags");
 	}
 
 	if (strcmp(loginfo->prefix, "") != 0)
-		printf("prefix `%s' ", loginfo->prefix);
+		printf(" prefix \"%s\"", loginfo->prefix);
 }
 
 static void LOG_save(const void *ip, const struct xt_entry_target *target)
@@ -241,40 +147,40 @@ static void LOG_save(const void *ip, const struct xt_entry_target *target)
 		= (const struct ipt_log_info *)target->data;
 
 	if (strcmp(loginfo->prefix, "") != 0) {
-		printf("--log-prefix ");
+		printf(" --log-prefix");
 		xtables_save_string(loginfo->prefix);
 	}
 
 	if (loginfo->level != LOG_DEFAULT_LEVEL)
-		printf("--log-level %d ", loginfo->level);
+		printf(" --log-level %d", loginfo->level);
 
 	if (loginfo->logflags & IPT_LOG_TCPSEQ)
-		printf("--log-tcp-sequence ");
+		printf(" --log-tcp-sequence");
 	if (loginfo->logflags & IPT_LOG_TCPOPT)
-		printf("--log-tcp-options ");
+		printf(" --log-tcp-options");
 	if (loginfo->logflags & IPT_LOG_IPOPT)
-		printf("--log-ip-options ");
+		printf(" --log-ip-options");
 	if (loginfo->logflags & IPT_LOG_UID)
-		printf("--log-uid ");
+		printf(" --log-uid");
 	if (loginfo->logflags & IPT_LOG_MACDECODE)
-		printf("--log-macdecode ");
+		printf(" --log-macdecode");
 }
 
 static struct xtables_target log_tg_reg = {
-    .name          = "LOG",
-    .version       = XTABLES_VERSION,
-    .family        = NFPROTO_IPV4,
-    .size          = XT_ALIGN(sizeof(struct ipt_log_info)),
-    .userspacesize = XT_ALIGN(sizeof(struct ipt_log_info)),
-    .help          = LOG_help,
-    .init          = LOG_init,
-    .parse         = LOG_parse,
-    .print         = LOG_print,
-    .save          = LOG_save,
-    .extra_opts    = LOG_opts,
+	.name          = "LOG",
+	.version       = XTABLES_VERSION,
+	.family        = NFPROTO_IPV4,
+	.size          = XT_ALIGN(sizeof(struct ipt_log_info)),
+	.userspacesize = XT_ALIGN(sizeof(struct ipt_log_info)),
+	.help          = LOG_help,
+	.init          = LOG_init,
+	.print         = LOG_print,
+	.save          = LOG_save,
+	.x6_parse      = LOG_parse,
+	.x6_options    = LOG_opts,
 };
 
-void libipt_LOG_init(void)
+void _init(void)
 {
 	xtables_register_target(&log_tg_reg);
 }

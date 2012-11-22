@@ -25,15 +25,19 @@
 #include <linux/netfilter/xt_TEE.h>
 
 enum {
-	FLAG_GATEWAY = 1 << 0,
-	FLAG_OIF     = 1 << 1,
+	O_GATEWAY = 0,
+	O_OIF,
 };
 
-static const struct option tee_tg_opts[] = {
-	{.name = "gateway", .has_arg = true, .val = 'g'},
-	{.name = "oif",     .has_arg = true, .val = 'o'},
-	{NULL},
+#define s struct xt_tee_tginfo
+static const struct xt_option_entry tee_tg_opts[] = {
+	{.name = "gateway", .id = O_GATEWAY, .type = XTTYPE_HOST,
+	 .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, gw)},
+	{.name = "oif", .id = O_OIF, .type = XTTYPE_STRING,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, oif)},
+	XTOPT_TABLEEND,
 };
+#undef s
 
 static void tee_tg_help(void)
 {
@@ -44,94 +48,17 @@ static void tee_tg_help(void)
 "\n");
 }
 
-static int tee_tg_parse(int c, char **argv, int invert, unsigned int *flags,
-                        const void *entry, struct xt_entry_target **target)
-{
-	struct xt_tee_tginfo *info = (void *)(*target)->data;
-	const struct in_addr *ia;
-
-	switch (c) {
-	case 'g':
-		if (*flags & FLAG_GATEWAY)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --gateway more than once");
-
-		ia = xtables_numeric_to_ipaddr(optarg);
-		if (ia == NULL)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Invalid IP address %s", optarg);
-
-		memcpy(&info->gw, ia, sizeof(*ia));
-		*flags |= FLAG_GATEWAY;
-		return true;
-	case 'o':
-		if (*flags & FLAG_OIF)
-			xtables_error(PARAMETER_PROBLEM,
-				"Cannot specify --oif more than once");
-		if (strlen(optarg) >= sizeof(info->oif))
-			xtables_error(PARAMETER_PROBLEM,
-				"oif name too long");
-		strcpy(info->oif, optarg);
-		*flags |= FLAG_OIF;
-		return true;
-	}
-
-	return false;
-}
-
-static int tee_tg6_parse(int c, char **argv, int invert, unsigned int *flags,
-                         const void *entry, struct xt_entry_target **target)
-{
-	struct xt_tee_tginfo *info = (void *)(*target)->data;
-	const struct in6_addr *ia;
-
-	switch (c) {
-	case 'g':
-		if (*flags & FLAG_GATEWAY)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify --gateway more than once");
-
-		ia = xtables_numeric_to_ip6addr(optarg);
-		if (ia == NULL)
-			xtables_error(PARAMETER_PROBLEM,
-			           "Invalid IP address %s", optarg);
-
-		memcpy(&info->gw, ia, sizeof(*ia));
-		*flags |= FLAG_GATEWAY;
-		return true;
-	case 'o':
-		if (*flags & FLAG_OIF)
-			xtables_error(PARAMETER_PROBLEM,
-				"Cannot specify --oif more than once");
-		if (strlen(optarg) >= sizeof(info->oif))
-			xtables_error(PARAMETER_PROBLEM,
-				"oif name too long");
-		strcpy(info->oif, optarg);
-		*flags |= FLAG_OIF;
-		return true;
-	}
-
-	return false;
-}
-
-static void tee_tg_check(unsigned int flags)
-{
-	if (flags == 0)
-		xtables_error(PARAMETER_PROBLEM, "TEE target: "
-		           "--gateway parameter required");
-}
-
 static void tee_tg_print(const void *ip, const struct xt_entry_target *target,
                          int numeric)
 {
 	const struct xt_tee_tginfo *info = (const void *)target->data;
 
 	if (numeric)
-		printf("TEE gw:%s ", xtables_ipaddr_to_numeric(&info->gw.in));
+		printf(" TEE gw:%s", xtables_ipaddr_to_numeric(&info->gw.in));
 	else
-		printf("TEE gw:%s ", xtables_ipaddr_to_anyname(&info->gw.in));
+		printf(" TEE gw:%s", xtables_ipaddr_to_anyname(&info->gw.in));
 	if (*info->oif != '\0')
-		printf("oif=%s ", info->oif);
+		printf(" oif=%s", info->oif);
 }
 
 static void tee_tg6_print(const void *ip, const struct xt_entry_target *target,
@@ -140,63 +67,61 @@ static void tee_tg6_print(const void *ip, const struct xt_entry_target *target,
 	const struct xt_tee_tginfo *info = (const void *)target->data;
 
 	if (numeric)
-		printf("TEE gw:%s ", xtables_ip6addr_to_numeric(&info->gw.in6));
+		printf(" TEE gw:%s", xtables_ip6addr_to_numeric(&info->gw.in6));
 	else
-		printf("TEE gw:%s ", xtables_ip6addr_to_anyname(&info->gw.in6));
+		printf(" TEE gw:%s", xtables_ip6addr_to_anyname(&info->gw.in6));
 	if (*info->oif != '\0')
-		printf("oif=%s ", info->oif);
+		printf(" oif=%s", info->oif);
 }
 
 static void tee_tg_save(const void *ip, const struct xt_entry_target *target)
 {
 	const struct xt_tee_tginfo *info = (const void *)target->data;
 
-	printf("--gateway %s ", xtables_ipaddr_to_numeric(&info->gw.in));
+	printf(" --gateway %s", xtables_ipaddr_to_numeric(&info->gw.in));
 	if (*info->oif != '\0')
-		printf("--oif %s ", info->oif);
+		printf(" --oif %s", info->oif);
 }
 
 static void tee_tg6_save(const void *ip, const struct xt_entry_target *target)
 {
 	const struct xt_tee_tginfo *info = (const void *)target->data;
 
-	printf("--gateway %s ", xtables_ip6addr_to_numeric(&info->gw.in6));
+	printf(" --gateway %s", xtables_ip6addr_to_numeric(&info->gw.in6));
 	if (*info->oif != '\0')
-		printf("--oif %s ", info->oif);
+		printf(" --oif %s", info->oif);
 }
 
-static struct xtables_target tee_tg_reg = {
-	.name          = "TEE",
-	.version       = XTABLES_VERSION,
-	.revision      = 1,
-	.family        = NFPROTO_IPV4,
-	.size          = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
-	.userspacesize = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
-	.help          = tee_tg_help,
-	.parse         = tee_tg_parse,
-	.final_check   = tee_tg_check,
-	.print         = tee_tg_print,
-	.save          = tee_tg_save,
-	.extra_opts    = tee_tg_opts,
+static struct xtables_target tee_tg_reg[] = {
+	{
+		.name          = "TEE",
+		.version       = XTABLES_VERSION,
+		.revision      = 1,
+		.family        = NFPROTO_IPV4,
+		.size          = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
+		.userspacesize = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
+		.help          = tee_tg_help,
+		.print         = tee_tg_print,
+		.save          = tee_tg_save,
+		.x6_parse      = xtables_option_parse,
+		.x6_options    = tee_tg_opts,
+	},
+	{
+		.name          = "TEE",
+		.version       = XTABLES_VERSION,
+		.revision      = 1,
+		.family        = NFPROTO_IPV6,
+		.size          = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
+		.userspacesize = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
+		.help          = tee_tg_help,
+		.print         = tee_tg6_print,
+		.save          = tee_tg6_save,
+		.x6_parse      = xtables_option_parse,
+		.x6_options    = tee_tg_opts,
+	},
 };
 
-static struct xtables_target tee_tg6_reg = {
-	.name          = "TEE",
-	.version       = XTABLES_VERSION,
-	.revision      = 1,
-	.family        = NFPROTO_IPV6,
-	.size          = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
-	.userspacesize = XT_ALIGN(sizeof(struct xt_tee_tginfo)),
-	.help          = tee_tg_help,
-	.parse         = tee_tg6_parse,
-	.final_check   = tee_tg_check,
-	.print         = tee_tg6_print,
-	.save          = tee_tg6_save,
-	.extra_opts    = tee_tg_opts,
-};
-
-void libxt_TEE_init(void)
+void _init(void)
 {
-	xtables_register_target(&tee_tg_reg);
-	xtables_register_target(&tee_tg6_reg);
+	xtables_register_targets(tee_tg_reg, ARRAY_SIZE(tee_tg_reg));
 }

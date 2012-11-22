@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (Firewall desligado)</string>
+    <string name="title_enabled">Android Firewall (Firewall ligado)</string>
+    <string name="title_disabled">Android Firewall (Firewall desligado)</string>
     <string name="showrules">Exibir regras</string>
     <string name="applyrules">Aplicar regras</string>
     <string name="saverules">Salvar regras</string>
@@ -50,7 +50,7 @@
     <string name="custom_script_error">Erro salvando script personalizado</string>
     <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>
 		\n<i>(Deixe em branco para remover)</i>
-		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/Android Firewall/wiki/CustomScripts">aqui</a>.
+		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
 	</string>
     <string name="custom_script2_info">
     	\n<b>Script personalizado ao desligar</b>
@@ -60,9 +60,9 @@
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
 	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 		\n
-		\n<i>Android Firewall - Android Firewall</i> é um aplicativo que utiliza o poderoso firewall <b>iptables</b> do Linux.
+		\n<i>Android Firewall</i> é um aplicativo que utiliza o poderoso firewall <b>iptables</b> do Linux.
 		Ele permite restringir o acesso de cada aplicativo Android à rede de dados.
 		\nEsta é a solução perfeita se você não possui um plano de dados ilimitado, ou apenas deseja economizar bateria.
 		\n

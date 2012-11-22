@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (防火墙已禁用)</string>
+    <string name="title_enabled">Android Firewall (防火墙已启用)</string>
+    <string name="title_disabled">Android Firewall (防火墙已禁用)</string>
     <string name="showrules">显示规则</string>
     <string name="applyrules">应用规则</string>
     <string name="saverules">保存规则</string>
@@ -50,16 +50,16 @@
     <string name="custom_script_error">保存自定义脚本时出错</string>
     <string name="custom_script_info"><b>在这里输入你的自定义脚本.</b>
 		\n<i>(放空则删除)</i>
-		\n查看自定义脚本的更多信息, 点击 <a href="http://code.google.com/p/Android Firewall/wiki/CustomScripts"></a>.
+		\n查看自定义脚本的更多信息, 点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
 	</string>
     <string name="unsaved_changes">未保存更改</string>
     <string name="unsaved_changes_message">有未保存更改.\n你想保存还是丢弃它们?</string>
     <string name="apply">应用</string>
     <string name="discard">丢弃</string>
     <string name="help_dialog_text"><i>作者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 		\n
-		\n<i>Android Firewall - Android 防火墙</i> 是Linux上功能强大的<b>iptables</b>防火墙前端程序.
+		\n<i>Android Firewall</i> 是Linux上功能强大的<b>iptables</b>防火墙前端程序.
 		它可以让你限定哪些程序可以访问你的数据网络.
 		\n如果你没有不限流量的套餐或只是想延长电池使用时间,这将是一个完美的解决方案.
 		\n

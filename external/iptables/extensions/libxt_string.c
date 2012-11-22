@@ -20,17 +20,25 @@
  *             updated to work with slightly modified
  *             ipt_string_info.
  */
-#define _GNU_SOURCE 1
-#include <stdbool.h>
+#define _GNU_SOURCE 1 /* strnlen for older glibcs */
 #include <stdio.h>
-#include <netdb.h>
 #include <string.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <ctype.h>
 #include <xtables.h>
-#include <stddef.h>
 #include <linux/netfilter/xt_string.h>
+
+enum {
+	O_FROM = 0,
+	O_TO,
+	O_ALGO,
+	O_ICASE,
+	O_STRING,
+	O_HEX_STRING,
+	F_STRING     = 1 << O_STRING,
+	F_HEX_STRING = 1 << O_HEX_STRING,
+	F_OP_ANY     = F_STRING | F_HEX_STRING,
+};
 
 static void string_help(void)
 {
@@ -44,22 +52,28 @@ static void string_help(void)
 "[!] --hex-string string      Match a hex string in a packet\n");
 }
 
-static const struct option string_opts[] = {
-	{.name = "from",       .has_arg = true,  .val = '1'},
-	{.name = "to",         .has_arg = true,  .val = '2'},
-	{.name = "algo",       .has_arg = true,  .val = '3'},
-	{.name = "string",     .has_arg = true,  .val = '4'},
-	{.name = "hex-string", .has_arg = true,  .val = '5'},
-	{.name = "icase",      .has_arg = false, .val = '6'},
-	XT_GETOPT_TABLEEND,
+#define s struct xt_string_info
+static const struct xt_option_entry string_opts[] = {
+	{.name = "from", .id = O_FROM, .type = XTTYPE_UINT16,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, from_offset)},
+	{.name = "to", .id = O_TO, .type = XTTYPE_UINT16,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, to_offset)},
+	{.name = "algo", .id = O_ALGO, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, algo)},
+	{.name = "string", .id = O_STRING, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT, .excl = F_HEX_STRING},
+	{.name = "hex-string", .id = O_HEX_STRING, .type = XTTYPE_STRING,
+	 .flags = XTOPT_INVERT, .excl = F_STRING},
+	{.name = "icase", .id = O_ICASE, .type = XTTYPE_NONE},
+	XTOPT_TABLEEND,
 };
+#undef s
 
 static void string_init(struct xt_entry_match *m)
 {
 	struct xt_string_info *i = (struct xt_string_info *) m->data;
 
-	if (i->to_offset == 0)
-		i->to_offset = UINT16_MAX;
+	i->to_offset = UINT16_MAX;
 }
 
 static void
@@ -72,17 +86,6 @@ parse_string(const char *s, struct xt_string_info *info)
 		return;
 	}
 	xtables_error(PARAMETER_PROBLEM, "STRING too long \"%s\"", s);
-}
-
-static void
-parse_algo(const char *s, struct xt_string_info *info)
-{
-	/* xt_string needs \0 for algo name */
-	if (strlen(s) < XT_STRING_MAX_ALGO_NAME_SIZE) {
-		strncpy(info->algo, s, XT_STRING_MAX_ALGO_NAME_SIZE);
-		return;
-	}
-	xtables_error(PARAMETER_PROBLEM, "ALGO too long \"%s\"", s);
 }
 
 static void
@@ -163,97 +166,47 @@ parse_hex_string(const char *s, struct xt_string_info *info)
 	info->patlen = sindex;
 }
 
-#define STRING 0x1
-#define ALGO   0x2
-#define FROM   0x4
-#define TO     0x8
-#define ICASE  0x10
-
-static int
-string_parse(int c, char **argv, int invert, unsigned int *flags,
-             const void *entry, struct xt_entry_match **match)
+static void string_parse(struct xt_option_call *cb)
 {
-	struct xt_string_info *stringinfo =
-	    (struct xt_string_info *)(*match)->data;
-	const int revision = (*match)->u.user.revision;
+	struct xt_string_info *stringinfo = cb->data;
+	const unsigned int revision = (*cb->match)->u.user.revision;
 
-	switch (c) {
-	case '1':
-		if (*flags & FROM)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify multiple --from");
-		stringinfo->from_offset = atoi(optarg);
-		*flags |= FROM;
-		break;
-	case '2':
-		if (*flags & TO)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify multiple --to");
-		stringinfo->to_offset = atoi(optarg);
-		*flags |= TO;
-		break;
-	case '3':
-		if (*flags & ALGO)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify multiple --algo");
-		parse_algo(optarg, stringinfo);
-		*flags |= ALGO;
-		break;
-	case '4':
-		if (*flags & STRING)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify multiple --string");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_string(optarg, stringinfo);
-		if (invert) {
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_STRING:
+		parse_string(cb->arg, stringinfo);
+		if (cb->invert) {
 			if (revision == 0)
 				stringinfo->u.v0.invert = 1;
 			else
 				stringinfo->u.v1.flags |= XT_STRING_FLAG_INVERT;
 		}
-		*flags |= STRING;
 		break;
-
-	case '5':
-		if (*flags & STRING)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Can't specify multiple --hex-string");
-
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_hex_string(optarg, stringinfo);  /* sets length */
-		if (invert) {
+	case O_HEX_STRING:
+		parse_hex_string(cb->arg, stringinfo);  /* sets length */
+		if (cb->invert) {
 			if (revision == 0)
 				stringinfo->u.v0.invert = 1;
 			else
 				stringinfo->u.v1.flags |= XT_STRING_FLAG_INVERT;
 		}
-		*flags |= STRING;
 		break;
-
-	case '6':
+	case O_ICASE:
 		if (revision == 0)
 			xtables_error(VERSION_PROBLEM,
 				   "Kernel doesn't support --icase");
 
 		stringinfo->u.v1.flags |= XT_STRING_FLAG_IGNORECASE;
-		*flags |= ICASE;
 		break;
-
-	default:
-		return 0;
 	}
-	return 1;
 }
 
-static void string_check(unsigned int flags)
+static void string_check(struct xt_fcheck_call *cb)
 {
-	if (!(flags & STRING))
+	if (!(cb->xflags & F_OP_ANY))
 		xtables_error(PARAMETER_PROBLEM,
 			   "STRING match: You must specify `--string' or "
 			   "`--hex-string'");
-	if (!(flags & ALGO))
-		xtables_error(PARAMETER_PROBLEM,
-			   "STRING match: You must specify `--algo'");
 }
 
 /* Test to see if the string contains non-printable chars or quotes */
@@ -265,7 +218,7 @@ is_hex_string(const char *str, const unsigned short int len)
 		if (! isprint(str[i]))
 			return 1;  /* string contains at least one non-printable char */
 	/* use hex output if the last char is a "\" */
-	if ((unsigned char) str[len-1] == 0x5c)
+	if (str[len-1] == '\\')
 		return 1;
 	return 0;
 }
@@ -276,29 +229,24 @@ print_hex_string(const char *str, const unsigned short int len)
 {
 	unsigned int i;
 	/* start hex block */
-	printf("\"|");
-	for (i=0; i < len; i++) {
-		/* see if we need to prepend a zero */
-		if ((unsigned char) str[i] <= 0x0F)
-			printf("0%x", (unsigned char) str[i]);
-		else
-			printf("%x", (unsigned char) str[i]);
-	}
+	printf(" \"|");
+	for (i=0; i < len; i++)
+		printf("%02x", (unsigned char)str[i]);
 	/* close hex block */
-	printf("|\" ");
+	printf("|\"");
 }
 
 static void
 print_string(const char *str, const unsigned short int len)
 {
 	unsigned int i;
-	printf("\"");
+	printf(" \"");
 	for (i=0; i < len; i++) {
-		if ((unsigned char) str[i] == 0x22)  /* escape any embedded quotes */
-			printf("%c", 0x5c);
+		if (str[i] == '\"' || str[i] == '\\')
+			putchar('\\');
 		printf("%c", (unsigned char) str[i]);
 	}
-	printf("\" ");  /* closing space and quote */
+	printf("\"");  /* closing quote */
 }
 
 static void
@@ -311,19 +259,19 @@ string_print(const void *ip, const struct xt_entry_match *match, int numeric)
 				    info->u.v1.flags & XT_STRING_FLAG_INVERT);
 
 	if (is_hex_string(info->pattern, info->patlen)) {
-		printf("STRING match %s", invert ? "!" : "");
+		printf(" STRING match %s", invert ? "!" : "");
 		print_hex_string(info->pattern, info->patlen);
 	} else {
-		printf("STRING match %s", invert ? "!" : "");
+		printf(" STRING match %s", invert ? "!" : "");
 		print_string(info->pattern, info->patlen);
 	}
-	printf("ALGO name %s ", info->algo);
+	printf(" ALGO name %s", info->algo);
 	if (info->from_offset != 0)
-		printf("FROM %u ", info->from_offset);
+		printf(" FROM %u", info->from_offset);
 	if (info->to_offset != 0)
-		printf("TO %u ", info->to_offset);
+		printf(" TO %u", info->to_offset);
 	if (revision > 0 && info->u.v1.flags & XT_STRING_FLAG_IGNORECASE)
-		printf("ICASE ");
+		printf(" ICASE");
 }
 
 static void string_save(const void *ip, const struct xt_entry_match *match)
@@ -335,19 +283,19 @@ static void string_save(const void *ip, const struct xt_entry_match *match)
 				    info->u.v1.flags & XT_STRING_FLAG_INVERT);
 
 	if (is_hex_string(info->pattern, info->patlen)) {
-		printf("%s--hex-string ", (invert) ? "! ": "");
+		printf("%s --hex-string", (invert) ? " !" : "");
 		print_hex_string(info->pattern, info->patlen);
 	} else {
-		printf("%s--string ", (invert) ? "! ": "");
+		printf("%s --string", (invert) ? " !": "");
 		print_string(info->pattern, info->patlen);
 	}
-	printf("--algo %s ", info->algo);
+	printf(" --algo %s", info->algo);
 	if (info->from_offset != 0)
-		printf("--from %u ", info->from_offset);
+		printf(" --from %u", info->from_offset);
 	if (info->to_offset != 0)
-		printf("--to %u ", info->to_offset);
+		printf(" --to %u", info->to_offset);
 	if (revision > 0 && info->u.v1.flags & XT_STRING_FLAG_IGNORECASE)
-		printf("--icase ");
+		printf(" --icase");
 }
 
 
@@ -361,11 +309,11 @@ static struct xtables_match string_mt_reg[] = {
 		.userspacesize = offsetof(struct xt_string_info, config),
 		.help          = string_help,
 		.init          = string_init,
-		.parse         = string_parse,
-		.final_check   = string_check,
 		.print         = string_print,
 		.save          = string_save,
-		.extra_opts    = string_opts,
+		.x6_parse      = string_parse,
+		.x6_fcheck     = string_check,
+		.x6_options    = string_opts,
 	},
 	{
 		.name          = "string",
@@ -376,15 +324,15 @@ static struct xtables_match string_mt_reg[] = {
 		.userspacesize = offsetof(struct xt_string_info, config),
 		.help          = string_help,
 		.init          = string_init,
-		.parse         = string_parse,
-		.final_check   = string_check,
 		.print         = string_print,
 		.save          = string_save,
-		.extra_opts    = string_opts,
+		.x6_parse      = string_parse,
+		.x6_fcheck     = string_check,
+		.x6_options    = string_opts,
 	},
 };
 
-void libxt_string_init(void)
+void _init(void)
 {
 	xtables_register_matches(string_mt_reg, ARRAY_SIZE(string_mt_reg));
 }

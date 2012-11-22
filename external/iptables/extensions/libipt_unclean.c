@@ -9,7 +9,7 @@ static struct xtables_match unclean_mt_reg = {
 	.userspacesize	= XT_ALIGN(0),
 };
 
-void libipt_unclean_init(void)
+void _init(void)
 {
 	xtables_register_match(&unclean_mt_reg);
 }

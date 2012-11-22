@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s</string>
-    <string name="title_disabled">Android Firewall v%s (брандмауэр отключен)</string>
+    <string name="title_enabled">Android Firewall (Брандмауэр включен)</string>
+    <string name="title_disabled">Android Firewall (Брандмауэр отключен)</string>
     <string name="showrules">Показать правила</string>
     <string name="applyrules">Применить правила</string>
     <string name="saverules">Сохранить правила</string>
@@ -50,16 +50,16 @@
     <string name="custom_script_error">Ошибка при сохранении пользовательского сценария</string>
     <string name="custom_script_info"><b>Введите ниже Ваш сценарий.</b>
 		\n<i>(Оставьте это поле пустым для удаления)</i>
-		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/Android Firewall/wiki/CustomScripts">здесь</a>.
+		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">здесь</a>.
 	</string>
     <string name="unsaved_changes">Несохраненные изменения</string>
     <string name="unsaved_changes_message">У вас есть несохраненные изменения.\nВы хотите применить или сбросить их?</string>
     <string name="apply">Применить</string>
     <string name="discard">Сбросить</string>
         <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-                \n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
                 \n<i>Перевод: Евгений Мартыненко</i>\n
-                \n<i>Android Firewall - Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
+                \n<i>Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
                 Он позволяет ограничить круг приложений имеющих доступ к сетям передачи данных.
                 \nЭто идеальное решение, если у вас не безлимитный тарифный план, или Вы просто хотите сэкономить заряд вашей батареи.
                 \n

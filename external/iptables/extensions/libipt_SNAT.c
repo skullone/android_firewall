@@ -1,18 +1,22 @@
-/* Shared library add-on to iptables to add source-NAT support. */
-#include <stdbool.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <string.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <xtables.h>
 #include <iptables.h>
 #include <limits.h> /* INT_MAX in ip_tables.h */
 #include <linux/netfilter_ipv4/ip_tables.h>
 #include <net/netfilter/nf_nat.h>
 
-#define IPT_SNAT_OPT_SOURCE 0x01
-#define IPT_SNAT_OPT_RANDOM 0x02
+enum {
+	O_TO_SRC = 0,
+	O_RANDOM,
+	O_PERSISTENT,
+	O_X_TO_SRC,
+	F_TO_SRC   = 1 << O_TO_SRC,
+	F_RANDOM   = 1 << O_RANDOM,
+	F_X_TO_SRC = 1 << O_X_TO_SRC,
+};
 
 /* Source NAT data consists of a multi-range, indicating where to map
    to. */
@@ -26,16 +30,17 @@ static void SNAT_help(void)
 {
 	printf(
 "SNAT target options:\n"
-" --to-source <ipaddr>[-<ipaddr>][:port-port]\n"
+" --to-source [<ipaddr>[-<ipaddr>]][:port[-port]]\n"
 "				Address to map source to.\n"
 "[--random] [--persistent]\n");
 }
 
-static const struct option SNAT_opts[] = {
-	{.name = "to-source",  .has_arg = true,  .val = '1'},
-	{.name = "random",     .has_arg = false, .val = '2'},
-	{.name = "persistent", .has_arg = false, .val = '3'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry SNAT_opts[] = {
+	{.name = "to-source", .id = O_TO_SRC, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_MULTI},
+	{.name = "random", .id = O_RANDOM, .type = XTTYPE_NONE},
+	{.name = "persistent", .id = O_PERSISTENT, .type = XTTYPE_NONE},
+	XTOPT_TABLEEND,
 };
 
 static struct ipt_natinfo *
@@ -59,12 +64,15 @@ append_range(struct ipt_natinfo *info, const struct nf_nat_range *range)
 
 /* Ranges expected in network order. */
 static struct xt_entry_target *
-parse_to(char *arg, int portok, struct ipt_natinfo *info)
+parse_to(const char *orig_arg, int portok, struct ipt_natinfo *info)
 {
 	struct nf_nat_range range;
-	char *colon, *dash, *error;
+	char *arg, *colon, *dash, *error;
 	const struct in_addr *ip;
 
+	arg = strdup(orig_arg);
+	if (arg == NULL)
+		xtables_error(RESOURCE_PROBLEM, "strdup");
 	memset(&range, 0, sizeof(range));
 	colon = strchr(arg, ':');
 
@@ -107,8 +115,10 @@ parse_to(char *arg, int portok, struct ipt_natinfo *info)
 			range.max.tcp.port = htons(maxport);
 		}
 		/* Starts with a colon? No IP info...*/
-		if (colon == arg)
+		if (colon == arg) {
+			free(arg);
 			return &(append_range(info, &range)->t);
+		}
 		*colon = '\0';
 	}
 
@@ -134,14 +144,14 @@ parse_to(char *arg, int portok, struct ipt_natinfo *info)
 	} else
 		range.max_ip = range.min_ip;
 
+	free(arg);
 	return &(append_range(info, &range)->t);
 }
 
-static int SNAT_parse(int c, char **argv, int invert, unsigned int *flags,
-                      const void *e, struct xt_entry_target **target)
+static void SNAT_parse(struct xt_option_call *cb)
 {
-	const struct ipt_entry *entry = e;
-	struct ipt_natinfo *info = (void *)*target;
+	const struct ipt_entry *entry = cb->xt_entry;
+	struct ipt_natinfo *info = (void *)(*cb->target);
 	int portok;
 
 	if (entry->ip.proto == IPPROTO_TCP
@@ -153,48 +163,32 @@ static int SNAT_parse(int c, char **argv, int invert, unsigned int *flags,
 	else
 		portok = 0;
 
-	switch (c) {
-	case '1':
-		if (xtables_check_inverse(optarg, &invert, NULL, 0, argv))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Unexpected `!' after --to-source");
-
-		if (*flags & IPT_SNAT_OPT_SOURCE) {
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_TO_SRC:
+		if (cb->xflags & F_X_TO_SRC) {
 			if (!kernel_version)
 				get_kernel_version();
 			if (kernel_version > LINUX_VERSION(2, 6, 10))
 				xtables_error(PARAMETER_PROBLEM,
-					   "Multiple --to-source not supported");
+					   "SNAT: Multiple --to-source not supported");
 		}
-		*target = parse_to(optarg, portok, info);
-		/* WTF do we need this for?? */
-		if (*flags & IPT_SNAT_OPT_RANDOM)
-			info->mr.range[0].flags |= IP_NAT_RANGE_PROTO_RANDOM;
-		*flags |= IPT_SNAT_OPT_SOURCE;
-		return 1;
-
-	case '2':
-		if (*flags & IPT_SNAT_OPT_SOURCE) {
-			info->mr.range[0].flags |= IP_NAT_RANGE_PROTO_RANDOM;
-			*flags |= IPT_SNAT_OPT_RANDOM;
-		} else
-			*flags |= IPT_SNAT_OPT_RANDOM;
-		return 1;
-
-	case '3':
+		*cb->target = parse_to(cb->arg, portok, info);
+		cb->xflags |= F_X_TO_SRC;
+		break;
+	case O_PERSISTENT:
 		info->mr.range[0].flags |= IP_NAT_RANGE_PERSISTENT;
-		return 1;
-
-	default:
-		return 0;
+		break;
 	}
 }
 
-static void SNAT_check(unsigned int flags)
+static void SNAT_fcheck(struct xt_fcheck_call *cb)
 {
-	if (!(flags & IPT_SNAT_OPT_SOURCE))
-		xtables_error(PARAMETER_PROBLEM,
-			   "You must specify --to-source");
+	static const unsigned int f = F_TO_SRC | F_RANDOM;
+	struct nf_nat_multi_range *mr = cb->data;
+
+	if ((cb->xflags & f) == f)
+		mr->range[0].flags |= IP_NAT_RANGE_PROTO_RANDOM;
 }
 
 static void print_range(const struct nf_nat_range *r)
@@ -223,14 +217,13 @@ static void SNAT_print(const void *ip, const struct xt_entry_target *target,
 	const struct ipt_natinfo *info = (const void *)target;
 	unsigned int i = 0;
 
-	printf("to:");
+	printf(" to:");
 	for (i = 0; i < info->mr.rangesize; i++) {
 		print_range(&info->mr.range[i]);
-		printf(" ");
 		if (info->mr.range[i].flags & IP_NAT_RANGE_PROTO_RANDOM)
-			printf("random ");
+			printf(" random");
 		if (info->mr.range[i].flags & IP_NAT_RANGE_PERSISTENT)
-			printf("persistent ");
+			printf(" persistent");
 	}
 }
 
@@ -240,13 +233,12 @@ static void SNAT_save(const void *ip, const struct xt_entry_target *target)
 	unsigned int i = 0;
 
 	for (i = 0; i < info->mr.rangesize; i++) {
-		printf("--to-source ");
+		printf(" --to-source ");
 		print_range(&info->mr.range[i]);
-		printf(" ");
 		if (info->mr.range[i].flags & IP_NAT_RANGE_PROTO_RANDOM)
-			printf("--random ");
+			printf(" --random");
 		if (info->mr.range[i].flags & IP_NAT_RANGE_PERSISTENT)
-			printf("--persistent ");
+			printf(" --persistent");
 	}
 }
 
@@ -257,14 +249,14 @@ static struct xtables_target snat_tg_reg = {
 	.size		= XT_ALIGN(sizeof(struct nf_nat_multi_range)),
 	.userspacesize	= XT_ALIGN(sizeof(struct nf_nat_multi_range)),
 	.help		= SNAT_help,
-	.parse		= SNAT_parse,
-	.final_check	= SNAT_check,
+	.x6_parse	= SNAT_parse,
+	.x6_fcheck	= SNAT_fcheck,
 	.print		= SNAT_print,
 	.save		= SNAT_save,
-	.extra_opts	= SNAT_opts,
+	.x6_options	= SNAT_opts,
 };
 
-void libipt_SNAT_init(void)
+void _init(void)
 {
 	xtables_register_target(&snat_tg_reg);
 }

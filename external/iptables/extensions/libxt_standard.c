@@ -18,7 +18,7 @@ static struct xtables_target standard_target = {
 	.help		= standard_help,
 };
 
-void libxt_standard_init(void)
+void _init(void)
 {
 	xtables_register_target(&standard_target);
 }

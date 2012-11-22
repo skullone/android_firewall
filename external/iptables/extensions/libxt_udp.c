@@ -1,13 +1,14 @@
-/* Shared library add-on to iptables to add UDP support. */
-#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <netdb.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <xtables.h>
 #include <linux/netfilter/xt_tcpudp.h>
+
+enum {
+	O_SOURCE_PORT = 0,
+	O_DEST_PORT,
+};
 
 static void udp_help(void)
 {
@@ -21,36 +22,19 @@ static void udp_help(void)
 "				match destination port(s)\n");
 }
 
-static const struct option udp_opts[] = {
-	{.name = "source-port",      .has_arg = true, .val = '1'},
-	{.name = "sport",            .has_arg = true, .val = '1'}, /* synonym */
-	{.name = "destination-port", .has_arg = true, .val = '2'},
-	{.name = "dport",            .has_arg = true, .val = '2'}, /* synonym */
-	XT_GETOPT_TABLEEND,
+#define s struct xt_udp
+static const struct xt_option_entry udp_opts[] = {
+	{.name = "source-port", .id = O_SOURCE_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, spts)},
+	{.name = "sport", .id = O_SOURCE_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, spts)},
+	{.name = "destination-port", .id = O_DEST_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, dpts)},
+	{.name = "dport", .id = O_DEST_PORT, .type = XTTYPE_PORTRC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, dpts)},
+	XTOPT_TABLEEND,
 };
-
-static void
-parse_udp_ports(const char *portstring, u_int16_t *ports)
-{
-	char *buffer;
-	char *cp;
-
-	buffer = strdup(portstring);
-	if ((cp = strchr(buffer, ':')) == NULL)
-		ports[0] = ports[1] = xtables_parse_port(buffer, "udp");
-	else {
-		*cp = '\0';
-		cp++;
-
-		ports[0] = buffer[0] ? xtables_parse_port(buffer, "udp") : 0;
-		ports[1] = cp[0] ? xtables_parse_port(cp, "udp") : 0xFFFF;
-
-		if (ports[0] > ports[1])
-			xtables_error(PARAMETER_PROBLEM,
-				   "invalid portrange (min > max)");
-	}
-	free(buffer);
-}
+#undef s
 
 static void udp_init(struct xt_entry_match *m)
 {
@@ -59,49 +43,27 @@ static void udp_init(struct xt_entry_match *m)
 	udpinfo->spts[1] = udpinfo->dpts[1] = 0xFFFF;
 }
 
-#define UDP_SRC_PORTS 0x01
-#define UDP_DST_PORTS 0x02
-
-static int
-udp_parse(int c, char **argv, int invert, unsigned int *flags,
-          const void *entry, struct xt_entry_match **match)
+static void udp_parse(struct xt_option_call *cb)
 {
-	struct xt_udp *udpinfo = (struct xt_udp *)(*match)->data;
+	struct xt_udp *udpinfo = cb->data;
 
-	switch (c) {
-	case '1':
-		if (*flags & UDP_SRC_PORTS)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--source-port' allowed");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_udp_ports(optarg, udpinfo->spts);
-		if (invert)
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_SOURCE_PORT:
+		if (cb->invert)
 			udpinfo->invflags |= XT_UDP_INV_SRCPT;
-		*flags |= UDP_SRC_PORTS;
 		break;
-
-	case '2':
-		if (*flags & UDP_DST_PORTS)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--destination-port' allowed");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_udp_ports(optarg, udpinfo->dpts);
-		if (invert)
+	case O_DEST_PORT:
+		if (cb->invert)
 			udpinfo->invflags |= XT_UDP_INV_DSTPT;
-		*flags |= UDP_DST_PORTS;
 		break;
-
-	default:
-		return 0;
 	}
-
-	return 1;
 }
 
-static char *
+static const char *
 port_to_service(int port)
 {
-	struct servent *service;
+	const struct servent *service;
 
 	if ((service = getservbyport(htons(port), "udp")))
 		return service->s_name;
@@ -110,9 +72,9 @@ port_to_service(int port)
 }
 
 static void
-print_port(u_int16_t port, int numeric)
+print_port(uint16_t port, int numeric)
 {
-	char *service;
+	const char *service;
 
 	if (numeric || (service = port_to_service(port)) == NULL)
 		printf("%u", port);
@@ -121,13 +83,13 @@ print_port(u_int16_t port, int numeric)
 }
 
 static void
-print_ports(const char *name, u_int16_t min, u_int16_t max,
+print_ports(const char *name, uint16_t min, uint16_t max,
 	    int invert, int numeric)
 {
 	const char *inv = invert ? "!" : "";
 
 	if (min != 0 || max != 0xFFFF || invert) {
-		printf("%s", name);
+		printf(" %s", name);
 		if (min == max) {
 			printf(":%s", inv);
 			print_port(min, numeric);
@@ -137,7 +99,6 @@ print_ports(const char *name, u_int16_t min, u_int16_t max,
 			printf(":");
 			print_port(max, numeric);
 		}
-		printf(" ");
 	}
 }
 
@@ -146,7 +107,7 @@ udp_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
 	const struct xt_udp *udp = (struct xt_udp *)match->data;
 
-	printf("udp ");
+	printf(" udp");
 	print_ports("spt", udp->spts[0], udp->spts[1],
 		    udp->invflags & XT_UDP_INV_SRCPT,
 		    numeric);
@@ -154,7 +115,7 @@ udp_print(const void *ip, const struct xt_entry_match *match, int numeric)
 		    udp->invflags & XT_UDP_INV_DSTPT,
 		    numeric);
 	if (udp->invflags & ~XT_UDP_INV_MASK)
-		printf("Unknown invflags: 0x%X ",
+		printf(" Unknown invflags: 0x%X",
 		       udp->invflags & ~XT_UDP_INV_MASK);
 }
 
@@ -165,28 +126,28 @@ static void udp_save(const void *ip, const struct xt_entry_match *match)
 	if (udpinfo->spts[0] != 0
 	    || udpinfo->spts[1] != 0xFFFF) {
 		if (udpinfo->invflags & XT_UDP_INV_SRCPT)
-			printf("! ");
+			printf(" !");
 		if (udpinfo->spts[0]
 		    != udpinfo->spts[1])
-			printf("--sport %u:%u ",
+			printf(" --sport %u:%u",
 			       udpinfo->spts[0],
 			       udpinfo->spts[1]);
 		else
-			printf("--sport %u ",
+			printf(" --sport %u",
 			       udpinfo->spts[0]);
 	}
 
 	if (udpinfo->dpts[0] != 0
 	    || udpinfo->dpts[1] != 0xFFFF) {
 		if (udpinfo->invflags & XT_UDP_INV_DSTPT)
-			printf("! ");
+			printf(" !");
 		if (udpinfo->dpts[0]
 		    != udpinfo->dpts[1])
-			printf("--dport %u:%u ",
+			printf(" --dport %u:%u",
 			       udpinfo->dpts[0],
 			       udpinfo->dpts[1]);
 		else
-			printf("--dport %u ",
+			printf(" --dport %u",
 			       udpinfo->dpts[0]);
 	}
 }
@@ -199,14 +160,14 @@ static struct xtables_match udp_match = {
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_udp)),
 	.help		= udp_help,
 	.init		= udp_init,
-	.parse		= udp_parse,
 	.print		= udp_print,
 	.save		= udp_save,
-	.extra_opts	= udp_opts,
+	.x6_parse	= udp_parse,
+	.x6_options	= udp_opts,
 };
 
 void
-libxt_udp_init(void)
+_init(void)
 {
 	xtables_register_match(&udp_match);
 }

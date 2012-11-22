@@ -1,18 +1,18 @@
-/* Shared library add-on to ip6tables to add ICMP support. */
-#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
-#include <netdb.h>
 #include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
 #include <xtables.h>
 #include <limits.h> /* INT_MAX in ip6_tables.h */
 #include <linux/netfilter_ipv6/ip6_tables.h>
 
+enum {
+	O_ICMPV6_TYPE = 0,
+};
+
 struct icmpv6_names {
 	const char *name;
-	u_int8_t type;
-	u_int8_t code_min, code_max;
+	uint8_t type;
+	uint8_t code_min, code_max;
 };
 
 static const struct icmpv6_names icmpv6_codes[] = {
@@ -84,13 +84,14 @@ static void icmp6_help(void)
 	print_icmpv6types();
 }
 
-static const struct option icmp6_opts[] = {
-	{.name = "icmpv6-type", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry icmp6_opts[] = {
+	{.name = "icmpv6-type", .id = O_ICMPV6_TYPE, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_INVERT},
+	XTOPT_TABLEEND,
 };
 
 static void
-parse_icmpv6(const char *icmpv6type, u_int8_t *type, u_int8_t code[])
+parse_icmpv6(const char *icmpv6type, uint8_t *type, uint8_t code[])
 {
 	static const unsigned int limit = ARRAY_SIZE(icmpv6_codes);
 	unsigned int match = limit;
@@ -149,33 +150,18 @@ static void icmp6_init(struct xt_entry_match *m)
 	icmpv6info->code[1] = 0xFF;
 }
 
-static int icmp6_parse(int c, char **argv, int invert, unsigned int *flags,
-                       const void *entry, struct xt_entry_match **match)
+static void icmp6_parse(struct xt_option_call *cb)
 {
-	struct ip6t_icmp *icmpv6info = (struct ip6t_icmp *)(*match)->data;
+	struct ip6t_icmp *icmpv6info = cb->data;
 
-	switch (c) {
-	case '1':
-		if (*flags == 1)
-			xtables_error(PARAMETER_PROBLEM,
-				   "icmpv6 match: only use --icmpv6-type once!");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_icmpv6(optarg, &icmpv6info->type, 
-			     icmpv6info->code);
-		if (invert)
-			icmpv6info->invflags |= IP6T_ICMP_INV;
-		*flags = 1;
-		break;
-
-	default:
-		return 0;
-	}
-
-	return 1;
+	xtables_option_parse(cb);
+	parse_icmpv6(cb->arg, &icmpv6info->type, icmpv6info->code);
+	if (cb->invert)
+		icmpv6info->invflags |= IP6T_ICMP_INV;
 }
 
-static void print_icmpv6type(u_int8_t type,
-			   u_int8_t code_min, u_int8_t code_max,
+static void print_icmpv6type(uint8_t type,
+			   uint8_t code_min, uint8_t code_max,
 			   int invert,
 			   int numeric)
 {
@@ -189,7 +175,7 @@ static void print_icmpv6type(u_int8_t type,
 				break;
 
 		if (i != ARRAY_SIZE(icmpv6_codes)) {
-			printf("%s%s ",
+			printf(" %s%s",
 			       invert ? "!" : "",
 			       icmpv6_codes[i].name);
 			return;
@@ -197,15 +183,13 @@ static void print_icmpv6type(u_int8_t type,
 	}
 
 	if (invert)
-		printf("!");
+		printf(" !");
 
 	printf("type %u", type);
-	if (code_min == 0 && code_max == 0xFF)
-		printf(" ");
-	else if (code_min == code_max)
-		printf(" code %u ", code_min);
-	else
-		printf(" codes %u-%u ", code_min, code_max);
+	if (code_min == code_max)
+		printf(" code %u", code_min);
+	else if (code_min != 0 || code_max != 0xFF)
+		printf(" codes %u-%u", code_min, code_max);
 }
 
 static void icmp6_print(const void *ip, const struct xt_entry_match *match,
@@ -213,13 +197,13 @@ static void icmp6_print(const void *ip, const struct xt_entry_match *match,
 {
 	const struct ip6t_icmp *icmpv6 = (struct ip6t_icmp *)match->data;
 
-	printf("ipv6-icmp ");
+	printf(" ipv6-icmp");
 	print_icmpv6type(icmpv6->type, icmpv6->code[0], icmpv6->code[1],
 		       icmpv6->invflags & IP6T_ICMP_INV,
 		       numeric);
 
 	if (icmpv6->invflags & ~IP6T_ICMP_INV)
-		printf("Unknown invflags: 0x%X ",
+		printf(" Unknown invflags: 0x%X",
 		       icmpv6->invflags & ~IP6T_ICMP_INV);
 }
 
@@ -228,19 +212,11 @@ static void icmp6_save(const void *ip, const struct xt_entry_match *match)
 	const struct ip6t_icmp *icmpv6 = (struct ip6t_icmp *)match->data;
 
 	if (icmpv6->invflags & IP6T_ICMP_INV)
-		printf("! ");
+		printf(" !");
 
-	printf("--icmpv6-type %u", icmpv6->type);
+	printf(" --icmpv6-type %u", icmpv6->type);
 	if (icmpv6->code[0] != 0 || icmpv6->code[1] != 0xFF)
 		printf("/%u", icmpv6->code[0]);
-	printf(" ");
-}
-
-static void icmp6_check(unsigned int flags)
-{
-	if (!flags)
-		xtables_error(PARAMETER_PROBLEM,
-			   "icmpv6 match: You must specify `--icmpv6-type'");
 }
 
 static struct xtables_match icmp6_mt6_reg = {
@@ -251,11 +227,10 @@ static struct xtables_match icmp6_mt6_reg = {
 	.userspacesize	= XT_ALIGN(sizeof(struct ip6t_icmp)),
 	.help		= icmp6_help,
 	.init		= icmp6_init,
-	.parse		= icmp6_parse,
-	.final_check	= icmp6_check,
 	.print		= icmp6_print,
 	.save		= icmp6_save,
-	.extra_opts	= icmp6_opts,
+	.x6_parse	= icmp6_parse,
+	.x6_options	= icmp6_opts,
 };
 
 void _init(void)

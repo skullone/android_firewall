@@ -1,15 +1,11 @@
-/* Shared library add-on to iptables to add CLASSIFY target support. */
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-
 #include <xtables.h>
-#include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_CLASSIFY.h>
-#include <linux/types.h>
 #include <linux/pkt_sched.h>
+
+enum {
+	O_SET_CLASS = 0,
+};
 
 static void
 CLASSIFY_help(void)
@@ -19,9 +15,10 @@ CLASSIFY_help(void)
 "--set-class MAJOR:MINOR    Set skb->priority value (always hexadecimal!)\n");
 }
 
-static const struct option CLASSIFY_opts[] = {
-	{.name = "set-class", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry CLASSIFY_opts[] = {
+	{.name = "set-class", .id = O_SET_CLASS, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND},
+	XTOPT_TABLEEND,
 };
 
 static int CLASSIFY_string_to_priority(const char *s, unsigned int *p)
@@ -35,44 +32,20 @@ static int CLASSIFY_string_to_priority(const char *s, unsigned int *p)
 	return 0;
 }
 
-static int
-CLASSIFY_parse(int c, char **argv, int invert, unsigned int *flags,
-      const void *entry,
-      struct xt_entry_target **target)
+static void CLASSIFY_parse(struct xt_option_call *cb)
 {
-	struct xt_classify_target_info *clinfo
-		= (struct xt_classify_target_info *)(*target)->data;
+	struct xt_classify_target_info *clinfo = cb->data;
 
-	switch (c) {
-	case '1':
-		if (CLASSIFY_string_to_priority(optarg, &clinfo->priority))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Bad class value `%s'", optarg);
-		if (*flags)
-			xtables_error(PARAMETER_PROBLEM,
-			           "CLASSIFY: Can't specify --set-class twice");
-		*flags = 1;
-		break;
-
-	default:
-		return 0;
-	}
-
-	return 1;
-}
-
-static void
-CLASSIFY_final_check(unsigned int flags)
-{
-	if (!flags)
+	xtables_option_parse(cb);
+	if (CLASSIFY_string_to_priority(cb->arg, &clinfo->priority))
 		xtables_error(PARAMETER_PROBLEM,
-		           "CLASSIFY: Parameter --set-class is required");
+			   "Bad class value \"%s\"", cb->arg);
 }
 
 static void
 CLASSIFY_print_class(unsigned int priority, int numeric)
 {
-	printf("%x:%x ", TC_H_MAJ(priority)>>16, TC_H_MIN(priority));
+	printf(" %x:%x", TC_H_MAJ(priority)>>16, TC_H_MIN(priority));
 }
 
 static void
@@ -82,7 +55,7 @@ CLASSIFY_print(const void *ip,
 {
 	const struct xt_classify_target_info *clinfo =
 		(const struct xt_classify_target_info *)target->data;
-	printf("CLASSIFY set ");
+	printf(" CLASSIFY set");
 	CLASSIFY_print_class(clinfo->priority, numeric);
 }
 
@@ -92,7 +65,7 @@ CLASSIFY_save(const void *ip, const struct xt_entry_target *target)
 	const struct xt_classify_target_info *clinfo =
 		(const struct xt_classify_target_info *)target->data;
 
-	printf("--set-class %.4x:%.4x ",
+	printf(" --set-class %.4x:%.4x",
 	       TC_H_MAJ(clinfo->priority)>>16, TC_H_MIN(clinfo->priority));
 }
 
@@ -103,14 +76,13 @@ static struct xtables_target classify_target = {
 	.size		= XT_ALIGN(sizeof(struct xt_classify_target_info)),
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_classify_target_info)),
 	.help		= CLASSIFY_help,
-	.parse		= CLASSIFY_parse,
-	.final_check	= CLASSIFY_final_check,
 	.print		= CLASSIFY_print,
 	.save		= CLASSIFY_save,
-	.extra_opts	= CLASSIFY_opts,
+	.x6_parse	= CLASSIFY_parse,
+	.x6_options	= CLASSIFY_opts,
 };
 
-void libxt_CLASSIFY_init(void)
+void _init(void)
 {
 	xtables_register_target(&classify_target);
 }

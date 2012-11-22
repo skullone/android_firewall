@@ -10,22 +10,22 @@
  * Copyright © CC Computer Consultants GmbH, 2007
  * Contact: <jengelh@computergmbh.de>
  */
-#include <sys/types.h>
 #include <ctype.h>
 #include <errno.h>
-#include <getopt.h>
-#include <netdb.h>
-#include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-
 #include <xtables.h>
 #include <linux/netfilter/xt_u32.h>
 
-static const struct option u32_opts[] = {
-	{.name = "u32", .has_arg = true, .val = 'u'},
-	XT_GETOPT_TABLEEND,
+enum {
+	O_U32 = 0,
+};
+
+static const struct xt_option_entry u32_opts[] = {
+	{.name = "u32", .id = O_U32, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_INVERT},
+	XTOPT_TABLEEND,
 };
 
 static void u32_help(void)
@@ -45,6 +45,7 @@ static void u32_dump(const struct xt_u32 *data)
 	const struct xt_u32_test *ct;
 	unsigned int testind, i;
 
+	printf(" \"");
 	for (testind = 0; testind < data->ntests; ++testind) {
 		ct = &data->tests[testind];
 
@@ -81,41 +82,34 @@ static void u32_dump(const struct xt_u32 *data)
 				       ct->value[i].max);
 		}
 	}
-	printf(" ");
+	putchar('\"');
 }
 
 /* string_to_number() is not quite what we need here ... */
-static u_int32_t parse_number(char **s, int pos)
+static uint32_t parse_number(const char **s, int pos)
 {
-	u_int32_t number;
+	unsigned int number;
 	char *end;
 
-	errno  = 0;
-	number = strtoul(*s, &end, 0);
-	if (end == *s)
+	if (!xtables_strtoui(*s, &end, &number, 0, UINT32_MAX) ||
+	    end == *s)
 		xtables_error(PARAMETER_PROBLEM,
-			   "u32: at char %d: expected number", pos);
-	if (errno != 0)
-		xtables_error(PARAMETER_PROBLEM,
-			   "u32: at char %d: error reading number", pos);
+			"u32: at char %d: not a number or out of range", pos);
 	*s = end;
 	return number;
 }
 
-static int u32_parse(int c, char **argv, int invert, unsigned int *flags,
-		     const void *entry, struct xt_entry_match **match)
+static void u32_parse(struct xt_option_call *cb)
 {
-	struct xt_u32 *data = (void *)(*match)->data;
+	struct xt_u32 *data = cb->data;
 	unsigned int testind = 0, locind = 0, valind = 0;
 	struct xt_u32_test *ct = &data->tests[testind]; /* current test */
-	char *arg = optarg; /* the argument string */
-	char *start = arg;
+	const char *arg = cb->arg; /* the argument string */
+	const char *start = cb->arg;
 	int state = 0;
 
-	if (c != 'u')
-		return 0;
-
-	data->invert = invert;
+	xtables_option_parse(cb);
+	data->invert = cb->invert;
 
 	/*
 	 * states:
@@ -144,7 +138,7 @@ static int u32_parse(int c, char **argv, int invert, unsigned int *flags,
 				xtables_error(PARAMETER_PROBLEM,
 				           "u32: at char %u: too many \"&&\"s",
 				           (unsigned int)(arg - start));
-			return 1;
+			return;
 		}
 
 		if (state == 0) {
@@ -251,9 +245,9 @@ static void u32_print(const void *ip, const struct xt_entry_match *match,
                       int numeric)
 {
 	const struct xt_u32 *data = (const void *)match->data;
-	printf("u32 ");
+	printf(" u32");
 	if (data->invert)
-		printf("! ");
+		printf(" !");
 	u32_dump(data);
 }
 
@@ -261,8 +255,8 @@ static void u32_save(const void *ip, const struct xt_entry_match *match)
 {
 	const struct xt_u32 *data = (const void *)match->data;
 	if (data->invert)
-		printf("! ");
-	printf("--u32 ");
+		printf(" !");
+	printf(" --u32");
 	u32_dump(data);
 }
 
@@ -273,13 +267,13 @@ static struct xtables_match u32_match = {
 	.size          = XT_ALIGN(sizeof(struct xt_u32)),
 	.userspacesize = XT_ALIGN(sizeof(struct xt_u32)),
 	.help          = u32_help,
-	.parse         = u32_parse,
 	.print         = u32_print,
 	.save          = u32_save,
-	.extra_opts    = u32_opts,
+	.x6_parse      = u32_parse,
+	.x6_options    = u32_opts,
 };
 
-void libxt_u32_init(void)
+void _init(void)
 {
 	xtables_register_match(&u32_match);
 }

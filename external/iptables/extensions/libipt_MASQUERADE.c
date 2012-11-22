@@ -1,5 +1,3 @@
-/* Shared library add-on to iptables to add masquerade support. */
-#include <stdbool.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <string.h>
@@ -9,6 +7,11 @@
 #include <limits.h> /* INT_MAX in ip_tables.h */
 #include <linux/netfilter_ipv4/ip_tables.h>
 #include <net/netfilter/nf_nat.h>
+
+enum {
+	O_TO_PORTS = 0,
+	O_RANDOM,
+};
 
 static void MASQUERADE_help(void)
 {
@@ -20,10 +23,10 @@ static void MASQUERADE_help(void)
 "				Randomize source port.\n");
 }
 
-static const struct option MASQUERADE_opts[] = {
-	{.name = "to-ports", .has_arg = true,  .val = '1'},
-	{.name = "random",   .has_arg = false, .val = '2'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry MASQUERADE_opts[] = {
+	{.name = "to-ports", .id = O_TO_PORTS, .type = XTTYPE_STRING},
+	{.name = "random", .id = O_RANDOM, .type = XTTYPE_NONE},
+	XTOPT_TABLEEND,
 };
 
 static void MASQUERADE_init(struct xt_entry_target *t)
@@ -32,7 +35,6 @@ static void MASQUERADE_init(struct xt_entry_target *t)
 
 	/* Actually, it's 0, but it's ignored at the moment. */
 	mr->rangesize = 1;
-
 }
 
 /* Parses ports */
@@ -69,13 +71,11 @@ parse_ports(const char *arg, struct nf_nat_multi_range *mr)
 	xtables_param_act(XTF_BAD_VALUE, "MASQUERADE", "--to-ports", arg);
 }
 
-static int MASQUERADE_parse(int c, char **argv, int invert, unsigned int *flags,
-                            const void *e, struct xt_entry_target **target)
+static void MASQUERADE_parse(struct xt_option_call *cb)
 {
-	const struct ipt_entry *entry = e;
+	const struct ipt_entry *entry = cb->xt_entry;
 	int portok;
-	struct nf_nat_multi_range *mr
-		= (struct nf_nat_multi_range *)(*target)->data;
+	struct nf_nat_multi_range *mr = cb->data;
 
 	if (entry->ip.proto == IPPROTO_TCP
 	    || entry->ip.proto == IPPROTO_UDP
@@ -86,25 +86,17 @@ static int MASQUERADE_parse(int c, char **argv, int invert, unsigned int *flags,
 	else
 		portok = 0;
 
-	switch (c) {
-	case '1':
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_TO_PORTS:
 		if (!portok)
 			xtables_error(PARAMETER_PROBLEM,
 				   "Need TCP, UDP, SCTP or DCCP with port specification");
-
-		if (xtables_check_inverse(optarg, &invert, NULL, 0, argv))
-			xtables_error(PARAMETER_PROBLEM,
-				   "Unexpected `!' after --to-ports");
-
-		parse_ports(optarg, mr);
-		return 1;
-
-	case '2':
+		parse_ports(cb->arg, mr);
+		break;
+	case O_RANDOM:
 		mr->range[0].flags |=  IP_NAT_RANGE_PROTO_RANDOM;
-		return 1;
-
-	default:
-		return 0;
+		break;
 	}
 }
 
@@ -116,15 +108,14 @@ MASQUERADE_print(const void *ip, const struct xt_entry_target *target,
 	const struct nf_nat_range *r = &mr->range[0];
 
 	if (r->flags & IP_NAT_RANGE_PROTO_SPECIFIED) {
-		printf("masq ports: ");
+		printf(" masq ports: ");
 		printf("%hu", ntohs(r->min.tcp.port));
 		if (r->max.tcp.port != r->min.tcp.port)
 			printf("-%hu", ntohs(r->max.tcp.port));
-		printf(" ");
 	}
 
 	if (r->flags & IP_NAT_RANGE_PROTO_RANDOM)
-		printf("random ");
+		printf(" random");
 }
 
 static void
@@ -134,14 +125,13 @@ MASQUERADE_save(const void *ip, const struct xt_entry_target *target)
 	const struct nf_nat_range *r = &mr->range[0];
 
 	if (r->flags & IP_NAT_RANGE_PROTO_SPECIFIED) {
-		printf("--to-ports %hu", ntohs(r->min.tcp.port));
+		printf(" --to-ports %hu", ntohs(r->min.tcp.port));
 		if (r->max.tcp.port != r->min.tcp.port)
 			printf("-%hu", ntohs(r->max.tcp.port));
-		printf(" ");
 	}
 
 	if (r->flags & IP_NAT_RANGE_PROTO_RANDOM)
-		printf("--random ");
+		printf(" --random");
 }
 
 static struct xtables_target masquerade_tg_reg = {
@@ -152,13 +142,13 @@ static struct xtables_target masquerade_tg_reg = {
 	.userspacesize	= XT_ALIGN(sizeof(struct nf_nat_multi_range)),
 	.help		= MASQUERADE_help,
 	.init		= MASQUERADE_init,
-	.parse		= MASQUERADE_parse,
+	.x6_parse	= MASQUERADE_parse,
 	.print		= MASQUERADE_print,
 	.save		= MASQUERADE_save,
-	.extra_opts	= MASQUERADE_opts,
+	.x6_options	= MASQUERADE_opts,
 };
 
-void libipt_MASQUERADE_init(void)
+void _init(void)
 {
 	xtables_register_target(&masquerade_tg_reg);
 }

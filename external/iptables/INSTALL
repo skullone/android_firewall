@@ -31,7 +31,7 @@ Configuring and compiling
 --with-xtlibdir=
 
 	The path to where Xtables extensions should be installed to. It
-	defaults to ${prefix}/libexec/xtables.
+	defaults to ${libdir}/xtables.
 
 --enable-devel (or --disable-devel)
 

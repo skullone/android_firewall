@@ -1,12 +1,6 @@
-/* Shared library add-on to iptables to add MARK target support. */
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-
 #include <xtables.h>
-#include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_MARK.h>
 
 /* Version 0 */
@@ -23,11 +17,22 @@ enum {
 
 struct xt_mark_target_info_v1 {
 	unsigned long mark;
-	u_int8_t mode;
+	uint8_t mode;
 };
 
 enum {
-	F_MARK = 1 << 0,
+	O_SET_MARK = 0,
+	O_AND_MARK,
+	O_OR_MARK,
+	O_XOR_MARK,
+	O_SET_XMARK,
+	F_SET_MARK  = 1 << O_SET_MARK,
+	F_AND_MARK  = 1 << O_AND_MARK,
+	F_OR_MARK   = 1 << O_OR_MARK,
+	F_XOR_MARK  = 1 << O_XOR_MARK,
+	F_SET_XMARK = 1 << O_SET_XMARK,
+	F_ANY       = F_SET_MARK | F_AND_MARK | F_OR_MARK |
+	              F_XOR_MARK | F_SET_XMARK,
 };
 
 static void MARK_help(void)
@@ -39,20 +44,28 @@ static void MARK_help(void)
 "  --or-mark  value                   Binary OR  the nfmark with value\n");
 }
 
-static const struct option MARK_opts[] = {
-	{.name = "set-mark", .has_arg = true, .val = '1'},
-	{.name = "and-mark", .has_arg = true, .val = '2'},
-	{.name = "or-mark",  .has_arg = true, .val = '3'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry MARK_opts[] = {
+	{.name = "set-mark", .id = O_SET_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	{.name = "and-mark", .id = O_AND_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	{.name = "or-mark", .id = O_OR_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	XTOPT_TABLEEND,
 };
 
-static const struct option mark_tg_opts[] = {
-	{.name = "set-xmark", .has_arg = true, .val = 'X'},
-	{.name = "set-mark",  .has_arg = true, .val = '='},
-	{.name = "and-mark",  .has_arg = true, .val = '&'},
-	{.name = "or-mark",   .has_arg = true, .val = '|'},
-	{.name = "xor-mark",  .has_arg = true, .val = '^'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry mark_tg_opts[] = {
+	{.name = "set-xmark", .id = O_SET_XMARK, .type = XTTYPE_MARKMASK32,
+	 .excl = F_ANY},
+	{.name = "set-mark", .id = O_SET_MARK, .type = XTTYPE_MARKMASK32,
+	 .excl = F_ANY},
+	{.name = "and-mark", .id = O_AND_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	{.name = "or-mark", .id = O_OR_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	{.name = "xor-mark", .id = O_XOR_MARK, .type = XTTYPE_UINT32,
+	 .excl = F_ANY},
+	XTOPT_TABLEEND,
 };
 
 static void mark_tg_help(void)
@@ -67,144 +80,80 @@ static void mark_tg_help(void)
 "\n");
 }
 
-/* Function which parses command options; returns true if it
-   ate an option */
-static int
-MARK_parse_v0(int c, char **argv, int invert, unsigned int *flags,
-              const void *entry, struct xt_entry_target **target)
+static void MARK_parse_v0(struct xt_option_call *cb)
 {
-	struct xt_mark_target_info *markinfo
-		= (struct xt_mark_target_info *)(*target)->data;
-	unsigned int mark = 0;
+	struct xt_mark_target_info *markinfo = cb->data;
 
-	switch (c) {
-	case '1':
-		if (!xtables_strtoui(optarg, NULL, &mark, 0, UINT32_MAX))
-			xtables_error(PARAMETER_PROBLEM, "Bad MARK value \"%s\"", optarg);
-		markinfo->mark = mark;
-		if (*flags)
-			xtables_error(PARAMETER_PROBLEM,
-			           "MARK target: Can't specify --set-mark twice");
-		*flags = 1;
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_SET_MARK:
+		markinfo->mark = cb->val.mark;
 		break;
-	case '2':
-		xtables_error(PARAMETER_PROBLEM,
-			   "MARK target: kernel too old for --and-mark");
-	case '3':
-		xtables_error(PARAMETER_PROBLEM,
-			   "MARK target: kernel too old for --or-mark");
 	default:
-		return 0;
+		xtables_error(PARAMETER_PROBLEM,
+			   "MARK target: kernel too old for --%s",
+			   cb->entry->name);
 	}
-
-	return 1;
 }
 
-static void MARK_check(unsigned int flags)
+static void MARK_check(struct xt_fcheck_call *cb)
 {
-	if (!flags)
+	if (cb->xflags == 0)
 		xtables_error(PARAMETER_PROBLEM,
 		           "MARK target: Parameter --set/and/or-mark"
 			   " is required");
 }
 
-static int
-MARK_parse_v1(int c, char **argv, int invert, unsigned int *flags,
-              const void *entry, struct xt_entry_target **target)
+static void MARK_parse_v1(struct xt_option_call *cb)
 {
-	struct xt_mark_target_info_v1 *markinfo
-		= (struct xt_mark_target_info_v1 *)(*target)->data;
-	unsigned int mark = 0;
+	struct xt_mark_target_info_v1 *markinfo = cb->data;
 
-	switch (c) {
-	case '1':
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_SET_MARK:
 	        markinfo->mode = XT_MARK_SET;
 		break;
-	case '2':
+	case O_AND_MARK:
 	        markinfo->mode = XT_MARK_AND;
 		break;
-	case '3':
+	case O_OR_MARK:
 	        markinfo->mode = XT_MARK_OR;
 		break;
-	default:
-		return 0;
 	}
-
-	if (!xtables_strtoui(optarg, NULL, &mark, 0, UINT32_MAX))
-		xtables_error(PARAMETER_PROBLEM, "Bad MARK value \"%s\"", optarg);
-	markinfo->mark = mark;
-	if (*flags)
-		xtables_error(PARAMETER_PROBLEM,
-			   "MARK target: Can't specify --set-mark twice");
-
-	*flags = 1;
-	return 1;
+	markinfo->mark = cb->val.u32;
 }
 
-static int mark_tg_parse(int c, char **argv, int invert, unsigned int *flags,
-                         const void *entry, struct xt_entry_target **target)
+static void mark_tg_parse(struct xt_option_call *cb)
 {
-	struct xt_mark_tginfo2 *info = (void *)(*target)->data;
-	unsigned int value, mask = UINT32_MAX;
-	char *end;
+	struct xt_mark_tginfo2 *info = cb->data;
 
-	switch (c) {
-	case 'X': /* --set-xmark */
-	case '=': /* --set-mark */
-		xtables_param_act(XTF_ONE_ACTION, "MARK", *flags & F_MARK);
-		xtables_param_act(XTF_NO_INVERT, "MARK", "--set-xmark/--set-mark", invert);
-		if (!xtables_strtoui(optarg, &end, &value, 0, UINT32_MAX))
-			xtables_param_act(XTF_BAD_VALUE, "MARK", "--set-xmark/--set-mark", optarg);
-		if (*end == '/')
-			if (!xtables_strtoui(end + 1, &end, &mask, 0, UINT32_MAX))
-				xtables_param_act(XTF_BAD_VALUE, "MARK", "--set-xmark/--set-mark", optarg);
-		if (*end != '\0')
-			xtables_param_act(XTF_BAD_VALUE, "MARK", "--set-xmark/--set-mark", optarg);
-		info->mark = value;
-		info->mask = mask;
-
-		if (c == '=')
-			info->mask = value | mask;
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_SET_XMARK:
+		info->mark = cb->val.mark;
+		info->mask = cb->val.mask;
 		break;
-
-	case '&': /* --and-mark */
-		xtables_param_act(XTF_ONE_ACTION, "MARK", *flags & F_MARK);
-		xtables_param_act(XTF_NO_INVERT, "MARK", "--and-mark", invert);
-		if (!xtables_strtoui(optarg, NULL, &mask, 0, UINT32_MAX))
-			xtables_param_act(XTF_BAD_VALUE, "MARK", "--and-mark", optarg);
+	case O_SET_MARK:
+		info->mark = cb->val.mark;
+		info->mask = cb->val.mark | cb->val.mask;
+		break;
+	case O_AND_MARK:
 		info->mark = 0;
-		info->mask = ~mask;
+		info->mask = ~cb->val.u32;
 		break;
-
-	case '|': /* --or-mark */
-		xtables_param_act(XTF_ONE_ACTION, "MARK", *flags & F_MARK);
-		xtables_param_act(XTF_NO_INVERT, "MARK", "--or-mark", invert);
-		if (!xtables_strtoui(optarg, NULL, &value, 0, UINT32_MAX))
-			xtables_param_act(XTF_BAD_VALUE, "MARK", "--or-mark", optarg);
-		info->mark = value;
-		info->mask = value;
+	case O_OR_MARK:
+		info->mark = info->mask = cb->val.u32;
 		break;
-
-	case '^': /* --xor-mark */
-		xtables_param_act(XTF_ONE_ACTION, "MARK", *flags & F_MARK);
-		xtables_param_act(XTF_NO_INVERT, "MARK", "--xor-mark", invert);
-		if (!xtables_strtoui(optarg, NULL, &value, 0, UINT32_MAX))
-			xtables_param_act(XTF_BAD_VALUE, "MARK", "--xor-mark", optarg);
-		info->mark = value;
+	case O_XOR_MARK:
+		info->mark = cb->val.u32;
 		info->mask = 0;
 		break;
-
-	default:
-		return false;
 	}
-
-	*flags |= F_MARK;
-	return true;
 }
 
-static void mark_tg_check(unsigned int flags)
+static void mark_tg_check(struct xt_fcheck_call *cb)
 {
-	if (flags == 0)
+	if (cb->xflags == 0)
 		xtables_error(PARAMETER_PROBLEM, "MARK: One of the --set-xmark, "
 		           "--{and,or,xor,set}-mark options is required");
 }
@@ -212,7 +161,7 @@ static void mark_tg_check(unsigned int flags)
 static void
 print_mark(unsigned long mark)
 {
-	printf("0x%lx ", mark);
+	printf(" 0x%lx", mark);
 }
 
 static void MARK_print_v0(const void *ip,
@@ -220,7 +169,7 @@ static void MARK_print_v0(const void *ip,
 {
 	const struct xt_mark_target_info *markinfo =
 		(const struct xt_mark_target_info *)target->data;
-	printf("MARK set ");
+	printf(" MARK set");
 	print_mark(markinfo->mark);
 }
 
@@ -229,7 +178,7 @@ static void MARK_save_v0(const void *ip, const struct xt_entry_target *target)
 	const struct xt_mark_target_info *markinfo =
 		(const struct xt_mark_target_info *)target->data;
 
-	printf("--set-mark ");
+	printf(" --set-mark");
 	print_mark(markinfo->mark);
 }
 
@@ -241,13 +190,13 @@ static void MARK_print_v1(const void *ip, const struct xt_entry_target *target,
 
 	switch (markinfo->mode) {
 	case XT_MARK_SET:
-		printf("MARK set ");
+		printf(" MARK set");
 		break;
 	case XT_MARK_AND:
-		printf("MARK and ");
+		printf(" MARK and");
 		break;
 	case XT_MARK_OR: 
-		printf("MARK or ");
+		printf(" MARK or");
 		break;
 	}
 	print_mark(markinfo->mark);
@@ -259,15 +208,15 @@ static void mark_tg_print(const void *ip, const struct xt_entry_target *target,
 	const struct xt_mark_tginfo2 *info = (const void *)target->data;
 
 	if (info->mark == 0)
-		printf("MARK and 0x%x ", (unsigned int)(u_int32_t)~info->mask);
+		printf(" MARK and 0x%x", (unsigned int)(uint32_t)~info->mask);
 	else if (info->mark == info->mask)
-		printf("MARK or 0x%x ", info->mark);
+		printf(" MARK or 0x%x", info->mark);
 	else if (info->mask == 0)
-		printf("MARK xor 0x%x ", info->mark);
+		printf(" MARK xor 0x%x", info->mark);
 	else if (info->mask == 0xffffffffU)
-		printf("MARK set 0x%x ", info->mark);
+		printf(" MARK set 0x%x", info->mark);
 	else
-		printf("MARK xset 0x%x/0x%x ", info->mark, info->mask);
+		printf(" MARK xset 0x%x/0x%x", info->mark, info->mask);
 }
 
 static void MARK_save_v1(const void *ip, const struct xt_entry_target *target)
@@ -277,13 +226,13 @@ static void MARK_save_v1(const void *ip, const struct xt_entry_target *target)
 
 	switch (markinfo->mode) {
 	case XT_MARK_SET:
-		printf("--set-mark ");
+		printf(" --set-mark");
 		break;
 	case XT_MARK_AND:
-		printf("--and-mark ");
+		printf(" --and-mark");
 		break;
 	case XT_MARK_OR: 
-		printf("--or-mark ");
+		printf(" --or-mark");
 		break;
 	}
 	print_mark(markinfo->mark);
@@ -293,7 +242,7 @@ static void mark_tg_save(const void *ip, const struct xt_entry_target *target)
 {
 	const struct xt_mark_tginfo2 *info = (const void *)target->data;
 
-	printf("--set-xmark 0x%x/0x%x ", info->mark, info->mask);
+	printf(" --set-xmark 0x%x/0x%x", info->mark, info->mask);
 }
 
 static struct xtables_target mark_tg_reg[] = {
@@ -305,11 +254,11 @@ static struct xtables_target mark_tg_reg[] = {
 		.size          = XT_ALIGN(sizeof(struct xt_mark_target_info)),
 		.userspacesize = XT_ALIGN(sizeof(struct xt_mark_target_info)),
 		.help          = MARK_help,
-		.parse         = MARK_parse_v0,
-		.final_check   = MARK_check,
 		.print         = MARK_print_v0,
 		.save          = MARK_save_v0,
-		.extra_opts    = MARK_opts,
+		.x6_parse      = MARK_parse_v0,
+		.x6_fcheck     = MARK_check,
+		.x6_options    = MARK_opts,
 	},
 	{
 		.family        = NFPROTO_IPV4,
@@ -319,11 +268,11 @@ static struct xtables_target mark_tg_reg[] = {
 		.size          = XT_ALIGN(sizeof(struct xt_mark_target_info_v1)),
 		.userspacesize = XT_ALIGN(sizeof(struct xt_mark_target_info_v1)),
 		.help          = MARK_help,
-		.parse         = MARK_parse_v1,
-		.final_check   = MARK_check,
 		.print         = MARK_print_v1,
 		.save          = MARK_save_v1,
-		.extra_opts    = MARK_opts,
+		.x6_parse      = MARK_parse_v1,
+		.x6_fcheck     = MARK_check,
+		.x6_options    = MARK_opts,
 	},
 	{
 		.version       = XTABLES_VERSION,
@@ -333,15 +282,15 @@ static struct xtables_target mark_tg_reg[] = {
 		.size          = XT_ALIGN(sizeof(struct xt_mark_tginfo2)),
 		.userspacesize = XT_ALIGN(sizeof(struct xt_mark_tginfo2)),
 		.help          = mark_tg_help,
-		.parse         = mark_tg_parse,
-		.final_check   = mark_tg_check,
 		.print         = mark_tg_print,
 		.save          = mark_tg_save,
-		.extra_opts    = mark_tg_opts,
+		.x6_parse      = mark_tg_parse,
+		.x6_fcheck     = mark_tg_check,
+		.x6_options    = mark_tg_opts,
 	},
 };
 
-void libxt_MARK_init(void)
+void _init(void)
 {
 	xtables_register_targets(mark_tg_reg, ARRAY_SIZE(mark_tg_reg));
 }

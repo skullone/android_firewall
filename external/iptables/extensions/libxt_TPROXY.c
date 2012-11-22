@@ -1,31 +1,42 @@
 /*
- * Shared library add-on to iptables to add TPROXY target support.
+ * shared library add-on to iptables to add TPROXY target support.
  *
  * Copyright (C) 2002-2008 BalaBit IT Ltd.
  */
-#include <getopt.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <limits.h>
-
 #include <xtables.h>
-#include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_TPROXY.h>
-
-static const struct option tproxy_tg_opts[] = {
-	{.name = "on-port",     .has_arg = true, .val = '1'},
-	{.name = "on-ip",       .has_arg = true, .val = '2'},
-	{.name = "tproxy-mark", .has_arg = true, .val = '3'},
-	XT_GETOPT_TABLEEND,
-};
+#include <arpa/inet.h>
 
 enum {
-	PARAM_ONPORT = 1 << 0,
-	PARAM_ONIP = 1 << 1,
-	PARAM_MARK = 1 << 2,
+	P_PORT = 0,
+	P_ADDR,
+	P_MARK,
+	F_PORT = 1 << P_PORT,
+	F_ADDR = 1 << P_ADDR,
+	F_MARK = 1 << P_MARK,
 };
+
+#define s struct xt_tproxy_target_info
+static const struct xt_option_entry tproxy_tg0_opts[] = {
+	{.name = "on-port", .id = P_PORT, .type = XTTYPE_PORT,
+	 .flags = XTOPT_MAND | XTOPT_NBO | XTOPT_PUT, XTOPT_POINTER(s, lport)},
+	{.name = "on-ip", .id = P_ADDR, .type = XTTYPE_HOST},
+	{.name = "tproxy-mark", .id = P_MARK, .type = XTTYPE_MARKMASK32},
+	XTOPT_TABLEEND,
+};
+#undef s
+#define s struct xt_tproxy_target_info_v1
+static const struct xt_option_entry tproxy_tg1_opts[] = {
+	{.name = "on-port", .id = P_PORT, .type = XTTYPE_PORT,
+	 .flags = XTOPT_MAND | XTOPT_NBO | XTOPT_PUT, XTOPT_POINTER(s, lport)},
+	{.name = "on-ip", .id = P_ADDR, .type = XTTYPE_HOST,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, laddr)},
+	{.name = "tproxy-mark", .id = P_MARK, .type = XTTYPE_MARKMASK32},
+	XTOPT_TABLEEND,
+};
+#undef s
 
 static void tproxy_tg_help(void)
 {
@@ -36,85 +47,38 @@ static void tproxy_tg_help(void)
 "  --tproxy-mark value[/mask]	    Mark packets with the given value/mask\n\n");
 }
 
-static void parse_tproxy_lport(const char *s, struct xt_tproxy_target_info *info)
-{
-	unsigned int lport;
-
-	if (xtables_strtoui(s, NULL, &lport, 0, UINT16_MAX))
-		info->lport = htons(lport);
-	else
-		xtables_param_act(XTF_BAD_VALUE, "TPROXY", "--on-port", s);
-}
-
-static void parse_tproxy_laddr(const char *s, struct xt_tproxy_target_info *info)
-{
-	struct in_addr *laddr;
-
-	if ((laddr = xtables_numeric_to_ipaddr(s)) == NULL)
-		xtables_param_act(XTF_BAD_VALUE, "TPROXY", "--on-ip", s);
-
-	info->laddr = laddr->s_addr;
-}
-
-static void parse_tproxy_mark(char *s, struct xt_tproxy_target_info *info)
-{
-	unsigned int value, mask = UINT32_MAX;
-	char *end;
-
-	if (!xtables_strtoui(s, &end, &value, 0, UINT32_MAX))
-		xtables_param_act(XTF_BAD_VALUE, "TPROXY", "--tproxy-mark", s);
-	if (*end == '/')
-		if (!xtables_strtoui(end + 1, &end, &mask, 0, UINT32_MAX))
-			xtables_param_act(XTF_BAD_VALUE, "TPROXY", "--tproxy-mark", s);
-	if (*end != '\0')
-		xtables_param_act(XTF_BAD_VALUE, "TPROXY", "--tproxy-mark", s);
-
-	info->mark_mask = mask;
-	info->mark_value = value;
-}
-
-static int tproxy_tg_parse(int c, char **argv, int invert, unsigned int *flags,
-			const void *entry, struct xt_entry_target **target)
-{
-	struct xt_tproxy_target_info *tproxyinfo = (void *)(*target)->data;
-
-	switch (c) {
-	case '1':
-		xtables_param_act(XTF_ONLY_ONCE, "TPROXY", "--on-port", *flags & PARAM_ONPORT);
-		xtables_param_act(XTF_NO_INVERT, "TPROXY", "--on-port", invert);
-		parse_tproxy_lport(optarg, tproxyinfo);
-		*flags |= PARAM_ONPORT;
-		return 1;
-	case '2':
-		xtables_param_act(XTF_ONLY_ONCE, "TPROXY", "--on-ip", *flags & PARAM_ONIP);
-		xtables_param_act(XTF_NO_INVERT, "TPROXY", "--on-ip", invert);
-		parse_tproxy_laddr(optarg, tproxyinfo);
-		*flags |= PARAM_ONIP;
-		return 1;
-	case '3':
-		xtables_param_act(XTF_ONLY_ONCE, "TPROXY", "--tproxy-mark", *flags & PARAM_MARK);
-		xtables_param_act(XTF_NO_INVERT, "TPROXY", "--tproxy-mark", invert);
-		parse_tproxy_mark(optarg, tproxyinfo);
-		*flags |= PARAM_MARK;
-		return 1;
-	}
-
-	return 0;
-}
-
-static void tproxy_tg_check(unsigned int flags)
-{
-	if (!(flags & PARAM_ONPORT))
-		xtables_error(PARAMETER_PROBLEM,
-			   "TPROXY target: Parameter --on-port is required");
-}
-
 static void tproxy_tg_print(const void *ip, const struct xt_entry_target *target,
 			 int numeric)
 {
 	const struct xt_tproxy_target_info *info = (const void *)target->data;
-	printf("TPROXY redirect %s:%u mark 0x%x/0x%x",
+	printf(" TPROXY redirect %s:%u mark 0x%x/0x%x",
 	       xtables_ipaddr_to_numeric((const struct in_addr *)&info->laddr),
+	       ntohs(info->lport), (unsigned int)info->mark_value,
+	       (unsigned int)info->mark_mask);
+}
+
+static void
+tproxy_tg_print4(const void *ip, const struct xt_entry_target *target,
+		 int numeric)
+{
+	const struct xt_tproxy_target_info_v1 *info =
+		(const void *)target->data;
+
+	printf(" TPROXY redirect %s:%u mark 0x%x/0x%x",
+	       xtables_ipaddr_to_numeric(&info->laddr.in),
+	       ntohs(info->lport), (unsigned int)info->mark_value,
+	       (unsigned int)info->mark_mask);
+}
+
+static void
+tproxy_tg_print6(const void *ip, const struct xt_entry_target *target,
+		 int numeric)
+{
+	const struct xt_tproxy_target_info_v1 *info =
+		(const void *)target->data;
+
+	printf(" TPROXY redirect %s:%u mark 0x%x/0x%x",
+	       xtables_ip6addr_to_numeric(&info->laddr.in6),
 	       ntohs(info->lport), (unsigned int)info->mark_value,
 	       (unsigned int)info->mark_mask);
 }
@@ -123,28 +87,109 @@ static void tproxy_tg_save(const void *ip, const struct xt_entry_target *target)
 {
 	const struct xt_tproxy_target_info *info = (const void *)target->data;
 
-	printf("--on-port %u ", ntohs(info->lport));
-	printf("--on-ip %s ",
+	printf(" --on-port %u", ntohs(info->lport));
+	printf(" --on-ip %s",
 	       xtables_ipaddr_to_numeric((const struct in_addr *)&info->laddr));
-	printf("--tproxy-mark 0x%x/0x%x ",
+	printf(" --tproxy-mark 0x%x/0x%x",
 	       (unsigned int)info->mark_value, (unsigned int)info->mark_mask);
 }
 
-static struct xtables_target tproxy_tg_reg = {
-	.name	       = "TPROXY",
-	.family	       = NFPROTO_IPV4,
-	.version       = XTABLES_VERSION,
-	.size	       = XT_ALIGN(sizeof(struct xt_tproxy_target_info)),
-	.userspacesize = XT_ALIGN(sizeof(struct xt_tproxy_target_info)),
-	.help	       = tproxy_tg_help,
-	.parse	       = tproxy_tg_parse,
-	.final_check   = tproxy_tg_check,
-	.print	       = tproxy_tg_print,
-	.save	       = tproxy_tg_save,
-	.extra_opts    = tproxy_tg_opts,
+static void
+tproxy_tg_save4(const void *ip, const struct xt_entry_target *target)
+{
+	const struct xt_tproxy_target_info_v1 *info;
+
+	info = (const void *)target->data;
+	printf(" --on-port %u", ntohs(info->lport));
+	printf(" --on-ip %s", xtables_ipaddr_to_numeric(&info->laddr.in));
+	printf(" --tproxy-mark 0x%x/0x%x",
+	       (unsigned int)info->mark_value, (unsigned int)info->mark_mask);
+}
+
+static void
+tproxy_tg_save6(const void *ip, const struct xt_entry_target *target)
+{
+	const struct xt_tproxy_target_info_v1 *info;
+
+	info = (const void *)target->data;
+	printf(" --on-port %u", ntohs(info->lport));
+	printf(" --on-ip %s", xtables_ip6addr_to_numeric(&info->laddr.in6));
+	printf(" --tproxy-mark 0x%x/0x%x",
+	       (unsigned int)info->mark_value, (unsigned int)info->mark_mask);
+}
+
+static void tproxy_tg0_parse(struct xt_option_call *cb)
+{
+	struct xt_tproxy_target_info *info = cb->data;
+
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case P_MARK:
+		info->mark_value = cb->val.mark;
+		info->mark_mask  = cb->val.mask;
+		break;
+	case P_ADDR:
+		info->laddr = cb->val.haddr.ip;
+		break;
+	}
+}
+
+static void tproxy_tg1_parse(struct xt_option_call *cb)
+{
+	struct xt_tproxy_target_info_v1 *info = cb->data;
+
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case P_MARK:
+		info->mark_value = cb->val.mark;
+		info->mark_mask  = cb->val.mask;
+		break;
+	}
+}
+
+static struct xtables_target tproxy_tg_reg[] = {
+	{
+		.name          = "TPROXY",
+		.revision      = 0,
+		.family        = NFPROTO_IPV4,
+		.version       = XTABLES_VERSION,
+		.size          = XT_ALIGN(sizeof(struct xt_tproxy_target_info)),
+		.userspacesize = XT_ALIGN(sizeof(struct xt_tproxy_target_info)),
+		.help          = tproxy_tg_help,
+		.print         = tproxy_tg_print,
+		.save          = tproxy_tg_save,
+		.x6_options    = tproxy_tg0_opts,
+		.x6_parse      = tproxy_tg0_parse,
+	},
+	{
+		.name          = "TPROXY",
+		.revision      = 1,
+		.family        = NFPROTO_IPV4,
+		.version       = XTABLES_VERSION,
+		.size          = XT_ALIGN(sizeof(struct xt_tproxy_target_info_v1)),
+		.userspacesize = XT_ALIGN(sizeof(struct xt_tproxy_target_info_v1)),
+		.help          = tproxy_tg_help,
+		.print         = tproxy_tg_print4,
+		.save          = tproxy_tg_save4,
+		.x6_options    = tproxy_tg1_opts,
+		.x6_parse      = tproxy_tg1_parse,
+	},
+	{
+		.name          = "TPROXY",
+		.revision      = 1,
+		.family        = NFPROTO_IPV6,
+		.version       = XTABLES_VERSION,
+		.size          = XT_ALIGN(sizeof(struct xt_tproxy_target_info_v1)),
+		.userspacesize = XT_ALIGN(sizeof(struct xt_tproxy_target_info_v1)),
+		.help          = tproxy_tg_help,
+		.print         = tproxy_tg_print6,
+		.save          = tproxy_tg_save6,
+		.x6_options    = tproxy_tg1_opts,
+		.x6_parse      = tproxy_tg1_parse,
+	},
 };
 
-void libxt_TPROXY_init(void)
+void _init(void)
 {
-	xtables_register_target(&tproxy_tg_reg);
+	xtables_register_targets(tproxy_tg_reg, ARRAY_SIZE(tproxy_tg_reg));
 }

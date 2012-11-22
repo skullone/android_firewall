@@ -1,15 +1,10 @@
-/* Shared library add-on to iptables to add ESP support. */
-#include <stdbool.h>
 #include <stdio.h>
-#include <netdb.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <errno.h>
-#include <limits.h>
-
 #include <xtables.h>
 #include <linux/netfilter/xt_esp.h>
+
+enum {
+	O_ESPSPI = 0,
+};
 
 static void esp_help(void)
 {
@@ -19,100 +14,35 @@ static void esp_help(void)
 "				match spi (range)\n");
 }
 
-static const struct option esp_opts[] = {
-	{.name = "espspi", .has_arg = true, .val = '1'},
-	XT_GETOPT_TABLEEND,
+static const struct xt_option_entry esp_opts[] = {
+	{.name = "espspi", .id = O_ESPSPI, .type = XTTYPE_UINT32RC,
+	 .flags = XTOPT_INVERT | XTOPT_PUT,
+	 XTOPT_POINTER(struct xt_esp, spis)},
+	XTOPT_TABLEEND,
 };
 
-static u_int32_t
-parse_esp_spi(const char *spistr)
+static void esp_parse(struct xt_option_call *cb)
 {
-	unsigned long int spi;
-	char* ep;
+	struct xt_esp *espinfo = cb->data;
 
-	spi =  strtoul(spistr,&ep,0) ;
-
-	if ( spistr == ep ) {
-		xtables_error(PARAMETER_PROBLEM,
-			   "ESP no valid digits in spi `%s'", spistr);
-	}
-	if ( spi == ULONG_MAX  && errno == ERANGE ) {
-		xtables_error(PARAMETER_PROBLEM,
-			   "spi `%s' specified too big: would overflow", spistr);
-	}	
-	if ( *spistr != '\0'  && *ep != '\0' ) {
-		xtables_error(PARAMETER_PROBLEM,
-			   "ESP error parsing spi `%s'", spistr);
-	}
-	return spi;
+	xtables_option_parse(cb);
+	if (cb->nvals == 1)
+		espinfo->spis[1] = espinfo->spis[0];
+	if (cb->invert)
+		espinfo->invflags |= XT_ESP_INV_SPI;
 }
 
 static void
-parse_esp_spis(const char *spistring, u_int32_t *spis)
-{
-	char *buffer;
-	char *cp;
-
-	buffer = strdup(spistring);
-	if ((cp = strchr(buffer, ':')) == NULL)
-		spis[0] = spis[1] = parse_esp_spi(buffer);
-	else {
-		*cp = '\0';
-		cp++;
-
-		spis[0] = buffer[0] ? parse_esp_spi(buffer) : 0;
-		spis[1] = cp[0] ? parse_esp_spi(cp) : 0xFFFFFFFF;
-		if (spis[0] > spis[1])
-			xtables_error(PARAMETER_PROBLEM,
-				   "Invalid ESP spi range: %s", spistring);
-	}
-	free(buffer);
-}
-
-static void esp_init(struct xt_entry_match *m)
-{
-	struct xt_esp *espinfo = (struct xt_esp *)m->data;
-
-	espinfo->spis[1] = 0xFFFFFFFF;
-}
-
-#define ESP_SPI 0x01
-
-static int
-esp_parse(int c, char **argv, int invert, unsigned int *flags,
-          const void *entry, struct xt_entry_match **match)
-{
-	struct xt_esp *espinfo = (struct xt_esp *)(*match)->data;
-
-	switch (c) {
-	case '1':
-		if (*flags & ESP_SPI)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Only one `--espspi' allowed");
-		xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-		parse_esp_spis(optarg, espinfo->spis);
-		if (invert)
-			espinfo->invflags |= XT_ESP_INV_SPI;
-		*flags |= ESP_SPI;
-		break;
-	default:
-		return 0;
-	}
-
-	return 1;
-}
-
-static void
-print_spis(const char *name, u_int32_t min, u_int32_t max,
+print_spis(const char *name, uint32_t min, uint32_t max,
 	    int invert)
 {
 	const char *inv = invert ? "!" : "";
 
 	if (min != 0 || max != 0xFFFFFFFF || invert) {
 		if (min == max)
-			printf("%s:%s%u ", name, inv, min);
+			printf(" %s:%s%u", name, inv, min);
 		else
-			printf("%ss:%s%u:%u ", name, inv, min, max);
+			printf(" %ss:%s%u:%u", name, inv, min, max);
 	}
 }
 
@@ -121,11 +51,11 @@ esp_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
 	const struct xt_esp *esp = (struct xt_esp *)match->data;
 
-	printf("esp ");
+	printf(" esp");
 	print_spis("spi", esp->spis[0], esp->spis[1],
 		    esp->invflags & XT_ESP_INV_SPI);
 	if (esp->invflags & ~XT_ESP_INV_MASK)
-		printf("Unknown invflags: 0x%X ",
+		printf(" Unknown invflags: 0x%X",
 		       esp->invflags & ~XT_ESP_INV_MASK);
 }
 
@@ -135,15 +65,15 @@ static void esp_save(const void *ip, const struct xt_entry_match *match)
 
 	if (!(espinfo->spis[0] == 0
 	    && espinfo->spis[1] == 0xFFFFFFFF)) {
-		printf("%s--espspi ",
-			(espinfo->invflags & XT_ESP_INV_SPI) ? "! " : "");
+		printf("%s --espspi ",
+			(espinfo->invflags & XT_ESP_INV_SPI) ? " !" : "");
 		if (espinfo->spis[0]
 		    != espinfo->spis[1])
-			printf("%u:%u ",
+			printf("%u:%u",
 			       espinfo->spis[0],
 			       espinfo->spis[1]);
 		else
-			printf("%u ",
+			printf("%u",
 			       espinfo->spis[0]);
 	}
 
@@ -156,15 +86,14 @@ static struct xtables_match esp_match = {
 	.size		= XT_ALIGN(sizeof(struct xt_esp)),
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_esp)),
 	.help		= esp_help,
-	.init		= esp_init,
-	.parse		= esp_parse,
 	.print		= esp_print,
 	.save		= esp_save,
-	.extra_opts	= esp_opts,
+	.x6_parse	= esp_parse,
+	.x6_options	= esp_opts,
 };
 
 void
-libxt_esp_init(void)
+_init(void)
 {
 	xtables_register_match(&esp_match);
 }

@@ -5,14 +5,19 @@
  * This program is released under the terms of GNU GPL
  * Cleanups by Stephane Ouellette <ouellettes@videotron.ca>
  */
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <getopt.h>
 #include <xtables.h>
-
 #include <linux/netfilter_ipv6/ip6t_hl.h>
+
+enum {
+	O_HL_EQ = 0,
+	O_HL_LT,
+	O_HL_GT,
+	F_HL_EQ = 1 << O_HL_EQ,
+	F_HL_LT = 1 << O_HL_LT,
+	F_HL_GT = 1 << O_HL_GT,
+	F_ANY  = F_HL_EQ | F_HL_LT | F_HL_GT,
+};
 
 static void hl_help(void)
 {
@@ -23,64 +28,27 @@ static void hl_help(void)
 "  --hl-gt value	Match HL > value\n");
 }
 
-static int hl_parse(int c, char **argv, int invert, unsigned int *flags,
-                    const void *entry, struct xt_entry_match **match)
+static void hl_parse(struct xt_option_call *cb)
 {
-	struct ip6t_hl_info *info = (struct ip6t_hl_info *) (*match)->data;
-	u_int8_t value;
+	struct ip6t_hl_info *info = cb->data;
 
-	xtables_check_inverse(optarg, &invert, &optind, 0, argv);
-	value = atoi(optarg);
-
-	if (*flags) 
-		xtables_error(PARAMETER_PROBLEM,
-				"Can't specify HL option twice");
-
-	if (!optarg)
-		xtables_error(PARAMETER_PROBLEM,
-				"hl: You must specify a value");
-	switch (c) {
-		case '2':
-			if (invert)
-				info->mode = IP6T_HL_NE;
-			else
-				info->mode = IP6T_HL_EQ;
-
-			/* is 0 allowed? */
-			info->hop_limit = value;
-			*flags = 1;
-
-			break;
-		case '3':
-			if (invert) 
-				xtables_error(PARAMETER_PROBLEM,
-						"hl: unexpected `!'");
-
-			info->mode = IP6T_HL_LT;
-			info->hop_limit = value;
-			*flags = 1;
-
-			break;
-		case '4':
-			if (invert)
-				xtables_error(PARAMETER_PROBLEM,
-						"hl: unexpected `!'");
-
-			info->mode = IP6T_HL_GT;
-			info->hop_limit = value;
-			*flags = 1;
-
-			break;
-		default:
-			return 0;
+	xtables_option_parse(cb);
+	switch (cb->entry->id) {
+	case O_HL_EQ:
+		info->mode = cb->invert ? IP6T_HL_NE : IP6T_HL_EQ;
+		break;
+	case O_HL_LT:
+		info->mode = IP6T_HL_LT;
+		break;
+	case O_HL_GT:
+		info->mode = IP6T_HL_GT;
+		break;
 	}
-
-	return 1;
 }
 
-static void hl_check(unsigned int flags)
+static void hl_check(struct xt_fcheck_call *cb)
 {
-	if (!flags) 
+	if (!(cb->xflags & F_ANY))
 		xtables_error(PARAMETER_PROBLEM,
 			"HL match: You must specify one of "
 			"`--hl-eq', `--hl-lt', `--hl-gt'");
@@ -98,7 +66,7 @@ static void hl_print(const void *ip, const struct xt_entry_match *match,
 	const struct ip6t_hl_info *info = 
 		(struct ip6t_hl_info *) match->data;
 
-	printf("HL match HL %s %u ", op[info->mode], info->hop_limit);
+	printf(" HL match HL %s %u", op[info->mode], info->hop_limit);
 }
 
 static void hl_save(const void *ip, const struct xt_entry_match *match)
@@ -112,16 +80,22 @@ static void hl_save(const void *ip, const struct xt_entry_match *match)
 	const struct ip6t_hl_info *info =
 		(struct ip6t_hl_info *) match->data;
 
-	printf("%s %u ", op[info->mode], info->hop_limit);
+	printf(" %s %u", op[info->mode], info->hop_limit);
 }
 
-static const struct option hl_opts[] = {
-	{.name = "hl",    .has_arg = true, .val = '2'},
-	{.name = "hl-eq", .has_arg = true, .val = '2'},
-	{.name = "hl-lt", .has_arg = true, .val = '3'},
-	{.name = "hl-gt", .has_arg = true, .val = '4'},
-	XT_GETOPT_TABLEEND,
+#define s struct ip6t_hl_info
+static const struct xt_option_entry hl_opts[] = {
+	{.name = "hl-lt", .id = O_HL_LT, .excl = F_ANY, .type = XTTYPE_UINT8,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, hop_limit)},
+	{.name = "hl-gt", .id = O_HL_GT, .excl = F_ANY, .type = XTTYPE_UINT8,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, hop_limit)},
+	{.name = "hl-eq", .id = O_HL_EQ, .excl = F_ANY, .type = XTTYPE_UINT8,
+	 .flags = XTOPT_INVERT | XTOPT_PUT, XTOPT_POINTER(s, hop_limit)},
+	{.name = "hl", .id = O_HL_EQ, .excl = F_ANY, .type = XTTYPE_UINT8,
+	 .flags = XTOPT_PUT, XTOPT_POINTER(s, hop_limit)},
+	XTOPT_TABLEEND,
 };
+#undef s
 
 static struct xtables_match hl_mt6_reg = {
 	.name          = "hl",
@@ -130,11 +104,11 @@ static struct xtables_match hl_mt6_reg = {
 	.size          = XT_ALIGN(sizeof(struct ip6t_hl_info)),
 	.userspacesize = XT_ALIGN(sizeof(struct ip6t_hl_info)),
 	.help          = hl_help,
-	.parse         = hl_parse,
-	.final_check   = hl_check,
 	.print         = hl_print,
 	.save          = hl_save,
-	.extra_opts    = hl_opts,
+	.x6_parse      = hl_parse,
+	.x6_fcheck     = hl_check,
+	.x6_options    = hl_opts,
 };
 
 

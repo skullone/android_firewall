@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall v%s </string>
-    <string name="title_disabled">Android Firewall v%s (停止中)</string>
+    <string name="title_enabled">Android Firewall (Firewall オン)</string>
+    <string name="title_disabled">Android Firewall (Firewall オフ)</string>
     <string name="showrules">ルール表示</string>
     <string name="applyrules">ルール適用</string>
     <string name="saverules">ルール保存</string>
@@ -45,9 +45,9 @@
     <string name="toast_disabled">Android Firewall: Firewall 停止!</string>
     <string name="toast_error_disabling">Android Firewall: 停止中にエラーが発生しました。</string>
 <string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-\n<i><a href="http://droidwall.googlecode.com">http://droidwall.googlecode.com</a></i>
+\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 \n
-\n<i>Android Firewall - Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
+\n<i>Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
 \nAndroid Firewallは、あなたがインストールしたアプリケーションの通信を設定により制限することができます。
 \nもしあなたのデバイスがデータ通信定額プランでは無い、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
 \n

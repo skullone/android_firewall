@@ -206,7 +206,7 @@ static char *ipq_strerror(int errcode)
 /*
  * Create and initialise an ipq handle.
  */
-struct ipq_handle *ipq_create_handle(u_int32_t flags, u_int32_t protocol)
+struct ipq_handle *ipq_create_handle(uint32_t flags, uint32_t protocol)
 {
 	int status;
 	struct ipq_handle *h;
@@ -231,7 +231,6 @@ struct ipq_handle *ipq_create_handle(u_int32_t flags, u_int32_t protocol)
         
 	if (h->fd == -1) {
 		ipq_errno = IPQ_ERR_SOCKET;
-		close(h->fd);
 		free(h);
 		return NULL;
 	}
@@ -267,7 +266,7 @@ int ipq_destroy_handle(struct ipq_handle *h)
 }
 
 int ipq_set_mode(const struct ipq_handle *h,
-                 u_int8_t mode, size_t range)
+                 uint8_t mode, size_t range)
 {
 	struct {
 		struct nlmsghdr nlh;

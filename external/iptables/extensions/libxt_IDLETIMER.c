@@ -20,26 +20,24 @@
  * 02110-1301 USA
  *
  */
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <stddef.h>
-
 #include <xtables.h>
 #include <linux/netfilter/xt_IDLETIMER.h>
 
 enum {
-	IDLETIMER_TG_OPT_TIMEOUT = 1 << 0,
-	IDLETIMER_TG_OPT_LABEL	 = 1 << 1,
+	O_TIMEOUT = 0,
+	O_LABEL,
 };
 
-static const struct option idletimer_tg_opts[] = {
-	{.name = "timeout", .has_arg = true, .val = 't'},
-	{.name = "label",   .has_arg = true, .val = 'l'},
-	XT_GETOPT_TABLEEND,
+#define s struct idletimer_tg_info
+static const struct xt_option_entry idletimer_tg_opts[] = {
+	{.name = "timeout", .id = O_TIMEOUT, .type = XTTYPE_UINT32,
+	 .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, timeout)},
+	{.name = "label", .id = O_LABEL, .type = XTTYPE_STRING,
+	 .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, label)},
+	XTOPT_TABLEEND,
 };
+#undef s
 
 static void idletimer_tg_help(void)
 {
@@ -50,52 +48,6 @@ static void idletimer_tg_help(void)
 "\n");
 }
 
-static int idletimer_tg_parse(int c, char **argv, int invert,
-			      unsigned int *flags,
-			      const void *entry,
-			      struct xt_entry_target **target)
-{
-	struct idletimer_tg_info *info =
-		(struct idletimer_tg_info *)(*target)->data;
-
-	switch (c) {
-	case 't':
-		xtables_param_act(XTF_ONLY_ONCE, "IDLETIMER", "--timeout",
-				  *flags & IDLETIMER_TG_OPT_TIMEOUT);
-
-		info->timeout = atoi(optarg);
-		*flags |= IDLETIMER_TG_OPT_TIMEOUT;
-		break;
-
-	case 'l':
-		xtables_param_act(XTF_ONLY_ONCE, "IDLETIMER", "--label",
-				  *flags & IDLETIMER_TG_OPT_TIMEOUT);
-
-		if (strlen(optarg) > MAX_IDLETIMER_LABEL_SIZE - 1)
-			xtables_param_act(XTF_BAD_VALUE, "IDLETIMER", "--label",
-					 optarg);
-
-		strcpy(info->label, optarg);
-		*flags |= IDLETIMER_TG_OPT_LABEL;
-		break;
-
-	default:
-		return false;
-	}
-
-	return true;
-}
-
-static void idletimer_tg_final_check(unsigned int flags)
-{
-	if (!(flags & IDLETIMER_TG_OPT_TIMEOUT))
-		xtables_error(PARAMETER_PROBLEM, "IDLETIMER target: "
-			      "--timeout parameter required");
-	if (!(flags & IDLETIMER_TG_OPT_LABEL))
-		xtables_error(PARAMETER_PROBLEM, "IDLETIMER target: "
-			      "--label parameter required");
-}
-
 static void idletimer_tg_print(const void *ip,
 			       const struct xt_entry_target *target,
 			       int numeric)
@@ -103,8 +55,8 @@ static void idletimer_tg_print(const void *ip,
 	struct idletimer_tg_info *info =
 		(struct idletimer_tg_info *) target->data;
 
-	printf("timeout:%u ", info->timeout);
-	printf("label:%s ", info->label);
+	printf(" timeout:%u", info->timeout);
+	printf(" label:%s", info->label);
 }
 
 static void idletimer_tg_save(const void *ip,
@@ -113,8 +65,8 @@ static void idletimer_tg_save(const void *ip,
 	struct idletimer_tg_info *info =
 		(struct idletimer_tg_info *) target->data;
 
-	printf("--timeout %u ", info->timeout);
-	printf("--label %s ", info->label);
+	printf(" --timeout %u", info->timeout);
+	printf(" --label %s", info->label);
 }
 
 static struct xtables_target idletimer_tg_reg = {
@@ -125,14 +77,13 @@ static struct xtables_target idletimer_tg_reg = {
 	.size	       = XT_ALIGN(sizeof(struct idletimer_tg_info)),
 	.userspacesize = offsetof(struct idletimer_tg_info, timer),
 	.help	       = idletimer_tg_help,
-	.parse	       = idletimer_tg_parse,
-	.final_check   = idletimer_tg_final_check,
+	.x6_parse      = xtables_option_parse,
 	.print	       = idletimer_tg_print,
 	.save	       = idletimer_tg_save,
-	.extra_opts    = idletimer_tg_opts,
+	.x6_options    = idletimer_tg_opts,
 };
 
-void libxt_IDLETIMER_init(void)
+void _init(void)
 {
 	xtables_register_target(&idletimer_tg_reg);
 }
