@@ -57,7 +57,7 @@ import android.widget.Toast;
  */
 public final class Api {
 	/** application version string */
-	/** public static final String VERSION = "1.0.4"; */
+	/** public static final String VERSION = "1.0.5"; */
 	/** special application UID used to indicate "any application" */
 	public static final int SPECIAL_UID_ANY	= -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -201,22 +201,23 @@ public final class Api {
 			script.append(scriptHeader(ctx));
 			script.append("" +
 				"$IPTABLES --version || exit 1\n" +
-				"$IPTABLES --flush INPUT || exit 2\n" +
-				"$IPTABLES --flush OUTPUT || exit 3\n" +
 				"# Create the droidwall chains if necessary\n" +
-				"$IPTABLES -L droidwall >/dev/null 2>/dev/null || $IPTABLES --new droidwall || exit 4\n" +
-				"$IPTABLES -L droidwall-3g >/dev/null 2>/dev/null || $IPTABLES --new droidwall-3g || exit 5\n" +
-				"$IPTABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IPTABLES --new droidwall-wifi || exit 6\n" +
-				"$IPTABLES -L droidwall-reject >/dev/null 2>/dev/null || $IPTABLES --new droidwall-reject || exit 7\n" +
+				"$IPTABLES -L droidwall >/dev/null 2>/dev/null || $IPTABLES --new droidwall || exit 2\n" +
+				"$IPTABLES -L droidwall-3g >/dev/null 2>/dev/null || $IPTABLES --new droidwall-3g || exit 3\n" +
+				"$IPTABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IPTABLES --new droidwall-wifi || exit 4\n" +
+				"$IPTABLES -L droidwall-reject >/dev/null 2>/dev/null || $IPTABLES --new droidwall-reject || exit 5\n" +
 				"# Add droidwall chain to OUTPUT chain if necessary\n" +
-				"$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -A OUTPUT -j droidwall || exit 8\n" +
+				"$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -A OUTPUT -j droidwall || exit 6\n" +
+				"$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 1 -j droidwall || exit 7\n"+
+				"$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 2 -j droidwall || exit 8\n"+
 				"# Flush existing rules\n" +
 				"$IPTABLES -F droidwall || exit 9\n" +
 				"$IPTABLES -F droidwall-3g || exit 10\n" +
 				"$IPTABLES -F droidwall-wifi || exit 11\n" +
 				"$IPTABLES -F droidwall-reject || exit 12\n" +
-				// "$IPTABLES -A droidwall -p udp --dport 53 -j RETURN || exit 11\n" +
-				"$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 13\n" +
+				"# Create reject rule and fix for WiFi slow DNS lookups" +
+				"$IPTABLES -A droidwall-reject -j REJECT || exit 13\n" +
+				"$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 14\n"+
 			"");
 			// Check if logging is enabled
 			if (logenabled) {
