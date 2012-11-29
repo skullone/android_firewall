@@ -2,5 +2,10 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:  
 
+1.0.5 - Updated the fix for the Verizon SGS3 to make it cleaner.
+1.0.4 - Fix for Verizon Samsung Galaxy S 3 ignoring rules. Added interface name for VZW SGS3. 
+        Many thanks to Warren for all the help with testing the SGS3! 
+        Updated the translations. Fix for link in Custom Scripts not working.
+1.0.2 - Updated French translation thanks to Joffrey.  Fix for issue where any user could make a DNS call thanks to tripolar!
 1.0.1 - Added a number of translations.
 1.0.0 - initial release. Updated for Android 4.x.  Added new interfaces for new devices.
