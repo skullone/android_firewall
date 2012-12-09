@@ -6,6 +6,7 @@
     <string name="showrules">Show rules</string>
     <string name="applyrules">Apply rules</string>
     <string name="saverules">Save rules</string>
+    <string name="applyrules2">Apply IPv6 rules</string>
     <string name="purgerules">Purge rules</string>
     <string name="setpwd">Set password</string>
     <string name="help">Help</string>
@@ -13,6 +14,10 @@
     <string name="exit">Exit</string>
     <string name="fw_enabled">Firewall enabled</string>
     <string name="fw_disabled">Firewall disabled</string>
+    <string name="ipv6_enabled">IPv6 enabled</string>
+    <string name="ipv6_disabled">IPv6 disabled</string>
+    <string name="ipv6_was_enabled">IPv6 has been enabled</string>
+    <string name="ipv6_was_disabled">IPv6 has been disabled</string>
     <string name="log_enabled">Log enabled</string>
     <string name="log_disabled">Log disabled</string>
     <string name="log_was_enabled">Log has been enabled</string>
@@ -21,6 +26,7 @@
     <string name="show_log">Show log</string>
     <string name="clear_log">Clear log</string>
     <string name="applying_rules">Applying iptables rules.</string>
+    <string name="applyingipv6_rules">Applying ip6tables rules.</string>
     <string name="saving_rules">Saving iptables rules.</string>
     <string name="deleting_rules">Deleting iptables rules.</string>
     <string name="rules_applied">Rules applied with success</string>

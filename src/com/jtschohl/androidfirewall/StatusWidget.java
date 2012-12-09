@@ -1,4 +1,4 @@
-/**
+/*
  * ON/OFF Widget implementation
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro

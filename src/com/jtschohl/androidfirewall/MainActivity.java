@@ -45,7 +45,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+// import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -69,16 +71,17 @@ import com.jtschohl.androidfirewall.Api.DroidApp;
 public class MainActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
 	
 	// Menu options
-	private static final int MENU_DISABLE	= 0;
-	private static final int MENU_TOGGLELOG	= 1;
-	private static final int MENU_APPLY		= 2;
-	private static final int MENU_EXIT		= 3;
-	private static final int MENU_HELP		= 4;
-	private static final int MENU_SHOWLOG	= 5;
-	private static final int MENU_SHOWRULES	= 6;
-	private static final int MENU_CLEARLOG	= 7;
-	private static final int MENU_SETPWD	= 8;
-	private static final int MENU_SETCUSTOM = 9;
+	// private static final int MENU_DISABLE	= 0;
+	// private static final int MENU_TOGGLELOG	= 1;
+	// private static final int MENU_APPLY		= 2;
+	// private static final int MENU_TOGGLEIPV6 = 3;	
+	// private static final int MENU_EXIT		= 4;
+	// private static final int MENU_HELP		= 5;
+	// private static final int MENU_SHOWLOG	= 6;
+	// private static final int MENU_SHOWRULES	= 7;
+	// private static final int MENU_CLEARLOG	= 8;
+	// private static final int MENU_SETPWD	= 9;
+	// private static final int MENU_SETCUSTOM = 10;
 	
 	/** progress dialog instance */
 	private ListView listview = null;
@@ -224,9 +227,26 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		editor.commit();
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
+		} else if (Api.isIPv6Enabled(this)){
+			Api.applySavedIp6tablesRules(this, true);
 		}
 		Toast.makeText(MainActivity.this, (enabled?R.string.log_was_enabled:R.string.log_was_disabled), Toast.LENGTH_SHORT).show();
 	}
+	
+	/* private void ToggleIPv6() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean enabled = !prefs.getBoolean(Api.PREF_IP6TABLES, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_IP6TABLES, enabled);
+		editor.commit();
+		if (Api.isIPv6Enabled(this)) {
+			Api.applySavedIptablesRules(this, true);
+		} else {
+			Api.purgeIp6tables(this, true);
+		}
+		Toast.makeText(MainActivity.this, (enabled?R.string.ipv6_was_enabled:R.string.ipv6_was_disabled), Toast.LENGTH_SHORT).show();
+	} */
+	
 	/**
 	 * If the applications are cached, just show them, otherwise load and show
 	 */
@@ -312,11 +332,89 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
         };
         this.listview.setAdapter(adapter);
     }
+    
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu (Menu menu){
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.menu, menu);
+    	return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item){
+    	switch (item.getItemId()){
+    	case R.id.enableipv4:	
+    		disableOrEnable();
+    		return true;
+    	case R.id.applyrules:	
+    		applyOrSaveRules();
+    		return true;
+    	case R.id.enableipv6:	
+    		disableOrEnableIPv6();
+    		return true;
+    	// case R.id.applyrulesipv6:
+    		// applyOrSaveRulesIPv6();
+    		// return true;
+    	case R.id.enablelog:
+    		toggleLogEnabled();
+    		return true;
+    	case R.id.exit:
+    		finish();
+    		System.exit(0);
+    		return true;
+    	case R.id.help:
+    		new HelpDialog(this).show();
+    		return true;
+    	case R.id.setpwd:
+    		setPassword();
+    		return true;
+    	case R.id.showlog:
+    		showLog();
+    		return true;
+    	case R.id.showrules:
+    		showRules();
+    		return true;
+    	case R.id.clearlog:
+    		clearLog();
+    		return true;
+    	case R.id.customscript:
+    		setCustomScript();
+    		return true;
+    	}
+    	return true;
+    }
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+		final MenuItem item_onoff = menu.findItem(R.id.enableipv4);
+		final MenuItem item_apply = menu.findItem(R.id.applyrules);
+		final boolean enabled = Api.isEnabled(this);
+		if (enabled) {
+			item_onoff.setTitle(R.string.fw_enabled);
+			item_apply.setTitle(R.string.applyrules);
+		} else {
+			item_onoff.setTitle(R.string.fw_disabled);
+			item_apply.setTitle(R.string.saverules);
+		}
+		final MenuItem item_onoff2 = menu.findItem(R.id.enableipv6);
+		// final MenuItem item_apply2 = menu.findItem(R.id.applyrulesipv6);
+		final boolean ipv6enabled = Api.isIPv6Enabled(this);
+		if (ipv6enabled) {
+			item_onoff2.setTitle(R.string.ipv6_enabled);
+			//item_apply2.setTitle(R.string.applyrules2);
+		} else { 
+			item_onoff2.setTitle(R.string.ipv6_disabled);
+			//item_apply2.setTitle(R.string.applyrules2);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+  /*  @Override
+   public boolean onCreateOptionsMenu(Menu menu) {
     	menu.add(0, MENU_DISABLE, 0, R.string.fw_enabled).setIcon(android.R.drawable.button_onoff_indicator_on);
     	menu.add(0, MENU_TOGGLELOG, 0, R.string.log_enabled).setIcon(android.R.drawable.button_onoff_indicator_on);
     	menu.add(0, MENU_APPLY, 0, R.string.applyrules).setIcon(R.drawable.apply);
+    	menu.add(0, MENU_TOGGLEIPV6, 0, R.string.ipv6_disabled); //.setIcon(android.R.drawable.button_onoff_indicator_off);
+    	//SubMenu optionsMenu = menu.addSubMenu("Options");
     	menu.add(0, MENU_EXIT, 0, R.string.exit).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
     	menu.add(0, MENU_HELP, 0, R.string.help).setIcon(android.R.drawable.ic_menu_help);
     	menu.add(0, MENU_SHOWLOG, 0, R.string.show_log).setIcon(R.drawable.show);
@@ -341,6 +439,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     		item_onoff.setTitle(R.string.fw_disabled);
     		item_apply.setTitle(R.string.saverules);
     	}
+    	final MenuItem ipv6_onoff = menu.getItem(MENU_TOGGLEIPV6);
+    	final boolean ipv6enabled = Api.isIPv6Enabled(this);
+    	if (ipv6enabled) {
+    		ipv6_onoff.setIcon(android.R.drawable.button_onoff_indicator_on);
+    		ipv6_onoff.setTitle(R.string.ipv6_enabled);
+    	} else {
+    		item_onoff.setIcon(android.R.drawable.button_onoff_indicator_off);
+    		item_onoff.setTitle(R.string.ipv6_disabled);
+    	}
     	final MenuItem item_log = menu.getItem(MENU_TOGGLELOG);
     	final boolean logenabled = getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(Api.PREF_LOGENABLED, false);
     	if (logenabled) {
@@ -363,6 +470,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     		return true;
     	case MENU_APPLY:
     		applyOrSaveRules();
+    		return true;
+    	case MENU_TOGGLEIPV6:
+    		disableOrEnableIPv6();
     		return true;
     	case MENU_EXIT:
     		finish();
@@ -388,7 +498,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     		return true;
     	}
     	return false;
-    }
+    } */
     /**
      * Enables or disables the firewall
      */
@@ -400,6 +510,18 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			applyOrSaveRules();
 		} else {
 			purgeRules();
+		}
+		refreshHeader();
+	}
+	
+	private void disableOrEnableIPv6() {
+		final boolean ipv6enabled = !Api.isIPv6Enabled(this);
+		Log.d("Android Firewall", "Enabling IPv6: " + ipv6enabled);
+		Api.setIPv6Enabled(this, ipv6enabled);
+		if (ipv6enabled) {
+			applyOrSaveRulesIPv6();
+		} else {
+			purgeIp6Rules();
 		}
 		refreshHeader();
 	}
@@ -516,6 +638,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 	private void applyOrSaveRules() {
     	final Resources res = getResources();
 		final boolean enabled = Api.isEnabled(this);
+		final boolean ipv6enabled = Api.isIPv6Enabled(this);
 		final ProgressDialog progress = ProgressDialog.show(this, res.getString(R.string.working), res.getString(enabled?R.string.applying_rules:R.string.saving_rules), true);
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -528,9 +651,56 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 						Log.d("Android Firewall", "Failed - Disabling firewall.");
 						Api.setEnabled(MainActivity.this, false);
 					}
-				} else {
+				} else if (ipv6enabled){
+				 	Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+					} else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						// Api.setEnabled(MainActivity.this, false);
+						Api.setIPv6Enabled(MainActivity.this, false);
+					}}
+					
+				else {
 					Log.d("Android Firewall", "Saving rules.");
-					Api.saveRules(MainActivity.this);
+				Api.saveRules(MainActivity.this);
+					Toast.makeText(MainActivity.this, R.string.rules_saved, Toast.LENGTH_SHORT).show();
+				}
+				MainActivity.this.dirty = false;
+			}
+		};
+		handler.sendEmptyMessageDelayed(0, 100);
+	}
+	
+	private void applyOrSaveRulesIPv6() {
+    	final Resources res = getResources();
+		//final boolean enabled = Api.isEnabled(this);
+		final boolean ipv6enabled = Api.isIPv6Enabled(this);
+		final ProgressDialog progress = ProgressDialog.show(this, res.getString(R.string.working), res.getString(ipv6enabled?R.string.applyingipv6_rules:R.string.saving_rules), true);
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+    			try {progress.dismiss();} catch(Exception ex){}
+				if (ipv6enabled) {
+					Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+					} else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						Api.setIPv6Enabled(MainActivity.this, false);
+					}
+				} /* else if (ipv6enabled){
+				 	Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+					} else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						// Api.setEnabled(MainActivity.this, false);
+						Api.setIPv6Enabled(MainActivity.this, false);
+					} */
+					
+				else {
+					Log.d("Android Firewall", "Saving rules.");
+				Api.saveRules(MainActivity.this);
 					Toast.makeText(MainActivity.this, R.string.rules_saved, Toast.LENGTH_SHORT).show();
 				}
 				MainActivity.this.dirty = false;
@@ -555,7 +725,23 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		};
 		handler.sendEmptyMessageDelayed(0, 100);
 	}
-	/**
+	
+private void purgeIp6Rules() {
+    	final Resources res = getResources();
+		final ProgressDialog progress = ProgressDialog.show(this, res.getString(R.string.working), res.getString(R.string.deleting_rules), true);
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+    			try {progress.dismiss();} catch(Exception ex){}
+				if (!Api.hasRootAccess2(MainActivity.this, true)) return;
+				if (Api.purgeIp6tables(MainActivity.this, true)) {
+					Toast.makeText(MainActivity.this, R.string.rules_deleted, Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
+		handler.sendEmptyMessageDelayed(0, 100);
+	}
+	
+	/*
 	 * Called an application is check/unchecked
 	 */
 	@Override
