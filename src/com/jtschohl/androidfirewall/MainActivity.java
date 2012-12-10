@@ -405,6 +405,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			item_onoff2.setTitle(R.string.ipv6_disabled);
 			//item_apply2.setTitle(R.string.applyrules2);
 		}
+		final MenuItem item_log = menu.findItem(R.id.enablelog);
+		final boolean logenabled = getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(Api.PREF_LOGENABLED, false);
+    	if (logenabled) {
+    		item_log.setTitle(R.string.log_enabled);
+    	} else {
+    		item_log.setTitle(R.string.log_disabled);
+    	}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -643,11 +650,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
     			try {progress.dismiss();} catch(Exception ex){}
-				if (enabled) {
+				/* if (enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
 						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-					} else {
+				} 
+					else {
 						Log.d("Android Firewall", "Failed - Disabling firewall.");
 						Api.setEnabled(MainActivity.this, false);
 					}
@@ -659,8 +667,40 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 						Log.d("Android Firewall", "Failed - Disabling firewall.");
 						// Api.setEnabled(MainActivity.this, false);
 						Api.setIPv6Enabled(MainActivity.this, false);
-					}}
-					
+					} 
+					} */
+    			
+    			if (enabled && ipv6enabled) {
+					Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true) && Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+				} 
+					else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						Api.setEnabled(MainActivity.this, false);
+					}
+				} /* else if (ipv6enabled){
+				 	Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+					} else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						// Api.setEnabled(MainActivity.this, false);
+						Api.setIPv6Enabled(MainActivity.this, false);
+					} 
+					} */
+    			else if (enabled) {
+					Log.d("Android Firewall", "Applying rules.");
+					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
+						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
+				} 
+					else {
+						Log.d("Android Firewall", "Failed - Disabling firewall.");
+						Api.setEnabled(MainActivity.this, false);
+					}
+    				
+    			}
+				
 				else {
 					Log.d("Android Firewall", "Saving rules.");
 				Api.saveRules(MainActivity.this);
@@ -669,7 +709,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 				MainActivity.this.dirty = false;
 			}
 		};
-		handler.sendEmptyMessageDelayed(0, 100);
+		handler.sendEmptyMessageDelayed(0, 100);	
 	}
 	
 	private void applyOrSaveRulesIPv6() {

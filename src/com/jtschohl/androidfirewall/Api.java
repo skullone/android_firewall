@@ -727,7 +727,7 @@ public final class Api {
 	    	final StringBuilder script = new StringBuilder();
 	    	script.append(scriptHeader(ctx));
 	    	script.append("" +
-					"$IP6TABLES --flush OUTPUT\n" +
+					//"$IP6TABLES --flush OUTPUT\n" +
 	    			"$IP6TABLES --flush droidwall\n" +
 					"$IP6TABLES --flush droidwall-reject\n" +
 					"$IP6TABLES --flush droidwall-3g\n" +
@@ -1290,6 +1290,8 @@ public final class Api {
 			if (isEnabled(ctx)) {
 				// .. and also re-apply the rules if the firewall is enabled
 				applySavedIptablesRules(ctx, false);
+			} else if (isIPv6Enabled(ctx)){
+				applySavedIp6tablesRules(ctx, false);
 			}
 		}
 	}
