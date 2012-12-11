@@ -650,26 +650,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
     			try {progress.dismiss();} catch(Exception ex){}
-				/* if (enabled) {
-					Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-				} 
-					else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						Api.setEnabled(MainActivity.this, false);
-					}
-				} else if (ipv6enabled){
-				 	Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-					} else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						// Api.setEnabled(MainActivity.this, false);
-						Api.setIPv6Enabled(MainActivity.this, false);
-					} 
-					} */
-    			
+				
     			if (enabled && ipv6enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true) && Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
@@ -678,17 +659,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 					else {
 						Log.d("Android Firewall", "Failed - Disabling firewall.");
 						Api.setEnabled(MainActivity.this, false);
-					}
-				} /* else if (ipv6enabled){
-				 	Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-					} else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						// Api.setEnabled(MainActivity.this, false);
 						Api.setIPv6Enabled(MainActivity.this, false);
-					} 
-					} */
+					}
+				} 
     			else if (enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
@@ -728,16 +701,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 						Log.d("Android Firewall", "Failed - Disabling firewall.");
 						Api.setIPv6Enabled(MainActivity.this, false);
 					}
-				} /* else if (ipv6enabled){
-				 	Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-					} else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						// Api.setEnabled(MainActivity.this, false);
-						Api.setIPv6Enabled(MainActivity.this, false);
-					} */
-					
+				} 
 				else {
 					Log.d("Android Firewall", "Saving rules.");
 				Api.saveRules(MainActivity.this);
