@@ -227,9 +227,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		editor.commit();
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
-		} else if (Api.isIPv6Enabled(this)){
+		} /* else if (Api.isIPv6Enabled(this)){
 			Api.applySavedIp6tablesRules(this, true);
-		}
+		} */
 		Toast.makeText(MainActivity.this, (enabled?R.string.log_was_enabled:R.string.log_was_disabled), Toast.LENGTH_SHORT).show();
 	}
 	
@@ -388,21 +388,21 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		final MenuItem item_onoff = menu.findItem(R.id.enableipv4);
 		final MenuItem item_apply = menu.findItem(R.id.applyrules);
 		final boolean enabled = Api.isEnabled(this);
-		if (enabled) {
-			item_onoff.setTitle(R.string.fw_enabled);
-			item_apply.setTitle(R.string.applyrules);
-		} else {
+		if (!enabled) {
 			item_onoff.setTitle(R.string.fw_disabled);
 			item_apply.setTitle(R.string.saverules);
+		} else if (enabled) {
+			item_onoff.setTitle(R.string.fw_enabled);
+			item_apply.setTitle(R.string.applyrules);
 		}
 		final MenuItem item_onoff2 = menu.findItem(R.id.enableipv6);
 		// final MenuItem item_apply2 = menu.findItem(R.id.applyrulesipv6);
 		final boolean ipv6enabled = Api.isIPv6Enabled(this);
-		if (ipv6enabled) {
-			item_onoff2.setTitle(R.string.ipv6_enabled);
-			//item_apply2.setTitle(R.string.applyrules2);
-		} else { 
+		if (!ipv6enabled) {
 			item_onoff2.setTitle(R.string.ipv6_disabled);
+			//item_apply2.setTitle(R.string.applyrules2);
+		} else if (ipv6enabled) { 
+			item_onoff2.setTitle(R.string.ipv6_enabled);
 			//item_apply2.setTitle(R.string.applyrules2);
 		}
 		final MenuItem item_log = menu.findItem(R.id.enablelog);
@@ -526,7 +526,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		Log.d("Android Firewall", "Enabling IPv6: " + ipv6enabled);
 		Api.setIPv6Enabled(this, ipv6enabled);
 		if (ipv6enabled) {
-			applyOrSaveRulesIPv6();
+			applyOrSaveRules();
 		} else {
 			purgeIp6Rules();
 		}
@@ -645,13 +645,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 	private void applyOrSaveRules() {
     	final Resources res = getResources();
 		final boolean enabled = Api.isEnabled(this);
-		final boolean ipv6enabled = Api.isIPv6Enabled(this);
+		//final boolean ipv6enabled = Api.isIPv6Enabled(this);
 		final ProgressDialog progress = ProgressDialog.show(this, res.getString(R.string.working), res.getString(enabled?R.string.applying_rules:R.string.saving_rules), true);
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
     			try {progress.dismiss();} catch(Exception ex){}
 				
-    			if (enabled && ipv6enabled) {
+    			/* if (enabled && ipv6enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true) && Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
 						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
@@ -662,7 +662,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 						Api.setIPv6Enabled(MainActivity.this, false);
 					}
 				} 
-    			else if (enabled) {
+    			else */ 
+    			if (enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
 						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
@@ -685,7 +686,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		handler.sendEmptyMessageDelayed(0, 100);	
 	}
 	
-	private void applyOrSaveRulesIPv6() {
+	/* private void applyOrSaveRulesIPv6() {
     	final Resources res = getResources();
 		//final boolean enabled = Api.isEnabled(this);
 		final boolean ipv6enabled = Api.isIPv6Enabled(this);
@@ -712,6 +713,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		};
 		handler.sendEmptyMessageDelayed(0, 100);
 	}
+	*/
 	/**
 	 * Purge iptable rules, showing a visual indication
 	 */
@@ -736,7 +738,7 @@ private void purgeIp6Rules() {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
     			try {progress.dismiss();} catch(Exception ex){}
-				if (!Api.hasRootAccess2(MainActivity.this, true)) return;
+				if (!Api.hasRootAccess(MainActivity.this, true)) return;
 				if (Api.purgeIp6tables(MainActivity.this, true)) {
 					Toast.makeText(MainActivity.this, R.string.rules_deleted, Toast.LENGTH_SHORT).show();
 				}

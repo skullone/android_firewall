@@ -85,7 +85,7 @@ public class BootBroadcast extends BroadcastReceiver {
 				}.start();
 			}
 			
-			if (Api.isIPv6Enabled(context)) {
+			/* if (Api.isIPv6Enabled(context)) {
 				final Handler toaster = new Handler() {
 	        		public void handleMessage(Message msg) {
 	        			if (msg.arg1 != 0) Toast.makeText(context, msg.arg1, Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class BootBroadcast extends BroadcastReceiver {
 						}
 					}
 				}.start();
-			}
+			} */
 		}
 	}
 }

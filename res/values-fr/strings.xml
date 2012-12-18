@@ -17,6 +17,10 @@
     <string name="log_disabled">Journaux inactifs</string>
     <string name="log_was_enabled">La journalisation est activée</string>
     <string name="log_was_disabled">La journalisation est désactivée</string>
+    <string name="ipv6_enabled">IPv6 actif</string>
+    <string name="ipv6_disabled">IPv6 inactifs</string>
+    <string name="ipv6_was_enabled">IPv6 est activée</string>
+    <string name="ipv6_was_disabled">IPv6 est désactivée</string>
     <string name="log_cleared">Journaux effacés</string>
     <string name="show_log">Voir les journaux</string>
     <string name="clear_log">Effacer les journaux</string>

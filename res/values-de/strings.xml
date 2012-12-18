@@ -18,6 +18,10 @@
     <string name="log_disabled">Log deaktiviert</string>
     <string name="log_was_enabled">Log wurde aktiviert</string>
     <string name="log_was_disabled">Log wurde deaktiviert</string>
+    <string name="ipv6_enabled">IPv6 aktiviert</string>
+    <string name="ipv6_disabled">IPv6 deaktiviert</string>
+    <string name="ipv6_was_enabled">IPv6 wurde aktiviert</string>
+    <string name="ipv6_was_disabled">IPv6 wurde deaktiviert</string>
     <string name="log_cleared">Log gelöscht</string>
     <string name="show_log">Log zeigen</string>
     <string name="clear_log">Log löschen</string>

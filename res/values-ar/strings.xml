@@ -17,6 +17,10 @@
     <string name="log_disabled">السجلات معطلة</string>
     <string name="log_was_enabled">تم تفعيل السجلات</string>
     <string name="log_was_disabled">تم تعطيل السجلات</string>
+    <string name="ipv6_enabled">IPv6 enabled</string>
+    <string name="ipv6_disabled">IPv6 disabled</string>
+    <string name="ipv6_was_enabled">IPv6 has been enabled</string>
+    <string name="ipv6_was_disabled">IPv6 has been disabled</string>
     <string name="log_cleared">تم مسح السجلات</string>
     <string name="show_log">عرض السجلات</string>
     <string name="clear_log">مسح السجلات</string>

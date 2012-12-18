@@ -17,6 +17,10 @@
     <string name="log_disabled">Logování vypnuto</string>
     <string name="log_was_enabled">Logování bylo zapnuto</string>
     <string name="log_was_disabled">Logování bylo vypnuto</string>
+    <string name="ipv6_enabled">IPv6 zapnut</string>
+    <string name="ipv6_disabled">IPv6 vypunt</string>
+    <string name="ipv6_was_enabled">IPv6 bylo zapnuto</string>
+    <string name="ipv6_was_disabled">IPv6 bylo vypnuto</string>
     <string name="log_cleared">Log vymazán</string>
     <string name="show_log">Zobrazit log</string>
     <string name="clear_log">Vymazat log</string>

@@ -17,6 +17,10 @@
     <string name="log_disabled">通信ログ オフ</string>
     <string name="log_was_enabled">通信ログを監視します</string>
     <string name="log_was_disabled">通信ログの監視を止めました</string>
+    <string name="ipv6_enabled">IPv6 オン</string>
+    <string name="ipv6_disabled">IPv6 オフ</string>
+    <string name="ipv6_was_enabled">IPv6 has been オン</string>
+    <string name="ipv6_was_disabled">IPv6 has been オフ</string>
     <string name="log_cleared">通信ログを消去しました</string>
     <string name="show_log">通信ログを表示する</string>
     <string name="clear_log">通信ログを消去する</string>

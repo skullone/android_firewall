@@ -17,6 +17,10 @@
     <string name="log_disabled">Журнал отключен</string>
     <string name="log_was_enabled">Протоколирование включено</string>
     <string name="log_was_disabled">Протоколирование отключено</string>
+    <string name="ipv6_enabled">IPv6 включен</string>
+    <string name="ipv6_disabled">IPv6 отключен</string>
+    <string name="ipv6_was_enabled">IPv6 has been включен</string>
+    <string name="ipv6_was_disabled">IPv6 has been отключен</string>
     <string name="log_cleared">Журнал очищен</string>
     <string name="show_log">Показать журнал</string>
     <string name="clear_log">Очистить журнал</string>
