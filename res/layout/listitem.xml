@@ -17,5 +17,6 @@
 
 </CheckBox>
 	<CheckBox android:id="@+id/itemcheck_3g" android:layout_width="40dip" android:layout_height="40dip" android:padding="0px"></CheckBox>
+	<CheckBox android:id="@+id/itemcheck_roam" android:layout_width="40dip" android:layout_height="40dip" android:padding="0px"></CheckBox>
 	<TextView android:id="@+id/itemtext" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingLeft="5dip" android:text="uid:packages"></TextView>
 </LinearLayout>

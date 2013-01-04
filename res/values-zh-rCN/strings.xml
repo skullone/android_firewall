@@ -85,4 +85,10 @@
 		\n你可以使用菜单中的<b>设置密码</b>选项来为Android Firewall设置密码锁.
 		\n若要移除密码保护,只需要将它重置为空白.
 	</string>
+	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>

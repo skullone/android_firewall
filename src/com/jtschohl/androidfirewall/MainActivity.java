@@ -27,7 +27,7 @@ package com.jtschohl.androidfirewall;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -47,7 +47,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-// import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -68,20 +67,8 @@ import com.jtschohl.androidfirewall.Api.DroidApp;
  * Main application activity.
  * This is the screen displayed when you open the application
  */
+@SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
-	
-	// Menu options
-	// private static final int MENU_DISABLE	= 0;
-	// private static final int MENU_TOGGLELOG	= 1;
-	// private static final int MENU_APPLY		= 2;
-	// private static final int MENU_TOGGLEIPV6 = 3;	
-	// private static final int MENU_EXIT		= 4;
-	// private static final int MENU_HELP		= 5;
-	// private static final int MENU_SHOWLOG	= 6;
-	// private static final int MENU_SHOWRULES	= 7;
-	// private static final int MENU_CLEARLOG	= 8;
-	// private static final int MENU_SETPWD	= 9;
-	// private static final int MENU_SETCUSTOM = 10;
 	
 	/** progress dialog instance */
 	private ListView listview = null;
@@ -92,7 +79,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		try {
+        try {
 	        /* enable hardware acceleration on Android >= 3.0 */
 			final int FLAG_HARDWARE_ACCELERATED = WindowManager.LayoutParams.class.getDeclaredField("FLAG_HARDWARE_ACCELERATED").getInt(null);
 			getWindow().setFlags(FLAG_HARDWARE_ACCELERATED, FLAG_HARDWARE_ACCELERATED);
@@ -216,6 +203,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			}
 		}).show();
 	}
+	
 	/**
 	 * Toggle iptables log enabled/disabled
 	 */
@@ -227,30 +215,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		editor.commit();
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
-		} /* else if (Api.isIPv6Enabled(this)){
-			Api.applySavedIp6tablesRules(this, true);
-		} */
+		} 
 		Toast.makeText(MainActivity.this, (enabled?R.string.log_was_enabled:R.string.log_was_disabled), Toast.LENGTH_SHORT).show();
 	}
-	
-	/* private void ToggleIPv6() {
-		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-		final boolean enabled = !prefs.getBoolean(Api.PREF_IP6TABLES, false);
-		final Editor editor = prefs.edit();
-		editor.putBoolean(Api.PREF_IP6TABLES, enabled);
-		editor.commit();
-		if (Api.isIPv6Enabled(this)) {
-			Api.applySavedIptablesRules(this, true);
-		} else {
-			Api.purgeIp6tables(this, true);
-		}
-		Toast.makeText(MainActivity.this, (enabled?R.string.ipv6_was_enabled:R.string.ipv6_was_disabled), Toast.LENGTH_SHORT).show();
-	} */
 	
 	/**
 	 * If the applications are cached, just show them, otherwise load and show
 	 */
-	private void showOrLoadApplications() {
+	public void showOrLoadApplications() {
     	final Resources res = getResources();
     	if (Api.applications == null) {
     		// The applications are not cached.. so lets display the progress dialog
@@ -304,10 +276,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
        				entry = new ListEntry();
        				entry.box_wifi = (CheckBox) convertView.findViewById(R.id.itemcheck_wifi);
        				entry.box_3g = (CheckBox) convertView.findViewById(R.id.itemcheck_3g);
+       				entry.box_roaming = (CheckBox) convertView.findViewById(R.id.itemcheck_roam);
        				entry.text = (TextView) convertView.findViewById(R.id.itemtext);
        				entry.icon = (ImageView) convertView.findViewById(R.id.itemicon);
        				entry.box_wifi.setOnCheckedChangeListener(MainActivity.this);
        				entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
+       				entry.box_roaming.setOnCheckedChangeListener(MainActivity.this);
        				convertView.setTag(entry);
         		} else {
         			// Convert an existing view
@@ -327,6 +301,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
         		final CheckBox box_3g = entry.box_3g;
         		box_3g.setTag(app);
         		box_3g.setChecked(app.selected_3g);
+        		final CheckBox box_roaming = entry.box_roaming;
+        		box_roaming.setTag(app);
+        		box_roaming.setChecked(app.selected_roaming);
        			return convertView;
         	}
         };
@@ -379,8 +356,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	case R.id.customscript:
     		setCustomScript();
     		return true;
+    	case R.id.exportrules:
+    		exportRules();
+    		return true;
+    	case R.id.importrules:
+    		importRules();
+    		return true;
+    	default:
+    	return super.onOptionsItemSelected(item); 
     	}
-    	return true;
     }
     
     @Override
@@ -415,97 +399,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-  /*  @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-    	menu.add(0, MENU_DISABLE, 0, R.string.fw_enabled).setIcon(android.R.drawable.button_onoff_indicator_on);
-    	menu.add(0, MENU_TOGGLELOG, 0, R.string.log_enabled).setIcon(android.R.drawable.button_onoff_indicator_on);
-    	menu.add(0, MENU_APPLY, 0, R.string.applyrules).setIcon(R.drawable.apply);
-    	menu.add(0, MENU_TOGGLEIPV6, 0, R.string.ipv6_disabled); //.setIcon(android.R.drawable.button_onoff_indicator_off);
-    	//SubMenu optionsMenu = menu.addSubMenu("Options");
-    	menu.add(0, MENU_EXIT, 0, R.string.exit).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-    	menu.add(0, MENU_HELP, 0, R.string.help).setIcon(android.R.drawable.ic_menu_help);
-    	menu.add(0, MENU_SHOWLOG, 0, R.string.show_log).setIcon(R.drawable.show);
-    	menu.add(0, MENU_SHOWRULES, 0, R.string.showrules).setIcon(R.drawable.show);
-    	menu.add(0, MENU_CLEARLOG, 0, R.string.clear_log).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-    	menu.add(0, MENU_SETPWD, 0, R.string.setpwd).setIcon(android.R.drawable.ic_lock_lock);
-    	menu.add(0, MENU_SETCUSTOM, 0, R.string.set_custom_script);
-    	
-    	return true;
-    }
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-    	final MenuItem item_onoff = menu.getItem(MENU_DISABLE);
-    	final MenuItem item_apply = menu.getItem(MENU_APPLY);
-    	final boolean enabled = Api.isEnabled(this);
-    	if (enabled) {
-    		item_onoff.setIcon(android.R.drawable.button_onoff_indicator_on);
-    		item_onoff.setTitle(R.string.fw_enabled);
-    		item_apply.setTitle(R.string.applyrules);
-    	} else {
-    		item_onoff.setIcon(android.R.drawable.button_onoff_indicator_off);
-    		item_onoff.setTitle(R.string.fw_disabled);
-    		item_apply.setTitle(R.string.saverules);
-    	}
-    	final MenuItem ipv6_onoff = menu.getItem(MENU_TOGGLEIPV6);
-    	final boolean ipv6enabled = Api.isIPv6Enabled(this);
-    	if (ipv6enabled) {
-    		ipv6_onoff.setIcon(android.R.drawable.button_onoff_indicator_on);
-    		ipv6_onoff.setTitle(R.string.ipv6_enabled);
-    	} else {
-    		item_onoff.setIcon(android.R.drawable.button_onoff_indicator_off);
-    		item_onoff.setTitle(R.string.ipv6_disabled);
-    	}
-    	final MenuItem item_log = menu.getItem(MENU_TOGGLELOG);
-    	final boolean logenabled = getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(Api.PREF_LOGENABLED, false);
-    	if (logenabled) {
-    		item_log.setIcon(android.R.drawable.button_onoff_indicator_on);
-    		item_log.setTitle(R.string.log_enabled);
-    	} else {
-    		item_log.setIcon(android.R.drawable.button_onoff_indicator_off);
-    		item_log.setTitle(R.string.log_disabled);
-    	}
-    	return super.onPrepareOptionsMenu(menu);
-    }
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    	switch (item.getItemId()) {
-    	case MENU_DISABLE:
-    		disableOrEnable();
-    		return true;
-    	case MENU_TOGGLELOG:
-    		toggleLogEnabled();
-    		return true;
-    	case MENU_APPLY:
-    		applyOrSaveRules();
-    		return true;
-    	case MENU_TOGGLEIPV6:
-    		disableOrEnableIPv6();
-    		return true;
-    	case MENU_EXIT:
-    		finish();
-    		System.exit(0);
-    		return true;
-    	case MENU_HELP:
-    		new HelpDialog(this).show();
-    		return true;
-    	case MENU_SETPWD:
-    		setPassword();
-    		return true;
-    	case MENU_SHOWLOG:
-    		showLog();
-    		return true;
-    	case MENU_SHOWRULES:
-    		showRules();
-    		return true;
-    	case MENU_CLEARLOG:
-    		clearLog();
-    		return true;
-    	case MENU_SETCUSTOM:
-    		setCustomScript();
-    		return true;
-    	}
-    	return false;
-    } */
     /**
      * Enables or disables the firewall
      */
@@ -554,14 +447,54 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		intent.setClass(this, CustomScriptActivity.class);
 		startActivityForResult(intent, 0);
 	}
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	
+	//import rules file
+	public void importRules(){
+		Intent intent = new Intent();
+		intent.setClass(this, RulesDialog.class);
+		startActivityForResult(intent, IMPORT_RULES_REQUEST);
+	}
+	
+	//export rules file
+	public void exportRules(){
+		Intent intent = new Intent();
+		intent.setClass(this, ExportRulesDialog.class);
+		startActivityForResult(intent, EXPORT_RULES_REQUEST);
+	}
+	
+	
+	//set Request Code for Rules Import
+	static final int IMPORT_RULES_REQUEST = 10;
+	//set Request code for Rules export
+	static final int EXPORT_RULES_REQUEST = 20;
+	
+	//@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK && Api.CUSTOM_SCRIPT_MSG.equals(data.getAction())) {
+		if (resultCode == RESULT_OK && Api.CUSTOM_SCRIPT_MSG.equals(data.getAction())) 
+		{
 			final String script = data.getStringExtra(Api.SCRIPT_EXTRA);
 			final String script2 = data.getStringExtra(Api.SCRIPT2_EXTRA);
 			setCustomScript(script, script2);
 		}
+		if (requestCode == IMPORT_RULES_REQUEST && resultCode == RESULT_OK)
+		{
+			Toast.makeText(this,  "The rules have been imported successfully.", Toast.LENGTH_SHORT).show();
+			Api.applications = null;
+			showOrLoadApplications();
+		}
+		if (requestCode == EXPORT_RULES_REQUEST && resultCode == RESULT_OK)
+		{
+			//final String user_input = data.getStringExtra(Api.PREF_EXPORTNAME);
+			Toast.makeText(this,  "The rules have been exported successfully.", Toast.LENGTH_SHORT).show();
+			String exportedName = data.getStringExtra(Api.EXPORT_EXTRA);
+			Api.exportRulesToFile(MainActivity.this, exportedName);
+			
+		}
+		//for debugging purposes
+		//if (resultCode == RESULT_CANCELED)
+			//Toast.makeText(this,  "Operation Canceled", Toast.LENGTH_SHORT).show();
 	}
 	
     /**
@@ -650,19 +583,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
     			try {progress.dismiss();} catch(Exception ex){}
-				
-    			/* if (enabled && ipv6enabled) {
-					Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true) && Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-				} 
-					else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						Api.setEnabled(MainActivity.this, false);
-						Api.setIPv6Enabled(MainActivity.this, false);
-					}
-				} 
-    			else */ 
     			if (enabled) {
 					Log.d("Android Firewall", "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true) && Api.applyIptablesRules(MainActivity.this, true)) {
@@ -686,34 +606,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		handler.sendEmptyMessageDelayed(0, 100);	
 	}
 	
-	/* private void applyOrSaveRulesIPv6() {
-    	final Resources res = getResources();
-		//final boolean enabled = Api.isEnabled(this);
-		final boolean ipv6enabled = Api.isIPv6Enabled(this);
-		final ProgressDialog progress = ProgressDialog.show(this, res.getString(R.string.working), res.getString(ipv6enabled?R.string.applyingipv6_rules:R.string.saving_rules), true);
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-    			try {progress.dismiss();} catch(Exception ex){}
-				if (ipv6enabled) {
-					Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess2(MainActivity.this, true) && Api.applyIp6tablesRules(MainActivity.this, true)) {
-						Toast.makeText(MainActivity.this, R.string.rules_applied, Toast.LENGTH_SHORT).show();
-					} else {
-						Log.d("Android Firewall", "Failed - Disabling firewall.");
-						Api.setIPv6Enabled(MainActivity.this, false);
-					}
-				} 
-				else {
-					Log.d("Android Firewall", "Saving rules.");
-				Api.saveRules(MainActivity.this);
-					Toast.makeText(MainActivity.this, R.string.rules_saved, Toast.LENGTH_SHORT).show();
-				}
-				MainActivity.this.dirty = false;
-			}
-		};
-		handler.sendEmptyMessageDelayed(0, 100);
-	}
-	*/
 	/**
 	 * Purge iptable rules, showing a visual indication
 	 */
@@ -764,6 +656,12 @@ private void purgeIp6Rules() {
 				case R.id.itemcheck_3g:
 					if (app.selected_3g != isChecked) {
 						app.selected_3g = isChecked;
+						this.dirty = true;
+					}
+					break;
+				case R.id.itemcheck_roam:
+					if (app.selected_roaming != isChecked) {
+						app.selected_roaming = isChecked;
 						this.dirty = true;
 					}
 					break;
@@ -847,6 +745,7 @@ private void purgeIp6Rules() {
 	private static class ListEntry {
 		private CheckBox box_wifi;
 		private CheckBox box_3g;
+		private CheckBox box_roaming;
 		private TextView text;
 		private ImageView icon;
 		private DroidApp app;

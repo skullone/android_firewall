@@ -76,4 +76,10 @@
 \n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
 \nJapanese Translation by Hiroki Ogawa.
 </string>
+<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>

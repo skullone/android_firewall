@@ -2,6 +2,8 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:  
 
+2.0.0 - Added Roaming Support.  Added Export/Import of Rules.  BootBroadcast updated to correct issues
+		with some devices not applying rules after a reboot.
 1.0.9 - Updated the translations.  IPv6 support cleaned up.  Back to a single shell script.
 1.0.8 - Menu's cleaned up.  IPv6 support available again for some devices.  Please note that not all devices support IPv6. IPv6 support is now an option to enable.  If your device does not support IPv6 you get an error saying "ip6tabled not found".
 1.0.7 - Reverted IPv6 support due to issues with older devices.

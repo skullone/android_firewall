@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.jtschohl.androidfirewall"
-      android:versionCode="109" android:versionName="1.0.9">
+      android:versionCode="200" android:versionName="2.0.0">
       <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
+    <!-- Boot completed permission is for applying iptables/ip6tables after a reboot.  iptables/ip6tables is not persistent so a reboot
+    wipes it out  -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <!-- Access Network State is used to check if the device is roaming. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <!-- Write external storage is for exporting app rules -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:hardwareAccelerated="true">
         <activity android:name=".MainActivity" android:label="@string/app_name">
@@ -13,9 +19,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".CustomScriptActivity"/>
+        <activity android:name=".RulesDialog"/>
+        <activity android:name=".ExportRulesDialog"/>
+	    <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService"></service>
 	    <receiver android:name="BootBroadcast" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-	    	<intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"></action></intent-filter>
+	    	<intent-filter>
+	    	    <action android:name="android.intent.action.BOOT_COMPLETED">
+	    	    </action>
+	    	</intent-filter>
 		</receiver>
+		
+		<receiver android:name="com.jtschohl.androidfirewall.CheckForChangeToRoaming" >
+		    <intent-filter>
+		        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+		    </intent-filter>
+		</receiver>
+		
 		<receiver android:name ="PackageBroadcast">
 			<intent-filter>
 				<action android:name="android.intent.action.PACKAGE_ADDED"/>            

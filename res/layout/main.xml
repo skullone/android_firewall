@@ -9,6 +9,7 @@
 		<View android:layout_width="38dip" android:layout_height="fill_parent"/>
 		<ImageView android:layout_width="38dip" android:layout_height="wrap_content" android:id="@+id/img_wifi" android:src="@drawable/eth_wifi" android:clickable="false"></ImageView>
 		<ImageView android:layout_width="38dip" android:layout_height="wrap_content" android:id="@+id/img_3g" android:src="@drawable/eth_3g" android:clickable="false"></ImageView>
+		<ImageView android:layout_width="38dip" android:layout_height="wrap_content" android:id="@+id/img_roam" android:src="@drawable/eth_roam" android:clickable="false"></ImageView>
 	</LinearLayout>
 	<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/listview"></ListView>
 </LinearLayout>

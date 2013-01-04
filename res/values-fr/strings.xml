@@ -86,4 +86,10 @@
         \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant <b>Définir un mot de passe</b> dans les options du menu.
         \nPour supprimer le mot de passe, il suffit de le modifier et de laisser le champ de saisie vide.
       </string>
+      <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>

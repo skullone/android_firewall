@@ -3,7 +3,7 @@
  * This is necessary because the iptables rules are not persistent.
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
- * Coypright (C) 2012-2013	Jason Tschohl
+ * Coypright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,19 +27,24 @@ package com.jtschohl.androidfirewall;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.Toast;
 
 /**
  * Broadcast receiver that set iptables rules on system startup.
  * This is necessary because the rules are not persistent.
  */
-public class BootBroadcast extends BroadcastReceiver {
+public class BootBroadcast extends BroadcastReceiver 
+{
 
 	@Override
-	/* public void onReceive(final Context context, final Intent intent) {
-		if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+	public void onReceive(final Context context, final Intent intent) 
+	{
+		setRulesOnBootService.performAction(context, setRulesOnBootService.BOOTUP_COMPLETED);
+		//The first performAction is called because of the number of variables due to using Intents.  
+		//Yes, I'm starting to use more comments in my code.  
+	}	
+
+}	
+		/*if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
 			if (Api.isEnabled(context)) {
 	        	final Handler toaster = new Handler() {
 	        		public void handleMessage(Message msg) {
@@ -60,51 +65,6 @@ public class BootBroadcast extends BroadcastReceiver {
 					}
 				}.start();
 			}
-		}
-	} */
-	public void onReceive(final Context context, final Intent intent) {
-		if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-			if (Api.isEnabled(context)) {
-	        	final Handler toaster = new Handler() {
-	        		public void handleMessage(Message msg) {
-	        			if (msg.arg1 != 0) Toast.makeText(context, msg.arg1, Toast.LENGTH_SHORT).show();
-	        		}
-	        	};
-				// Start a new thread to enable the firewall - this prevents ANR
-				new Thread() {
-					@Override
-					public void run() {
-						if (!Api.applySavedIptablesRules(context, false)) {
-							// Error enabling firewall on boot
-		        			final Message msg = new Message();
-		        			msg.arg1 = R.string.toast_error_enabling;
-		        			toaster.sendMessage(msg);
-							Api.setEnabled(context, false);
-						}
-					}
-				}.start();
-			}
-			
-			/* if (Api.isIPv6Enabled(context)) {
-				final Handler toaster = new Handler() {
-	        		public void handleMessage(Message msg) {
-	        			if (msg.arg1 != 0) Toast.makeText(context, msg.arg1, Toast.LENGTH_SHORT).show();
-	        		}
-	        	};
-				// Start a new thread to enable the firewall - this prevents ANR
-				new Thread() {
-					@Override
-					public void run() {
-						if (!Api.applySavedIp6tablesRules(context, false)) {
-							// Error enabling firewall on boot
-		        			final Message msg = new Message();
-		        			msg.arg1 = R.string.toast_error_enabling;
-		        			toaster.sendMessage(msg);
-							Api.setIPv6Enabled(context, false);
-						}
-					}
-				}.start();
-			} */
 		}
 	}
-}
+	}*/

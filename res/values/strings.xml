@@ -90,4 +90,10 @@
 		\nYou can set a password lock for Android Firewall by using the <b>Set password</b> menu option.
 		\nTo remove the password protection, just reset it to blank.
 	</string>
+	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>

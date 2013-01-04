@@ -70,4 +70,10 @@
 		\nبإمكانك تعيين كلمة مرور لقفل Android Firewall باستخدام <b>تعيين كلمة مرور</b> من القائمة.
 		\nلإزالة حماية كلمة المرور ، فقط قم بتغييرها إلى كلمة مرور فارغة.
 	</string>
+	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>

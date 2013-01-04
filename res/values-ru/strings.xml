@@ -85,4 +85,10 @@
                 \nВы можете установить пароль блокировки для Android Firewall с помощью параметра меню <b>Установить пароль</b>.
                 \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым
         </string>
+        <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+	<string name="importsuccess">Import successful!</string>
+	<string name="importfailed">Import failed!</string>
+	<string name="exportfailed">Export failed!</string>
+	<string name="exportsuccess">Export successful!</string>
+	<string name="enterfilename">Please enter the filename</string>
 </resources>
