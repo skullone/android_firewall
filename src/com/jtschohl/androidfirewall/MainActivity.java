@@ -25,6 +25,7 @@
 
 package com.jtschohl.androidfirewall;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import android.annotation.SuppressLint;
@@ -39,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -452,14 +454,43 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 	public void importRules(){
 		Intent intent = new Intent();
 		intent.setClass(this, RulesDialog.class);
-		startActivityForResult(intent, IMPORT_RULES_REQUEST);
+		File filepath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidfirewall/");
+		if(filepath.isDirectory()) 
+		{
+			startActivityForResult(intent, IMPORT_RULES_REQUEST);
+		}
+		else
+		{
+			Toast.makeText(this, "There is an error accessing the androidfirewall directory. Please export a rules file first.", Toast.LENGTH_LONG).show();
+		}
+		
 	}
 	
 	//export rules file
 	public void exportRules(){
 		Intent intent = new Intent();
 		intent.setClass(this, ExportRulesDialog.class);
-		startActivityForResult(intent, EXPORT_RULES_REQUEST);
+		//boolean mExternalStorageAvailable = false;
+		//boolean mExternalStorageWriteable = false;
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    // We can read and write the media
+		    //mExternalStorageAvailable = mExternalStorageWriteable = true;
+			startActivityForResult(intent, EXPORT_RULES_REQUEST);  
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    // We can only read the media
+		    //mExternalStorageAvailable = true;
+		    //mExternalStorageWriteable = false;
+			Toast.makeText(this, "There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.", Toast.LENGTH_LONG).show();
+		} else {
+		    // Something else is wrong. It may be one of many other states, but all we need
+		    //  to know is we can neither read nor write
+		    //mExternalStorageAvailable = mExternalStorageWriteable = false;
+			Toast.makeText(this, "There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.", Toast.LENGTH_LONG).show();
+		}
+		
+		
 	}
 	
 	

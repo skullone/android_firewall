@@ -30,8 +30,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -70,6 +73,29 @@ public class RulesDialog extends ListActivity
 		finish();
 	}
 	
+	public boolean onItemLongClick(ListView items, View v, int position, long id)
+	{
+		final File file = new File(filepath + "/" + getListAdapter().getItem(position));
+		AlertDialog.Builder builder = new AlertDialog.Builder(null);
+    	builder.setMessage("Do you want to delete the file " + file)
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() 
+    	       {
+    	    	  public void onClick(DialogInterface dialog, int id)
+    	    	  {
+    	    		  file.delete();
+    	    	  }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() 
+    	       {
+    	    	   public void onClick(DialogInterface dialog, int id)
+    	    	   {
+    	    		   dialog.cancel();
+    	    	   }
+    	       });
+    	return true;
+	}
+	 
     //@Override 
     @SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView items, View v, int position, long id)

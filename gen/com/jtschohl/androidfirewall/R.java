@@ -74,6 +74,7 @@ public final class R {
     }
     public static final class menu {
         public static final int menu=0x7f070000;
+        public static final int rules_file_delete=0x7f070001;
     }
     public static final class raw {
         public static final int busybox_g1=0x7f050000;
