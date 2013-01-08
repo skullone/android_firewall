@@ -21,6 +21,7 @@
         <activity android:name=".CustomScriptActivity"/>
         <activity android:name=".RulesDialog"/>
         <activity android:name=".ExportRulesDialog"/>
+        <activity android:name=".DeleteRulesDialog"/>
 	    <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService"></service>
 	    <receiver android:name="BootBroadcast" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
 	    	<intent-filter>

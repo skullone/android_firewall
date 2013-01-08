@@ -16,16 +16,17 @@ public final class R {
         public static final int eth_roam=0x7f020002;
         public static final int eth_wifi=0x7f020003;
         public static final int icon=0x7f020004;
-        public static final int show=0x7f020005;
-        public static final int widget_bg=0x7f020006;
-        public static final int widget_bg_focus=0x7f020007;
-        public static final int widget_bg_pressed=0x7f020008;
-        public static final int widget_off=0x7f020009;
-        public static final int widget_on=0x7f02000a;
+        public static final int notify_icon=0x7f020005;
+        public static final int show=0x7f020006;
+        public static final int widget_bg=0x7f020007;
+        public static final int widget_bg_focus=0x7f020008;
+        public static final int widget_bg_pressed=0x7f020009;
+        public static final int widget_off=0x7f02000a;
+        public static final int widget_on=0x7f02000b;
     }
     public static final class id {
         public static final int applyrules=0x7f08001b;
-        public static final int clearlog=0x7f080021;
+        public static final int clearlog=0x7f080022;
         public static final int customscript=0x7f080001;
         public static final int customscript2=0x7f080002;
         public static final int customscript_cancel=0x7f080003;
@@ -33,12 +34,12 @@ public final class R {
         public static final int customscript_ok=0x7f080004;
         public static final int enableipv4=0x7f080019;
         public static final int enableipv6=0x7f08001a;
-        public static final int enablelog=0x7f08001e;
-        public static final int exit=0x7f080024;
+        public static final int enablelog=0x7f08001f;
+        public static final int exit=0x7f080026;
         public static final int exportrules=0x7f080005;
         public static final int exportrules_cancel=0x7f080006;
         public static final int exportrules_ok=0x7f080007;
-        public static final int help=0x7f080023;
+        public static final int help=0x7f080025;
         public static final int img_3g=0x7f08000f;
         public static final int img_roam=0x7f080010;
         public static final int img_wifi=0x7f08000e;
@@ -52,14 +53,16 @@ public final class R {
         public static final int label_mode=0x7f08000d;
         public static final int listview=0x7f080011;
         public static final int main=0x7f080012;
-        public static final int options=0x7f08001d;
+        public static final int managerulefiles=0x7f08001d;
+        public static final int notify=0x7f080024;
+        public static final int options=0x7f08001e;
         public static final int pass_cancel=0x7f080016;
         public static final int pass_input=0x7f080015;
         public static final int pass_message=0x7f080014;
         public static final int pass_ok=0x7f080017;
-        public static final int setpwd=0x7f080022;
-        public static final int showlog=0x7f08001f;
-        public static final int showrules=0x7f080020;
+        public static final int setpwd=0x7f080023;
+        public static final int showlog=0x7f080020;
+        public static final int showrules=0x7f080021;
         public static final int widgetCanvas=0x7f080013;
     }
     public static final class layout {
@@ -74,7 +77,6 @@ public final class R {
     }
     public static final class menu {
         public static final int menu=0x7f070000;
-        public static final int rules_file_delete=0x7f070001;
     }
     public static final class raw {
         public static final int busybox_g1=0x7f050000;
@@ -120,6 +122,11 @@ public final class R {
         public static final int mode_blacklist=0x7f06002c;
         public static final int mode_header=0x7f06002a;
         public static final int mode_whitelist=0x7f06002b;
+        public static final int new_app_installed=0x7f060043;
+        public static final int notify_disabled=0x7f060045;
+        public static final int notify_enabled=0x7f060044;
+        public static final int notify_was_disabled=0x7f060047;
+        public static final int notify_was_enabled=0x7f060046;
         public static final int overwrite_rules=0x7f06003d;
         public static final int pass_titleget=0x7f060021;
         public static final int pass_titleset=0x7f060020;

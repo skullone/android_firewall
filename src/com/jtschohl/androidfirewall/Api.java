@@ -57,16 +57,14 @@ import android.widget.Toast;
  * Contains shared programming interfaces.
  * All iptables "communication" is handled by this class.
  */
-public final class Api {
-	/** application version string */
-	/** public static final String VERSION = "2.0.0"; */
+public final class Api 
+{
 	/** special application UID used to indicate "Any application" */
 	public static final int SPECIAL_UID_ANY	= -10;
 	/** special application UID used to indicate the Linux Kernel */
 	public static final int SPECIAL_UID_KERNEL	= -11;
 	/** root script filename */
 	private static final String SCRIPT_FILE = "androidfirewall.sh";
-	// private static final String SCRIPT_FILE2 = "androidfirewallipv6.sh";
 	
 	// Preferences
 	public static final String PREFS_NAME 			= "AndroidFirewallPrefs";
@@ -82,6 +80,7 @@ public final class Api {
 	public static final String PREF_IP6TABLES		= "IPv6Enabled";
 	public static final String PREF_REFRESH			= "Enabled";
 	public static final String PREF_EXPORTNAME		= "ExportName";
+	public static final String PREF_NOTIFY			= "NotifyEnabled";
 	
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -100,15 +99,16 @@ public final class Api {
 	public static DroidApp applications[] = null;
 	// Do we have root access?
 	private static boolean hasroot = false; 
-	// private static boolean hasroot2 = false;
 	 
     /**
      * Display a simple alert box
      * @param ctx context
      * @param msg message
      */
-	public static void alert(Context ctx, CharSequence msg) {
-    	if (ctx != null) {
+	public static void alert(Context ctx, CharSequence msg) 
+	{
+    	if (ctx != null) 
+    	{
         	new AlertDialog.Builder(ctx)
         	.setNeutralButton(android.R.string.ok, null)
         	.setMessage(msg)
@@ -121,10 +121,10 @@ public final class Api {
 	 * @param ctx context
 	 * @return script header
 	 */
-	private static String scriptHeader(Context ctx) {
+	private static String scriptHeader(Context ctx) 
+	{
 		final String dir = ctx.getDir("bin",0).getAbsolutePath();
 		final String myiptables = dir + "/iptables_armv5";
-		//final String myip6tables = dir;
 		return "" +
 			"IPTABLES=iptables\n" +
 			"IP6TABLES=ip6tables\n" +
@@ -179,7 +179,8 @@ public final class Api {
 		final InputStream is = ctx.getResources().openRawResource(resid);
 		byte buf[] = new byte[1024];
 		int len;
-		while ((len = is.read(buf)) > 0) {
+		while ((len = is.read(buf)) > 0) 
+		{
 			out.write(buf, 0, len);
 		}
 		out.close();
@@ -196,8 +197,10 @@ public final class Api {
      */
 	
 	
-	private static boolean applyIptablesRulesImpl(Context ctx, List<Integer> uidsWifi, List<Integer> uids3g, List<Integer> uidsroaming, boolean showErrors) {
-		if (ctx == null) {
+	private static boolean applyIptablesRulesImpl(Context ctx, List<Integer> uidsWifi, List<Integer> uids3g, List<Integer> uidsroaming, boolean showErrors) 
+	{
+		if (ctx == null) 
+		{
 			return false;
 		}
 		assertBinaries(ctx, showErrors);
@@ -212,7 +215,8 @@ public final class Api {
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0).getString(Api.PREF_CUSTOMSCRIPT, "");
 
     	final StringBuilder script = new StringBuilder();
-		try {
+		try 
+		{
 			int code;
 			script.append(scriptHeader(ctx));
 			script.append("" +
@@ -541,8 +545,10 @@ public final class Api {
      * @param ctx application context (mandatory)
      * @param showErrors indicates if errors should be alerted
      */
-	public static boolean applySavedIptablesRules(Context ctx, boolean showErrors) {
-		if (ctx == null) {
+	public static boolean applySavedIptablesRules(Context ctx, boolean showErrors) 
+	{
+		if (ctx == null) 
+		{
 			return false;
 		}
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
@@ -550,15 +556,20 @@ public final class Api {
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
 		final String savedUids_roaming = prefs.getString(PREF_ROAMING_UIDS, "");
 		final List<Integer> uids_wifi = new LinkedList<Integer>();
-		if (savedUids_wifi.length() > 0) {
+		if (savedUids_wifi.length() > 0) 
+		{
 			// Check which applications are allowed on wifi
 			final StringTokenizer tok = new StringTokenizer(savedUids_wifi, "|");
-			while (tok.hasMoreTokens()) {
+			while (tok.hasMoreTokens()) 
+			{
 				final String uid = tok.nextToken();
-				if (!uid.equals("")) {
-					try {
+				if (!uid.equals("")) 
+				{
+					try 
+					{
 						uids_wifi.add(Integer.parseInt(uid));
-					} catch (Exception ex) {
+					} catch (Exception ex) 
+					{
 					}
 				}
 			}
@@ -578,15 +589,20 @@ public final class Api {
 			}
 		}
 		final List<Integer> uids_roaming = new LinkedList<Integer>();
-		if (savedUids_roaming.length() > 0) {
+		if (savedUids_roaming.length() > 0) 
+		{
 			// Check which applications are allowed on 2G/3G
 			final StringTokenizer tok = new StringTokenizer(savedUids_roaming, "|");
-			while (tok.hasMoreTokens()) {
+			while (tok.hasMoreTokens()) 
+			{
 				final String uid = tok.nextToken();
-				if (!uid.equals("")) {
-					try {
+				if (!uid.equals("")) 
+				{
+					try 
+					{
 						uids_roaming.add(Integer.parseInt(uid));
-					} catch (Exception ex) {
+					} catch (Exception ex) 
+					{
 					}
 				}
 			}
@@ -1173,9 +1189,20 @@ public final class Api {
 		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_ENABLED, false);
 	}
 	
+	/**
+	 * check to see if IPv6 is enabled
+	 */
 	public static boolean isIPv6Enabled(Context ctx) {
 		if (ctx == null) return false;
 		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_IP6TABLES, false);
+	}
+	
+	/**
+	 * check to see if notifications are enabled
+	 */
+	public static boolean isNotifyEnabled(Context ctx) {
+		if (ctx == null) return false;
+		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_NOTIFY, false);
 	}
 	
 	/*

@@ -76,4 +76,8 @@
 	<string name="exportfailed">Export failed!</string>
 	<string name="exportsuccess">Export successful!</string>
 	<string name="enterfilename">Please enter the filename</string>
+	<string name="notify_enabled">Notifications enabled</string>
+    <string name="notify_disabled">Notifications disabled</string>
+    <string name="notify_was_enabled">Notifications have been enabled</string>
+    <string name="notify_was_disabled">Notifications have been disabled</string>
 </resources>

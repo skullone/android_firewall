@@ -330,9 +330,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	case R.id.enableipv6:	
     		disableOrEnableIPv6();
     		return true;
-    	// case R.id.applyrulesipv6:
-    		// applyOrSaveRulesIPv6();
-    		// return true;
     	case R.id.enablelog:
     		toggleLogEnabled();
     		return true;
@@ -363,6 +360,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     		return true;
     	case R.id.importrules:
     		importRules();
+    		return true;
+    	case R.id.notify:
+    		toggleNotifications();
+    		return true;
+    	case R.id.managerulefiles:
+    		manageRuleFiles();
     		return true;
     	default:
     	return super.onOptionsItemSelected(item); 
@@ -398,6 +401,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
     	} else {
     		item_log.setTitle(R.string.log_disabled);
     	}
+    	final MenuItem item_notify = menu.findItem(R.id.notify);
+		final boolean notifyenabled = getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
+    	if (notifyenabled) {
+    		item_notify.setTitle(R.string.notify_enabled);
+    	} else {
+    		item_notify.setTitle(R.string.notify_disabled);
+    	}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -416,6 +426,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		refreshHeader();
 	}
 	
+	//enable or disable IPv6 support
 	private void disableOrEnableIPv6() {
 		final boolean ipv6enabled = !Api.isIPv6Enabled(this);
 		Log.d("Android Firewall", "Enabling IPv6: " + ipv6enabled);
@@ -426,6 +437,19 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			purgeIp6Rules();
 		}
 		refreshHeader();
+	}
+	
+	/**
+	 * Enable or disable Notifications
+	 */
+	
+	private void toggleNotifications() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean enabled = !prefs.getBoolean(Api.PREF_NOTIFY, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_NOTIFY, enabled);
+		editor.commit();
+		Toast.makeText(MainActivity.this, (enabled?R.string.notify_was_enabled:R.string.notify_was_disabled), Toast.LENGTH_SHORT).show();
 	}
 	/**
 	 * Set a new lock password
@@ -493,11 +517,27 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		
 	}
 	
-	
+	//manage Rule files
+	public void manageRuleFiles(){
+		Intent intent = new Intent();
+		intent.setClass(this, DeleteRulesDialog.class);
+		File filepath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidfirewall/");
+		if(filepath.isDirectory()) 
+		{
+			startActivityForResult(intent, MANAGE_RULES_REQUEST);
+		}
+		else
+		{
+			Toast.makeText(this, "There is an error accessing the androidfirewall directory. Please export a rules file first.", Toast.LENGTH_LONG).show();
+		}
+		
+	}
 	//set Request Code for Rules Import
 	static final int IMPORT_RULES_REQUEST = 10;
 	//set Request code for Rules export
 	static final int EXPORT_RULES_REQUEST = 20;
+	//set Request Code for Rule Management
+	static final int MANAGE_RULES_REQUEST = 30;
 	
 	//@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
@@ -522,6 +562,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			String exportedName = data.getStringExtra(Api.EXPORT_EXTRA);
 			Api.exportRulesToFile(MainActivity.this, exportedName);
 			
+		}
+		if (requestCode == MANAGE_RULES_REQUEST && resultCode == RESULT_OK)
+		{
+			Toast.makeText(this, "The file has been deleted.", Toast.LENGTH_SHORT).show();
+			manageRuleFiles();
 		}
 		//for debugging purposes
 		//if (resultCode == RESULT_CANCELED)
@@ -719,10 +764,12 @@ private void purgeIp6Rules() {
 					switch (which) {
 					case DialogInterface.BUTTON_POSITIVE:
 						applyOrSaveRules();
+						finish();
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						// Propagate the event back to perform the desired action
 						MainActivity.super.onKeyDown(keyCode, event);
+						finish();
 						break;
 					}
 				}
@@ -736,6 +783,8 @@ private void purgeIp6Rules() {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	
 	/**
 	 * Asynchronous task used to load icons in a background thread.
 	 */

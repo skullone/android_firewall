@@ -9,6 +9,8 @@
         android:title="Export Rules" />
     <item android:id="@+id/importrules"
         android:title="Import Rules" />
+    <item android:id="@+id/managerulefiles"
+        android:title="Manage Rule Files" />
     <item android:id="@+id/options"
         android:title="Options" >
     	<!-- "Options" submenu -->
@@ -25,6 +27,8 @@
                 android:title="Show password" />
             <item android:id="@+id/customscript"
                 android:title="Set custom script" />
+            <item android:id="@+id/notify"
+                android:title="Notifications disabled" />
         </menu>
         </item>
     <item android:id="@+id/help"
