@@ -1,34 +1,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/enableipv4"
-        android:title="Firewall enabled" />
+        android:title="@string/fw_enabled" />
     <item android:id="@+id/enableipv6"
-        android:title="IPv6 enabled" />
+        android:title="@string/ipv6_enabled" />
     <item android:id="@+id/applyrules"
-    	android:title="Apply Rules" />
+    	android:title="@string/applyrules" />
     <item android:id="@+id/exportrules"
-        android:title="Export Rules" />
+        android:title="@string/exportrules" />
     <item android:id="@+id/importrules"
-        android:title="Import Rules" />
+        android:title="@string/importrules" />
     <item android:id="@+id/options"
-        android:title="Options" >
+        android:title="@string/options" >
     	<!-- "Options" submenu -->
         <menu>
             <item android:id="@+id/enablelog"
-                android:title="Log disabled" />
+                android:title="@string/log_enabled" />
             <item android:id="@+id/showlog"
-                android:title="Show Log" />
+                android:title="@string/show_log" />
             <item android:id="@+id/showrules"
-                android:title="Show rules" />
+                android:title="@string/showrules" />
             <item android:id="@+id/clearlog"
-                android:title="Clear log" />
+                android:title="@string/clear_log" />
             <item android:id="@+id/setpwd"
-                android:title="Show password" />
+                android:title="@string/setpwd" />
             <item android:id="@+id/customscript"
-                android:title="Set custom script" />
+                android:title="@string/set_custom_script" />
         </menu>
         </item>
     <item android:id="@+id/help"
-        android:title="Help" />
+        android:title="@string/help" />
     <item android:id="@+id/exit"
-        android:title="Exit" />
+        android:title="@string/exit" />
 </menu>

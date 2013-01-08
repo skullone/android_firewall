@@ -5,6 +5,9 @@
     <string name="title_disabled">Android Firewall (Disabled)</string>
     <string name="showrules">Show rules</string>
     <string name="applyrules">Apply rules</string>
+    <string name="exportrules">Export Rules</string>
+    <string name="importrules">Import Rules</string>
+    <string name="options">Options</string>
     <string name="saverules">Save rules</string>
     <string name="applyrules2">Apply IPv6 rules</string>
     <string name="purgerules">Purge rules</string>
