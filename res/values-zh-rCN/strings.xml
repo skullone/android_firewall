@@ -5,6 +5,9 @@
     <string name="title_disabled">Android Firewall (防火墙已禁用)</string>
     <string name="showrules">显示规则</string>
     <string name="applyrules">应用规则</string>
+    <string name="exportrules">导出规则</string>
+    <string name="importrules">导入规则</string>
+    <string name="options">选项</string>
     <string name="saverules">保存规则</string>
     <string name="purgerules">清空规则</string>
     <string name="setpwd">设置密码</string>
@@ -17,10 +20,10 @@
     <string name="log_disabled">日志已禁用</string>
     <string name="log_was_enabled">日志已被启用</string>
     <string name="log_was_disabled">日志已被禁用</string>
-    <string name="ipv6_enabled">IPv6 enabled</string>
-    <string name="ipv6_disabled">IPv6 disabled</string>
-    <string name="ipv6_was_enabled">IPv6 has been enabled</string>
-    <string name="ipv6_was_disabled">IPv6 has been disabled</string>
+    <string name="ipv6_enabled">IPv6 已启用</string>
+    <string name="ipv6_disabled">IPv6 未启用</string>
+    <string name="ipv6_was_enabled">IPv6 已被启用</string>
+    <string name="ipv6_was_disabled">IPv6 已被禁用</string>
     <string name="log_cleared">日志已清除</string>
     <string name="show_log">显示日志</string>
     <string name="clear_log">清除日志</string>
@@ -56,6 +59,9 @@
 		\n<i>(放空则删除)</i>
 		\n查看自定义脚本的更多信息, 点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
 	</string>
+    <string name="custom_script2_info">
+    	\n<b>自定义禁用脚本</b>
+    	\n在防火墙<b>被禁用</b>时执行的脚本：</string>
     <string name="unsaved_changes">未保存更改</string>
     <string name="unsaved_changes_message">有未保存更改.\n你想保存还是丢弃它们?</string>
     <string name="apply">应用</string>
@@ -85,10 +91,10 @@
 		\n你可以使用菜单中的<b>设置密码</b>选项来为Android Firewall设置密码锁.
 		\n若要移除密码保护,只需要将它重置为空白.
 	</string>
-	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
+	<string name="overwrite_rules">即将覆盖现有规则，要继续吗？</string>
+	<string name="importsuccess">导入成功！</string>
+	<string name="importfailed">导入失败！</string>
+	<string name="exportfailed">导出失败！</string>
+	<string name="exportsuccess">到处成功！</string>
+	<string name="enterfilename">请输入文件名</string>
 </resources>
