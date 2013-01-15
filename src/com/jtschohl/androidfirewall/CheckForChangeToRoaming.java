@@ -32,13 +32,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class CheckForChangeToRoaming extends BroadcastReceiver {
-	
-	public void onReceive(Context context, Intent intent){
-		
-		ConnectivityManager connectmanager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+	public void onReceive(Context context, Intent intent) {
+
+		ConnectivityManager connectmanager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo[] roaminfo = connectmanager.getAllNetworkInfo();
-		for(NetworkInfo roam: roaminfo){
-			if (roaminfo != null){
+		for (NetworkInfo roam : roaminfo) {
+			if (roaminfo != null) {
 				if (roam.getType() == ConnectivityManager.TYPE_MOBILE)
 					if (roam.isConnectedOrConnecting() && roam.isRoaming()) {
 						Api.applyIptablesRules(context, false);
@@ -46,5 +47,5 @@ public class CheckForChangeToRoaming extends BroadcastReceiver {
 			}
 		}
 	}
-	
+
 }

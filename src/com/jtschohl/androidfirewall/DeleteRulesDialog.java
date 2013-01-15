@@ -35,60 +35,53 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+public class DeleteRulesDialog extends ListActivity {
+	private File filepath = new File(Environment.getExternalStorageDirectory()
+			.getAbsolutePath() + "/androidfirewall/");
+	private static final String filetype = ".rules";
 
-public class DeleteRulesDialog extends ListActivity
-{
-	private File filepath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidfirewall/");
-	private static final String filetype = ".rules";	
-	
-	public void onCreate(Bundle ruleslist)
-    {
-    	super.onCreate(ruleslist);
-    	String[] rulesfiles;
-    	FilenameFilter filter = new FilenameFilter()
-    	{
-    		public boolean accept(File dir, String filename)
-    		{
-    			File sel = new File(dir, filename);
-    			return filename.contains(filetype) || sel.isDirectory();
-    		}
-    	};
-    	rulesfiles = filepath.list(filter);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rules_dialog, R.id.label, rulesfiles);
-    	setListAdapter(adapter);
-    	
-    }
-	
-	private void resultOk() 
-	{
+	public void onCreate(Bundle ruleslist) {
+		super.onCreate(ruleslist);
+		String[] rulesfiles;
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String filename) {
+				File sel = new File(dir, filename);
+				return filename.contains(filetype) || sel.isDirectory();
+			}
+		};
+		rulesfiles = filepath.list(filter);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.rules_dialog, R.id.label, rulesfiles);
+		setListAdapter(adapter);
+
+	}
+
+	private void resultOk() {
 		final Intent response = new Intent(Api.PREF_REFRESH);
 		setResult(RESULT_OK, response);
 		finish();
 	}
-	
-	protected void onListItemClick(ListView items, View v, int position, long id)
-	{
-		final File file = new File(filepath + "/" + getListAdapter().getItem(position));
+
+	protected void onListItemClick(ListView items, View v, int position, long id) {
+		final File file = new File(filepath + "/"
+				+ getListAdapter().getItem(position));
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("Do you want to delete the file " + file)
-    	       .setCancelable(false)
-    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() 
-    	       {
-    	    	  public void onClick(DialogInterface dialog, int id)
-    	    	  {
-    	    		  file.delete();
-    	    		  resultOk();
-    	    	  }
-    	       })
-    	       .setNegativeButton("No", new DialogInterface.OnClickListener() 
-    	       {
-    	    	   public void onClick(DialogInterface dialog, int id)
-    	    	   {
-    	    		   dialog.cancel();
-    	    	   }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
-    	
+		builder.setMessage("Do you want to delete the file " + file)
+				.setCancelable(false)
+				.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								file.delete();
+								resultOk();
+							}
+						})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+
 	}
 }

@@ -35,51 +35,53 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 /**
- * Broadcast receiver responsible for removing rules that affect uninstalled apps.
+ * Broadcast receiver responsible for removing rules that affect uninstalled
+ * apps.
  */
 public class PackageBroadcast extends BroadcastReceiver {
-	
+
 	@Override
-	public void onReceive(Context context, Intent intent) 
-	{
-		if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) 
-		{
+	public void onReceive(Context context, Intent intent) {
+		if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
 			// Ignore application updates
-			final boolean replacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false);
-			if (!replacing) 
-			{
+			final boolean replacing = intent.getBooleanExtra(
+					Intent.EXTRA_REPLACING, false);
+			if (!replacing) {
 				// Update the Firewall if necessary
 				final int uid = intent.getIntExtra(Intent.EXTRA_UID, -123);
 				Api.applicationRemoved(context, uid);
 				// Force app list reload next time
 				Api.applications = null;
 			}
-		} else if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) 
-		{
+		} else if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
 			// Force app list reload next time
 			Api.applications = null;
-			//check to see if Notifications are enabled
-			final boolean NotifyEnabled = context.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
-			if (NotifyEnabled) 
-			{
-				String new_app_installed = intent.getData().getSchemeSpecificPart();
-				if (PackageManager.PERMISSION_GRANTED == context.getPackageManager().checkPermission(Manifest.permission.INTERNET, new_app_installed)) 
-				{
-					//notify the User that a new app has been installed
+			// check to see if Notifications are enabled
+			final boolean NotifyEnabled = context.getSharedPreferences(
+					Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
+			if (NotifyEnabled) {
+				String new_app_installed = intent.getData()
+						.getSchemeSpecificPart();
+				if (PackageManager.PERMISSION_GRANTED == context
+						.getPackageManager()
+						.checkPermission(Manifest.permission.INTERNET,
+								new_app_installed)) {
+					// notify the User that a new app has been installed
 					notifyUserOfAppInstall(context, new_app_installed);
 				}
 			}
 		}
-		}
-	
+	}
+
 	/**
 	 * Send notification to the notification bar
+	 * 
 	 * @param context
 	 * @param new_app_installed
 	 */
 	@SuppressWarnings("deprecation")
 	public void notifyUserOfAppInstall(Context context, String new_app_installed) {
-		
+
 		final int notifyMsg = 2187;
 		int icon = R.drawable.notify_icon;
 		long time_stamp = new Date().getTime();
@@ -87,16 +89,20 @@ public class PackageBroadcast extends BroadcastReceiver {
 		Intent intent = new Intent(context, MainActivity.class);
 		CharSequence notifyname = "Open Android Firewall";
 
-		NotificationManager ManageNotification = (NotificationManager) context.getSystemService(notifyService);
-		Notification notification = new Notification(icon, notifyname, time_stamp);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
-		
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		NotificationManager ManageNotification = (NotificationManager) context
+				.getSystemService(notifyService);
+		Notification notification = new Notification(icon, notifyname,
+				time_stamp);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL
+				| Notification.FLAG_SHOW_LIGHTS;
 
-		notification.setLatestEventInfo(context, notifyname, context.getString(R.string.new_app_installed), contentIntent);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+				intent, 0);
+
+		notification.setLatestEventInfo(context, notifyname,
+				context.getString(R.string.new_app_installed), contentIntent);
 		ManageNotification.notify(notifyMsg, notification);
 
 	}
-
 
 }

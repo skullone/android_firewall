@@ -39,8 +39,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Custom scripts activity.
- * This screen is displayed to change the custom scripts.
+ * Custom scripts activity. This screen is displayed to change the custom
+ * scripts.
  */
 public class CustomScriptActivity extends Activity implements OnClickListener {
 	private EditText script;
@@ -49,10 +49,14 @@ public class CustomScriptActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final View view = getLayoutInflater().inflate(R.layout.customscript, null);
-		((Button)view.findViewById(R.id.customscript_ok)).setOnClickListener(this);
-		((Button)view.findViewById(R.id.customscript_cancel)).setOnClickListener(this);
-		((TextView)view.findViewById(R.id.customscript_link)).setMovementMethod(LinkMovementMethod.getInstance());
+		final View view = getLayoutInflater().inflate(R.layout.customscript,
+				null);
+		((Button) view.findViewById(R.id.customscript_ok))
+				.setOnClickListener(this);
+		((Button) view.findViewById(R.id.customscript_cancel))
+				.setOnClickListener(this);
+		((TextView) view.findViewById(R.id.customscript_link))
+				.setMovementMethod(LinkMovementMethod.getInstance());
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		this.script = (EditText) view.findViewById(R.id.customscript);
 		this.script.setText(prefs.getString(Api.PREF_CUSTOMSCRIPT, ""));
@@ -61,7 +65,7 @@ public class CustomScriptActivity extends Activity implements OnClickListener {
 		setTitle(R.string.set_custom_script);
 		setContentView(view);
 	}
-	
+
 	/**
 	 * Set the activity result to RESULT_OK and terminate this activity.
 	 */
@@ -82,13 +86,19 @@ public class CustomScriptActivity extends Activity implements OnClickListener {
 			finish();
 		}
 	}
+
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		// Handle the back button when dirty
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-			if (script.getText().toString().equals(prefs.getString(Api.PREF_CUSTOMSCRIPT, ""))
-					&& script2.getText().toString().equals(prefs.getString(Api.PREF_CUSTOMSCRIPT2, ""))) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREFS_NAME, 0);
+			if (script.getText().toString()
+					.equals(prefs.getString(Api.PREF_CUSTOMSCRIPT, ""))
+					&& script2
+							.getText()
+							.toString()
+							.equals(prefs.getString(Api.PREF_CUSTOMSCRIPT2, ""))) {
 				// Nothing has been changed, just return
 				return super.onKeyDown(keyCode, event);
 			}
@@ -100,16 +110,19 @@ public class CustomScriptActivity extends Activity implements OnClickListener {
 						resultOk();
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
-						// Propagate the event back to perform the desired action
+						// Propagate the event back to perform the desired
+						// action
 						CustomScriptActivity.super.onKeyDown(keyCode, event);
 						break;
 					}
 				}
 			};
 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.unsaved_changes).setMessage(R.string.unsaved_changes_message)
+			builder.setTitle(R.string.unsaved_changes)
+					.setMessage(R.string.unsaved_changes_message)
 					.setPositiveButton(R.string.apply, dialogClickListener)
-					.setNegativeButton(R.string.discard, dialogClickListener).show();
+					.setNegativeButton(R.string.discard, dialogClickListener)
+					.show();
 			// Say that we've consumed the event
 			return true;
 		}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (pare-feu activé)</string>
     <string name="title_disabled">Android Firewall (pare-feu désactivé)</string>
@@ -54,50 +55,38 @@
     <string name="custom_script_defined">Script personnalisé defini</string>
     <string name="custom_script_removed">Script personnalisé supprimé</string>
     <string name="custom_script_error">Erreur d\'enregistrement du script personnalisé</string>
-    <string name="custom_script_info"><b>Entrez votre script personnalisé ci-dessous.</b>
-		\n<i>(Ou laisser le champ vide pour le supprimer)</i>
-		\nPour plus d\'informations sur les scripts personnalisés, cliquez <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">ici</a>.
-	</string>
-    <string name="custom_script2_info">
-    	\n<b>Script d\'arrêt personnalisé</b>
-    	Vous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>:</string>
+    <string name="custom_script_info"><b>Entrez votre script personnalisé ci-dessous.</b>		\n<i>(Ou laisser le champ vide pour le supprimer)</i>		\nPour plus d\'informations sur les scripts personnalisés, cliquez <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">ici</a>.</string>
+    <string name="custom_script2_info">    	\n<b>Script d\'arrêt personnalisé</b>    	Vous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>:</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
     <string name="unsaved_changes_message">Vous avez des modifications non enregistrées.\nVoulez-vous les appliquer ou les annuler ?</string>
     <string name="apply">Appliquer</string>
     <string name="discard">Annuler</string>
-	<string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-		\n
+    <string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
         \n<i>Android Firewall</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
         Android Firewall vous permet d\'empêcher vos applications d\'accèder à internet.
         \nC\'est la solution parfaite si vous n\'avez pas de forfait "internet illimité", ou si vous souhaitez juste que votre batterie dure plus longtemps.
         \n
-        \n<b>Utiliser Android Firewall :</b>
-        \n<b>1.</b> Cliquez sur <b>Mode</b> pour choisir un filtrage par <i>Liste blanche</i> ou par <i>Liste noire</i>.
+        \n<b>Utiliser Android Firewall :</b>        \n<b>1.</b> Cliquez sur <b>Mode</b> pour choisir un filtrage par <i>Liste blanche</i> ou par <i>Liste noire</i>.
         \n<b>2.</b> Sélectionnez les applications que vous souhaitez bloquer ou autoriser à accèder à internet (selon le filtrage choisi) pour chaque interface (WIFI et réseaux mobiles).
         \n<b>3.</b> Ouvrez le menu et activez le pare-feu. S\'il est déjà actif, sélectionnez juste <b>Appliquer les règles</b>.
         \nLes règles seront sauvegardées et automatiquement restaurés quand vous redémarrerez votre téléphone.
         \nSi vous voulez vérifier les règles actives, sélectionnez -> <b>Voir les règles</b> dans le menu Options.
         \n
-        \n<b>Widget :</b>
-        \nPour activer ou désactiver facilement le pare-feu, ajoutez le widget Android Firewall sur votre écran d\'accueil.
+        \n<b>Widget :</b>        \nPour activer ou désactiver facilement le pare-feu, ajoutez le widget Android Firewall sur votre écran d\'accueil.
         \n
-        \n<b>Journaux du pare-feu :</b>
-        \nSi vous voulez voir les applications qui seront bloquées par Android Firewall, ouvrez le menu Options et sélectionnez -> <b>Journaux inactifs</b>.
+        \n<b>Journaux du pare-feu :</b>        \nSi vous voulez voir les applications qui seront bloquées par Android Firewall, ouvrez le menu Options et sélectionnez -> <b>Journaux inactifs</b>.
         \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu Options et en sélectionnant -> <b>Voir les journaux</b>.
         \n
-        \n<b>Vérrouillage par mot de passe :</b>
-        \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant -> <b>Définir un mot de passe</b> dans les options du menu.
-        \nPour supprimer le mot de passe, il suffit de le modifier et de laisser le champ de saisie vide.
-	</string>
+        \n<b>Vérrouillage par mot de passe :</b>        \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant -> <b>Définir un mot de passe</b> dans les options du menu.
+        \nPour supprimer le mot de passe, il suffit de le modifier et de laisser le champ de saisie vide.</string>
     <string name="overwrite_rules">Vous êtes sur le point de remplacer les règles actuelles. Voulez-vous continuer ?</string>
-	<string name="importsuccess">Importation réussie !</string>
-	<string name="importfailed">Échec de l\'importation !</string>
-	<string name="exportfailed">Échec de l\'exportation !</string>
-	<string name="exportsuccess">Exporter avec succès !</string>
-	<string name="enterfilename">Entrer le nom du fichier</string>
-	<string name="new_app_installed">Nouvelle application installée demande l'accès aux données</string>
-	<string name="notify_enabled">Notifications activées</string>
+    <string name="importsuccess">Importation réussie !</string>
+    <string name="importfailed">Échec de l\'importation !</string>
+    <string name="exportfailed">Échec de l\'exportation !</string>
+    <string name="exportsuccess">Exporter avec succès !</string>
+    <string name="enterfilename">Entrer le nom du fichier</string>
+    <string name="new_app_installed">Nouvelle application installée demande l\'accès aux données</string>
+    <string name="notify_enabled">Notifications activées</string>
     <string name="notify_disabled">Notifications désactivées</string>
     <string name="notify_was_enabled">Les notifications ont été activés</string>
     <string name="notify_was_disabled">Les notifications ont été désactivés</string>
@@ -109,4 +98,5 @@
     <string name="data">Données</string>
     <string name="roaming">errer</string>
     <string name="clear">Effacer</string>
+
 </resources>

@@ -34,8 +34,9 @@ public class HelpDialog extends AlertDialog {
 	@SuppressWarnings("deprecation")
 	protected HelpDialog(Context context) {
 		super(context);
-		final View view = getLayoutInflater().inflate(R.layout.help_dialog, null);
-		setButton(context.getText(R.string.close), (OnClickListener)null);
+		final View view = getLayoutInflater().inflate(R.layout.help_dialog,
+				null);
+		setButton(context.getText(R.string.close), (OnClickListener) null);
 		setIcon(R.drawable.icon);
 		setTitle("Android Firewall");
 		setView(view);

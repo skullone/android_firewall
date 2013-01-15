@@ -34,8 +34,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * Custom scripts activity.
- * This screen is displayed to change the custom scripts.
+ * Custom scripts activity. This screen is displayed to change the custom
+ * scripts.
  */
 public class ExportRulesDialog extends Activity implements OnClickListener {
 	private EditText user_input;
@@ -43,16 +43,19 @@ public class ExportRulesDialog extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final View view = getLayoutInflater().inflate(R.layout.export_rules, null);
-		((Button)view.findViewById(R.id.exportrules_ok)).setOnClickListener(this);
-		((Button)view.findViewById(R.id.exportrules_cancel)).setOnClickListener(this);
+		final View view = getLayoutInflater().inflate(R.layout.export_rules,
+				null);
+		((Button) view.findViewById(R.id.exportrules_ok))
+				.setOnClickListener(this);
+		((Button) view.findViewById(R.id.exportrules_cancel))
+				.setOnClickListener(this);
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		this.user_input = (EditText) view.findViewById(R.id.exportrules);
 		this.user_input.setText(prefs.getString(Api.PREF_EXPORTNAME, ""));
 		setTitle(R.string.enterfilename);
 		setContentView(view);
 	}
-	
+
 	/**
 	 * Set the activity result to RESULT_OK and terminate this activity.
 	 */
@@ -63,18 +66,14 @@ public class ExportRulesDialog extends Activity implements OnClickListener {
 		finish();
 	}
 
-	//@Override
-	public void onClick(View v) 
-	{
-		if (v.getId() == R.id.exportrules_ok) 
-		{
+	// @Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.exportrules_ok) {
 			resultOk();
-		} 
-		else 
-		{
+		} else {
 			setResult(RESULT_CANCELED);
 			finish();
 		}
-	 }
-	
+	}
+
 }

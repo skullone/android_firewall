@@ -42,48 +42,46 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class RulesDialog extends ListActivity
-{
-	private File filepath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidfirewall/");
-	private static final String filetype = ".rules";	
+public class RulesDialog extends ListActivity {
+	private File filepath = new File(Environment.getExternalStorageDirectory()
+			.getAbsolutePath() + "/androidfirewall/");
+	private static final String filetype = ".rules";
 
-	public void onCreate(Bundle ruleslist)
-    {
-    	super.onCreate(ruleslist);
-    	String[] rulesfiles;
-    	FilenameFilter filter = new FilenameFilter()
-    	{
-    		public boolean accept(File dir, String filename)
-    		{
-    			File sel = new File(dir, filename);
-    			return filename.contains(filetype) || sel.isDirectory();
-    		}
-    	};
-    	rulesfiles = filepath.list(filter);
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rules_dialog, R.id.label, rulesfiles);
-    	setListAdapter(adapter);
-    }
-	
+	public void onCreate(Bundle ruleslist) {
+		super.onCreate(ruleslist);
+		String[] rulesfiles;
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String filename) {
+				File sel = new File(dir, filename);
+				return filename.contains(filetype) || sel.isDirectory();
+			}
+		};
+		rulesfiles = filepath.list(filter);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.rules_dialog, R.id.label, rulesfiles);
+		setListAdapter(adapter);
+	}
+
 	private void resultOk() {
 		final Intent response = new Intent(Api.PREF_REFRESH);
 		setResult(RESULT_OK, response);
 		finish();
 	}
-	
-	@Override 
-    @SuppressWarnings("unchecked")
-	protected void onListItemClick(ListView items, View v, int position, long id)
-    {
-    	final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, Context.MODE_PRIVATE);
-    	File file = new File(filepath + "/" + getListAdapter().getItem(position));
-    	ObjectInputStream input = null;
-    	try
-    	{	
-    		input = new ObjectInputStream(new FileInputStream(file));
-    		final Editor editRules = prefs.edit();
-    		editRules.clear();
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected void onListItemClick(ListView items, View v, int position, long id) {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		File file = new File(filepath + "/"
+				+ getListAdapter().getItem(position));
+		ObjectInputStream input = null;
+		try {
+			input = new ObjectInputStream(new FileInputStream(file));
+			final Editor editRules = prefs.edit();
+			editRules.clear();
 			Map<String, ?> entries = (Map<String, ?>) input.readObject();
-			for (Entry<String, ?> entry : entries.entrySet()){
+			for (Entry<String, ?> entry : entries.entrySet()) {
 				Object rule = entry.getValue();
 				String keys = entry.getKey();
 				if (rule instanceof Boolean)
@@ -100,30 +98,27 @@ public class RulesDialog extends ListActivity
 			editRules.commit();
 			resultOk();
 			return;
-		} 
-    	catch (IOException error)
-		{
+		} catch (IOException error) {
 			error.printStackTrace();
-			Toast.makeText(this, "The selected rules file is corrupt or missing.  Please export a new rules files", Toast.LENGTH_SHORT).show();
-		} 
-    	catch (ClassNotFoundException error)
-		{
+			Toast.makeText(
+					this,
+					"The selected rules file is corrupt or missing.  Please export a new rules files",
+					Toast.LENGTH_SHORT).show();
+		} catch (ClassNotFoundException error) {
 			error.printStackTrace();
-			Toast.makeText(this, "There is an error accessing the RulesDialog class information. Please contact the developer", Toast.LENGTH_SHORT).show();
-		} 
-    	finally 
-    	{
-		
-    		try 
-    		{
-				if (input != null) 
-				{
+			Toast.makeText(
+					this,
+					"There is an error accessing the RulesDialog class information. Please contact the developer",
+					Toast.LENGTH_SHORT).show();
+		} finally {
+
+			try {
+				if (input != null) {
 					input.close();
 				}
-			} 
-    		catch (IOException errors){
+			} catch (IOException errors) {
 				errors.printStackTrace();
-			} 
+			}
 		}
-    }
+	}
 }

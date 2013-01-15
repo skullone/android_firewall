@@ -57,7 +57,7 @@ import android.widget.Toast;
  * Contains shared programming interfaces.
  * All iptables "communication" is handled by this class.
  */
-public final class Api 
+public final class Api
 {
 	/** special application UID used to indicate "Any application" */
 	public static final int SPECIAL_UID_ANY	= -10;
