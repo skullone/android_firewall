@@ -73,14 +73,22 @@
                 \nMůžete nastavit heslo pro Android Firewall otevřením menu a zvolením <b>Nastavit heslo</b>.
                 \nPro zrušení hesla jej prostě nechte prázdné.
         </string>
-        <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+    <string name="overwrite_rules">Chystáte se přepsat stávající pravidla. Chcete pokračovat?</string>
+	<string name="importsuccess">Import byl úspěšný!</string>
+	<string name="importfailed">Import se nezdařil!</string>
+	<string name="exportfailed">Export selhal!</string>
+	<string name="exportsuccess">Export úspěšný!</string>
+	<string name="enterfilename">Prosím, zadejte název souboru</string>
+	<string name="notify_enabled">Upozornění povoleno</string>
+    <string name="notify_disabled">Upozornění zakázáno</string>
+    <string name="notify_was_enabled">Oznámení byly povoleny</string>
+    <string name="notify_was_disabled">Oznámení byla deaktivována</string>
+    <string name="importrules">dovozní Pravidla</string>
+    <string name="exportrules">Export Pravidla</string>
+    <string name="managerulefiles">Správa pravidlo soubory</string>
+    <string name="options">možnosti</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">Data</string>
+    <string name="roaming">toulat se</string>
+    <string name="clear">Vymazat</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.jtschohl.androidfirewall"
-      android:versionCode="202" android:versionName="2.0.2">
+      android:versionCode="203" android:versionName="2.0.3">
       <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
     <!-- Boot completed permission is for applying iptables/ip6tables after a reboot.  iptables/ip6tables is not persistent so a reboot
     wipes it out  -->
@@ -52,5 +52,4 @@
             </intent-filter>
         </receiver>
 	</application>
-    
 </manifest> 

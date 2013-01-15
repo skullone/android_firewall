@@ -88,14 +88,22 @@
 		\nVocê pode definir uma senha de acesso para o Android Firewall utilizando a função <b>Definir senha</b> do menu.
 		\nPara remover a senha de acesso, deixe ela em branco.
 	</string>
-	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+	<string name="overwrite_rules">Você está prestes a substituir as regras atuais. Você quer continuar?</string>
+	<string name="importsuccess">Importar sucesso!</string>
+	<string name="importfailed">Importação falhou!</string>
+	<string name="exportfailed">Exportação falhou!</string>
+	<string name="exportsuccess">Exportar sucesso!</string>
+	<string name="enterfilename">Por favor insira o nome do arquivo</string>
+	<string name="notify_enabled">Notificações habilitado</string>
+    <string name="notify_disabled">Notificações desativado</string>
+    <string name="notify_was_enabled">Notificações foram habilitados</string>
+    <string name="notify_was_disabled">Notificações foram desativados</string>
+    <string name="importrules">Regras de importação</string>
+    <string name="exportrules">Regras de Exportação</string>
+    <string name="managerulefiles">Gerenciar Regra de arquivos</string>
+    <string name="options">opções</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">dados</string>
+    <string name="roaming">vaguear</string>
+    <string name="clear">Limpar</string>
 </resources>

@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall (pare-feu actif)</string>
-    <string name="title_disabled">Android Firewall (pare-feu inactif)</string>
+    <string name="title_enabled">Android Firewall (pare-feu activé)</string>
+    <string name="title_disabled">Android Firewall (pare-feu désactivé)</string>
     <string name="showrules">Voir les règles</string>
     <string name="applyrules">Appliquer les règles</string>
     <string name="saverules">Sauvegarder les règles</string>
-    <string name="purgerules">Supprimer les règles</string>
+    <string name="applyrules2">Appliquer les règles IPv6</string>
+    <string name="purgerules">Purger les règles</string>
     <string name="setpwd">Définir un mot de passe</string>
     <string name="help">Aide</string>
     <string name="close">Fermer</string>
     <string name="exit">Quitter</string>
-    <string name="fw_enabled">Pare-feu actif</string>
-    <string name="fw_disabled">Pare-feu inactif</string>
+    <string name="fw_enabled">Pare-feu activé</string>
+    <string name="fw_disabled">Pare-feu désactivé</string>
+    <string name="ipv6_enabled">IPv6 activé</string>
+    <string name="ipv6_disabled">IPv6 désactivé</string>
+    <string name="ipv6_was_enabled">IPv6 a été activée</string>
+    <string name="ipv6_was_disabled">IPv6 a été désactivée</string>
     <string name="log_enabled">Journaux actifs</string>
     <string name="log_disabled">Journaux inactifs</string>
-    <string name="log_was_enabled">La journalisation est activée</string>
-    <string name="log_was_disabled">La journalisation est désactivée</string>
-    <string name="ipv6_enabled">IPv6 actif</string>
-    <string name="ipv6_disabled">IPv6 inactifs</string>
-    <string name="ipv6_was_enabled">IPv6 est activée</string>
-    <string name="ipv6_was_disabled">IPv6 est désactivée</string>
+    <string name="log_was_enabled">La journalisation a été activée</string>
+    <string name="log_was_disabled">La journalisation a été désactivée</string>
     <string name="log_cleared">Journaux effacés</string>
     <string name="show_log">Voir les journaux</string>
     <string name="clear_log">Effacer les journaux</string>
-    <string name="applying_rules">Appliquer les règles iptables</string>
-    <string name="saving_rules">Sauvegarder les règles iptables</string>
-    <string name="deleting_rules">Supprimer les règles iptables</string>
+    <string name="applying_rules">Appliquer les règles iptables.</string>
+    <string name="applyingipv6_rules">Appliquer les règles ip6tables.</string>
+    <string name="saving_rules">Sauvegarder les règles iptables.</string>
+    <string name="deleting_rules">Supprimer les règles iptables.</string>
     <string name="rules_applied">Les règles ont été appliquées</string>
     <string name="rules_saved">Les règles ont été enregistrées</string>
     <string name="rules_deleted">Les règles ont été supprimées</string>
     <string name="pass_titleset">Définir un mot de passe</string>
     <string name="pass_titleget">Mot de passe requis</string>
-    <string name="enterpass">Veuillez entrer le mot de passe : </string>
-    <string name="enternewpass">Entrer le nouveau mot de passe (ou laisser le champ vide pour le supprimer) : </string>
+    <string name="enterpass">Entrer le mot de passe:</string>
+    <string name="enternewpass">Entrer le nouveau mot de passe (ou laisser le champ vide pour le supprimer):</string>
     <string name="passdefined">Verrouillage par mot de passe défini</string>
     <string name="passremoved">Verrouillage par mot de passe supprimé</string>
     <string name="passerror">Erreur pendant le changement du mot de passe</string>
     <string name="working">En cours...</string>
     <string name="reading_apps">Lecture des applications installées</string>
     <string name="please_wait">Patientez...</string>
-    <string name="mode_header">Mode : %s</string>
+    <string name="mode_header">Mode: %s</string>
     <string name="mode_whitelist">Liste blanche (autorise les éléments cochés)</string>
     <string name="mode_blacklist">Liste noire (bloque les éléments cochés)</string>
-    <string name="toast_bin_installed">Android Firewall : fichiers binaires installés !</string>
-    <string name="toast_enabled">Android Firewall : pare-feu actif !</string>
-    <string name="toast_error_enabling">Android Firewall : erreur pendant l\'activation du pare-feu !</string>
+    <string name="toast_bin_installed">Android Firewall: fichiers binaires installés !</string>
+    <string name="toast_enabled">Android Firewall: pare-feu actif !</string>
+    <string name="toast_error_enabling">Android Firewall: erreur pendant l\'activation du pare-feu !</string>
     <string name="toast_disabled">Android Firewall : pare-feu inactif !</string>
-    <string name="toast_error_disabling">Android Firewall : erreur pendant la désactivation du pare-feu!</string>
+    <string name="toast_error_disabling">Android Firewall : erreur pendant la désactivation du pare-feu !</string>
     <string name="set_custom_script">Ajouter un script personnalisé</string>
     <string name="custom_script_defined">Script personnalisé defini</string>
     <string name="custom_script_removed">Script personnalisé supprimé</string>
     <string name="custom_script_error">Erreur d\'enregistrement du script personnalisé</string>
     <string name="custom_script_info"><b>Entrez votre script personnalisé ci-dessous.</b>
-	\n<i>(Ou laisser le champ vide pour le supprimer)</i>
-	\nPour plus d\'informations sur les scripts personnalisés, cliquez <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">ici</a>.</string>
-    <string name="custom_script2_info"><b>Script d\'arrêt personnalisé.</b>
-    	\nVous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>:</string>
+		\n<i>(Ou laisser le champ vide pour le supprimer)</i>
+		\nPour plus d\'informations sur les scripts personnalisés, cliquez <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">ici</a>.
+	</string>
+    <string name="custom_script2_info">
+    	\n<b>Script d\'arrêt personnalisé</b>
+    	Vous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>:</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
     <string name="unsaved_changes_message">Vous avez des modifications non enregistrées.\nVoulez-vous les appliquer ou les annuler ?</string>
     <string name="apply">Appliquer</string>
     <string name="discard">Annuler</string>
-      <string name="help_dialog_text"><i>Auteur: Jason Tschohl.  Auteur Original : Rodrigo Zechin Rosauro.</i>
+	<string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>
 		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
 		\n
         \n<i>Android Firewall</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
@@ -71,29 +75,38 @@
         \n<b>Utiliser Android Firewall :</b>
         \n<b>1.</b> Cliquez sur <b>Mode</b> pour choisir un filtrage par <i>Liste blanche</i> ou par <i>Liste noire</i>.
         \n<b>2.</b> Sélectionnez les applications que vous souhaitez bloquer ou autoriser à accèder à internet (selon le filtrage choisi) pour chaque interface (WIFI et réseaux mobiles).
-        \n<b>3.</b> Ouvrez le menu et activez le pare-feu. S\'il est déjà actif, choisissez juste <b>Appliquer les règles</b>.
+        \n<b>3.</b> Ouvrez le menu et activez le pare-feu. S\'il est déjà actif, sélectionnez juste <b>Appliquer les règles</b>.
         \nLes règles seront sauvegardées et automatiquement restaurés quand vous redémarrerez votre téléphone.
-        \nSi vous voulez vérifier les règles actives, choisissez <b>Voir les règles</b> dans le menu.
+        \nSi vous voulez vérifier les règles actives, sélectionnez -> <b>Voir les règles</b> dans le menu Options.
         \n
         \n<b>Widget :</b>
         \nPour activer ou désactiver facilement le pare-feu, ajoutez le widget Android Firewall sur votre écran d\'accueil.
         \n
         \n<b>Journaux du pare-feu :</b>
-        \nSi vous voulez voir les applications qui ont été bloquées par Android Firewall, ouvrez le menu et choisissez <b>Activer la journalisation</b>.
-        \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu et en choisissant <b>Plus -> Voir les journaux</b>.
+        \nSi vous voulez voir les applications qui seront bloquées par Android Firewall, ouvrez le menu Options et sélectionnez -> <b>Journaux inactifs</b>.
+        \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu Options et en sélectionnant -> <b>Voir les journaux</b>.
         \n
         \n<b>Vérrouillage par mot de passe :</b>
-        \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant <b>Définir un mot de passe</b> dans les options du menu.
+        \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant -> <b>Définir un mot de passe</b> dans les options du menu.
         \nPour supprimer le mot de passe, il suffit de le modifier et de laisser le champ de saisie vide.
-      </string>
-      <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+	</string>
+    <string name="overwrite_rules">Vous êtes sur le point de remplacer les règles actuelles. Voulez-vous continuer ?</string>
+	<string name="importsuccess">Importation réussie !</string>
+	<string name="importfailed">Échec de l\'importation !</string>
+	<string name="exportfailed">Échec de l\'exportation !</string>
+	<string name="exportsuccess">Exporter avec succès !</string>
+	<string name="enterfilename">Entrer le nom du fichier</string>
+	<string name="new_app_installed">Nouvelle application installée demande l'accès aux données</string>
+	<string name="notify_enabled">Notifications activées</string>
+    <string name="notify_disabled">Notifications désactivées</string>
+    <string name="notify_was_enabled">Les notifications ont été activés</string>
+    <string name="notify_was_disabled">Les notifications ont été désactivés</string>
+    <string name="importrules"> Importer les règles</string>
+    <string name="exportrules">Exporter les règles</string>
+    <string name="managerulefiles">Gérer les fichiers de règles</string>
+    <string name="options">Options</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">Données</string>
+    <string name="roaming">errer</string>
+    <string name="clear">Effacer</string>
 </resources>

@@ -101,4 +101,12 @@
     <string name="notify_disabled">Notifications disabled</string>
     <string name="notify_was_enabled">Notifications have been enabled</string>
     <string name="notify_was_disabled">Notifications have been disabled</string>
+    <string name="importrules">Import Rules</string>
+    <string name="exportrules">Export Rules</string>
+    <string name="managerulefiles">Manage Rule Files</string>
+    <string name="options">Options</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">Data</string>
+    <string name="roaming">Roam</string>
+    <string name="clear">Clear</string>
 </resources>

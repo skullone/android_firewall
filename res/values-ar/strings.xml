@@ -70,14 +70,22 @@
 		\nبإمكانك تعيين كلمة مرور لقفل Android Firewall باستخدام <b>تعيين كلمة مرور</b> من القائمة.
 		\nلإزالة حماية كلمة المرور ، فقط قم بتغييرها إلى كلمة مرور فارغة.
 	</string>
-	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+	<string name="overwrite_rules">كنت على وشك الكتابة فوق القواعد الحالية. هل ترغب في الاستمرار؟</string>
+	<string name="importsuccess">استيراد ناجحة!</string>
+	<string name="importfailed">فشل الاستيراد!</string>
+	<string name="exportfailed">فشل التصدير!</string>
+	<string name="exportsuccess">تصدير ناجحة!</string>
+	<string name="enterfilename">من فضلك ادخل اسم الملف</string>
+	<string name="notify_enabled">تمكين إخطارات</string>
+    <string name="notify_disabled">إخطارات تعطيل</string>
+    <string name="notify_was_enabled">تم تمكين الإخطارات</string>
+    <string name="notify_was_disabled">تم تعطيل إخطارات</string>
+    <string name="importrules">استيراد القواعد</string>
+    <string name="exportrules">تصدير القواعد</string>
+    <string name="managerulefiles">إدارة الملفات القاعدة</string>
+    <string name="options">خيارات</string>
+    <string name="wifi">واي فاي</string>
+    <string name="data">معطيات</string>
+    <string name="roaming">تجول</string>
+    <string name="clear">مسح</string>
 </resources>

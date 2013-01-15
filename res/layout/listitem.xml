@@ -7,7 +7,7 @@
     android:paddingTop="2dip"
     android:paddingBottom="2dip"
     >
-	<ImageView android:id="@+id/itemicon" android:layout_width="40dip" android:layout_height="40dip"></ImageView>
+	<ImageView android:id="@+id/itemicon" android:layout_width="50dip" android:layout_height="40dip"></ImageView>
 
 	<CheckBox
 	    android:id="@+id/itemcheck_wifi"

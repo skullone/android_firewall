@@ -54,7 +54,7 @@
     <string name="custom_script_error">Error grabando script personalizado</string>
     <string name="custom_script_info"><b>Ingrese su script personalizado abajo.</b>
         \n<i>(Dejar vacio para borrar)</i>
-        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
+        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aquí</a>.
     </string>
     <string name="unsaved_changes">Cambios no grabados</string>
     <string name="unsaved_changes_message">Se realizaron cambios que no fueron grabados.\n¿Aplicar cambios o descartar?</string>
@@ -85,14 +85,22 @@
 		\nPuede definir una contraseña de acceso para Android Firewall usando la opción <b>Definir contraseña</b> del menú.
 		\nPara remover la contraseña, déjela vacía.
 	</string>
-	<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+	<string name="overwrite_rules">Usted está a punto de sobrescribir la normativa vigente. ¿Desea continuar?</string>
+	<string name="importsuccess">Importar un éxito!</string>
+	<string name="importfailed">La importación ha fallado!</string>
+	<string name="exportfailed">Exportación fallado!</string>
+	<string name="exportsuccess">Exportar con éxito!</string>
+	<string name="enterfilename">Por favor, introduzca el nombre del archivo</string>
+	<string name="notify_enabled">Notificaciones habilitado</string>
+    <string name="notify_disabled">Notificaciones desactivado</string>
+    <string name="notify_was_enabled">Notificaciones se han habilitado</string>
+    <string name="notify_was_disabled">Se han desactivado las notificaciones</string>
+    <string name="importrules">Importar reglas</string>
+    <string name="exportrules">Exportar reglas</string>
+    <string name="managerulefiles">Administrar Archivos de reglas</string>
+    <string name="options">Opciones</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">datos</string>
+    <string name="roaming">vagar</string>
+    <string name="clear">Borrar</string>
 </resources>

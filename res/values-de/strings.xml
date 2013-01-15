@@ -73,14 +73,22 @@
 
     \n \nÜbersetz von Zionis137
 ﻿    </string>
-<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+<string name="overwrite_rules">Sie sind dabei, die aktuellen Regeln zu überschreiben. Möchten Sie den Vorgang fortsetzen?</string>
+	<string name="importsuccess">Import erfolgreich!</string>
+	<string name="importfailed">Import fehlgeschlagen!</string>
+	<string name="exportfailed">Export fehlgeschlagen!</string>
+	<string name="exportsuccess">Export erfolgreich!</string>
+	<string name="enterfilename">Bitte geben Sie den Dateinamen</string>
+	<string name="notify_enabled">Benachrichtigungen aktivieren</string>
+    <string name="notify_disabled">Benachrichtigungen deaktiviert</string>
+    <string name="notify_was_enabled">Benachrichtigungen aktiviert wurden</string>
+    <string name="notify_was_disabled">Benachrichtigungen sind deaktiviert</string>
+    <string name="importrules">Import-Regeln</string>
+    <string name="exportrules">Export-Regeln</string>
+    <string name="managerulefiles">Verwalten Rule Files</string>
+    <string name="options">Optionen</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">Daten</string>
+    <string name="roaming">wandern</string>
+    <string name="clear">löschen</string>
 </resources>

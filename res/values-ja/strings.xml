@@ -76,14 +76,22 @@
 \n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
 \nJapanese Translation by Hiroki Ogawa.
 </string>
-<string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+<string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか。</string>
+	<string name="importsuccess">インポートに成功！</string>
+	<string name="importfailed">インポートに失敗しました！</string>
+	<string name="exportfailed">エクスポートに失敗しました！</string>
+	<string name="exportsuccess">エクスポートが正常！</string>
+	<string name="enterfilename">ファイル名を入力してください</string>
+	<string name="notify_enabled">通知が有効になって</string>
+    <string name="notify_disabled">通知は無効</string>
+    <string name="notify_was_enabled">通知が有効になっている</string>
+    <string name="notify_was_disabled">通知は無効にされています</string>
+    <string name="importrules">インポートルール</string>
+    <string name="exportrules">輸出規則</string>
+    <string name="managerulefiles">ルール·ファイルの管理</string>
+    <string name="options">オプション</string>
+    <string name="wifi">無線LAN</string>
+    <string name="data">データ</string>
+    <string name="roaming">うろつく</string>
+    <string name="clear">クリア</string>
 </resources>

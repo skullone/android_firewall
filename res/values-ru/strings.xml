@@ -85,14 +85,22 @@
                 \nВы можете установить пароль блокировки для Android Firewall с помощью параметра меню <b>Установить пароль</b>.
                 \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым
         </string>
-        <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
-	<string name="importsuccess">Import successful!</string>
-	<string name="importfailed">Import failed!</string>
-	<string name="exportfailed">Export failed!</string>
-	<string name="exportsuccess">Export successful!</string>
-	<string name="enterfilename">Please enter the filename</string>
-	<string name="notify_enabled">Notifications enabled</string>
-    <string name="notify_disabled">Notifications disabled</string>
-    <string name="notify_was_enabled">Notifications have been enabled</string>
-    <string name="notify_was_disabled">Notifications have been disabled</string>
+        <string name="overwrite_rules">Вы собираетесь перезаписывать существующие правила. Вы хотите продолжить?</string>
+	<string name="importsuccess">Импорт успешно!</string>
+	<string name="importfailed">Импорт не удался!</string>
+	<string name="exportfailed">Экспорт не удалось!</string>
+	<string name="exportsuccess">Экспорт успешным!</string>
+	<string name="enterfilename">Пожалуйста, введите имя файла</string>
+	<string name="notify_enabled">Уведомления включены</string>
+    <string name="notify_disabled">Уведомления отключены</string>
+    <string name="notify_was_enabled">Уведомления были включены</string>
+    <string name="notify_was_disabled">Уведомления были отключены</string>
+    <string name="importrules">Импорт правил</string>
+    <string name="exportrules">Экспорт правил</string>
+    <string name="managerulefiles">Управление Правило файлов</string>
+    <string name="options">опции</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">данные</string>
+    <string name="roaming">бродить</string>
+    <string name="clear">Очистить</string>
 </resources>

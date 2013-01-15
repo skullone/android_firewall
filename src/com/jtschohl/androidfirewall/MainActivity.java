@@ -90,6 +90,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
         checkPreferences();
 		setContentView(R.layout.main);
 		this.findViewById(R.id.label_mode).setOnClickListener(this);
+		this.findViewById(R.id.label_clear).setOnClickListener(this);
+		this.findViewById(R.id.label_data).setOnClickListener(this);
+		this.findViewById(R.id.label_wifi).setOnClickListener(this);
+		this.findViewById(R.id.label_roam).setOnClickListener(this);
 		Api.assertBinaries(this, true);
     }
     @Override
@@ -238,25 +242,29 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 				@Override
 				protected void onPostExecute(Void result) {
         			try {progress.dismiss();} catch(Exception ex){}
-        			showApplications();
+        			showApplications(false, false, false, false);
 				}
         	}.execute();
     	} else {
     		// the applications are cached, just show the list
-        	showApplications();
+        	showApplications(false, false, false, false);
     	}
 	}
     /**
      * Show the list of applications
      */
-    private void showApplications() {
+    private void showApplications(final boolean selectwifi, final boolean selectdata, final boolean selectroam, final boolean clearall) 
+    {
     	this.dirty = false;
         final DroidApp[] apps = Api.getApps(this);
         // Sort applications - selected first, then alphabetically
-        Arrays.sort(apps, new Comparator<DroidApp>() {
+        Arrays.sort(apps, new Comparator<DroidApp>() 
+        	{
 			@Override
-			public int compare(DroidApp o1, DroidApp o2) {
-				if (o1.firstseem != o2.firstseem) {
+			public int compare(DroidApp o1, DroidApp o2) 
+				{
+				if (o1.firstseem != o2.firstseem) 
+				{
 					return (o1.firstseem ? -1 : 1);
 				}
 				if ((o1.selected_wifi|o1.selected_3g) == (o2.selected_wifi|o2.selected_3g)) {
@@ -267,11 +275,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 			}
         });
         final LayoutInflater inflater = getLayoutInflater();
-		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,R.layout.listitem,R.id.itemtext,apps) {
+		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,R.layout.listitem,R.id.itemtext,apps) 
+		{
         	@Override
-        	public View getView(final int position, View convertView, ViewGroup parent) {
+        	public View getView(final int position, View convertView, ViewGroup parent) 
+        	{
        			ListEntry entry;
-        		if (convertView == null) {
+        		if (convertView == null) 
+        		{
         			// Inflate a new view
         			convertView = inflater.inflate(R.layout.listitem, parent, false);
             		Log.d("Android Firewall", ">> inflate("+convertView+")");
@@ -281,19 +292,103 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
        				entry.box_roaming = (CheckBox) convertView.findViewById(R.id.itemcheck_roam);
        				entry.text = (TextView) convertView.findViewById(R.id.itemtext);
        				entry.icon = (ImageView) convertView.findViewById(R.id.itemicon);
+       				/*if(selectwifi)
+       				{
+       					entry.box_wifi.setChecked(true);
+       					if (entry.app != null)
+       					{
+       						entry.app.selected_wifi = true;
+       					}
+       				}
+       				if(selectdata)
+       				{
+       					entry.box_3g.setChecked(true);
+       					if (entry.app != null) 
+       					{	
+       						entry.app.selected_3g = true;
+       					}
+       				}
+       				if(selectroam)
+       				{
+       					entry.box_roaming.setChecked(true);
+       					if (entry.app != null) 
+       					{
+       						entry.app.selected_roaming = true;
+       					}
+       				}
+       				if(clearall)
+       				{
+       					entry.box_wifi.setChecked(false);
+       					entry.box_3g.setChecked(false);
+       					entry.box_roaming.setChecked(false);
+       					if (entry.app != null)
+       					{
+       						entry.app.selected_wifi = false;
+       						entry.app.selected_3g = false;
+       						entry.app.selected_roaming = false;
+       					}
+       				}*/
        				entry.box_wifi.setOnCheckedChangeListener(MainActivity.this);
        				entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
        				entry.box_roaming.setOnCheckedChangeListener(MainActivity.this);
        				convertView.setTag(entry);
-        		} else {
+        		} 
+        		else 
+        		{
         			// Convert an existing view
         			entry = (ListEntry) convertView.getTag();
+        			entry.box_wifi = (CheckBox) convertView.findViewById(R.id.itemcheck_wifi);
+        			entry.box_3g = (CheckBox) convertView.findViewById(R.id.itemcheck_3g);
+        			entry.box_roaming = (CheckBox) convertView.findViewById(R.id.itemcheck_roam);
+        			if(selectwifi)
+       				{
+       					//entry.box_wifi.setChecked(true);
+       					if (entry.app != null) 
+       					{
+       						entry.app.selected_wifi = true;
+       						listview.setItemChecked(position, true);
+       					}
+       				}
+       				if(selectdata)
+       				{
+       					//entry.box_3g.setChecked(true);
+       					if (entry.app != null) 
+       					{
+       						entry.app.selected_3g = true;
+       						listview.setItemChecked(position, true);
+       					}
+       				}
+       				if(selectroam)
+       				{
+       					//entry.box_roaming.setChecked(true);
+       					if (entry.app != null) 
+       					{
+       						entry.app.selected_roaming = true;
+       						listview.setItemChecked(position, true);
+       					}
+       				}
+       				if(clearall)
+       				{
+       					//entry.box_wifi.setChecked(false);
+       					//entry.box_3g.setChecked(false);
+       					//entry.box_roaming.setChecked(false);
+       					if (entry.app != null)
+       					{
+       						entry.app.selected_wifi = false;
+       						listview.setItemChecked(position, false);
+       						entry.app.selected_roaming = false;
+       						listview.setItemChecked(position, false);
+       						entry.app.selected_3g = false;
+       						listview.setItemChecked(position, false);
+       					}
+       				}
         		}
         		final DroidApp app = apps[position];
         		entry.app = app;
         		entry.text.setText(app.toString());
         		entry.icon.setImageDrawable(app.cached_icon);
-        		if (!app.icon_loaded && app.appinfo!=null) {
+        		if (!app.icon_loaded && app.appinfo!=null) 
+        		{
         			// this icon has not been loaded yet - load it on a separated thread
             		new LoadIconTask().execute(app, getPackageManager(), convertView);
         		}
@@ -532,6 +627,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		}
 		
 	}
+	
 	//set Request Code for Rules Import
 	static final int IMPORT_RULES_REQUEST = 10;
 	//set Request code for Rules export
@@ -719,24 +815,30 @@ private void purgeIp6Rules() {
 	 * Called an application is check/unchecked
 	 */
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) 
+	{
 		final DroidApp app = (DroidApp) buttonView.getTag();
-		if (app != null) {
-			switch (buttonView.getId()) {
+		if (app != null) 
+		{
+			switch (buttonView.getId()) 
+			{
 				case R.id.itemcheck_wifi:
-					if (app.selected_wifi != isChecked) {
+					if (app.selected_wifi != isChecked) 
+					{
 						app.selected_wifi = isChecked;
 						this.dirty = true;
 					}
 					break;
 				case R.id.itemcheck_3g:
-					if (app.selected_3g != isChecked) {
+					if (app.selected_3g != isChecked) 
+					{
 						app.selected_3g = isChecked;
 						this.dirty = true;
 					}
 					break;
 				case R.id.itemcheck_roam:
-					if (app.selected_roaming != isChecked) {
+					if (app.selected_roaming != isChecked) 
+					{
 						app.selected_roaming = isChecked;
 						this.dirty = true;
 					}
@@ -751,7 +853,43 @@ private void purgeIp6Rules() {
 		case R.id.label_mode:
 			selectMode();
 			break;
+		case R.id.label_wifi:
+			selectAllWiFi();
+			break;
+		case R.id.label_data:
+			selectAllData();
+			break;
+		case R.id.label_roam:
+			selectAllRoam();
+			break;
+		case R.id.label_clear:
+			clearAllEntries();
+			break;
 		}
+	}
+	
+	/**
+	 * The following functions are for selecting all of a certain rule
+	 */
+	
+	private void selectAllData()
+	{
+		showApplications(false, true, false, false);
+	}
+	
+	private void selectAllRoam()
+	{
+		showApplications(false, false, true, false);
+	}
+	
+	private void selectAllWiFi()
+	{
+		showApplications(true, false, false, false);
+	}
+	
+	private void clearAllEntries()
+	{
+		showApplications(false, false, false, true);
 	}
 	
 	@Override

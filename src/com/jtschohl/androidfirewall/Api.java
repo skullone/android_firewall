@@ -308,7 +308,7 @@ public final class Api
 				/* release/block individual applications on this interface */
 				if(isRoaming(ctx)){
 					for (final Integer uid : uidsroaming) {
-						if (uid >= 0) script.append("$IPTABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 42\n");
+						if (uid >= 0) script.append("$IPTABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 50\n");
 						             // script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 43\n");
 
 					}
@@ -375,27 +375,27 @@ public final class Api
 			{
 				script.append(scriptHeader(ctx));
 				script.append("" +
-					"$IP6TABLES --version || exit 1\n" +
+					"$IP6TABLES --version || exit 60\n" +
 					
 					"# Create the droidwall chains if necessary\n" +
-					"$IP6TABLES -L droidwall >/dev/null 2>/dev/null || $IP6TABLES --new droidwall || exit 3\n" +
-					"$IP6TABLES -L droidwall-3g >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-3g || exit 4\n" +
-					"$IP6TABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-wifi || exit 5\n" +
-					"$IP6TABLES -L droidwall-reject >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-reject || exit 6\n" +
+					"$IP6TABLES -L droidwall >/dev/null 2>/dev/null || $IP6TABLES --new droidwall || exit 61\n" +
+					"$IP6TABLES -L droidwall-3g >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-3g || exit 64\n" +
+					"$IP6TABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-wifi || exit 65\n" +
+					"$IP6TABLES -L droidwall-reject >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-reject || exit 66\n" +
 					
 					"# Add droidwall chain to OUTPUT chain if necessary\n" +
-					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -A OUTPUT -j droidwall || exit 11\n" +
-					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 1 -j droidwall || exit 12\n"+
-					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 2 -j droidwall || exit 13\n"+
+					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -A OUTPUT -j droidwall || exit 67\n" +
+					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 1 -j droidwall || exit 68\n"+
+					"$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 2 -j droidwall || exit 69\n"+
 					
 					"# Flush existing rules\n" +
-					"$IP6TABLES -F droidwall || exit 17\n" +
-					"$IP6TABLES -F droidwall-3g || exit 18\n" +
-					"$IP6TABLES -F droidwall-wifi || exit 19\n" +
-					"$IP6TABLES -F droidwall-reject || exit 20\n" +
+					"$IP6TABLES -F droidwall || exit 70\n" +
+					"$IP6TABLES -F droidwall-3g || exit 71\n" +
+					"$IP6TABLES -F droidwall-wifi || exit 72\n" +
+					"$IP6TABLES -F droidwall-reject || exit 73\n" +
 					"# Create reject rule and fix for WiFi slow DNS lookups" +
-					"$IP6TABLES -A droidwall-reject -j REJECT || exit 21\n" +
-					"$IP6TABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n" +
+					"$IP6TABLES -A droidwall-reject -j REJECT || exit 74\n" +
+					"$IP6TABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 75\n" +
 					
 				"");
 				// Check if logging is enabled
@@ -403,66 +403,66 @@ public final class Api
 					script.append("" +
 						"# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n" +
 						"$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[DROIDWALL] \" --log-uid\n" +
-						"$IP6TABLES -A droidwall-reject -j REJECT || exit 29\n" +
+						"$IP6TABLES -A droidwall-reject -j REJECT || exit 76\n" +
 					
 					"");
 				} else {
 					script.append("" +
 						"# Create the reject rule (log disabled)\n" +
-						"$IP6TABLES -A droidwall-reject -j REJECT || exit 30\n" +
+						"$IP6TABLES -A droidwall-reject -j REJECT || exit 77\n" +
 					"");
 				}
 				
 				script.append("# Main rules (per interface)\n");
 				for (final String itf : ITFS_3G) {
-					script.append("$IP6TABLES -A droidwall -o ").append(itf).append(" -j droidwall-3g || exit 32\n");
+					script.append("$IP6TABLES -A droidwall -o ").append(itf).append(" -j droidwall-3g || exit 78\n");
 				
 				}
 				for (final String itf : ITFS_WIFI) {
-					script.append("$IP6TABLES -A droidwall -o ").append(itf).append(" -j droidwall-wifi || exit 34\n");
+					script.append("$IP6TABLES -A droidwall -o ").append(itf).append(" -j droidwall-wifi || exit 79\n");
 				
 				}
 				
 					int uid = android.os.Process.getUidForName("dhcp");
 					if (uid != -1) {
 						script.append("# dhcp user\n");
-						script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j RETURN || exit 36\n");
+						script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j RETURN || exit 80\n");
 					
 					}
 					uid = android.os.Process.getUidForName("wifi");
 					if (uid != -1) {
 						script.append("# wifi user\n");
-						script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j RETURN || exit 38\n");
+						script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j RETURN || exit 81\n");
 						
 					}
 				}
 				if (any_3g && ipv6enabled) {
 					if (blacklist) {
 						// block any application on this interface 
-						script.append("$IP6TABLES -A droidwall-3g -j ").append(targetRule).append(" || exit 40\n");		
+						script.append("$IP6TABLES -A droidwall-3g -j ").append(targetRule).append(" || exit 82\n");		
 					}
 				} else {
 					/* release/block individual applications on this interface */
 					if(isRoaming(ctx) && ipv6enabled){
 						for (final Integer uid : uidsroaming) {
-							if (uid >= 0) script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 42\n");
+							if (uid >= 0) script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 83\n");
 						}
 					}else {
 					for (final Integer uid : uids3g) {
-						if (uid >= 0) script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 42\n");
+						if (uid >= 0) script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 84\n");
 					}
 					}
 				}
 				if (any_wifi && ipv6enabled) {
 					if (blacklist) {
 						// block any application on this interface
-						script.append("$IP6TABLES -A droidwall-wifi -j ").append(targetRule).append(" || exit 44\n");
+						script.append("$IP6TABLES -A droidwall-wifi -j ").append(targetRule).append(" || exit 85\n");
 						
 					}
 				} else {
 					// release/block individual applications on this interface 
 					for (final Integer uid : uidsWifi) {
-						if (uid >= 0) script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 46\n");
+						if (uid >= 0) script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner ").append(uid).append(" -j ").append(targetRule).append(" || exit 86\n");
 						
 					}
 				}
@@ -470,10 +470,10 @@ public final class Api
 					if (!any_3g) {
 						if (uids3g.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 							script.append("# hack to allow kernel packets on white-list\n");
-							script.append("$IP6TABLES -A droidwall-3g -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 48\n");
+							script.append("$IP6TABLES -A droidwall-3g -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 87\n");
 							
 						} else {
-							script.append("$IP6TABLES -A droidwall-3g -j droidwall-reject || exit 50\n");
+							script.append("$IP6TABLES -A droidwall-3g -j droidwall-reject || exit 88\n");
 				
 						}
 					}
@@ -481,10 +481,10 @@ public final class Api
 						if (uidsWifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 							script.append("# hack to allow kernel packets on white-list\n");
 							//script.append("$IPTABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 52\n");
-							script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 53\n");
+							script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 89\n");
 						} else {
 							//script.append("$IPTABLES -A droidwall-wifi -j droidwall-reject || exit 54\n");
-							script.append("$IP6TABLES -A droidwall-wifi -j droidwall-reject || exit 55\n");
+							script.append("$IP6TABLES -A droidwall-wifi -j droidwall-reject || exit 90\n");
 						}
 					}
 				} else {
@@ -492,15 +492,15 @@ public final class Api
 						script.append("# hack to BLOCK kernel packets on black-list\n");
 						//script.append("$IPTABLES -A droidwall-3g -m owner --uid-owner 0:999999999 -j RETURN || exit 56\n");
 						//script.append("$IPTABLES -A droidwall-3g -j droidwall-reject || exit 57\n");
-						script.append("$IP6TABLES -A droidwall-3g -m owner --uid-owner 0:999999999 -j RETURN || exit 58\n");
-						script.append("$IP6TABLES -A droidwall-3g -j droidwall-reject || exit 59\n");
+						script.append("$IP6TABLES -A droidwall-3g -m owner --uid-owner 0:999999999 -j RETURN || exit 91\n");
+						script.append("$IP6TABLES -A droidwall-3g -j droidwall-reject || exit 92\n");
 					}
 					if (uidsWifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 						script.append("# hack to BLOCK kernel packets on black-list\n");
 						//script.append("$IPTABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j RETURN || exit 60\n");
 						//script.append("$IPTABLES -A droidwall-wifi -j droidwall-reject || exit 61\n");
-					    script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j RETURN || exit 62\n");
-						script.append("$IP6TABLES -A droidwall-wifi -j droidwall-reject || exit 63\n");
+					    script.append("$IP6TABLES -A droidwall-wifi -m owner --uid-owner 0:999999999 -j RETURN || exit 93\n");
+						script.append("$IP6TABLES -A droidwall-wifi -j droidwall-reject || exit 94\n");
 					}
 				}
 			}
