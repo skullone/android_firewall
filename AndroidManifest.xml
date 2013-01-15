@@ -43,7 +43,6 @@
         <activity android:name=".RulesDialog" />
         <activity android:name=".ExportRulesDialog" />
         <activity android:name=".DeleteRulesDialog" />
-        <activity android:name=".Crypto" />
 
         <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
         </service>
