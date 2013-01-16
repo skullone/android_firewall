@@ -2,8 +2,8 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:  
 
-2.0.3 - Fixed menu.xml issue with string names. Thanks to iptux for that and for the updated Chinese translation.  Thanks to Joffery for again updating the French translation.
-		Updated the other translations with Google Translate.
+2.0.3 - MD5 hashing of password has been added.  Select all/clear all options have been added.  Fixed menu.xml issue with string names. Thanks to iptux for that and for the updated Chinese translation.  
+		Thanks to Joffery for again updating the French translation.  Updated the other translations with Google Translate.  
 2.0.2 - Rules file  management support added.  Notifications added.  Notifications off by default.  Fix for issue where if changes to rules are made and you click the back key and say apply the app doesn't exit afterwards.
 2.0.1 - Fix for Null Pointer Exception when trying to import rules before exporting rules.  Added a check for External storage in case a device doesn't have its SDcard mounted at the time.
 2.0.0 - Added Roaming Support.  Added Export/Import of Rules.  BootBroadcast updated to correct issues

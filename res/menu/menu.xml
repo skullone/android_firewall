@@ -1,38 +1,57 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/enableipv4"
-        android:title="@string/fw_disabled" />
-    <item android:id="@+id/enableipv6"
-        android:title="@string/ipv6_disabled" />
-    <item android:id="@+id/applyrules"
-    	android:title="@string/applyrules" />
-    <item android:id="@+id/exportrules"
-        android:title="@string/exportrules" />
-    <item android:id="@+id/importrules"
-        android:title="@string/importrules" />
-    <item android:id="@+id/managerulefiles"
-        android:title="@string/managerulefiles" />
-    <item android:id="@+id/options"
-        android:title="@string/options" >
-    	<!-- "Options" submenu -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/enableipv4"
+        android:title="@string/fw_disabled"/>
+    <item
+        android:id="@+id/enableipv6"
+        android:title="@string/ipv6_disabled"/>
+    <item
+        android:id="@+id/applyrules"
+        android:title="@string/applyrules"/>
+    <item
+        android:id="@+id/exportrules"
+        android:title="@string/exportrules"/>
+    <item
+        android:id="@+id/importrules"
+        android:title="@string/importrules"/>
+    <item
+        android:id="@+id/managerulefiles"
+        android:title="@string/managerulefiles"/>
+    <item
+        android:id="@+id/options"
+        android:title="@string/options">
+
+        <!-- "Options" submenu -->
         <menu>
-            <item android:id="@+id/enablelog"
-                android:title="@string/log_disabled" />
-            <item android:id="@+id/showlog"
-                android:title="@string/show_log" />
-            <item android:id="@+id/showrules"
-                android:title="@string/showrules" />
-            <item android:id="@+id/clearlog"
-                android:title="@string/clear_log" />
-            <item android:id="@+id/setpwd"
-                android:title="@string/setpwd" />
-            <item android:id="@+id/customscript"
-                android:title="@string/set_custom_script" />
-            <item android:id="@+id/notify"
-                android:title="@string/notify_disabled" />
+            <item
+                android:id="@+id/enablelog"
+                android:title="@string/log_disabled"/>
+            <item
+                android:id="@+id/showlog"
+                android:title="@string/show_log"/>
+            <item
+                android:id="@+id/showrules"
+                android:title="@string/showrules"/>
+            <item
+                android:id="@+id/clearlog"
+                android:title="@string/clear_log"/>
+            <item
+                android:id="@+id/setpwd"
+                android:title="@string/setpwd"/>
+            <item
+                android:id="@+id/customscript"
+                android:title="@string/set_custom_script"/>
+            <item
+                android:id="@+id/notify"
+                android:title="@string/notify_disabled"/>
         </menu>
-        </item>
-    <item android:id="@+id/help"
-        android:title="@string/help" />
-    <item android:id="@+id/exit"
-        android:title="@string/exit" />
+    </item>
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"/>
+    <item
+        android:id="@+id/exit"
+        android:title="@string/exit"/>
+
 </menu>

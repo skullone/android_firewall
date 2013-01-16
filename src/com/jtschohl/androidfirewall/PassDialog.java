@@ -97,4 +97,5 @@ public class PassDialog extends Dialog implements
 	public void onCancel(DialogInterface dialog) {
 		this.callback.handleMessage(new Message());
 	}
+
 }

@@ -229,16 +229,18 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	private void requestPassword(final String pwd) {
 		new PassDialog(this, false, new android.os.Handler.Callback() {
 			public boolean handleMessage(Message msg) {
-				String encrypted = ((String) msg.obj);
-				String hash = md5(encrypted);
 				if (msg.obj == null) {
 					MainActivity.this.finish();
 					android.os.Process.killProcess(android.os.Process.myPid());
 					return false;
 				}
-				if (!pwd.equals(hash)) {
-					requestPassword(pwd);
-					return false;
+				if (msg.obj != null) {
+					String encrypted = ((String) msg.obj);
+					String hash = md5(encrypted);
+					if (!pwd.equals(hash)) {
+						requestPassword(pwd);
+						return false;
+					}
 				}
 				// Password correct
 				showOrLoadApplications();

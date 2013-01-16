@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:baselineAligned="true"
-    android:paddingTop="2dip"
+    android:orientation="horizontal"
     android:paddingBottom="2dip"
-    >
-	<ImageView android:id="@+id/itemicon" android:layout_width="50dip" android:layout_height="40dip"></ImageView>
+    android:paddingTop="2dip" >
 
-	<CheckBox
-	    android:id="@+id/itemcheck_wifi"
-	    android:layout_width="40dip"
-	    android:layout_height="40dip"
-	    android:padding="0px" >
+    <ImageView
+        android:id="@+id/itemicon"
+        android:layout_width="50dip"
+        android:layout_height="40dip" >
+    </ImageView>
 
-</CheckBox>
-	<CheckBox android:id="@+id/itemcheck_3g" android:layout_width="40dip" android:layout_height="40dip" android:padding="0px"></CheckBox>
-	<CheckBox android:id="@+id/itemcheck_roam" android:layout_width="40dip" android:layout_height="40dip" android:padding="0px"></CheckBox>
-	<TextView android:id="@+id/itemtext" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingLeft="5dip" android:text="uid:packages"></TextView>
+    <CheckBox
+        android:id="@+id/itemcheck_wifi"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:padding="0px" >
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/itemcheck_3g"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:padding="0px" >
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/itemcheck_roam"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:padding="0px" >
+    </CheckBox>
+
+    <TextView
+        android:id="@+id/itemtext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dip"
+        android:text="uid:packages" >
+    </TextView>
+
 </LinearLayout>

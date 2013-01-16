@@ -1,62 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:duplicateParentState="false">
-	<View android:layout_width="fill_parent" android:layout_height="1dp" android:background="#FFFFFFFF" />
-	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="6dp">
-		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/label_mode" android:text="@string/mode_header" android:textSize="15sp" android:clickable="true"></TextView>
-	</LinearLayout>
-	<View android:layout_width="fill_parent" android:layout_height="1dp" android:background="#FFFFFFFF" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:duplicateParentState="false"
+    android:orientation="vertical" >
 
-	<LinearLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:paddingLeft="42dp" >
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFFFF" />
 
-		<Button
-		    android:id="@+id/label_wifi"
-		    android:layout_width="42dp"
-		    android:layout_height="42dp"
-		    android:text="@string/wifi"
-		    android:textSize="11sp"
-		    android:typeface="normal"
-		    android:background="@color/black"
-		    android:textColor="@color/blue"
-		    android:clickable="true" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp" >
 
-		<Button
-		    android:id="@+id/label_data"
-		    android:layout_width="42dp"
-		    android:layout_height="42dp"
-		    android:text="@string/data"
-		    android:textSize="11sp"
-		    android:typeface="normal"
-		    android:background="@color/black"
-		    android:textColor="@color/blue"
-		    android:clickable="true" />
+        <TextView
+            android:id="@+id/label_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/mode_header"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
 
-		<Button
-		    android:id="@+id/label_roam"
-		    android:layout_width="42dp"
-		    android:layout_height="42dp"
-		    android:text="@string/roaming"
-		    android:textSize="11sp"
-		    android:typeface="normal"
-		    android:background="@color/black"
-		    android:textColor="@color/blue"
-		    android:clickable="true" />
-		
-		<Button
-		    android:id="@+id/label_clear"
-		    android:layout_width="42dp"
-		    android:layout_height="42dp"
-		    android:text="@string/clear"
-		    android:textSize="11sp"
-		    android:typeface="normal"
-		    android:background="@color/black"
-		    android:textColor="@color/blue"
-		    android:clickable="true" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFFFF" />
 
-		<View android:layout_width="38dip" android:layout_height="fill_parent"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="42dp" >
 
-	</LinearLayout>
-	<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/listview"></ListView>
+        <Button
+            android:id="@+id/label_wifi"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@color/black"
+            android:clickable="true"
+            android:text="@string/wifi"
+            android:textColor="@color/blue"
+            android:textSize="11sp"
+            android:typeface="normal" />
+
+        <Button
+            android:id="@+id/label_data"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@color/black"
+            android:clickable="true"
+            android:text="@string/data"
+            android:textColor="@color/blue"
+            android:textSize="11sp"
+            android:typeface="normal" />
+
+        <Button
+            android:id="@+id/label_roam"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@color/black"
+            android:clickable="true"
+            android:text="@string/roaming"
+            android:textColor="@color/blue"
+            android:textSize="11sp"
+            android:typeface="normal" />
+
+        <Button
+            android:id="@+id/label_clear"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@color/black"
+            android:clickable="true"
+            android:text="@string/clear"
+            android:textColor="@color/blue"
+            android:textSize="11sp"
+            android:typeface="normal" />
+
+        <View
+            android:layout_width="38dip"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ListView>
+
 </LinearLayout>
