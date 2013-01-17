@@ -98,5 +98,7 @@
     <string name="data">Data</string>
     <string name="roaming">Roam</string>
     <string name="clear">Clear</string>
+    <string name="password_not_same">Passwords are not the same!  Please try again.</string>
+    <string name="password_enter_again">Please enter the password again.</string>
 
 </resources>

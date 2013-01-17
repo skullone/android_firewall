@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Брандмауэр включен)</string>
     <string name="title_disabled">Android Firewall (Брандмауэр отключен)</string>
@@ -52,46 +53,36 @@
     <string name="custom_script_defined">Пользовательский сценарий определён</string>
     <string name="custom_script_removed">Пользовательский сценарий удалён</string>
     <string name="custom_script_error">Ошибка при сохранении пользовательского сценария</string>
-    <string name="custom_script_info"><b>Введите ниже Ваш сценарий.</b>
-		\n<i>(Оставьте это поле пустым для удаления)</i>
-		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">здесь</a>.
-	</string>
+    <string name="custom_script_info"><b>Введите ниже Ваш сценарий.</b>		\n<i>(Оставьте это поле пустым для удаления)</i>		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">здесь</a>.</string>
     <string name="unsaved_changes">Несохраненные изменения</string>
     <string name="unsaved_changes_message">У вас есть несохраненные изменения.\nВы хотите применить или сбросить их?</string>
     <string name="apply">Применить</string>
     <string name="discard">Сбросить</string>
-        <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-                \n<i>Перевод: Евгений Мартыненко</i>\n
+    <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>                \n<i>Перевод: Евгений Мартыненко</i>\n
                 \n<i>Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
                 Он позволяет ограничить круг приложений имеющих доступ к сетям передачи данных.
                 \nЭто идеальное решение, если у вас не безлимитный тарифный план, или Вы просто хотите сэкономить заряд вашей батареи.
                 \n
-                \n<b>Использование Android Firewall:</b>
-                \n<b>1.</b> Нажмите на <b>Режим</b> для переключения между режимами <i>Белый список</i> и <i>Черный список</i>.
+                \n<b>Использование Android Firewall:</b>                \n<b>1.</b> Нажмите на <b>Режим</b> для переключения между режимами <i>Белый список</i> и <i>Черный список</i>.
                 \n<b>2.</b> Пометьте приложения, которые Вы хотите заблокировать или разрешить (в зависимости от выбранного режима), для каждого интерфейса.
                 \n<b>3.</b> Откройте меню и включите брандмауэр. Если брандмауэр уже включен, просто выберите <b>Применить правила</b>.
                 \nПравила будут сохранены и автоматически восстановлены, после перезагрузки Вашего телефона.
                 \nЕсли хотите проверить все действующие правила iptables, выберите в меню <b>Показать правила</b>.
                 \n
-                \n<b>Виджет:</b>
-                \nДля быстрого включения или отключения брандмауэра добавьте на Ваш домашний экран виджет Android Firewall.
+                \n<b>Виджет:</b>                \nДля быстрого включения или отключения брандмауэра добавьте на Ваш домашний экран виджет Android Firewall.
                 \n
-                \n<b>Журналы брандмауэра:</b>
-                \nЕсли Вы хотите увидеть, какие приложения были заблокированы Android Firewall, откройте меню и включите ведение журнала.
+                \n<b>Журналы брандмауэра:</b>                \nЕсли Вы хотите увидеть, какие приложения были заблокированы Android Firewall, откройте меню и включите ведение журнала.
                 \nAndroid Firewall зарегистрирует каждое заблокированное приложение. Вы можете проверить журнал, открыв меню и выбрав <b>Еще -> Показать журнал</b>.
                 \n
-                \n<b>Пароль блокировки:</b>
-                \nВы можете установить пароль блокировки для Android Firewall с помощью параметра меню <b>Установить пароль</b>.
-                \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым
-        </string>
-        <string name="overwrite_rules">Вы собираетесь перезаписывать существующие правила. Вы хотите продолжить?</string>
-	<string name="importsuccess">Импорт успешно!</string>
-	<string name="importfailed">Импорт не удался!</string>
-	<string name="exportfailed">Экспорт не удалось!</string>
-	<string name="exportsuccess">Экспорт успешным!</string>
-	<string name="enterfilename">Пожалуйста, введите имя файла</string>
-	<string name="notify_enabled">Уведомления включены</string>
+                \n<b>Пароль блокировки:</b>                \nВы можете установить пароль блокировки для Android Firewall с помощью параметра меню <b>Установить пароль</b>.
+                \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым</string>
+    <string name="overwrite_rules">Вы собираетесь перезаписывать существующие правила. Вы хотите продолжить?</string>
+    <string name="importsuccess">Импорт успешно!</string>
+    <string name="importfailed">Импорт не удался!</string>
+    <string name="exportfailed">Экспорт не удалось!</string>
+    <string name="exportsuccess">Экспорт успешным!</string>
+    <string name="enterfilename">Пожалуйста, введите имя файла</string>
+    <string name="notify_enabled">Уведомления включены</string>
     <string name="notify_disabled">Уведомления отключены</string>
     <string name="notify_was_enabled">Уведомления были включены</string>
     <string name="notify_was_disabled">Уведомления были отключены</string>
@@ -103,4 +94,7 @@
     <string name="data">данные</string>
     <string name="roaming">бродить</string>
     <string name="clear">Очистить</string>
+    <string name="password_not_same">Пароли не совпадают! Пожалуйста, попробуйте еще раз.</string>
+    <string name="password_enter_again">Пожалуйста, введите пароль еще раз.</string>
+
 </resources>

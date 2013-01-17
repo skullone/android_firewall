@@ -98,5 +98,7 @@
     <string name="data">Données</string>
     <string name="roaming">errer</string>
     <string name="clear">Effacer</string>
+    <string name="password_not_same">Les mots de passe ne sont pas identiques! S\'il vous plaît essayez de nouveau.</string>
+    <string name="password_enter_again">S\'il vous plaît entrer le mot de passe à nouveau.</string>
 
 </resources>

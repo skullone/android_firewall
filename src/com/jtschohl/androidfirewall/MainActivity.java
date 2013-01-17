@@ -630,11 +630,52 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		new PassDialog(this, true, new android.os.Handler.Callback() {
 			public boolean handleMessage(Message msg) {
 				if (msg.obj != null) {
-					setPassword((String) msg.obj);
+					String confirmPwd = (String) msg.obj;
+					if (confirmPwd.length() > 0) {
+						setConfirmPassword(confirmPwd);
+						Toast.makeText(MainActivity.this,
+								getString(R.string.password_enter_again),
+								Toast.LENGTH_LONG).show();
+						checkPassword();
+					} else {
+						setPassword(confirmPwd);
+					}
 				}
 				return false;
 			}
 		}).show();
+	}
+
+	private void checkPassword() {
+		new PassDialog(this, true, new android.os.Handler.Callback() {
+			public boolean handleMessage(Message msg) {
+				if (msg.obj != null) {
+					if (getPassword().equals((String) msg.obj)) {
+						setPassword((String) msg.obj);
+					} else {
+						Toast.makeText(MainActivity.this,
+								getString(R.string.password_not_same),
+								Toast.LENGTH_LONG).show();
+						setPassword();
+					}
+				}
+				return false;
+			}
+		}).show();
+	}
+
+	/**
+	 * Ask for password twice and confirm it is the same before setting it to
+	 * PREF_PASSWORD
+	 */
+	private String userPassword = "";
+
+	public String getPassword() {
+		return userPassword;
+	}
+
+	public void setConfirmPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 	/**

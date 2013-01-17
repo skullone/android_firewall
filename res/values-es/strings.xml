@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall activo)</string>
     <string name="title_disabled">Android Firewall (Firewall inactivo)</string>
@@ -52,46 +53,36 @@
     <string name="custom_script_defined">Script personalizado definido</string>
     <string name="custom_script_removed">Script personalizado borrado</string>
     <string name="custom_script_error">Error grabando script personalizado</string>
-    <string name="custom_script_info"><b>Ingrese su script personalizado abajo.</b>
-        \n<i>(Dejar vacio para borrar)</i>
-        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aquí</a>.
-    </string>
+    <string name="custom_script_info"><b>Ingrese su script personalizado abajo.</b>        \n<i>(Dejar vacio para borrar)</i>        \nPara informaciones (en Inglés) sobre los scripts personalizados, toque <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aquí</a>.</string>
     <string name="unsaved_changes">Cambios no grabados</string>
     <string name="unsaved_changes_message">Se realizaron cambios que no fueron grabados.\n¿Aplicar cambios o descartar?</string>
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
-	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-		\n
+    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
 		\n<i>Android Firewall</i> es una interfaz de usuario para el poderoso firewall de Linux <b>iptables</b>.
 		Permite definir cuales aplicaciones tienen acceso a las diferentes redes de datos.
 		\nEsta es la solución perfecta si usted no posee plan de datos ilimitado, o si simplemente quiere que su batería dure mas tiempo.
 		\n
-		\n<b>Uso de Android Firewall:</b>
-		\n<b>1.</b> Presione <b>Modo</b> para alternar entre los modos <i>Lista blanca</i> y <i>Lista negra</i>.
+		\n<b>Uso de Android Firewall:</b>		\n<b>1.</b> Presione <b>Modo</b> para alternar entre los modos <i>Lista blanca</i> y <i>Lista negra</i>.
 		\n<b>2.</b> Marque las aplicaciones para las cuales desea bloquear o permitir acceso (dependiendo del modo seleccionado), para cada interfaz.
 		\n<b>3.</b> Abra el menú y active el firewall. Si el firewall ya se encuentra activo, seleccione <b>Aplicar reglas</b>.
 		\nLas reglas serán guardadas automáticamente y restauradas cuando el teléfono es reiniciado.
 		\nSi desea verificar las reglas actuales de iptables, seleccione <b>Mostrar reglas</b> en el menú.
 		\n
-		\n<b>Widget:</b>
-		\nPara activar o inactivar rápidamente el firewall, adicione el widget de Android Firewall en su pantalla principal.
+		\n<b>Widget:</b>		\nPara activar o inactivar rápidamente el firewall, adicione el widget de Android Firewall en su pantalla principal.
 		\n
-		\n<b>Logs del firewall:</b>
-		\nSi desea ver cuales aplicaciones han sido bloqueadas por Android Firewall, abra el menú y habilite el Log.
+		\n<b>Logs del firewall:</b>		\nSi desea ver cuales aplicaciones han sido bloqueadas por Android Firewall, abra el menú y habilite el Log.
 		\nAndroid Firewall registrará en el log cada aplicación bloqueada. Puede verificar el log abriendo el menú y seleccionando <b>Mas -> Mostrar log</b>.
 		\n
-		\n<b>Contraseña de acceso:</b>
-		\nPuede definir una contraseña de acceso para Android Firewall usando la opción <b>Definir contraseña</b> del menú.
-		\nPara remover la contraseña, déjela vacía.
-	</string>
-	<string name="overwrite_rules">Usted está a punto de sobrescribir la normativa vigente. ¿Desea continuar?</string>
-	<string name="importsuccess">Importar un éxito!</string>
-	<string name="importfailed">La importación ha fallado!</string>
-	<string name="exportfailed">Exportación fallado!</string>
-	<string name="exportsuccess">Exportar con éxito!</string>
-	<string name="enterfilename">Por favor, introduzca el nombre del archivo</string>
-	<string name="notify_enabled">Notificaciones habilitado</string>
+		\n<b>Contraseña de acceso:</b>		\nPuede definir una contraseña de acceso para Android Firewall usando la opción <b>Definir contraseña</b> del menú.
+		\nPara remover la contraseña, déjela vacía.</string>
+    <string name="overwrite_rules">Usted está a punto de sobrescribir la normativa vigente. ¿Desea continuar?</string>
+    <string name="importsuccess">Importar un éxito!</string>
+    <string name="importfailed">La importación ha fallado!</string>
+    <string name="exportfailed">Exportación fallado!</string>
+    <string name="exportsuccess">Exportar con éxito!</string>
+    <string name="enterfilename">Por favor, introduzca el nombre del archivo</string>
+    <string name="notify_enabled">Notificaciones habilitado</string>
     <string name="notify_disabled">Notificaciones desactivado</string>
     <string name="notify_was_enabled">Notificaciones se han habilitado</string>
     <string name="notify_was_disabled">Se han desactivado las notificaciones</string>
@@ -103,4 +94,7 @@
     <string name="data">datos</string>
     <string name="roaming">vagar</string>
     <string name="clear">Borrar</string>
+    <string name="password_not_same">Las contraseñas no son iguales! Por favor, inténtelo de nuevo.</string>
+    <string name="password_enter_again">Por favor, introduzca la contraseña de nuevo.</string>
+
 </resources>

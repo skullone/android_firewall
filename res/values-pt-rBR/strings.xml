@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall ligado)</string>
     <string name="title_disabled">Android Firewall (Firewall desligado)</string>
@@ -17,7 +18,7 @@
     <string name="log_disabled">Log desligado</string>
     <string name="log_was_enabled">Log ligado</string>
     <string name="log_was_disabled">Log desligado</string>
-     <string name="ipv6_enabled">IPv6 ligado</string>
+    <string name="ipv6_enabled">IPv6 ligado</string>
     <string name="ipv6_disabled">IPv6 desligado</string>
     <string name="ipv6_was_enabled">IPv6 ligado</string>
     <string name="ipv6_was_disabled">IPv6 desligado</string>
@@ -52,49 +53,37 @@
     <string name="custom_script_defined">Script personalizado definido</string>
     <string name="custom_script_removed">Script personalizado removido</string>
     <string name="custom_script_error">Erro salvando script personalizado</string>
-    <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>
-		\n<i>(Deixe em branco para remover)</i>
-		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
-	</string>
-    <string name="custom_script2_info">
-    	\n<b>Script personalizado ao desligar</b>
-    	\nVocê pode definir também um script personalizado para ser executado quando o firewall é <b>desligado</b>:</string>
+    <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>		\n<i>(Deixe em branco para remover)</i>		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.</string>
+    <string name="custom_script2_info">    	\n<b>Script personalizado ao desligar</b>    	\nVocê pode definir também um script personalizado para ser executado quando o firewall é <b>desligado</b>:</string>
     <string name="unsaved_changes">Alterações não salvas</string>
     <string name="unsaved_changes_message">Você tem alterações não salvas.\nDeseja aplicar ou descartar essas alterações?</string>
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
-	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-		\n
+    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
 		\n<i>Android Firewall</i> é um aplicativo que utiliza o poderoso firewall <b>iptables</b> do Linux.
 		Ele permite restringir o acesso de cada aplicativo Android à rede de dados.
 		\nEsta é a solução perfeita se você não possui um plano de dados ilimitado, ou apenas deseja economizar bateria.
 		\n
-		\n<b>Utilizando o Android Firewall:</b>
-		\n<b>1.</b> Clique em <b>Modo</b> para escolher qual o modo de bloqueio (<i>Lista Branca</i> ou <i>Lista Negra</i>).
+		\n<b>Utilizando o Android Firewall:</b>		\n<b>1.</b> Clique em <b>Modo</b> para escolher qual o modo de bloqueio (<i>Lista Branca</i> ou <i>Lista Negra</i>).
 		\n<b>2.</b> Marque os aplicativos que você deseja bloquear ou permitir (dependendo do modo selecionado), para cada interface de dados.
 		\n<b>3.</b> Abra o menu e ligue o firewall. Caso o firewall já esteja ligado, selecione <b>Aplicar regras</b>.
 		\nAs regras serão salvas e automaticamente re-aplicadas quando o dispositivo for re-iniciado.
 		\nSe desejar ver as regras do iptables, selecione <b>Exibir regras</b> no menu.
 		\n
-		\n<b>Widget:</b>
-		\nPara ligar ou desligar rápidamente o firewall, adicione o widget do Android Firewall em sua área de trabalho (home).
+		\n<b>Widget:</b>		\nPara ligar ou desligar rápidamente o firewall, adicione o widget do Android Firewall em sua área de trabalho (home).
 		\n
-		\n<b>Logs do firewall:</b>
-		\nSe desejar saber quais aplicativos foram bloqueados pelo Android Firewall, abra o menu e ligue o log.
+		\n<b>Logs do firewall:</b>		\nSe desejar saber quais aplicativos foram bloqueados pelo Android Firewall, abra o menu e ligue o log.
 		\nO Android Firewall irá então logar todos as tentativas de conexão bloqueadas. Você pode verificar o log abrido o menu e selecionando <b>Mais -> Exibir log</b>.
 		\n
-		\n<b>Senha de acesso:</b>
-		\nVocê pode definir uma senha de acesso para o Android Firewall utilizando a função <b>Definir senha</b> do menu.
-		\nPara remover a senha de acesso, deixe ela em branco.
-	</string>
-	<string name="overwrite_rules">Você está prestes a substituir as regras atuais. Você quer continuar?</string>
-	<string name="importsuccess">Importar sucesso!</string>
-	<string name="importfailed">Importação falhou!</string>
-	<string name="exportfailed">Exportação falhou!</string>
-	<string name="exportsuccess">Exportar sucesso!</string>
-	<string name="enterfilename">Por favor insira o nome do arquivo</string>
-	<string name="notify_enabled">Notificações habilitado</string>
+		\n<b>Senha de acesso:</b>		\nVocê pode definir uma senha de acesso para o Android Firewall utilizando a função <b>Definir senha</b> do menu.
+		\nPara remover a senha de acesso, deixe ela em branco.</string>
+    <string name="overwrite_rules">Você está prestes a substituir as regras atuais. Você quer continuar?</string>
+    <string name="importsuccess">Importar sucesso!</string>
+    <string name="importfailed">Importação falhou!</string>
+    <string name="exportfailed">Exportação falhou!</string>
+    <string name="exportsuccess">Exportar sucesso!</string>
+    <string name="enterfilename">Por favor insira o nome do arquivo</string>
+    <string name="notify_enabled">Notificações habilitado</string>
     <string name="notify_disabled">Notificações desativado</string>
     <string name="notify_was_enabled">Notificações foram habilitados</string>
     <string name="notify_was_disabled">Notificações foram desativados</string>
@@ -106,4 +95,7 @@
     <string name="data">dados</string>
     <string name="roaming">vaguear</string>
     <string name="clear">Limpar</string>
+    <string name="password_not_same">As senhas não são iguais! Por favor, tente novamente.</string>
+    <string name="password_enter_again">Por favor, digite a senha novamente.</string>
+
 </resources>

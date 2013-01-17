@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall zapnut)</string>
     <string name="title_disabled">Android Firewall (Firewall vypnut)</string>
@@ -48,38 +49,31 @@
     <string name="toast_error_enabling">Android Firewall: Chyba při spouštění firewallu!</string>
     <string name="toast_disabled">Android Firewall: Firewall vypnut!</string>
     <string name="toast_error_disabling">Android Firewall: Chyba při svypínání firewallu!</string>
-        <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-                \n
+    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>                \n
                 \n<i>Android Firewall</i> je pokročilá aplikace pro účinný <b>iptables</b> Linuxový firewall.
                 Umožnuje vám nastavit které aplikace budou mít přístup k síti Internet a které nikoliv.
                 \nToto je perfektní řešení pokud nemáte neomezený datový tarif, či jen chcete zlepšit výdrž vaší baterie.
                 \n
-                \n<b>Použití Android Firewall:</b>
-                \n<b>1.</b> Klikněte na <b>Režim</b> pro přepnutí mezi <i>Povolením</i> a <i>Zakázáním</i> zvolených položek.
+                \n<b>Použití Android Firewall:</b>                \n<b>1.</b> Klikněte na <b>Režim</b> pro přepnutí mezi <i>Povolením</i> a <i>Zakázáním</i> zvolených položek.
                 \n<b>2.</b> Zvolte aplikace které chcete zablokovat a které chcete povolit (v závislosti na dříve nastaveném režimu).
                 \n<b>3.</b> Otevřete nabídku a zapněte firewall. Pokud již byl zapnut, stačí zvolit <b>Nastavit pravidla</b>.
                 \nPravidla budou uložena a budou automaticky nastavena po restartování telefonu.
                 \nPokud chcete zkontrolovat současné iptables nastavení, zvolte <b>Zobrazit pravidla</b> v nabídce.
                 \n
-                \n<b>Widget:</b>
-                \nPro rychlé zapnutí či deaktivování firewallu, přidejte Android Firewall widget na vaší domovskou stránku.
+                \n<b>Widget:</b>                \nPro rychlé zapnutí či deaktivování firewallu, přidejte Android Firewall widget na vaší domovskou stránku.
                 \n
-                \n<b>Firewall logy:</b>
-                \nPro případy kdy chcete zjistit které aplikace byly zablokovány Android Firewallem, otevřete menu a zapněte logování.
+                \n<b>Firewall logy:</b>                \nPro případy kdy chcete zjistit které aplikace byly zablokovány Android Firewallem, otevřete menu a zapněte logování.
                 \nAndroid Firewall poté do logu zaznamená veškeré blokované aplikace. Můžete log prohlédnout pomocí nabídky menu a zvolením <b>Více -> Zobrazit Log</b>.
                 \n
-                \n<b>Heslo:</b>
-                \nMůžete nastavit heslo pro Android Firewall otevřením menu a zvolením <b>Nastavit heslo</b>.
-                \nPro zrušení hesla jej prostě nechte prázdné.
-        </string>
+                \n<b>Heslo:</b>                \nMůžete nastavit heslo pro Android Firewall otevřením menu a zvolením <b>Nastavit heslo</b>.
+                \nPro zrušení hesla jej prostě nechte prázdné.</string>
     <string name="overwrite_rules">Chystáte se přepsat stávající pravidla. Chcete pokračovat?</string>
-	<string name="importsuccess">Import byl úspěšný!</string>
-	<string name="importfailed">Import se nezdařil!</string>
-	<string name="exportfailed">Export selhal!</string>
-	<string name="exportsuccess">Export úspěšný!</string>
-	<string name="enterfilename">Prosím, zadejte název souboru</string>
-	<string name="notify_enabled">Upozornění povoleno</string>
+    <string name="importsuccess">Import byl úspěšný!</string>
+    <string name="importfailed">Import se nezdařil!</string>
+    <string name="exportfailed">Export selhal!</string>
+    <string name="exportsuccess">Export úspěšný!</string>
+    <string name="enterfilename">Prosím, zadejte název souboru</string>
+    <string name="notify_enabled">Upozornění povoleno</string>
     <string name="notify_disabled">Upozornění zakázáno</string>
     <string name="notify_was_enabled">Oznámení byly povoleny</string>
     <string name="notify_was_disabled">Oznámení byla deaktivována</string>
@@ -91,4 +85,7 @@
     <string name="data">Data</string>
     <string name="roaming">toulat se</string>
     <string name="clear">Vymazat</string>
+    <string name="password_not_same">Hesla nejsou stejné! Prosím, zkuste to znovu.</string>
+    <string name="password_enter_again">Prosím, zadejte heslo znovu.</string>
+
 </resources>

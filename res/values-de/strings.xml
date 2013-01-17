@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Translated by Zionis137 -->
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall aktiviert)</string>
     <string name="title_disabled">Android Firewall (Firewall deaktiviert)</string>
@@ -46,40 +47,34 @@
     <string name="mode_blacklist">Black list (blockiere ausgewählte)</string>
     <string name="toast_bin_installed">Android Firewall: Binary files wurden installiert!</string>
     <string name="toast_error_enabling">Android Firewall: Fehler beim Aktivieren der Firewall!</string>
-    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-﻿  ﻿  \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-﻿  ﻿  \n
+    <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>﻿  ﻿  \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>﻿  ﻿  \n
 ﻿  ﻿  \n<i>Android Firewall</i>Benutzer Application für die starke <b>iptables</b> Linux Firewall.
 ﻿  ﻿  Sie macht es möglich auszuwählen, welche Applicationen Zugriff auf das Internet haben.
 ﻿  ﻿  \nDas ist die perfekte Lösung, wenn du eine begrenzte Internetverbindung hast, oder den Akku schonen willst.
 ﻿  ﻿  \n
-﻿  ﻿  \n<b>Using Android Firewall:</b>
-﻿  ﻿  \n<b>1.</b> Klick auf <b>Modus</b> um zwischen <i>White List</i> und <i>Black List</i> zu wechseln.
+﻿  ﻿  \n<b>Using Android Firewall:</b>﻿  ﻿  \n<b>1.</b> Klick auf <b>Modus</b> um zwischen <i>White List</i> und <i>Black List</i> zu wechseln.
 ﻿  ﻿  \n<b>2.</b> Markiere die Application, die du blockieren oder erlauben möchtest (abhängig von dem ausgewählten Modus).
 ﻿  ﻿  \n<b>3.</b> Öffne das Menü und aktiviere die Firewall. Wenn die Firewall schon aktiviert ist, wähle einfach <b>Regeln anwenden</b>.
 ﻿  ﻿  \nDie Regeln werden automatisch gespeichert und wiederhergestellt, wenn du das Handy neu startest.
 ﻿  ﻿  \nWenn du alle Regeln überprüfen willst, wähle <b>Regeln zeigen</b> inm Menü aus.
 ﻿  ﻿  \n
-﻿  ﻿  \n<b>Widget:</b>
-﻿  ﻿  \nUm die Firewall schnell zu aktivieren oder zu deaktivieren, füge das Widget deinem Startbildschirm hinzu
+﻿  ﻿  \n<b>Widget:</b>﻿  ﻿  \nUm die Firewall schnell zu aktivieren oder zu deaktivieren, füge das Widget deinem Startbildschirm hinzu
 ﻿  ﻿  \n
-﻿  ﻿  \n<b>Firewall logs:</b>
-﻿  ﻿  \nWenn du sehen willst, welche Applicationen von <i>Android Firewall</i> geblockt wurden, öffne das Menü und aktiviere den Log
+﻿  ﻿  \n<b>Firewall logs:</b>﻿  ﻿  \nWenn du sehen willst, welche Applicationen von <i>Android Firewall</i> geblockt wurden, öffne das Menü und aktiviere den Log
 ﻿  ﻿  \nAndroid Firewall wird dann jede geblockte Application speichern. Du kannst den Log überprüfen, indem du das Menü öffnest und  <b>More -> Show log</b> auswählst.
 ﻿  ﻿  \n
-﻿  ﻿  \n<b>Passwort:</b>
-﻿  ﻿  \nDu kannst ein Passwort setzen, indem du <b>Erstelle Passwort</b> im Menü wählst.
+﻿  ﻿  \n<b>Passwort:</b>﻿  ﻿  \nDu kannst ein Passwort setzen, indem du <b>Erstelle Passwort</b> im Menü wählst.
 ﻿  ﻿  \nUm das Passwort zu löschen, lass das Passwort Feld leer.
 
     \n \nÜbersetz von Zionis137
 ﻿    </string>
-<string name="overwrite_rules">Sie sind dabei, die aktuellen Regeln zu überschreiben. Möchten Sie den Vorgang fortsetzen?</string>
-	<string name="importsuccess">Import erfolgreich!</string>
-	<string name="importfailed">Import fehlgeschlagen!</string>
-	<string name="exportfailed">Export fehlgeschlagen!</string>
-	<string name="exportsuccess">Export erfolgreich!</string>
-	<string name="enterfilename">Bitte geben Sie den Dateinamen</string>
-	<string name="notify_enabled">Benachrichtigungen aktivieren</string>
+    <string name="overwrite_rules">Sie sind dabei, die aktuellen Regeln zu überschreiben. Möchten Sie den Vorgang fortsetzen?</string>
+    <string name="importsuccess">Import erfolgreich!</string>
+    <string name="importfailed">Import fehlgeschlagen!</string>
+    <string name="exportfailed">Export fehlgeschlagen!</string>
+    <string name="exportsuccess">Export erfolgreich!</string>
+    <string name="enterfilename">Bitte geben Sie den Dateinamen</string>
+    <string name="notify_enabled">Benachrichtigungen aktivieren</string>
     <string name="notify_disabled">Benachrichtigungen deaktiviert</string>
     <string name="notify_was_enabled">Benachrichtigungen aktiviert wurden</string>
     <string name="notify_was_disabled">Benachrichtigungen sind deaktiviert</string>
@@ -91,4 +86,7 @@
     <string name="data">Daten</string>
     <string name="roaming">wandern</string>
     <string name="clear">löschen</string>
+    <string name="password_not_same">Passwörter sind nicht das Gleiche! Bitte versuchen Sie es erneut.</string>
+    <string name="password_enter_again">Bitte geben Sie das Kennwort erneut ein.</string>
+
 </resources>

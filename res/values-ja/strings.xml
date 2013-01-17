@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall オン)</string>
     <string name="title_disabled">Android Firewall (Firewall オフ)</string>
@@ -48,41 +49,34 @@
     <string name="toast_error_enabling">Android Firewall: 適用中にエラーが発生しました。</string>
     <string name="toast_disabled">Android Firewall: Firewall 停止!</string>
     <string name="toast_error_disabling">Android Firewall: 停止中にエラーが発生しました。</string>
-<string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-\n
+    <string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>\n
 \n<i>Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
 \nAndroid Firewallは、あなたがインストールしたアプリケーションの通信を設定により制限することができます。
 \nもしあなたのデバイスがデータ通信定額プランでは無い、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
 \n
-\n<b>Android Firewallの使い方</b>
-\n<b>1.</b> <b>モード</b>をタッチすることでホワイトリストまたはブラックリストのモード切替ができます。
+\n<b>Android Firewallの使い方</b>\n<b>1.</b><b>モード</b>をタッチすることでホワイトリストまたはブラックリストのモード切替ができます。
 \n<b>2.</b> アプリをチェックすることにより、通信許可または拒否することができます。
 \n<b>3.</b> メニューを開いて、Firewallを許可するとルールが適用されます。
 \n既にFirewallを実行している場合は、<b>ルール適用</b>を選択してください。デバイスを再起動した時、ルールは保存されて自動で復元されます。
 \n現在適応しているiptablesルールの詳細を確認したい時は、メニューを開いて<b>ルール表示</b>を選択してください。
 \n
-\n<b>ウィジェット</b>
-\nホーム画面にAndroid Firewallウィジェットと置くことで、簡単にFirewallを実行または停止することができます。
+\n<b>ウィジェット</b>\nホーム画面にAndroid Firewallウィジェットと置くことで、簡単にFirewallを実行または停止することができます。
 \n
-\n<b>Firewall 通信ログ</b>
-\nAndroid Firewallでしたアプリによる通信を監視したい場合は、通信ログをオンにしてください。
+\n<b>Firewall 通信ログ</b>\nAndroid Firewallでしたアプリによる通信を監視したい場合は、通信ログをオンにしてください。
 \n通信ログを確認したい場合はメニューを開いて<b>ログ表示</b>を選択して下さい。
 \n
-\n<b>パスワードロック設定</b>
-\nアプリケーションをパスワードでロックしたい場合はメニューにある<b>パスワード設定</b>を選択してください。
+\n<b>パスワードロック設定</b>\nアプリケーションをパスワードでロックしたい場合はメニューにある<b>パスワード設定</b>を選択してください。
 \nパスワードの入力フォームを空白にすることでパスワードを解除できます。
 \n
 \n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
-\nJapanese Translation by Hiroki Ogawa.
-</string>
-<string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか。</string>
-	<string name="importsuccess">インポートに成功！</string>
-	<string name="importfailed">インポートに失敗しました！</string>
-	<string name="exportfailed">エクスポートに失敗しました！</string>
-	<string name="exportsuccess">エクスポートが正常！</string>
-	<string name="enterfilename">ファイル名を入力してください</string>
-	<string name="notify_enabled">通知が有効になって</string>
+\nJapanese Translation by Hiroki Ogawa.</string>
+    <string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか。</string>
+    <string name="importsuccess">インポートに成功！</string>
+    <string name="importfailed">インポートに失敗しました！</string>
+    <string name="exportfailed">エクスポートに失敗しました！</string>
+    <string name="exportsuccess">エクスポートが正常！</string>
+    <string name="enterfilename">ファイル名を入力してください</string>
+    <string name="notify_enabled">通知が有効になって</string>
     <string name="notify_disabled">通知は無効</string>
     <string name="notify_was_enabled">通知が有効になっている</string>
     <string name="notify_was_disabled">通知は無効にされています</string>
@@ -94,4 +88,7 @@
     <string name="data">データ</string>
     <string name="roaming">うろつく</string>
     <string name="clear">クリア</string>
+    <string name="password_not_same">パスワードが同じではありません！もう一度やり直してください。</string>
+    <string name="password_enter_again">再度パスワードを入力してください。</string>
+
 </resources>

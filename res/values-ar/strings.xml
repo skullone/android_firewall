@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (الجدار الناري مفعل)</string>
     <string name="title_disabled">Android Firewall (الجدار الناري معطل)</string>
@@ -45,38 +46,31 @@
     <string name="mode_blacklist">قائمة الحظر (حظر للمحدد)</string>
     <string name="toast_bin_installed">Android Firewall: تم تنصيب الملفات الثنائية!</string>
     <string name="toast_error_enabling">"Android Firewall: خطأ بتفعيل الجدار الناري!"</string>
-	<string name="help_dialog_text"><i>المبرمج: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-		\n
+    <string name="help_dialog_text"><i>المبرمج: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
 		\n<i>Android Firewall - جدار ناري للاندرويد</i> هو واجهة أمامية لميزة <b>iptables</b> الجدار الناري لنظام لينوكس.
 		حيث يتيح لك التحكم بأي برنامج ترغب بالسماح له بالوصول للشبكة.
 		\nوهو الخيار الأمثل في حال كان لديك اشتراك انترنت محدود التحميل أو ترغب بزيادة عمر البطارية.
 		\n
-		\n<b>كيفية استخدام Android Firewall:</b>
-		\n<b>1.</b> اضغط على <b>الوضعية</b> للاختيار بين وضعية <i>قائمة السماح</i> و وضعية <i>قائمة الحظر</i> .
+		\n<b>كيفية استخدام Android Firewall:</b>		\n<b>1.</b> اضغط على <b>الوضعية</b> للاختيار بين وضعية <i>قائمة السماح</i> و وضعية <i>قائمة الحظر</i> .
 		\n<b>2.</b> ضع إشارة صح على التطبيقات التي ترغب بالسماح لها أو حظرها (حسب الوضعية المختارة).
 		\n<b>3.</b> افتح القائمة و فعل الجدار الناري. إذا كان الجدار الناري مفعل مسبقاً، فقط إضغط على <b>تطبيق القواعد</b>.
 		\nسيتم حفظ القواعد و إستعادتها آليا عند إعادة تشغيل الجوال.
 		\nإذا رغبت بعرض جميع قواعد iptables ، اختر <b>عرض القواعد</b> في القائمة.
 		\n
-		\n<b>الويدغيت:</b>
-		\nلتفعيل أو تعطيل الجدار الناري فورياً ، أضف الويدغيت إلى الشاشة الجوال الرئيسية.
+		\n<b>الويدغيت:</b>		\nلتفعيل أو تعطيل الجدار الناري فورياً ، أضف الويدغيت إلى الشاشة الجوال الرئيسية.
 		\n
-		\n<b>سجلات الجدار الناري:</b>
-		\nإذا رغبت بمعرفة البرامج التي قامت بطلب الشبكة و تم حجبها من قبل Android Firewall ، افتح القائمة و فعل السجلات.
+		\n<b>سجلات الجدار الناري:</b>		\nإذا رغبت بمعرفة البرامج التي قامت بطلب الشبكة و تم حجبها من قبل Android Firewall ، افتح القائمة و فعل السجلات.
 		\nAndroid Firewall سقوم عندها بتسجيل عمليات الحجب للتطبيقات. بإمكانك عرض السجلات من خلال فتح القائمة ثم اختيار <b>المزيد -> عرض السجلات</b>.
 		\n
-		\n<b>القفل بكلمة مرور:</b>
-		\nبإمكانك تعيين كلمة مرور لقفل Android Firewall باستخدام <b>تعيين كلمة مرور</b> من القائمة.
-		\nلإزالة حماية كلمة المرور ، فقط قم بتغييرها إلى كلمة مرور فارغة.
-	</string>
-	<string name="overwrite_rules">كنت على وشك الكتابة فوق القواعد الحالية. هل ترغب في الاستمرار؟</string>
-	<string name="importsuccess">استيراد ناجحة!</string>
-	<string name="importfailed">فشل الاستيراد!</string>
-	<string name="exportfailed">فشل التصدير!</string>
-	<string name="exportsuccess">تصدير ناجحة!</string>
-	<string name="enterfilename">من فضلك ادخل اسم الملف</string>
-	<string name="notify_enabled">تمكين إخطارات</string>
+		\n<b>القفل بكلمة مرور:</b>		\nبإمكانك تعيين كلمة مرور لقفل Android Firewall باستخدام <b>تعيين كلمة مرور</b> من القائمة.
+		\nلإزالة حماية كلمة المرور ، فقط قم بتغييرها إلى كلمة مرور فارغة.</string>
+    <string name="overwrite_rules">كنت على وشك الكتابة فوق القواعد الحالية. هل ترغب في الاستمرار؟</string>
+    <string name="importsuccess">استيراد ناجحة!</string>
+    <string name="importfailed">فشل الاستيراد!</string>
+    <string name="exportfailed">فشل التصدير!</string>
+    <string name="exportsuccess">تصدير ناجحة!</string>
+    <string name="enterfilename">من فضلك ادخل اسم الملف</string>
+    <string name="notify_enabled">تمكين إخطارات</string>
     <string name="notify_disabled">إخطارات تعطيل</string>
     <string name="notify_was_enabled">تم تمكين الإخطارات</string>
     <string name="notify_was_disabled">تم تعطيل إخطارات</string>
@@ -88,4 +82,7 @@
     <string name="data">معطيات</string>
     <string name="roaming">تجول</string>
     <string name="clear">مسح</string>
+    <string name="password_not_same">كلمات السر ليست هي نفسها! يرجى المحاولة مرة أخرى.</string>
+    <string name="password_enter_again">الرجاء إدخال كلمة المرور مرة أخرى.</string>
+
 </resources>

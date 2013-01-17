@@ -144,6 +144,8 @@ public final class R {
         public static final int passdefined=0x7f070024;
         public static final int passerror=0x7f070026;
         public static final int passremoved=0x7f070025;
+        public static final int password_enter_again=0x7f070051;
+        public static final int password_not_same=0x7f070050;
         public static final int please_wait=0x7f070029;
         public static final int purgerules=0x7f070007;
         public static final int reading_apps=0x7f070028;

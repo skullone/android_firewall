@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall abilitato)</string>
     <string name="title_disabled">Android Firewall (Firewall disabilitato)</string>
@@ -43,43 +44,36 @@
     <string name="mode_header">Modo: %s</string>
     <string name="mode_whitelist">White list (abilita selezionati)</string>
     <string name="mode_blacklist">Black list (blocca selezionati)</string>
-    <string name="toast_bin_installed">Android Firewall: File binari installati!</string>    
+    <string name="toast_bin_installed">Android Firewall: File binari installati!</string>
     <string name="toast_enabled">Android Firewall: Firewall abilitato!</string>
     <string name="toast_error_enabling">Android Firewall: Errore di abilitazione firewall!</string>
     <string name="toast_disabled">Android Firewall: Firewall disabilitato!</string>
     <string name="toast_error_disabling">Android Firewall: Errore di disabilitare firewall!</string>
-	<string name="help_dialog_text"><i>Autore: Rodrigo Zechin Rosauro and udpated by Jason Tschohl</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
-		\n
+    <string name="help_dialog_text"><i>Autore: Rodrigo Zechin Rosauro and udpated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
 		\n<i>Android Firewall</i> è un\'applicazione front-end per le potenti <b>iptables</b> del firewall Linux.
 		Ti permette di definire quali applicazioni possono accedere alla rete dati e quali no.
 		\nQuesta è una soluzione perfetta se non hai un piano dati illimitato, o solamente se vuoi aumentare la longevità della tua batteria.
 		\n
-		\n<b>Utilizzare Android Firewall:</b>
-		\n<b>1.</b> Clicca su <b>Modo</b> per cambiare tra le modalità <i>White List</i> e <i>Black List</i>.
+		\n<b>Utilizzare Android Firewall:</b>		\n<b>1.</b> Clicca su <b>Modo</b> per cambiare tra le modalità <i>White List</i> e <i>Black List</i>.
 		\n<b>2.</b> Spunta le applicazioni che vuoi bloccare o abilitare (relativamente alla modalità selezionata), per ogni interfaccia.
 		\n<b>3.</b> Apri il menu per abilitare il firewall. Se questo è già attivato, seleziona <b>Applica regole</b>.
 		\nLe regole saranno salvate e ripristinate automaticamente quando riavvierai il telefono.
 		\nSe vuoi controllare le iptables correnti, seleziona <b>Mostra regole</b> dal menu.
 		\n
-		\n<b>Widget:</b>
-		\nPer abilitare o disabilitare velocemente il firewall, aggiungi il widget Android Firewall alla tua schermata home.
+		\n<b>Widget:</b>		\nPer abilitare o disabilitare velocemente il firewall, aggiungi il widget Android Firewall alla tua schermata home.
 		\n
-		\n<b>Log firewall:</b>
-		\nSe vuoi vedere quali applicazioni sono state bloccare da Android Firewall, apri il menu ed abilita i log.
+		\n<b>Log firewall:</b>		\nSe vuoi vedere quali applicazioni sono state bloccare da Android Firewall, apri il menu ed abilita i log.
 		\nAndroid Firewall salverà i log di ogni applicazione bloccata. Puoi poi visualizzarli aprendo il menu e selezionando <b>Altro -> Mostra log</b>.
 		\n
-		\n<b>Blocco password:</b>
-		\nPuoi impostare un blocco password per Android Firewall tramite <b>Imposta password</b> dal menu.
-		\nPer rimuovere la protezione ti basterà lasciarla in bianco.
-	</string>
-	<string name="overwrite_rules">Stai per sovrascrivere le norme vigenti. Vuoi continuare?</string>
-	<string name="importsuccess">Importazione di successo!</string>
-	<string name="importfailed">Importazione non riuscita!</string>
-	<string name="exportfailed">Export fallito!</string>
-	<string name="exportsuccess">Esportazione di successo!</string>
-	<string name="enterfilename">Inserisci il nome del file</string>
-	<string name="notify_enabled">Notifiche abilitato</string>
+		\n<b>Blocco password:</b>		\nPuoi impostare un blocco password per Android Firewall tramite <b>Imposta password</b> dal menu.
+		\nPer rimuovere la protezione ti basterà lasciarla in bianco.</string>
+    <string name="overwrite_rules">Stai per sovrascrivere le norme vigenti. Vuoi continuare?</string>
+    <string name="importsuccess">Importazione di successo!</string>
+    <string name="importfailed">Importazione non riuscita!</string>
+    <string name="exportfailed">Export fallito!</string>
+    <string name="exportsuccess">Esportazione di successo!</string>
+    <string name="enterfilename">Inserisci il nome del file</string>
+    <string name="notify_enabled">Notifiche abilitato</string>
     <string name="notify_disabled">Notifiche disattivato</string>
     <string name="notify_was_enabled">Le notifiche sono stati abilitati</string>
     <string name="notify_was_disabled">Le notifiche sono state disattivate</string>
@@ -91,4 +85,7 @@
     <string name="data">dati</string>
     <string name="roaming">vagare</string>
     <string name="clear">Cancella</string>
+    <string name="password_not_same">Le password non sono uguali! Si prega di riprovare.</string>
+    <string name="password_enter_again">Inserisci di nuovo la password.</string>
+
 </resources>
