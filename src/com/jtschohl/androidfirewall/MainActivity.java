@@ -201,13 +201,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
 		String msg;
 		String hash = md5(pwd);
-		/*
-		 * editor.putString(Api.PREF_PASSWORD, hash); if (editor.commit()) { if
-		 * (pwd.length() > 0) { msg = res.getString(R.string.passdefined); }
-		 * else { msg = res.getString(R.string.passremoved); } } else { msg =
-		 * res.getString(R.string.passerror); }
-		 * Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-		 */
 		if (pwd.length() > 0) {
 			editor.putString(Api.PREF_PASSWORD, hash);
 			if (editor.commit()) {

@@ -78,6 +78,9 @@ public class PassDialog extends Dialog implements
 			msg.obj = this.pass.getText().toString();
 			dismiss();
 		}
+		if (v.getId() == R.id.pass_cancel){
+			dismiss();
+		}
 		this.callback.handleMessage(msg);
 	}
 
@@ -96,6 +99,7 @@ public class PassDialog extends Dialog implements
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		this.callback.handleMessage(new Message());
+		dismiss();
 	}
 
 }
