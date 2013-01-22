@@ -67,7 +67,13 @@ public final class Api
 	private static final String SCRIPT_FILE = "androidfirewall.sh";
 	
 	// Preferences
-	public static final String PREFS_NAME 			= "AndroidFirewallPrefs";
+	public static String PREFS_NAME 			= "AndroidFirewallPrefs";
+	public static String PREF_PROFILE			= "DefaultProfile";
+	public static String PREF_PROFILE1			= "Profile1";
+	public static String PREF_PROFILE2			= "Profile2";
+	public static String PREF_PROFILE3			= "Profile3";
+	public static String PREF_PROFILE4			= "Profile4";
+	public static String PREF_PROFILE5			= "Profile5";
 	public static final String PREF_3G_UIDS			= "AllowedUids3G";
 	public static final String PREF_WIFI_UIDS		= "AllowedUidsWifi";
 	public static final String PREF_ROAMING_UIDS	= "AllowedUidsRoaming";
@@ -85,6 +91,7 @@ public final class Api
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
 	public static final String MODE_BLACKLIST = "blacklist";
+	
 	// Messages
 	public static final String STATUS_CHANGED_MSG 	= "com.jtschohl.androidfirewall.intent.action.STATUS_CHANGED";
 	public static final String TOGGLE_REQUEST_MSG	= "com.jtschohl.androidfirewall.intent.action.TOGGLE_REQUEST";

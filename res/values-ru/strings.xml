@@ -91,9 +91,9 @@
     <string name="managerulefiles">Управление Правило файлов</string>
     <string name="options">опции</string>
     <string name="wifi">WiFi</string>
-    <string name="data">данные</string>
-    <string name="roaming">бродить</string>
-    <string name="clear">Очистить</string>
+    <string name="data">Data</string>
+    <string name="roaming">Roam</string>
+    <string name="clear">Clear</string>
     <string name="password_not_same">Пароли не совпадают! Пожалуйста, попробуйте еще раз.</string>
     <string name="password_enter_again">Пожалуйста, введите пароль еще раз.</string>
 

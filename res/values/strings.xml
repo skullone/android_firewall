@@ -100,5 +100,14 @@
     <string name="clear">Clear</string>
     <string name="password_not_same">Passwords are not the same!  Please try again.</string>
     <string name="password_enter_again">Please enter the password again.</string>
+    <string name="profile_header">Profile: %s</string>
+    <string name="defaultprofile">Default</string>
+    <string name="profile1">Profile 1</string>
+    <string name="profile2">Profile 2</string>
+    <string name="profile3">Profile 3</string>
+    <string name="profile4">Profile 4</string>
+    <string name="profile5">Profile 5</string>
+    <string name="pleasechoose">Please choose the profile you want to create or modify</string>
+    <string name="saveprofile">Create Profile</string>
 
 </resources>

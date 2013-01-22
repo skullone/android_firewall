@@ -3,7 +3,7 @@
  * This is the screen displayed when you open the application
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
- * Copyright (C) 2012-2013	Jason Tschohl
+ * Copyright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,8 +28,10 @@ package com.jtschohl.androidfirewall;
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -55,6 +57,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -76,8 +79,20 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/** progress dialog instance */
 	private ListView listview = null;
+	//private ArrayList<ListEntry> listData;
 	/** indicates if the view has been modified and not yet saved */
 	private boolean dirty = false;
+
+	/**
+	 * Variables for profiles
+	 */
+
+	public final String defaultProfile = "defaultProfile";
+	public final String profile1 = "profile1";
+	public final String profile2 = "profile2";
+	public final String profile3 = "profile3";
+	public final String profile4 = "profile4";
+	public final String profile5 = "profile5";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -98,6 +113,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.findViewById(R.id.label_data).setOnClickListener(this);
 		this.findViewById(R.id.label_wifi).setOnClickListener(this);
 		this.findViewById(R.id.label_roam).setOnClickListener(this);
+
 		Api.assertBinaries(this, true);
 	}
 
@@ -312,21 +328,19 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						progress.dismiss();
 					} catch (Exception ex) {
 					}
-					showApplications(false, false, false, false);
+					showApplications();
 				}
 			}.execute();
 		} else {
 			// the applications are cached, just show the list
-			showApplications(false, false, false, false);
+			showApplications();
 		}
 	}
 
 	/**
 	 * Show the list of applications
 	 */
-	private void showApplications(final boolean selectwifi,
-			final boolean selectdata, final boolean selectroam,
-			final boolean clearall) {
+	private void showApplications() {
 		this.dirty = false;
 		final DroidApp[] apps = Api.getApps(this);
 		// Sort applications - selected first, then alphabetically
@@ -346,7 +360,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			}
 		});
 		final LayoutInflater inflater = getLayoutInflater();
-		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
+		ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 				R.layout.listitem, R.id.itemtext, apps) {
 			@Override
 			public View getView(final int position, View convertView,
@@ -368,40 +382,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 							.findViewById(R.id.itemtext);
 					entry.icon = (ImageView) convertView
 							.findViewById(R.id.itemicon);
-					if (selectwifi) {
-						// entry.box_wifi.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_wifi = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (selectdata) {
-						// entry.box_3g.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_3g = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (selectroam) {
-						// entry.box_roaming.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_roaming = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (clearall) {
-						// entry.box_wifi.setChecked(false);
-						// entry.box_3g.setChecked(false);
-						// entry.box_roaming.setChecked(false);
-						if (entry.app != null) {
-							entry.app.selected_wifi = false;
-							listview.setItemChecked(position, false);
-							entry.app.selected_roaming = false;
-							listview.setItemChecked(position, false);
-							entry.app.selected_3g = false;
-							listview.setItemChecked(position, false);
-						}
-					}
+
 					entry.box_wifi
 							.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
@@ -417,40 +398,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 							.findViewById(R.id.itemcheck_3g);
 					entry.box_roaming = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_roam);
-					if (selectwifi) {
-						// entry.box_wifi.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_wifi = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (selectdata) {
-						// entry.box_3g.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_3g = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (selectroam) {
-						// entry.box_roaming.setChecked(true);
-						if (entry.app != null) {
-							entry.app.selected_roaming = true;
-							listview.setItemChecked(position, true);
-						}
-					}
-					if (clearall) {
-						// entry.box_wifi.setChecked(false);
-						// entry.box_3g.setChecked(false);
-						// entry.box_roaming.setChecked(false);
-						if (entry.app != null) {
-							entry.app.selected_wifi = false;
-							listview.setItemChecked(position, false);
-							entry.app.selected_roaming = false;
-							listview.setItemChecked(position, false);
-							entry.app.selected_3g = false;
-							listview.setItemChecked(position, false);
-						}
-					}
+
 				}
 				final DroidApp app = apps[position];
 				entry.app = app;
@@ -475,6 +423,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			}
 		};
 		this.listview.setAdapter(adapter);
+
 	}
 
 	@Override
@@ -532,6 +481,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.managerulefiles:
 			manageRuleFiles();
 			return true;
+		/*case R.id.saveprofile:
+			saveProfile();
+			return true;*/
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -754,12 +706,31 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	}
 
+	// open save profiles dialog
+	public void saveProfile() {
+		Intent intent = new Intent();
+		intent.setClass(this, SaveProfileDialog.class);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, SAVE_PROFILE_REQUEST);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
 	// set Request Code for Rules Import
 	static final int IMPORT_RULES_REQUEST = 10;
 	// set Request code for Rules export
 	static final int EXPORT_RULES_REQUEST = 20;
 	// set Request Code for Rule Management
 	static final int MANAGE_RULES_REQUEST = 30;
+	// set request code for saving profiles
+	static final int SAVE_PROFILE_REQUEST = 40;
 
 	// @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1041,19 +1012,45 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 */
 
 	private void selectAllData() {
-		showApplications(false, true, false, false);
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_3g = true;
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	private void selectAllRoam() {
-		showApplications(false, false, true, false);
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_roaming = true;
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	private void selectAllWiFi() {
-		showApplications(true, false, false, false);
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_wifi = true;
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	private void clearAllEntries() {
-		showApplications(false, false, false, true);
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_wifi = false;
+			app.selected_roaming = false;
+			app.selected_3g = false;
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -1139,4 +1136,5 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		private ImageView icon;
 		private DroidApp app;
 	}
+
 }
