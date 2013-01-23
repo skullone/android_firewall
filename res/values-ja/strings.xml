@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall (Firewall オン)</string>
-    <string name="title_disabled">Android Firewall (Firewall オフ)</string>
+    <string name="title_enabled">Android Firewall (有効)</string>
+    <string name="title_disabled">Android Firewall (無効)</string>
     <string name="showrules">ルール表示</string>
     <string name="applyrules">ルール適用</string>
     <string name="saverules">ルール保存</string>
@@ -20,8 +20,8 @@
     <string name="log_was_disabled">通信ログの監視を止めました</string>
     <string name="ipv6_enabled">IPv6 オン</string>
     <string name="ipv6_disabled">IPv6 オフ</string>
-    <string name="ipv6_was_enabled">IPv6 has been オン</string>
-    <string name="ipv6_was_disabled">IPv6 has been オフ</string>
+    <string name="ipv6_was_enabled">IPv6 オンにしました</string>
+    <string name="ipv6_was_disabled">IPv6 オフにしました</string>
     <string name="log_cleared">通信ログを消去しました</string>
     <string name="show_log">通信ログを表示する</string>
     <string name="clear_log">通信ログを消去する</string>
@@ -40,11 +40,11 @@
     <string name="passerror">パスワードに誤りがあります</string>
     <string name="working">実行中...</string>
     <string name="reading_apps">アプリを読み込み中です</string>
-    <string name="please_wait">しばらく待たれ...</string>
+    <string name="please_wait">しばらく待ち下さい</string>
     <string name="mode_header">モード: %s</string>
     <string name="mode_whitelist">ホワイトリスト (チェックで許可)</string>
     <string name="mode_blacklist">ブラックリスト (チェックで拒否)</string>
-    <string name="toast_bin_installed">Android Firewall: Binary files installed!</string>
+    <string name="toast_bin_installed">Android Firewall: バイナリファイルはインストールされました。</string>
     <string name="toast_enabled">Android Firewall: Firewall 許可!</string>
     <string name="toast_error_enabling">Android Firewall: 適用中にエラーが発生しました。</string>
     <string name="toast_disabled">Android Firewall: Firewall 停止!</string>
@@ -52,7 +52,7 @@
     <string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>\n
 \n<i>Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
 \nAndroid Firewallは、あなたがインストールしたアプリケーションの通信を設定により制限することができます。
-\nもしあなたのデバイスがデータ通信定額プランでは無い、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
+\nもしあなたのデバイスがデータ通信定額プランでは無い場合、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
 \n
 \n<b>Android Firewallの使い方</b>\n<b>1.</b><b>モード</b>をタッチすることでホワイトリストまたはブラックリストのモード切替ができます。
 \n<b>2.</b> アプリをチェックすることにより、通信許可または拒否することができます。
@@ -70,25 +70,25 @@
 \n
 \n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
 \nJapanese Translation by Hiroki Ogawa.</string>
-    <string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか。</string>
-    <string name="importsuccess">インポートに成功！</string>
-    <string name="importfailed">インポートに失敗しました！</string>
-    <string name="exportfailed">エクスポートに失敗しました！</string>
-    <string name="exportsuccess">エクスポートが正常！</string>
+    <string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか？</string>
+    <string name="importsuccess">インポート成功！</string>
+    <string name="importfailed">インポート失敗！</string>
+    <string name="exportfailed">エクスポート失敗！</string>
+    <string name="exportsuccess">エクスポート成功！</string>
     <string name="enterfilename">ファイル名を入力してください</string>
-    <string name="notify_enabled">通知が有効になって</string>
-    <string name="notify_disabled">通知は無効</string>
-    <string name="notify_was_enabled">通知が有効になっている</string>
-    <string name="notify_was_disabled">通知は無効にされています</string>
-    <string name="importrules">インポートルール</string>
-    <string name="exportrules">輸出規則</string>
-    <string name="managerulefiles">ルール·ファイルの管理</string>
+    <string name="notify_enabled">通知有効</string>
+    <string name="notify_disabled">通知無効</string>
+    <string name="notify_was_enabled">通知は有効です</string>
+    <string name="notify_was_disabled">通知は無効です</string>
+    <string name="importrules">ルールをインポートする</string>
+    <string name="exportrules">ルールをエクスポートする</string>
+    <string name="managerulefiles">ルール管理</string>
     <string name="options">オプション</string>
-    <string name="wifi">無線LAN</string>
-    <string name="data">データ</string>
-    <string name="roaming">うろつく</string>
+    <string name="wifi">WIFI</string>
+    <string name="data">DATA</string></string>
+    <string name="roaming">ROAM</string>
     <string name="clear">クリア</string>
-    <string name="password_not_same">パスワードが同じではありません！もう一度やり直してください。</string>
-    <string name="password_enter_again">再度パスワードを入力してください。</string>
+    <string name="password_not_same">パスワードが同じではありません！もう一度やり直してください</string>
+    <string name="password_enter_again">再度パスワードを入力してください</string>
 
 </resources>
