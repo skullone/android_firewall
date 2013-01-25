@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="profile">
+        <item>@string/defaultprofile</item>
+        <item>@string/profile1</item>
+        <item>@string/profile2</item>
+        <item>@string/profile3</item>
+        <item>@string/profile4</item>
+        <item>@string/profile5</item>
+    </string-array>
+
+</resources>
