@@ -74,6 +74,7 @@ public final class Api
 	public static String PREF_PROFILE3			= "Profile3";
 	public static String PREF_PROFILE4			= "Profile4";
 	public static String PREF_PROFILE5			= "Profile5";
+	public static String PREF_PROFILES			= "ProfileChosen";
 	public static final String PREF_3G_UIDS			= "AllowedUids3G";
 	public static final String PREF_WIFI_UIDS		= "AllowedUidsWifi";
 	public static final String PREF_ROAMING_UIDS	= "AllowedUidsRoaming";
@@ -91,6 +92,14 @@ public final class Api
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
 	public static final String MODE_BLACKLIST = "blacklist";
+	
+	//Profiles
+	public static final String PROFILE 	= "default";
+	public static final String PROFILE1 = "profile1";
+	public static final String PROFILE2 = "profile2";
+	public static final String PROFILE3 = "profile3";
+	public static final String PROFILE4 = "profile4";
+	public static final String PROFILE5 = "profile5";
 	
 	// Messages
 	public static final String STATUS_CHANGED_MSG 	= "com.jtschohl.androidfirewall.intent.action.STATUS_CHANGED";

@@ -25,6 +25,12 @@
         <!-- "Options" submenu -->
         <menu>
             <item
+                android:id="@+id/saveprofile"
+                android:title="@string/saveprofile"/>
+            <item
+                android:id="@+id/loadprofile"
+                android:title="@string/loadprofile"/>
+            <item
                 android:id="@+id/enablelog"
                 android:title="@string/log_disabled"/>
             <item

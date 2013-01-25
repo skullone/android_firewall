@@ -1,5 +1,5 @@
 /**
- * Dialog displayed to request a password.
+ * Dialog displayed to save a profile.
  * 
  * Copyright (C) 2012-2014	Jason Tschohl
  *
@@ -48,6 +48,7 @@ public class SaveSettingsToProfile extends ListActivity {
 	public void onCreate(Bundle ruleslist) {
 		super.onCreate(ruleslist);
 		String[] rulesfiles;
+
 		FilenameFilter filter = new FilenameFilter() {
 			public boolean accept(File dir, String filename) {
 				File sel = new File(dir, filename);
@@ -61,7 +62,7 @@ public class SaveSettingsToProfile extends ListActivity {
 	}
 
 	private void resultOk() {
-		final Intent response = new Intent(Api.PREF_REFRESH);
+		final Intent response = new Intent(Api.PREF_PROFILES);
 		setResult(RESULT_OK, response);
 		finish();
 	}
@@ -69,54 +70,319 @@ public class SaveSettingsToProfile extends ListActivity {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView items, View v, int position, long id) {
-		
-		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
-				Context.MODE_PRIVATE);
-		File file = new File(filepath + "/"
-				+ getListAdapter().getItem(position));
-		ObjectInputStream input = null;
-		try {
-			input = new ObjectInputStream(new FileInputStream(file));
-			final Editor editRules = prefs.edit();
-			editRules.clear();
-			Map<String, ?> entries = (Map<String, ?>) input.readObject();
-			for (Entry<String, ?> entry : entries.entrySet()) {
-				Object rule = entry.getValue();
-				String keys = entry.getKey();
-				if (rule instanceof Boolean)
-					editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
-				else if (rule instanceof Float)
-					editRules.putFloat(keys, ((Float) rule).floatValue());
-				else if (rule instanceof String)
-					editRules.putString(keys, ((String) rule));
-				else if (rule instanceof Long)
-					editRules.putLong(keys, ((Long) rule).longValue());
-				else if (rule instanceof Integer)
-					editRules.putInt(keys, ((Integer) rule).intValue());
-			}
-			editRules.commit();
-			resultOk();
-			return;
-		} catch (IOException error) {
-			error.printStackTrace();
-			Toast.makeText(
-					this,
-					"The selected rules file is corrupt or missing.  Please export a new rules files",
-					Toast.LENGTH_SHORT).show();
-		} catch (ClassNotFoundException error) {
-			error.printStackTrace();
-			Toast.makeText(
-					this,
-					"There is an error accessing the RulesDialog class information. Please contact the developer",
-					Toast.LENGTH_SHORT).show();
-		} finally {
+		Intent intent = getIntent();
+		int profileChoice = intent.getIntExtra("profileChoice", 0);
 
+		if (profileChoice == 1) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
 			try {
-				if (input != null) {
-					input.close();
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
 				}
-			} catch (IOException errors) {
-				errors.printStackTrace();
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
+			}
+		}
+		if (profileChoice == 2) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE1, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
+			try {
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
+				}
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
+			}
+		}
+		if (profileChoice == 3) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE2, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
+			try {
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
+				}
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
+			}
+		}
+		if (profileChoice == 4) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE3, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
+			try {
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
+				}
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
+			}
+		}
+		if (profileChoice == 5) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE4, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
+			try {
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
+				}
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
+			}
+		}
+		if (profileChoice == 6) {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREF_PROFILE5, Context.MODE_PRIVATE);
+			File file = new File(filepath + "/"
+					+ getListAdapter().getItem(position));
+			ObjectInputStream input = null;
+			try {
+				input = new ObjectInputStream(new FileInputStream(file));
+				final Editor editRules = prefs.edit();
+				editRules.clear();
+				Map<String, ?> entries = (Map<String, ?>) input.readObject();
+				for (Entry<String, ?> entry : entries.entrySet()) {
+					Object rule = entry.getValue();
+					String keys = entry.getKey();
+					if (rule instanceof Boolean)
+						editRules.putBoolean(keys,
+								((Boolean) rule).booleanValue());
+					else if (rule instanceof Float)
+						editRules.putFloat(keys, ((Float) rule).floatValue());
+					else if (rule instanceof String)
+						editRules.putString(keys, ((String) rule));
+					else if (rule instanceof Long)
+						editRules.putLong(keys, ((Long) rule).longValue());
+					else if (rule instanceof Integer)
+						editRules.putInt(keys, ((Integer) rule).intValue());
+				}
+				editRules.commit();
+				resultOk();
+				return;
+			} catch (IOException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"The selected rules file is corrupt or missing.  Please export a new rules files",
+						Toast.LENGTH_SHORT).show();
+			} catch (ClassNotFoundException error) {
+				error.printStackTrace();
+				Toast.makeText(
+						this,
+						"There is an error accessing the class information. Please contact the developer",
+						Toast.LENGTH_SHORT).show();
+			} finally {
+
+				try {
+					if (input != null) {
+						input.close();
+					}
+				} catch (IOException errors) {
+					errors.printStackTrace();
+				}
 			}
 		}
 	}

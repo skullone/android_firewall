@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
-    android:versionCode="204"
-    android:versionName="2.0.4" >
+    android:versionCode="205"
+    android:versionName="2.0.5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -45,6 +45,7 @@
         <activity android:name=".DeleteRulesDialog" />
         <activity android:name=".SaveProfileDialog" />
         <activity android:name=".SaveSettingsToProfile" />
+        <activity android:name=".LoadProfile" />
 
         <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
         </service>

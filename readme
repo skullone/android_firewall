@@ -1,7 +1,9 @@
 This is a fork of the Droidwall application.  The original code is located here:  http://codegoogle.com/p/droidwall/     My code is located here:  http://github.com/skullone/android_firewall
 
-Changelog:  
-
+Changelog: 
+ 
+2.0.5 - Save/Load Profiles functionality.  Spinner option added to main screen for quick swap of profiles.
+2.0.4 - Select/Clear All now works correctly.  Thanks for sblack1 for the fix.  Minor changes to Russian and German translations.
 2.0.3 - MD5 hashing of password has been added.  Confirm password added before setting password.  Select all/clear all options have been added.  Fixed menu.xml issue with string names. Thanks to iptux for that and for the updated Chinese translation.  
 		Thanks to Joffery for again updating the French translation.  Updated the other translations with Google Translate.  
 2.0.2 - Rules file  management support added.  Notifications added.  Notifications off by default.  Fix for issue where if changes to rules are made and you click the back key and say apply the app doesn't exit afterwards.

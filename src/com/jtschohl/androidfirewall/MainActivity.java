@@ -28,13 +28,14 @@ package com.jtschohl.androidfirewall;
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -56,6 +58,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -64,6 +68,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,20 +84,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/** progress dialog instance */
 	private ListView listview = null;
-	//private ArrayList<ListEntry> listData;
 	/** indicates if the view has been modified and not yet saved */
 	private boolean dirty = false;
 
 	/**
-	 * Variables for profiles
+	 * Variables for spinner
 	 */
-
-	public final String defaultProfile = "defaultProfile";
-	public final String profile1 = "profile1";
-	public final String profile2 = "profile2";
-	public final String profile3 = "profile3";
-	public final String profile4 = "profile4";
-	public final String profile5 = "profile5";
+	private Spinner spinner;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -113,6 +111,59 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.findViewById(R.id.label_data).setOnClickListener(this);
 		this.findViewById(R.id.label_wifi).setOnClickListener(this);
 		this.findViewById(R.id.label_roam).setOnClickListener(this);
+		
+		//create the spinner
+		spinner = (Spinner) findViewById(R.id.spinner);
+		// adapter for spinner
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				getApplicationContext(), R.array.profile,
+				android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		spinner.setSelection(prefs.getInt("itemPosition", 0));
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				SharedPreferences.Editor editor = prefs.edit();
+				int index = parent.getSelectedItemPosition();
+				if (index == 0) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadDefaultProfile();
+				}
+				if (index == 1) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadProfile1();
+				}
+				if (index == 2) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadProfile2();
+				}
+				if (index == 3) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadProfile3();
+				}
+				if (index == 4) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadProfile4();
+				}
+				if (index == 5) {
+					editor.putInt("itemPosition", index);
+					editor.commit();
+					LoadProfile5();
+				}
+			}
+
+			public void onNothingSelected(AdapterView<?> parent) {
+				// do nothing
+			}
+		});
 
 		Api.assertBinaries(this, true);
 	}
@@ -181,6 +232,16 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		resid = (Api.isEnabled(this) ? R.string.title_enabled
 				: R.string.title_disabled);
 		setTitle(res.getString(resid));
+
+		/*
+		 * final String profile = prefs.getString(Api.PREF_PROFILES,
+		 * Api.PROFILE); final TextView profilemode = (TextView) this
+		 * .findViewById(R.id.profile_mode); final Resources profileres =
+		 * getResources(); int profileresid = (profile.equals(Api.PROFILE) ?
+		 * R.string.defaultprofile : R.string.profile1);
+		 * profilemode.setText(profileres.getString(R.string.profile_header,
+		 * profileres.getString(profileresid)));
+		 */
 	}
 
 	/**
@@ -328,19 +389,19 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						progress.dismiss();
 					} catch (Exception ex) {
 					}
-					showApplications();
+					createListView();
 				}
 			}.execute();
 		} else {
 			// the applications are cached, just show the list
-			showApplications();
+			createListView();
 		}
 	}
 
 	/**
 	 * Show the list of applications
 	 */
-	private void showApplications() {
+	private void createListView() {
 		this.dirty = false;
 		final DroidApp[] apps = Api.getApps(this);
 		// Sort applications - selected first, then alphabetically
@@ -481,9 +542,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.managerulefiles:
 			manageRuleFiles();
 			return true;
-		/*case R.id.saveprofile:
+		case R.id.saveprofile:
 			saveProfile();
-			return true;*/
+			return true;
+		case R.id.loadprofile:
+			selectProfile();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -713,7 +777,25 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		File filepath = new File(Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + "/androidfirewall/");
 		if (filepath.isDirectory()) {
-			startActivityForResult(intent, SAVE_PROFILE_REQUEST);
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	// open load profile dialog
+
+	public void selectProfile() {
+		Intent intent = new Intent();
+		intent.setClass(this, LoadProfile.class);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, LOAD_PROFILE_REQUEST);
 		} else {
 			Toast.makeText(
 					this,
@@ -729,8 +811,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	static final int EXPORT_RULES_REQUEST = 20;
 	// set Request Code for Rule Management
 	static final int MANAGE_RULES_REQUEST = 30;
-	// set request code for saving profiles
-	static final int SAVE_PROFILE_REQUEST = 40;
+	// set Request Code for Profile loading
+	static final int LOAD_PROFILE_REQUEST = 40;
 
 	// @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -760,6 +842,18 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			Toast.makeText(this, "The file has been deleted.",
 					Toast.LENGTH_SHORT).show();
 			manageRuleFiles();
+		}
+		if (requestCode == LOAD_PROFILE_REQUEST && resultCode == RESULT_OK) {
+			Toast.makeText(this, R.string.profileapplied, Toast.LENGTH_SHORT)
+					.show();
+			Api.applications = null;
+			showOrLoadApplications();
+			refreshHeader();
+			if (Api.isEnabled(getApplicationContext())) {
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				Api.saveRules(getApplicationContext());
+			}
 		}
 		// for debugging purposes
 		// if (resultCode == RESULT_CANCELED)
@@ -1137,4 +1231,201 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		private DroidApp app;
 	}
 
+	private void LoadDefaultProfile() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(Api.PREF_PROFILE,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
+
+	private void LoadProfile1() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(
+				Api.PREF_PROFILE1, Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
+
+	private void LoadProfile2() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(
+				Api.PREF_PROFILE2, Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
+
+	private void LoadProfile3() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(
+				Api.PREF_PROFILE3, Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
+
+	private void LoadProfile4() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(
+				Api.PREF_PROFILE4, Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
+
+	private void LoadProfile5() {
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs2 = getSharedPreferences(
+				Api.PREF_PROFILE5, Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+		Api.applications = null;
+		showOrLoadApplications();
+		refreshHeader();
+		if (Api.isEnabled(getApplicationContext())) {
+			Api.applyIptablesRules(getApplicationContext(), true);
+		} else {
+			Api.saveRules(getApplicationContext());
+		}
+	}
 }

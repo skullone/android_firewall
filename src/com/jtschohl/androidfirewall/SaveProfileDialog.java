@@ -22,33 +22,65 @@
 
 package com.jtschohl.androidfirewall;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class SaveProfileDialog extends Activity implements OnClickListener {
+	// public static String profileChoice = null;
+	private Button defaultprofile;
+	private Button profile1;
+	private Button profile2;
+	private Button profile3;
+	private Button profile4;
+	private Button profile5;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final View view = getLayoutInflater().inflate(
-				R.layout.save_profile_buttons, null);
-		((Button) view.findViewById(R.id.defaultprofile))
-				.setOnClickListener(this);
-		((Button) view.findViewById(R.id.profile1)).setOnClickListener(this);
-		((Button) view.findViewById(R.id.profile2)).setOnClickListener(this);
-		((Button) view.findViewById(R.id.profile3)).setOnClickListener(this);
-		((Button) view.findViewById(R.id.profile4)).setOnClickListener(this);
-		((Button) view.findViewById(R.id.profile5)).setOnClickListener(this);
+
+		this.setContentView(R.layout.save_profile_buttons);
+
+		this.defaultprofile = (Button) this.findViewById(R.id.defaultprofile);
+		this.defaultprofile.setOnClickListener(this);
+		this.profile1 = (Button) this.findViewById(R.id.profile1);
+		this.profile1.setOnClickListener(this);
+		this.profile2 = (Button) this.findViewById(R.id.profile2);
+		this.profile2.setOnClickListener(this);
+		this.profile3 = (Button) this.findViewById(R.id.profile3);
+		this.profile3.setOnClickListener(this);
+		this.profile4 = (Button) this.findViewById(R.id.profile4);
+		this.profile4.setOnClickListener(this);
+		this.profile5 = (Button) this.findViewById(R.id.profile5);
+		this.profile5.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.defaultprofile) {
-			resultOk();
+			saveDefaultProfile();
+		}
+		if (v.getId() == R.id.profile1) {
+			saveProfile1();
+		}
+		if (v.getId() == R.id.profile2) {
+			saveProfile2();
+		}
+		if (v.getId() == R.id.profile3) {
+			saveProfile3();
+		}
+		if (v.getId() == R.id.profile4) {
+			saveProfile4();
+		}
+		if (v.getId() == R.id.profile5) {
+			saveProfile5();
 		} else {
 			setResult(RESULT_CANCELED);
 			finish();
@@ -57,12 +89,101 @@ public class SaveProfileDialog extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * Set the activity result to RESULT_OK and terminate this activity.
+	 * Save Settings to a specific profile
 	 */
-	private void resultOk() {
-		final Intent response = new Intent(Api.PREF_PROFILE);
-		setResult(RESULT_OK, response);
-		finish();
+
+	public void saveDefaultProfile() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 1);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
 	}
 
+	public void saveProfile1() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 2);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	public void saveProfile2() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 3);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	public void saveProfile3() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 4);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	public void saveProfile4() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 5);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	public void saveProfile5() {
+		Intent intent = new Intent(this, SaveSettingsToProfile.class);
+		intent.putExtra("profileChoice", 6);
+		File filepath = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/androidfirewall/");
+		if (filepath.isDirectory()) {
+			startActivityForResult(intent, 0);
+		} else {
+			Toast.makeText(
+					this,
+					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
+					Toast.LENGTH_LONG).show();
+		}
+	}
 }
