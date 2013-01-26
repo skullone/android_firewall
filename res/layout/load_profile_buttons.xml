@@ -20,38 +20,38 @@
 
         <Button
             android:id="@+id/defaultprofile"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/defaultprofile" />
 
         <Button
             android:id="@+id/profile1"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile1" />
 
         <Button
             android:id="@+id/profile2"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile2" />
 
         <Button
             android:id="@+id/profile3"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile3" />
 
         <Button
             android:id="@+id/profile4"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile4" />
 
         <Button
             android:id="@+id/profile5"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile5" />
     </LinearLayout>

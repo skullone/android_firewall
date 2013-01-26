@@ -111,8 +111,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.findViewById(R.id.label_data).setOnClickListener(this);
 		this.findViewById(R.id.label_wifi).setOnClickListener(this);
 		this.findViewById(R.id.label_roam).setOnClickListener(this);
-		
-		//create the spinner
+		this.findViewById(R.id.label_invert).setOnClickListener(this);
+
+		// create the spinner
 		spinner = (Spinner) findViewById(R.id.spinner);
 		// adapter for spinner
 		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
@@ -120,48 +121,55 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				android.R.layout.simple_spinner_dropdown_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-				SharedPreferences.Editor editor = prefs.edit();
-				int index = parent.getSelectedItemPosition();
-				if (index == 0) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadDefaultProfile();
-				}
-				if (index == 1) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadProfile1();
-				}
-				if (index == 2) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadProfile2();
-				}
-				if (index == 3) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadProfile3();
-				}
-				if (index == 4) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadProfile4();
-				}
-				if (index == 5) {
-					editor.putInt("itemPosition", index);
-					editor.commit();
-					LoadProfile5();
-				}
-			}
 
-			public void onNothingSelected(AdapterView<?> parent) {
-				// do nothing
+		spinner.post(new Runnable() {
+			public void run() {
+				spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+					public void onItemSelected(AdapterView<?> parent,
+							View view, int position, long id) {
+						SharedPreferences prefs = PreferenceManager
+								.getDefaultSharedPreferences(getApplicationContext());
+						SharedPreferences.Editor editor = prefs.edit();
+						int index = parent.getSelectedItemPosition();
+						if (index == 0) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadDefaultProfile();
+						}
+						if (index == 1) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadProfile1();
+						}
+						if (index == 2) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadProfile2();
+						}
+						if (index == 3) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadProfile3();
+						}
+						if (index == 4) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadProfile4();
+						}
+						if (index == 5) {
+							editor.putInt("itemPosition", index);
+							editor.commit();
+							LoadProfile5();
+						}
+					}
+
+					public void onNothingSelected(AdapterView<?> parent) {
+						// do nothing
+					}
+				});
 			}
 		});
 
@@ -232,16 +240,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		resid = (Api.isEnabled(this) ? R.string.title_enabled
 				: R.string.title_disabled);
 		setTitle(res.getString(resid));
-
-		/*
-		 * final String profile = prefs.getString(Api.PREF_PROFILES,
-		 * Api.PROFILE); final TextView profilemode = (TextView) this
-		 * .findViewById(R.id.profile_mode); final Resources profileres =
-		 * getResources(); int profileresid = (profile.equals(Api.PROFILE) ?
-		 * R.string.defaultprofile : R.string.profile1);
-		 * profilemode.setText(profileres.getString(R.string.profile_header,
-		 * profileres.getString(profileresid)));
-		 */
 	}
 
 	/**
@@ -559,37 +557,42 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		final MenuItem item_apply = menu.findItem(R.id.applyrules);
 		final boolean enabled = Api.isEnabled(this);
 		if (!enabled) {
-			item_onoff.setTitle(R.string.fw_disabled);
+			// item_onoff.setTitle(R.string.fw_disabled);
 			item_apply.setTitle(R.string.saverules);
+			item_onoff.setChecked(false);
 		} else if (enabled) {
-			item_onoff.setTitle(R.string.fw_enabled);
+			// item_onoff.setTitle(R.string.fw_enabled);
 			item_apply.setTitle(R.string.applyrules);
+			item_onoff.setChecked(true);
 		}
 		final MenuItem item_onoff2 = menu.findItem(R.id.enableipv6);
-		// final MenuItem item_apply2 = menu.findItem(R.id.applyrulesipv6);
 		final boolean ipv6enabled = Api.isIPv6Enabled(this);
 		if (!ipv6enabled) {
-			item_onoff2.setTitle(R.string.ipv6_disabled);
-			// item_apply2.setTitle(R.string.applyrules2);
+			// item_onoff2.setTitle(R.string.ipv6_disabled);
+			item_onoff2.setChecked(false);
 		} else if (ipv6enabled) {
-			item_onoff2.setTitle(R.string.ipv6_enabled);
-			// item_apply2.setTitle(R.string.applyrules2);
+			// item_onoff2.setTitle(R.string.ipv6_enabled);
+			item_onoff2.setChecked(true);
 		}
 		final MenuItem item_log = menu.findItem(R.id.enablelog);
 		final boolean logenabled = getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_LOGENABLED, false);
 		if (logenabled) {
-			item_log.setTitle(R.string.log_enabled);
+			// item_log.setTitle(R.string.log_enabled);
+			item_log.setChecked(true);
 		} else {
-			item_log.setTitle(R.string.log_disabled);
+			// item_log.setTitle(R.string.log_disabled);
+			item_log.setChecked(false);
 		}
 		final MenuItem item_notify = menu.findItem(R.id.notify);
 		final boolean notifyenabled = getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
 		if (notifyenabled) {
-			item_notify.setTitle(R.string.notify_enabled);
+			// item_notify.setTitle(R.string.notify_enabled);
+			item_notify.setChecked(true);
 		} else {
-			item_notify.setTitle(R.string.notify_disabled);
+			// item_notify.setTitle(R.string.notify_disabled);
+			item_notify.setChecked(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -1098,6 +1101,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.label_clear:
 			clearAllEntries();
 			break;
+		case R.id.label_invert:
+			invertApps();
+			break;
 		}
 	}
 
@@ -1143,6 +1149,18 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			app.selected_wifi = false;
 			app.selected_roaming = false;
 			app.selected_3g = false;
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void invertApps() {
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_3g = !app.selected_3g;
+			app.selected_roaming = !app.selected_roaming;
+			app.selected_wifi = !app.selected_wifi;
 		}
 		adapter.notifyDataSetChanged();
 	}

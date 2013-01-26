@@ -54,20 +54,27 @@ public class PackageBroadcast extends BroadcastReceiver {
 				Api.applications = null;
 			}
 		} else if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-			// Force app list reload next time
-			Api.applications = null;
-			// check to see if Notifications are enabled
-			final boolean NotifyEnabled = context.getSharedPreferences(
-					Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
-			if (NotifyEnabled) {
-				String new_app_installed = intent.getData()
-						.getSchemeSpecificPart();
-				if (PackageManager.PERMISSION_GRANTED == context
-						.getPackageManager()
-						.checkPermission(Manifest.permission.INTERNET,
-								new_app_installed)) {
-					// notify the User that a new app has been installed
-					notifyUserOfAppInstall(context, new_app_installed);
+			final boolean appExists = intent.getBooleanExtra(
+					Intent.EXTRA_REPLACING, false);
+
+			if (appExists) {
+				// do nothing
+			} else {
+				// Force app list reload next time
+				Api.applications = null;
+				// check to see if Notifications are enabled
+				final boolean NotifyEnabled = context.getSharedPreferences(
+						Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
+				if (NotifyEnabled) {
+					String new_app_installed = intent.getData()
+							.getSchemeSpecificPart();
+					if (PackageManager.PERMISSION_GRANTED == context
+							.getPackageManager().checkPermission(
+									Manifest.permission.INTERNET,
+									new_app_installed)) {
+						// notify the User that a new app has been installed
+						notifyUserOfAppInstall(context, new_app_installed);
+					}
 				}
 			}
 		}

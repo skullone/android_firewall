@@ -40,8 +40,7 @@
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
     <View
@@ -94,6 +93,17 @@
             android:background="@color/black"
             android:clickable="true"
             android:text="@string/clear"
+            android:textColor="@color/blue"
+            android:textSize="11sp"
+            android:typeface="normal" />
+
+        <Button
+            android:id="@+id/label_invert"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@color/black"
+            android:clickable="true"
+            android:text="@string/invert"
             android:textColor="@color/blue"
             android:textSize="11sp"
             android:typeface="normal" />
