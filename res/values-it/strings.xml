@@ -87,5 +87,28 @@
     <string name="clear">Cancella</string>
     <string name="password_not_same">Le password non sono uguali! Si prega di riprovare.</string>
     <string name="password_enter_again">Inserisci di nuovo la password.</string>
+    <string name="defaultprofile">Default</string>
+    <string name="profile1">Profilo 1</string>
+    <string name="profile2">Profilo 2</string>
+    <string name="profile3">Profilo 3</string>
+    <string name="profile4">Profilo 4</string>
+    <string name="profile5">Profilo 5</string>
+    <string name="pleasechoose">Si prega di selezionare il profilo che si desidera creare o modificare</string>
+    <string name="saveprofile">Crea il tuo profilo</string>
+    <string name="defaultsaved">Il profilo predefinito è stato salvato con successo!</string>
+    <string name="profile1saved">Profilo 1 è stato salvato con successo</string>
+    <string name="profile2saved">Profilo 2 è stato salvato con successo</string>
+    <string name="profile3saved">Profilo 3 è stato salvato con successo</string>
+    <string name="profile4saved">Profilo 4 è stato salvato con successo</string>
+    <string name="profile5saved">Profilo 5 è stato salvato con successo</string>
+    <string name="profileselect">Si prega di scegliere il profilo che si desidera applicare</string>
+    <string name="profileapplied">Il profilo è stato applicato con successo</string>
+    <string name="loadprofile">Carica profilo</string>
+    <string name="rulesoptions">Rules Management</string>
+    <string name="profilesoptions">Profile Management</string>
+    <string name="ipv6_title">IPv6 Support</string>
+    <string name="notifications_title">Notifica di supporto</string>
+    <string name="enableLog_title">Enable Firewall Log</string>
+    <string name="invert">invertire</string>
 
 </resources>

@@ -87,5 +87,28 @@
     <string name="clear">Vymazat</string>
     <string name="password_not_same">Hesla nejsou stejné! Prosím, zkuste to znovu.</string>
     <string name="password_enter_again">Prosím, zadejte heslo znovu.</string>
+    <string name="defaultprofile">standardní</string>
+    <string name="profile1">Profil 1</string>
+    <string name="profile2">Profil 2</string>
+    <string name="profile3">Profil 3</string>
+    <string name="profile4">Profil 4</string>
+    <string name="profile5">Profil 5</string>
+    <string name="pleasechoose">Prosím, vyberte profil, který chcete vytvořit nebo upravit</string>
+    <string name="saveprofile">Vytvořit profil</string>
+    <string name="defaultsaved">Výchozí profil byl úspěšně uložen!</string>
+    <string name="profile1saved">Profil 1 byl úspěšně uložen</string>
+    <string name="profile2saved">Profil 2 byl úspěšně uložen</string>
+    <string name="profile3saved">Profil 3 byl úspěšně uložen</string>
+    <string name="profile4saved">Profil 4 byl úspěšně uložen</string>
+    <string name="profile5saved">Profil 5 byl úspěšně uložen</string>
+    <string name="profileselect">Prosím, vyberte profil, který chcete použít</string>
+    <string name="profileapplied">Profil byl úspěšně aplikován</string>
+    <string name="loadprofile">Load Profile</string>
+    <string name="rulesoptions">pravidla řízení</string>
+    <string name="profilesoptions">Správa profilu</string>
+    <string name="ipv6_title">IPv6 Support</string>
+    <string name="notifications_title">oznámení Podpora</string>
+    <string name="enableLog_title">Povolit Firewall Log</string>
+    <string name="invert">převrátit</string>
 
 </resources>

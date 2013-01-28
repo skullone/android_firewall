@@ -2,7 +2,6 @@
  * Broadcast receiver that set iptable rules on system startup.
  * This is necessary because the iptables rules are not persistent.
  * 
- * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
  * Coypright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify

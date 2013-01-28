@@ -90,5 +90,28 @@
     <string name="clear">クリア</string>
     <string name="password_not_same">パスワードが同じではありません！もう一度やり直してください</string>
     <string name="password_enter_again">再度パスワードを入力してください</string>
+    <string name="defaultprofile">デフォルト</string>
+    <string name="profile1">プロファイル1</string>
+    <string name="profile2">プロファイル2</string>
+    <string name="profile3">プロファイル3</string>
+    <string name="profile4">プロファイル4</string>
+    <string name="profile5">プロファイル5</string>
+    <string name="pleasechoose">作成または変更したいプロファイルを選択してください</string>
+    <string name="saveprofile">プロファイルを作成します。</string>
+    <string name="defaultsaved">デフォルト·プロファイルが正常に保存されました！</string>
+    <string name="profile1saved">プロファイル1が正常に保存されました</string>
+    <string name="profile2saved">プロファイル2が正常に保存されました</string>
+    <string name="profile3saved">プロファイル3が正常に保存されました</string>
+    <string name="profile4saved">プロファイル4が正常に保存されました</string>
+    <string name="profile5saved">プロファイル5が正常に保存されました</string>
+    <string name="profileselect">あなたが適用するプロファイルを選択してください</string>
+    <string name="profileapplied">プロファイルが正常に適用されました</string>
+    <string name="loadprofile">負荷プロファイル</string>
+    <string name="rulesoptions">ルール·マネジメント</string>
+    <string name="profilesoptions">プロファイル管理</string>
+    <string name="ipv6_title">IPv6のサポート</string>
+    <string name="notifications_title">通知のサポート</string>
+    <string name="enableLog_title">ファイアウォールログを有効に</string>
+    <string name="invert">反転</string>
 
 </resources>

@@ -2,7 +2,7 @@
  * Broadcast receiver responsible for removing rules that affect uninstalled apps.
  * 
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
- * Copyright (C) 2012-2013	Jason Tschohl
+ * Copyright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,8 +83,6 @@ public class PackageBroadcast extends BroadcastReceiver {
 	/**
 	 * Send notification to the notification bar
 	 * 
-	 * @param context
-	 * @param new_app_installed
 	 */
 	@SuppressWarnings("deprecation")
 	public void notifyUserOfAppInstall(Context context, String new_app_installed) {

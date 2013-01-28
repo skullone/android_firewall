@@ -84,5 +84,28 @@
     <string name="clear">مسح</string>
     <string name="password_not_same">كلمات السر ليست هي نفسها! يرجى المحاولة مرة أخرى.</string>
     <string name="password_enter_again">الرجاء إدخال كلمة المرور مرة أخرى.</string>
+    <string name="defaultprofile"> الافتراضي</string>
+    <string name="profile1">الشخصي 1</string>
+    <string name="profile2">الشخصي 2</string>
+    <string name="profile3">الشخصي 3</string>
+    <string name="profile4">الشخصي 4</string>
+    <string name="profile5">الشخصي 5</string>
+    <string name="pleasechoose">الرجاء اختيار الوضع الذي تريد إنشاء أو تعديل</string>
+    <string name="saveprofile">إنشاء الملف الشخصي </string>
+    <string name="defaultsaved">تم حفظ التشكيل الجانبي الافتراضي بنجاح!</string>
+    <string name="profile1saved">تم حفظ الملف 1 بنجاح</string>
+    <string name="profile2saved">تم حفظ الملف 2 بنجاح</string>
+    <string name="profile3saved">تم حفظ الملف 3 بنجاح</string>
+    <string name="profile4saved">تم حفظ الملف 4 بنجاح</string>
+    <string name="profile5saved">تم حفظ الملف 5 بنجاح</string>
+    <string name="profileselect"> الرجاء اختيار الملف الذي تريد تطبيقه </string>
+    <string name="profileapplied">طبق بنجاح الملف الشخصي</string>
+    <string name="loadprofile"> تحميل الملف</string>
+    <string name="rulesoptions"> قواعد إدارة</string>
+    <string name="profilesoptions">  الملف الشخصي إدارة</string>
+    <string name="ipv6_title">دعم IPv6</string>
+    <string name="notifications_title"> دعم الإشعار</string>
+    <string name="enableLog_title"> تمكين سجل جدار الحماية</string>
+    <string name="invert">قلب</string>
 
 </resources>

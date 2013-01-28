@@ -96,5 +96,28 @@
     <string name="clear">Borrar</string>
     <string name="password_not_same">Las contraseñas no son iguales! Por favor, inténtelo de nuevo.</string>
     <string name="password_enter_again">Por favor, introduzca la contraseña de nuevo.</string>
+    <string name="defaultprofile">Default</string>
+    <string name="profile1">Perfil 1</string>
+    <string name="profile2">Perfil 2</string>
+    <string name="profile3">Perfil 3</string>
+    <string name="profile4">Perfil 4</string>
+    <string name="profile5">Perfil 5</string>
+    <string name="pleasechoose">Por favor, seleccione el perfil que desea crear o modificar</string>
+    <string name="saveprofile">Creación del perfil</string>
+    <string name="defaultsaved">El perfil por defecto se ha guardado correctamente!</string>
+    <string name="profile1saved">Perfil 1 se ha guardado correctamente</string>
+    <string name="profile2saved">Perfil 2 se ha guardado correctamente</string>
+    <string name="profile3saved">Perfil 3 se ha guardado correctamente</string>
+    <string name="profile4saved">Perfil 4 se ha guardado correctamente</string>
+    <string name="profile5saved">Perfil 5 se ha guardado correctamente</string>
+    <string name="profileselect">Por favor, elija el perfil que desea aplicar</string>
+    <string name="profileapplied">El perfil se aplicó con éxito</string>
+    <string name="loadprofile">Cargar Perfil</string>
+    <string name="rulesoptions">Normas de Gestión</string>
+    <string name="profilesoptions">gestión de perfiles</string>
+    <string name="ipv6_title">Soporte IPv6</string>
+    <string name="notifications_title">Notificación de Apoyo</string>
+    <string name="enableLog_title">Activar registro de Firewall</string>
+    <string name="invert">invertir</string>
 
 </resources>

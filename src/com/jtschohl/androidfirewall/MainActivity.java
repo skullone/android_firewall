@@ -124,7 +124,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
-
 		spinner.post(new Runnable() {
 			public void run() {
 				spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -727,18 +726,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	public void exportRules() {
 		Intent intent = new Intent();
 		intent.setClass(this, ExportRulesDialog.class);
-		// boolean mExternalStorageAvailable = false;
-		// boolean mExternalStorageWriteable = false;
 		String state = Environment.getExternalStorageState();
 
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			// We can read and write the media
-			// mExternalStorageAvailable = mExternalStorageWriteable = true;
 			startActivityForResult(intent, EXPORT_RULES_REQUEST);
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 			// We can only read the media
-			// mExternalStorageAvailable = true;
-			// mExternalStorageWriteable = false;
 			Toast.makeText(
 					this,
 					"There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.",
@@ -747,7 +741,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			// Something else is wrong. It may be one of many other states, but
 			// all we need
 			// to know is we can neither read nor write
-			// mExternalStorageAvailable = mExternalStorageWriteable = false;
 			Toast.makeText(
 					this,
 					"There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.",

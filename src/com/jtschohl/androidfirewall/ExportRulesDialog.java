@@ -2,7 +2,6 @@
  * Export Rules Dialog activity.
  * This screen is displayed to change the custom scripts.
  * 
- * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
  * Copyright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Rodrigo Zechin Rosauro
  * @author Jason Tschohl
  * @version 1.0
  */
@@ -34,8 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * Custom scripts activity. This screen is displayed to change the custom
- * scripts.
+ * This screen is displayed to show the Export Rules dialog.
  */
 public class ExportRulesDialog extends Activity implements OnClickListener {
 	private EditText user_input;

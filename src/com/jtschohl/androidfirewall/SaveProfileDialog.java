@@ -33,6 +33,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * Displays the Create/Modify profile screen
+ * @author jason
+ *
+ */
 public class SaveProfileDialog extends Activity implements OnClickListener {
 	// public static String profileChoice = null;
 	private Button defaultprofile;

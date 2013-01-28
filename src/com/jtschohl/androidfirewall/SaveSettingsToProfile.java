@@ -45,6 +45,10 @@ public class SaveSettingsToProfile extends ListActivity {
 			.getAbsolutePath() + "/androidfirewall/");
 	private static final String filetype = ".rules";
 
+	/**
+	 * opens the ListView of the saved rules files and allows users to select which one to assign to the
+	 * profile.
+	 */
 	public void onCreate(Bundle ruleslist) {
 		super.onCreate(ruleslist);
 		String[] rulesfiles;
@@ -67,6 +71,9 @@ public class SaveSettingsToProfile extends ListActivity {
 		finish();
 	}
 
+	/**
+	 * Takes the ListItem click and matches it up with the profile chosen from previous screen
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView items, View v, int position, long id) {
