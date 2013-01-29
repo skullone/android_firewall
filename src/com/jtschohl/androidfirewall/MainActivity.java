@@ -1152,7 +1152,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_3g = !app.selected_3g;
-			app.selected_roaming = !app.selected_roaming;
+			//app.selected_roaming = !app.selected_roaming;
 			app.selected_wifi = !app.selected_wifi;
 		}
 		adapter.notifyDataSetChanged();
