@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall (有効)</string>
-    <string name="title_disabled">Android Firewall (無効)</string>
+    <string name="title_enabled">Android Firewall(有効)</string>
+    <string name="title_disabled">Android Firewall(無効)</string>
     <string name="showrules">ルール表示</string>
     <string name="applyrules">ルール適用</string>
     <string name="saverules">ルール保存</string>
@@ -12,16 +12,16 @@
     <string name="help">ヘルプ</string>
     <string name="close">閉じる</string>
     <string name="exit">終了する</string>
-    <string name="fw_enabled">Firewall オン</string>
-    <string name="fw_disabled">Firewall オフ</string>
-    <string name="log_enabled">通信ログ オン</string>
-    <string name="log_disabled">通信ログ オフ</string>
+    <string name="fw_enabled">Firewall有効</string>
+    <string name="fw_disabled">Firewall無効</string>
+    <string name="log_enabled">通信ログ有効</string>
+    <string name="log_disabled">通信ログ無効</string>
     <string name="log_was_enabled">通信ログを監視します</string>
     <string name="log_was_disabled">通信ログの監視を止めました</string>
-    <string name="ipv6_enabled">IPv6 オン</string>
-    <string name="ipv6_disabled">IPv6 オフ</string>
-    <string name="ipv6_was_enabled">IPv6 オンにしました</string>
-    <string name="ipv6_was_disabled">IPv6 オフにしました</string>
+    <string name="ipv6_enabled">IPv6有効</string>
+    <string name="ipv6_disabled">IPv6無効</string>
+    <string name="ipv6_was_enabled">IPv6有効にしました</string>
+    <string name="ipv6_was_disabled">IPv6無効にしました</string>
     <string name="log_cleared">通信ログを消去しました</string>
     <string name="show_log">通信ログを表示する</string>
     <string name="clear_log">通信ログを消去する</string>
@@ -45,9 +45,9 @@
     <string name="mode_whitelist">ホワイトリスト (チェックで許可)</string>
     <string name="mode_blacklist">ブラックリスト (チェックで拒否)</string>
     <string name="toast_bin_installed">Android Firewall: バイナリファイルはインストールされました。</string>
-    <string name="toast_enabled">Android Firewall: Firewall 許可!</string>
+    <string name="toast_enabled">Android Firewall: Firewall 有効!</string>
     <string name="toast_error_enabling">Android Firewall: 適用中にエラーが発生しました。</string>
-    <string name="toast_disabled">Android Firewall: Firewall 停止!</string>
+    <string name="toast_disabled">Android Firewall: Firewall 無効!</string>
     <string name="toast_error_disabling">Android Firewall: 停止中にエラーが発生しました。</string>
     <string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>\n
 \n<i>Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
@@ -62,15 +62,15 @@
 \n
 \n<b>ウィジェット</b>\nホーム画面にAndroid Firewallウィジェットと置くことで、簡単にFirewallを実行または停止することができます。
 \n
-\n<b>Firewall 通信ログ</b>\nAndroid Firewallでしたアプリによる通信を監視したい場合は、通信ログをオンにしてください。
+\n<b>Firewall 通信ログ</b>\nAndroid Firewallでしたアプリによる通信を監視したい場合は、通信ログを有効にしてください。
 \n通信ログを確認したい場合はメニューを開いて<b>ログ表示</b>を選択して下さい。
 \n
-\n<b>パスワードロック設定</b>\nアプリケーションをパスワードでロックしたい場合はメニューにある<b>パスワード設定</b>を選択してください。
+\n<b>パスワードロック設定</b>\nアプリケーションをパスワードでロックしたい場合は、メニューにある<b>パスワード設定</b>を選択してください。
 \nパスワードの入力フォームを空白にすることでパスワードを解除できます。
 \n
 \n日本語訳には意訳も含まれます。誤りなどがありましたらご自由に修正ファイルを作者へ提出して下さい。
 \nJapanese Translation by Hiroki Ogawa.</string>
-    <string name="overwrite_rules">あなたは、現在のルールを上書きしようとしています。続行しますか？</string>
+    <string name="overwrite_rules">現在のルールを上書きしようとしています。続行しますか？</string>
     <string name="importsuccess">インポート成功！</string>
     <string name="importfailed">インポート失敗！</string>
     <string name="exportfailed">エクスポート失敗！</string>
@@ -98,7 +98,7 @@
     <string name="profile5">プロファイル5</string>
     <string name="pleasechoose">作成または変更したいプロファイルを選択してください</string>
     <string name="saveprofile">プロファイルを作成します。</string>
-    <string name="defaultsaved">デフォルト·プロファイルが正常に保存されました！</string>
+    <string name="defaultsaved">デフォルトのプロファイルが正常に保存されました！</string>
     <string name="profile1saved">プロファイル1が正常に保存されました</string>
     <string name="profile2saved">プロファイル2が正常に保存されました</string>
     <string name="profile3saved">プロファイル3が正常に保存されました</string>
@@ -106,12 +106,12 @@
     <string name="profile5saved">プロファイル5が正常に保存されました</string>
     <string name="profileselect">あなたが適用するプロファイルを選択してください</string>
     <string name="profileapplied">プロファイルが正常に適用されました</string>
-    <string name="loadprofile">負荷プロファイル</string>
-    <string name="rulesoptions">ルール·マネジメント</string>
+    <string name="loadprofile">プロファイル読込</string>
+    <string name="rulesoptions">ルール マネジメント</string>
     <string name="profilesoptions">プロファイル管理</string>
-    <string name="ipv6_title">IPv6のサポート</string>
-    <string name="notifications_title">通知のサポート</string>
-    <string name="enableLog_title">ファイアウォールログを有効に</string>
+    <string name="ipv6_title">IPv6サポート</string>
+    <string name="notifications_title">通知サポート</string>
+    <string name="enableLog_title">Firewallの通信ログ有効</string>
     <string name="invert">反転</string>
 
 </resources>
