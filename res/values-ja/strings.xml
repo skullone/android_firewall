@@ -113,5 +113,9 @@
     <string name="notifications_title">通知サポート</string>
     <string name="enableLog_title">Firewallの通信ログ有効</string>
     <string name="invert">反転</string>
+    <string name="vpnsupport">VPN Support</string>
+    <string name="vpn_was_enabled">VPN Support has been enabled</string>
+    <string name="vpn_was_disabled">VPN Support has been disabled</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

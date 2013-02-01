@@ -88,8 +88,8 @@
     <string name="notify_was_disabled">Уведомления были отключены</string>
     <string name="importrules">Импорт правил</string>
     <string name="exportrules">Экспорт правил</string>
-    <string name="managerulefiles">Управление Правило файлов</string>
-    <string name="options">опции</string>
+    <string name="managerulefiles">Управление файлами правил</string>
+    <string name="options">Опции</string>
     <string name="wifi">WiFi</string>
     <string name="data">Data</string>
     <string name="roaming">Roam</string>
@@ -103,7 +103,7 @@
     <string name="profile4">Профиль 4</string>
     <string name="profile5">Профиль 5</string>
     <string name="pleasechoose">Пожалуйста выберите профиль, который Вы хотите создать или изменить</string>
-    <string name="saveprofile">Создать профиль</string>
+    <string name="saveprofile">Изменить профиль</string>
     <string name="defaultsaved">Основной профиль успешно сохранён!</string>
     <string name="profile1saved">Профиль 1 успешно сохранён</string>
     <string name="profile2saved">Профиль 2 успешно сохранён</string>
@@ -119,5 +119,9 @@
     <string name="notifications_title">Уведомления</string>
     <string name="enableLog_title">Включить ведение журнала</string>
     <string name="invert">Invert</string>
+    <string name="vpnsupport">VPN Support</string>
+    <string name="vpn_was_enabled">Поддержка  VPN включена</string>
+    <string name="vpn_was_disabled">Поддержка VPN отключена</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

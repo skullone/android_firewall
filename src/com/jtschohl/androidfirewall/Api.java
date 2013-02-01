@@ -253,7 +253,7 @@ public final class Api {
 				.getBoolean(PREF_ENABLED, false);
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getString(Api.PREF_CUSTOMSCRIPT, "");
-
+		
 		final StringBuilder script = new StringBuilder();
 		try {
 			int code;
@@ -793,7 +793,8 @@ public final class Api {
 			script.append("" + "$IPTABLES -F droidwall\n"
 					+ "$IPTABLES -F droidwall-reject\n"
 					+ "$IPTABLES -F droidwall-3g\n"
-					+ "$IPTABLES -F droidwall-wifi\n" + "");
+					+ "$IPTABLES -F droidwall-wifi\n"
+					+ "");
 			if (ipv6enabled) {
 				script.append(scriptHeader(ctx));
 				script.append(""
@@ -802,7 +803,8 @@ public final class Api {
 						"$IP6TABLES --flush droidwall\n"
 						+ "$IP6TABLES --flush droidwall-reject\n"
 						+ "$IP6TABLES --flush droidwall-3g\n"
-						+ "$IP6TABLES --flush droidwall-wifi\n" + "");
+						+ "$IP6TABLES --flush droidwall-wifi\n"
+						+ "");
 			}
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
@@ -836,7 +838,8 @@ public final class Api {
 			script.append("" + "$IP6TABLES --flush droidwall\n"
 					+ "$IP6TABLES --flush droidwall-reject\n"
 					+ "$IP6TABLES --flush droidwall-3g\n"
-					+ "$IP6TABLES --flush droidwall-wifi\n" + "");
+					+ "$IP6TABLES --flush droidwall-wifi\n"
+					+ "");
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
 				script.append(customScript);
@@ -1426,10 +1429,6 @@ public final class Api {
 			alert(ctx, "Error writing to preferences!");
 			return;
 		}
-		/* notify */
-		// final Intent message = new Intent(Api.STATUS_CHANGED_MSG);
-		// message.putExtra(Api.STATUS_EXTRA, ipv6enabled);
-		// ctx.sendBroadcast(message);
 	}
 
 	/**

@@ -107,5 +107,9 @@
     <string name="notifications_title"> دعم الإشعار</string>
     <string name="enableLog_title"> تمكين سجل جدار الحماية</string>
     <string name="invert">قلب</string>
+    <string name="vpnsupport">الدعم VPN</string>
+    <string name="vpn_was_enabled">تم تمكين VPN الدعم</string>
+    <string name="vpn_was_disabled">تم تعطيل VPN الدعم</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

@@ -111,5 +111,9 @@
     <string name="notifications_title">Benachrichtigung Unterstützung</string>
     <string name="enableLog_title">Firewall aktivieren Log</string>
     <string name="invert">umkehren</string>
+    <string name="vpnsupport">VPN-Unterstützung</string>
+    <string name="vpn_was_enabled">VPN-Unterstützung aktiviert worden ist</string>
+    <string name="vpn_was_disabled">VPN-Unterstützung deaktiviert wurde</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

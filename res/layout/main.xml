@@ -85,7 +85,7 @@
             android:textColor="@color/blue"
             android:textSize="11sp"
             android:typeface="normal" />
-
+       
         <Button
             android:id="@+id/label_clear"
             android:layout_width="42dp"
@@ -107,7 +107,7 @@
             android:textColor="@color/blue"
             android:textSize="11sp"
             android:typeface="normal" />
-
+        
         <View
             android:layout_width="38dip"
             android:layout_height="fill_parent" />

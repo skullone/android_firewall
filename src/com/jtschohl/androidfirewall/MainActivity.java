@@ -440,7 +440,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 							.findViewById(R.id.itemtext);
 					entry.icon = (ImageView) convertView
 							.findViewById(R.id.itemicon);
-
 					entry.box_wifi
 							.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
@@ -456,7 +455,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 							.findViewById(R.id.itemcheck_3g);
 					entry.box_roaming = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_roam);
-
 				}
 				final DroidApp app = apps[position];
 				entry.app = app;
@@ -1110,6 +1108,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_3g = true;
+			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
 	}
@@ -1120,6 +1119,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_roaming = true;
+			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
 	}
@@ -1130,6 +1130,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_wifi = true;
+			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
 	}
@@ -1142,6 +1143,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			app.selected_wifi = false;
 			app.selected_roaming = false;
 			app.selected_3g = false;
+			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
 	}
@@ -1152,8 +1154,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_3g = !app.selected_3g;
-			//app.selected_roaming = !app.selected_roaming;
 			app.selected_wifi = !app.selected_wifi;
+			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
 	}

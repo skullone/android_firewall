@@ -83,7 +83,7 @@
     <string name="options">možnosti</string>
     <string name="wifi">WiFi</string>
     <string name="data">Data</string>
-    <string name="roaming">toulat se</string>
+    <string name="roaming">Roam</string>
     <string name="clear">Vymazat</string>
     <string name="password_not_same">Hesla nejsou stejné! Prosím, zkuste to znovu.</string>
     <string name="password_enter_again">Prosím, zadejte heslo znovu.</string>
@@ -109,6 +109,10 @@
     <string name="ipv6_title">IPv6 Support</string>
     <string name="notifications_title">oznámení Podpora</string>
     <string name="enableLog_title">Povolit Firewall Log</string>
-    <string name="invert">převrátit</string>
+    <string name="invert">Invert</string>
+    <string name="vpnsupport">VPN Support</string>
+    <string name="vpn_was_enabled">VPN Podpora byla aktivována</string>
+    <string name="vpn_was_disabled">VPN Podpora byla zakázána</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

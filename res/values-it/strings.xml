@@ -83,8 +83,8 @@
     <string name="options">Opzioni</string>
     <string name="wifi">WiFi</string>
     <string name="data">dati</string>
-    <string name="roaming">vagare</string>
-    <string name="clear">Cancella</string>
+    <string name="roaming">Roam</string>
+    <string name="clear">Clear</string>
     <string name="password_not_same">Le password non sono uguali! Si prega di riprovare.</string>
     <string name="password_enter_again">Inserisci di nuovo la password.</string>
     <string name="defaultprofile">Default</string>
@@ -109,6 +109,10 @@
     <string name="ipv6_title">IPv6 Support</string>
     <string name="notifications_title">Notifica di supporto</string>
     <string name="enableLog_title">Enable Firewall Log</string>
-    <string name="invert">invertire</string>
+    <string name="invert">Invert</string>
+    <string name="vpnsupport">VPN Support</string>
+    <string name="vpn_was_enabled">VPN Support è stato abilitato</string>
+    <string name="vpn_was_disabled">VPN Support è stato disattivato</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>

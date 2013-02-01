@@ -218,6 +218,10 @@ public final class R {
         public static final int toast_error_enabling=0x7f08002f;
         public static final int unsaved_changes=0x7f080038;
         public static final int unsaved_changes_message=0x7f080039;
+        public static final int vpn_title=0x7f08006d;
+        public static final int vpn_was_disabled=0x7f08006c;
+        public static final int vpn_was_enabled=0x7f08006b;
+        public static final int vpnsupport=0x7f08006a;
         public static final int wifi=0x7f08004c;
         public static final int working=0x7f080027;
     }

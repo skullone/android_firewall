@@ -124,5 +124,9 @@
     <string name="notifications_title">Notification Support</string>
     <string name="enableLog_title">Enable Firewall Log</string>
     <string name="invert">Invert</string>
+    <string name="vpnsupport">VPN Support</string>
+    <string name="vpn_was_enabled">VPN Support has been enabled</string>
+    <string name="vpn_was_disabled">VPN Support has been disabled</string>
+    <string name="vpn_title">VPN</string>
 
 </resources>
