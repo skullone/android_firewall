@@ -13,7 +13,7 @@
     <string name="help">Aide</string>
     <string name="close">Fermer</string>
     <string name="exit">Quitter</string>
-    <string name="fw_enabled">Activé Pare-feu</string>
+    <string name="fw_enabled">Activer pare-feu</string>
     <string name="fw_disabled">Pare-feu désactivé</string>
     <string name="ipv6_enabled">IPv6 activé</string>
     <string name="ipv6_disabled">IPv6 désactivé</string>
@@ -104,15 +104,15 @@
     <string name="profilesoptions">Gestion des profils</string>
     <string name="ipv6_title">Support IPv6</string>
     <string name="notifications_title">Support des notifications</string>
-    <string name="enableLog_title"> Activer le journal du pare-feu</string>
+    <string name="enableLog_title"> Activer la journalisation du pare-feu</string>
     <string name="defaultprofile">Défaut</string>
-    <string name="profile1">Profil1</string>
-    <string name="profile2">Profil2</string>
-    <string name="profile3">Profil3</string>
-    <string name="profile4">Profil4</string>
-    <string name="profile5">Profil5</string>
+    <string name="profile1">Profil 1</string>
+    <string name="profile2">Profil 2</string>
+    <string name="profile3">Profil 3</string>
+    <string name="profile4">Profil 4</string>
+    <string name="profile5">Profil 5</string>
     <string name="pleasechoose">Choisissez le profil que vous souhaitez créer ou modifier</string>
-    <string name="saveprofile">Créer un Profil</string>
+    <string name="saveprofile">Créer un profil</string>
     <string name="defaultsaved">Le profil par défaut a été sauvegardé avec succès !</string>
     <string name="profile1saved">Le Profil 1 a été sauvegardé avec succès !</string>
     <string name="profile2saved">Le Profil 2 a été sauvegardé avec succès !</string>
@@ -121,11 +121,7 @@
     <string name="profile5saved">Le Profil 5 a été sauvegardé avec succès !</string>
     <string name="profileselect">Choisissez le profil que vous souhaitez appliquer</string>
     <string name="profileapplied">Le profil a été appliqué avec succès</string>
-    <string name="loadprofile">Charger un Profil</string>
-    <string name="invert">Invert</string>
-    <string name="vpnsupport">VPN Support</string>
-    <string name="vpn_was_enabled">VPN Support has been enabled</string>
-    <string name="vpn_was_disabled">VPN Support has been disabled</string>
-    <string name="vpn_title">VPN</string>
+    <string name="loadprofile">Charger un profil</string>
+    <string name="invert">Inverser</string>
 
 </resources>

@@ -31,13 +31,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import eu.chainfire.libsuperuser.Shell;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -48,6 +50,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -63,7 +66,7 @@ public final class Api {
 	/** special application UID used to indicate the Linux Kernel */
 	public static final int SPECIAL_UID_KERNEL = -11;
 	/** root script filename */
-	private static final String SCRIPT_FILE = "androidfirewall.sh";
+	// private static final String SCRIPT_FILE = "androidfirewall.sh";
 
 	// Preferences
 	public static String PREFS_NAME = "AndroidFirewallPrefs";
@@ -253,7 +256,7 @@ public final class Api {
 				.getBoolean(PREF_ENABLED, false);
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getString(Api.PREF_CUSTOMSCRIPT, "");
-		
+
 		final StringBuilder script = new StringBuilder();
 		try {
 			int code;
@@ -273,7 +276,8 @@ public final class Api {
 					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -A OUTPUT -j droidwall || exit 11\n"
 					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -D OUTPUT 1 -j droidwall || exit 11\n"
 					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 1 -j droidwall || exit 12\n"
-					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 2 -j droidwall || exit 13\n"
+					// +
+					// "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 2 -j droidwall || exit 13\n"
 					+
 
 					"# Flush existing rules\n"
@@ -793,8 +797,7 @@ public final class Api {
 			script.append("" + "$IPTABLES -F droidwall\n"
 					+ "$IPTABLES -F droidwall-reject\n"
 					+ "$IPTABLES -F droidwall-3g\n"
-					+ "$IPTABLES -F droidwall-wifi\n"
-					+ "");
+					+ "$IPTABLES -F droidwall-wifi\n" + "");
 			if (ipv6enabled) {
 				script.append(scriptHeader(ctx));
 				script.append(""
@@ -803,8 +806,7 @@ public final class Api {
 						"$IP6TABLES --flush droidwall\n"
 						+ "$IP6TABLES --flush droidwall-reject\n"
 						+ "$IP6TABLES --flush droidwall-3g\n"
-						+ "$IP6TABLES --flush droidwall-wifi\n"
-						+ "");
+						+ "$IP6TABLES --flush droidwall-wifi\n" + "");
 			}
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
@@ -838,8 +840,7 @@ public final class Api {
 			script.append("" + "$IP6TABLES --flush droidwall\n"
 					+ "$IP6TABLES --flush droidwall-reject\n"
 					+ "$IP6TABLES --flush droidwall-3g\n"
-					+ "$IP6TABLES --flush droidwall-wifi\n"
-					+ "");
+					+ "$IP6TABLES --flush droidwall-wifi\n" + "");
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
 				script.append(customScript);
@@ -1222,28 +1223,16 @@ public final class Api {
 	 *            timeout in milliseconds (-1 for none)
 	 * @return the script exit code
 	 */
-	public static int runScript(Context ctx, String script, StringBuilder res,
-			long timeout, boolean asroot) {
-		final File file = new File(ctx.getDir("bin", 0), SCRIPT_FILE);
-		final ScriptRunner runner = new ScriptRunner(file, script, res, asroot);
-		runner.start();
-		try {
-			if (timeout > 0) {
-				runner.join(timeout);
-			} else {
-				runner.join();
-			}
-			if (runner.isAlive()) {
-				// Timed-out
-				runner.interrupt();
-				runner.join(150);
-				runner.destroy();
-				runner.join(50);
-			}
-		} catch (InterruptedException ex) {
-		}
-		return runner.exitcode;
-	}
+	/*
+	 * public static int runScript(Context ctx, String script, StringBuilder
+	 * res, long timeout, boolean asroot) { final File file = new
+	 * File(ctx.getDir("bin", 0), SCRIPT_FILE); final ScriptRunner runner = new
+	 * ScriptRunner(file, script, res, asroot); runner.start(); try { if
+	 * (timeout > 0) { runner.join(timeout); } else { runner.join(); } if
+	 * (runner.isAlive()) { // Timed-out runner.interrupt(); runner.join(150);
+	 * runner.destroy(); runner.join(50); } } catch (InterruptedException ex) {
+	 * } return runner.exitcode; }
+	 */
 
 	/**
 	 * Runs a script as root (multiple commands separated by "\n").
@@ -1600,112 +1589,52 @@ public final class Api {
 	/**
 	 * Internal thread used to execute scripts (as root or not).
 	 */
-	private static final class ScriptRunner extends Thread {
-		private final File file;
-		private final String script;
-		private final StringBuilder res;
-		private final boolean asroot;
-		public int exitcode = -1;
-		private Process exec;
+	private static class applyIptableRules extends
+			AsyncTask<Object, String, Integer> {
 
-		/**
-		 * Creates a new script runner.
-		 * 
-		 * @param file
-		 *            temporary script file
-		 * @param script
-		 *            script to run
-		 * @param res
-		 *            response output
-		 * @param asroot
-		 *            if true, executes the script as root
-		 */
-		public ScriptRunner(File file, String script, StringBuilder res,
-				boolean asroot) {
-			this.file = file;
-			this.script = script;
-			this.res = res;
-			this.asroot = asroot;
-		}
+		private int exitcode = -1;
 
 		@Override
-		public void run() {
+		protected Integer doInBackground(Object... parameters) {
+			final String script = (String) parameters[0];
+			final StringBuilder resources = (StringBuilder) parameters[1];
+			final String[] commands = script.split("\n");
 			try {
-				file.createNewFile();
-				final String abspath = file.getAbsolutePath();
-				// make sure we have execution permission on the script file
-				Runtime.getRuntime().exec("chmod 700 " + abspath).waitFor();
-				// Write the script to be executed
-				final OutputStreamWriter out = new OutputStreamWriter(
-						new FileOutputStream(file));
-				if (new File("/system/bin/sh").exists()) {
-					out.write("#!/system/bin/sh\n");
+				// check for SU
+				if (!Shell.SU.available())
+					return exitcode;
+				if (script != null && script.length() > 0) {
+					//apply the rules
+					List<String> rules = Shell.SU.run(commands);
+					if (rules != null && rules.size() > 0) {
+						for (String script2 : rules) {
+							resources.append(script2);
+							resources.append("\n");
+						}
+					}
+					exitcode = 0;
 				}
-				out.write(script);
-				if (!script.endsWith("\n"))
-					out.write("\n");
-				out.write("exit\n");
-				out.flush();
-				out.close();
-				if (this.asroot) {
-					// Create the "su" request to run the script
-					exec = Runtime.getRuntime().exec("su -c " + abspath);
-				} else {
-					// Create the "sh" request to run the script
-					exec = Runtime.getRuntime().exec("sh " + abspath);
-				}
-				final InputStream stdout = exec.getInputStream();
-				final InputStream stderr = exec.getErrorStream();
-				final byte buf[] = new byte[8192];
-				int read = 0;
-				while (true) {
-					final Process localexec = exec;
-					if (localexec == null)
-						break;
-					try {
-						// get the process exit code - will raise
-						// IllegalThreadStateException if still running
-						this.exitcode = localexec.exitValue();
-					} catch (IllegalThreadStateException ex) {
-						// The process is still running
-					}
-					// Read stdout
-					if (stdout.available() > 0) {
-						read = stdout.read(buf);
-						if (res != null)
-							res.append(new String(buf, 0, read));
-					}
-					// Read stderr
-					if (stderr.available() > 0) {
-						read = stderr.read(buf);
-						if (res != null)
-							res.append(new String(buf, 0, read));
-					}
-					if (this.exitcode != -1) {
-						// finished
-						break;
-					}
-					// Sleep for the next round
-					Thread.sleep(50);
-				}
-			} catch (InterruptedException ex) {
-				if (res != null)
-					res.append("\nOperation timed-out");
-			} catch (Exception ex) {
-				if (res != null)
-					res.append("\n" + ex);
-			} finally {
-				destroy();
+			} catch (Exception e) {
+				if (resources != null)
+					resources.append("\n" + e);
 			}
+			return exitcode;
 		}
+	}
 
-		/**
-		 * Destroy this script runner
-		 */
-		public synchronized void destroy() {
-			if (exec != null)
-				exec.destroy();
-			exec = null;
+	/**
+	 * Runs a script, wither as root or as a regular user (multiple commands
+	 * separated by "\n").
+	 */
+	public static int runScript(Context ctx, String script, StringBuilder res,
+			long timeout, boolean asroot) {
+		int returncode = -1;
+		try {
+			returncode = new applyIptableRules().execute(script, res).get();
+		} catch (Exception e) {
+			Toast.makeText(ctx, "There was an error applying the iptables.",
+					Toast.LENGTH_LONG).show();
 		}
+		return returncode;
 	}
 }

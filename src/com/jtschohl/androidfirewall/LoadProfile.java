@@ -86,6 +86,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 0);
+			editor.commit();
 			resultOk();
 			return;
 		}
@@ -112,6 +115,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 1);
+			editor.commit();
 			resultOk();
 			return;
 		}
@@ -138,6 +144,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 2);
+			editor.commit();
 			resultOk();
 			return;
 		}
@@ -164,6 +173,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 3);
+			editor.commit();
 			resultOk();
 			return;
 		}
@@ -190,6 +202,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 4);
+			editor.commit();
 			resultOk();
 			return;
 		}
@@ -217,6 +232,9 @@ public class LoadProfile extends Activity implements OnClickListener {
 					editRules.putInt(keys, ((Integer) rule).intValue());
 			}
 			editRules.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("itemPosition", 5);
+			editor.commit();
 			resultOk();
 			return;
 		}

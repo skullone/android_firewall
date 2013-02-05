@@ -2,6 +2,10 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
  
+2.1.1 - Shell script replaced by proper SU binary support with SuperSU binary.  Thanks to Chainfire for a great product and his write up
+		"How-to su".  I chose SuperSU over Superuser because of Chainfires write up. In the end either SU versions
+		would have worked just fine.  Fixed issue where loading profiles through menu wouldn't properly set the spinner position.
+		Update to the French translation, Thanks Joffrey!
 2.1.0 - Save/Load Profiles functionality. Spinner option added to main screen for quick swap of profiles. Main menu totally revamped.
 		Invert option for WiFi/Data added for those who swap between Blacklist and Whitelist.  Roaming still left up to the user. 
 		Notifications no longer fire when an app is updated, only new installs get a notification.  Code cleanup.  Translation updates. 

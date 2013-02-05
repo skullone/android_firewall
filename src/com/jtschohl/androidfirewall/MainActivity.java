@@ -240,6 +240,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				: R.string.title_disabled);
 		setTitle(res.getString(resid));
 	}
+	
+	/**
+	 * refresh the spinner
+	 */
+	private void refreshSpinner(){
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		spinner.setSelection(prefs.getInt("itemPosition", 0));
+	}
 
 	/**
 	 * Displays a dialog box to select the operation mode (black or white list)
@@ -843,6 +851,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			Api.applications = null;
 			showOrLoadApplications();
 			refreshHeader();
+			refreshSpinner();
 			if (Api.isEnabled(getApplicationContext())) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 			} else {
