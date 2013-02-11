@@ -104,6 +104,7 @@ public final class R {
         public static final int pass_dialog=0x7f030007;
         public static final int rules_dialog=0x7f030008;
         public static final int save_profile_buttons=0x7f030009;
+        public static final int tasker_profile_buttons=0x7f03000a;
     }
     public static final class menu {
         public static final int menu=0x7f090000;
@@ -209,6 +210,14 @@ public final class R {
         public static final int setpwd=0x7f080008;
         public static final int show_log=0x7f080017;
         public static final int showrules=0x7f080003;
+        public static final int tasker_name=0x7f08006f;
+        public static final int tasker_profile=0x7f080070;
+        public static final int tasker_profile1=0x7f080071;
+        public static final int tasker_profile2=0x7f080072;
+        public static final int tasker_profile3=0x7f080073;
+        public static final int tasker_profile4=0x7f080074;
+        public static final int tasker_profile5=0x7f080075;
+        public static final int tasker_profile_disabled=0x7f080076;
         public static final int title_disabled=0x7f080002;
         public static final int title_enabled=0x7f080001;
         public static final int toast_bin_installed=0x7f08002d;
@@ -216,12 +225,17 @@ public final class R {
         public static final int toast_enabled=0x7f08002e;
         public static final int toast_error_disabling=0x7f080031;
         public static final int toast_error_enabling=0x7f08002f;
+        public static final int twofortyfouram_locale_breadcrumb_format=0x7f08006a;
+        public static final int twofortyfouram_locale_breadcrumb_separator=0x7f08006b;
+        public static final int twofortyfouram_locale_menu_dontsave=0x7f08006c;
+        public static final int twofortyfouram_locale_menu_help=0x7f08006d;
+        public static final int twofortyfouram_locale_menu_save=0x7f08006e;
         public static final int unsaved_changes=0x7f080038;
         public static final int unsaved_changes_message=0x7f080039;
-        public static final int vpn_title=0x7f08006d;
-        public static final int vpn_was_disabled=0x7f08006c;
-        public static final int vpn_was_enabled=0x7f08006b;
-        public static final int vpnsupport=0x7f08006a;
+        public static final int vpn_title=0x7f08007a;
+        public static final int vpn_was_disabled=0x7f080079;
+        public static final int vpn_was_enabled=0x7f080078;
+        public static final int vpnsupport=0x7f080077;
         public static final int wifi=0x7f08004c;
         public static final int working=0x7f080027;
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
-    android:versionCode="211"
-    android:versionName="2.1.1" >
+    android:versionCode="212"
+    android:versionName="2.1.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -80,6 +80,27 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.jtschohl.androidfirewall.intent.action.STATUS_CHANGED" />
                 <action android:name="com.jtschohl.androidfirewall.intent.action.TOGGLE_REQUEST" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".plugin.EditActivity"
+            android:exported="true"
+            android:icon="@drawable/icon"
+            android:label="@string/tasker_name"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".plugin.FireReceiver"
+            android:exported="true"
+            android:process=":background" >
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
     </application>
