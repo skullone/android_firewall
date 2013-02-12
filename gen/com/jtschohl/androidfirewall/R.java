@@ -232,10 +232,6 @@ public final class R {
         public static final int twofortyfouram_locale_menu_save=0x7f08006e;
         public static final int unsaved_changes=0x7f080038;
         public static final int unsaved_changes_message=0x7f080039;
-        public static final int vpn_title=0x7f08007a;
-        public static final int vpn_was_disabled=0x7f080079;
-        public static final int vpn_was_enabled=0x7f080078;
-        public static final int vpnsupport=0x7f080077;
         public static final int wifi=0x7f08004c;
         public static final int working=0x7f080027;
     }

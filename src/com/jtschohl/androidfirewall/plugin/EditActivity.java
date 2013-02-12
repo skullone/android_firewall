@@ -27,6 +27,7 @@ import com.jtschohl.androidfirewall.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -69,38 +70,34 @@ public class EditActivity extends Activity implements OnClickListener {
 		if (v.getId() == R.id.defaultprofile) {
 			i = 0;
 			profile = "Default Profile";
-			finish();
 		}
 		if (v.getId() == R.id.profile1) {
 			i = 1;
 			profile = "Profile 1";
-			finish();
 		}
 		if (v.getId() == R.id.profile2) {
 			i = 2;
 			profile = "Profile 2";
-			finish();
 		}
 		if (v.getId() == R.id.profile3) {
 			i = 3;
 			profile = "Profile 3";
-			finish();
 		}
 		if (v.getId() == R.id.profile4) {
 			i = 4;
 			profile = "Profile 4";
-			finish();
 		}
 		if (v.getId() == R.id.profile5) {
 			i = 5;
 			profile = "Profile 5";
-			finish();
 		}
+		Log.d(getClass().getName(), "value for EditActivity = " + i);
+		finish();
 	}
 
 	public void finish() {
 		Intent intent = new Intent();
-		intent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, i);
+		intent.putExtra("storeposition", i);
 		intent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB,
 				profile);
 		setResult(RESULT_OK, intent);

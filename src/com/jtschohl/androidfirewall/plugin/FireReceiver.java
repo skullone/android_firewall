@@ -29,8 +29,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.jtschohl.androidfirewall.Api;
@@ -61,9 +61,8 @@ public final class FireReceiver extends BroadcastReceiver {
 		BundleScrubber.scrub(intent);
 		BundleScrubber.scrub(intent
 				.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE));
-		final Bundle bundle = intent
-				.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
-		int i = bundle.getInt(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+		int i = intent.getIntExtra("storeposition", 0);
+		Log.d(getClass().getName(), "value for FireReceiver = " + i);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
