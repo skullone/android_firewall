@@ -31,16 +31,24 @@
         android:background="#FFFFFFFF" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="6dp" >
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="fill_parent"
+            android:layout_width="130dp"
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/search_name" >
+        </EditText>
     </LinearLayout>
 
     <View
@@ -85,7 +93,7 @@
             android:textColor="@color/blue"
             android:textSize="11sp"
             android:typeface="normal" />
-       
+
         <Button
             android:id="@+id/label_clear"
             android:layout_width="42dp"
@@ -107,7 +115,7 @@
             android:textColor="@color/blue"
             android:textSize="11sp"
             android:typeface="normal" />
-        
+
         <View
             android:layout_width="38dip"
             android:layout_height="fill_parent" />

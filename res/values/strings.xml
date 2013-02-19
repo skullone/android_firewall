@@ -62,7 +62,7 @@
     <string name="apply">Apply</string>
     <string name="discard">Discard</string>
     <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Android Firewall</i> is a fork of <i>DroidWall</i> which is a front-end application for the powerful <b>iptables</b> Linux firewall.
+		\n<i>Android Firewall Version 2.1.3</i> is a fork of <i>DroidWall</i> which is a front-end application for the powerful <b>iptables</b> Linux firewall.
 		It allows you to restrict which applications are permitted to access your data networks.
 		\nThis is the perfect solution if you don\'t have an unlimited data plan, or just wants to see your battery lasting longer.
 		\n
@@ -137,5 +137,6 @@
     <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
     <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
+    <string name="search_name">App Search</string>
 
 </resources>

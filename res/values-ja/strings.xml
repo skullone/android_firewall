@@ -50,7 +50,7 @@
     <string name="toast_disabled">Android Firewall: Firewall 無効!</string>
     <string name="toast_error_disabling">Android Firewall: 停止中にエラーが発生しました。</string>
     <string name="help_dialog_text"><i>開発者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>\n
-\n<i>Android Firewall</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
+\n<i>Android Firewall v2.1.3</i> は、強力なLinux Firewall <i>iptables</i> を使用したフロントエンドアプリケーションです。
 \nAndroid Firewallは、あなたがインストールしたアプリケーションの通信を設定により制限することができます。
 \nもしあなたのデバイスがデータ通信定額プランでは無い場合、もしくは無駄な通信によるバッテリー消費を抑えたい場合などでは最高のソリューションを提供します。
 \n

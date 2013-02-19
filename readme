@@ -1,7 +1,9 @@
 This is a fork of the Droidwall application.  The original code is located here:  http://codegoogle.com/p/droidwall/     My code is located here:  http://github.com/skullone/android_firewall
 
 Changelog: 
- 
+
+2.1.3 - App search.  Widget fixed. Issue where the firewall rules don't work when Mobile Data Limit  is 
+		being used has been fixed.
 2.1.2 - Tasker/Locale plugin support. 
 2.1.1 - Shell script replaced by proper SU binary support with SuperSU binary.  Thanks to Chainfire for a great product and his write up
 		"How-to su".  I chose SuperSU over Superuser because of Chainfires write up. In the end either SU versions

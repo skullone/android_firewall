@@ -47,7 +47,7 @@
     <string name="toast_bin_installed">Android Firewall: تم تنصيب الملفات الثنائية!</string>
     <string name="toast_error_enabling">"Android Firewall: خطأ بتفعيل الجدار الناري!"</string>
     <string name="help_dialog_text"><i>المبرمج: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Android Firewall - جدار ناري للاندرويد</i> هو واجهة أمامية لميزة <b>iptables</b> الجدار الناري لنظام لينوكس.
+		\n<i>Android Firewall v2.1.3- جدار ناري للاندرويد</i> هو واجهة أمامية لميزة <b>iptables</b> الجدار الناري لنظام لينوكس.
 		حيث يتيح لك التحكم بأي برنامج ترغب بالسماح له بالوصول للشبكة.
 		\nوهو الخيار الأمثل في حال كان لديك اشتراك انترنت محدود التحميل أو ترغب بزيادة عمر البطارية.
 		\n

@@ -48,7 +48,7 @@
     <string name="toast_bin_installed">Android Firewall: Binary files wurden installiert!</string>
     <string name="toast_error_enabling">Android Firewall: Fehler beim Aktivieren der Firewall!</string>
     <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>﻿  ﻿  \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>﻿  ﻿  \n
-﻿  ﻿  \n<i>Android Firewall</i>Benutzer Application für die starke <b>iptables</b> Linux Firewall.
+﻿  ﻿  \n<i>Android Firewall v2.1.3</i>Benutzer Application für die starke <b>iptables</b> Linux Firewall.
 ﻿  ﻿  Sie macht es möglich auszuwählen, welche Applicationen Zugriff auf das Internet haben.
 ﻿  ﻿  \nDas ist die perfekte Lösung, wenn du eine begrenzte Internetverbindung hast, oder den Akku schonen willst.
 ﻿  ﻿  \n

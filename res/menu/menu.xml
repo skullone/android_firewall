@@ -2,8 +2,8 @@
 
     <item
         android:id="@+id/enableipv4"
-        android:title="@string/fw_enabled"
-        android:checkable="true"/>
+        android:checkable="true"
+        android:title="@string/fw_enabled"/>
     <item
         android:id="@+id/applyrules"
         android:title="@string/applyrules"/>

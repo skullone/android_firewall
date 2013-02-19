@@ -262,25 +262,16 @@ public final class Api {
 			int code;
 			script.append(scriptHeader(ctx));
 			script.append(""
+					+ "dmesg -c >/dev/null || exit\n"
 					+ "$IPTABLES --version || exit 1\n"
-					+
-
-					"# Create the droidwall chains if necessary\n"
+					+ "# Create the droidwall chains if necessary\n"
 					+ "$IPTABLES -L droidwall >/dev/null 2>/dev/null || $IPTABLES --new droidwall || exit 3\n"
 					+ "$IPTABLES -L droidwall-3g >/dev/null 2>/dev/null || $IPTABLES --new droidwall-3g || exit 4\n"
 					+ "$IPTABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IPTABLES --new droidwall-wifi || exit 5\n"
 					+ "$IPTABLES -L droidwall-reject >/dev/null 2>/dev/null || $IPTABLES --new droidwall-reject || exit 6\n"
-					+
-
-					"# Add droidwall chain to OUTPUT chain if necessary\n"
+					+ "# Add droidwall chain to OUTPUT chain if necessary\n"
 					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -A OUTPUT -j droidwall || exit 11\n"
-					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -D OUTPUT 1 -j droidwall || exit 11\n"
-					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 1 -j droidwall || exit 12\n"
-					// +
-					// "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -I OUTPUT 2 -j droidwall || exit 13\n"
-					+
-
-					"# Flush existing rules\n"
+					+ "# Flush existing rules\n"
 					+ "$IPTABLES -F droidwall || exit 17\n"
 					+ "$IPTABLES -F droidwall-3g || exit 18\n"
 					+ "$IPTABLES -F droidwall-wifi || exit 19\n"
@@ -288,9 +279,9 @@ public final class Api {
 					+ "# Create reject rule and fix for WiFi slow DNS lookups"
 					+ "$IPTABLES -A droidwall-reject -j REJECT || exit 21\n"
 					+ "$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
-					+
-
-					"");
+					+ "$IPTABLES -D OUTPUT -j droidwall || exit 11\n"
+					+ "$IPTABLES -I OUTPUT 1 -j droidwall || exit 12\n"
+					+ "");
 			// Check if logging is enabled
 			if (logenabled) {
 				script.append(""
@@ -309,13 +300,6 @@ public final class Api {
 				script.append(customScript);
 				script.append("\n# END OF CUSTOM SCRIPT (user-defined)\n\n");
 			}
-			/*
-			 * if (whitelist && logenabled) { script.append(
-			 * "# Allow DNS lookups on white-list for a better logging (ignore errors)\n"
-			 * );
-			 * script.append("$IPTABLES -A droidwall -p udp --dport 53 -j RETURN\n"
-			 * ); }
-			 */
 			script.append("# Main rules (per interface)\n");
 			for (final String itf : ITFS_3G) {
 				script.append("$IPTABLES -A droidwall -o ").append(itf)
@@ -428,22 +412,14 @@ public final class Api {
 					script.append(scriptHeader(ctx));
 					script.append(""
 							+ "$IP6TABLES --version || exit 60\n"
-							+
-
-							"# Create the droidwall chains if necessary\n"
+							+ "# Create the droidwall chains if necessary\n"
 							+ "$IP6TABLES -L droidwall >/dev/null 2>/dev/null || $IP6TABLES --new droidwall || exit 61\n"
 							+ "$IP6TABLES -L droidwall-3g >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-3g || exit 64\n"
 							+ "$IP6TABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-wifi || exit 65\n"
 							+ "$IP6TABLES -L droidwall-reject >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-reject || exit 66\n"
-							+
-
-							"# Add droidwall chain to OUTPUT chain if necessary\n"
+							+ "# Add droidwall chain to OUTPUT chain if necessary\n"
 							+ "$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -A OUTPUT -j droidwall || exit 67\n"
-							+ "$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 1 -j droidwall || exit 68\n"
-							+ "$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -I OUTPUT 2 -j droidwall || exit 69\n"
-							+
-
-							"# Flush existing rules\n"
+							+ "# Flush existing rules\n"
 							+ "$IP6TABLES -F droidwall || exit 70\n"
 							+ "$IP6TABLES -F droidwall-3g || exit 71\n"
 							+ "$IP6TABLES -F droidwall-wifi || exit 72\n"
@@ -451,18 +427,16 @@ public final class Api {
 							+ "# Create reject rule and fix for WiFi slow DNS lookups"
 							+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 74\n"
 							+ "$IP6TABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 75\n"
-							+
-
-							"");
+							+ "$IP6TABLES -D OUTPUT -j droidwall || exit 68\n"
+							+ "$IP6TABLES -I OUTPUT 1 -j droidwall || exit 69\n"
+							+ "");
 					// Check if logging is enabled
 					if (logenabled && ipv6enabled) {
 						script.append(""
 								+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
 								+ "$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[DROIDWALL] \" --log-uid\n"
 								+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 76\n"
-								+
-
-								"");
+								+ "");
 					} else {
 						script.append(""
 								+ "# Create the reject rule (log disabled)\n"
@@ -800,10 +774,7 @@ public final class Api {
 					+ "$IPTABLES -F droidwall-wifi\n" + "");
 			if (ipv6enabled) {
 				script.append(scriptHeader(ctx));
-				script.append(""
-						+
-						// "$IP6TABLES --flush OUTPUT\n" +
-						"$IP6TABLES --flush droidwall\n"
+				script.append("" + "$IP6TABLES --flush droidwall\n"
 						+ "$IP6TABLES --flush droidwall-reject\n"
 						+ "$IP6TABLES --flush droidwall-3g\n"
 						+ "$IP6TABLES --flush droidwall-wifi\n" + "");
@@ -1604,7 +1575,7 @@ public final class Api {
 				if (!Shell.SU.available())
 					return exitcode;
 				if (script != null && script.length() > 0) {
-					//apply the rules
+					// apply the rules
 					List<String> rules = Shell.SU.run(commands);
 					if (rules != null && rules.size() > 0) {
 						for (String script2 : rules) {

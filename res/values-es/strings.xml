@@ -59,7 +59,7 @@
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
     <string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Android Firewall</i> es una interfaz de usuario para el poderoso firewall de Linux <b>iptables</b>.
+		\n<i>Android Firewall v2.1.3</i> es una interfaz de usuario para el poderoso firewall de Linux <b>iptables</b>.
 		Permite definir cuales aplicaciones tienen acceso a las diferentes redes de datos.
 		\nEsta es la solución perfecta si usted no posee plan de datos ilimitado, o si simplemente quiere que su batería dure mas tiempo.
 		\n

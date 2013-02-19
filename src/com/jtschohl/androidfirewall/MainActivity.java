@@ -28,10 +28,13 @@ package com.jtschohl.androidfirewall;
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -48,6 +51,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -58,6 +63,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -65,6 +71,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -79,6 +86,7 @@ import com.jtschohl.androidfirewall.Api.DroidApp;
  * application
  */
 
+@SuppressLint("DefaultLocale")
 public class MainActivity extends Activity implements OnCheckedChangeListener,
 		OnClickListener {
 
@@ -172,6 +180,21 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			}
 		});
 
+		/**
+		 * Search function
+		 */
+		
+		final EditText filterText = (EditText) findViewById(R.id.search);
+		filterText.addTextChangedListener(filterTextWatcher);
+		filterText.post(new Runnable() {
+			@Override
+			public void run() {
+				filterText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
+
 		Api.assertBinaries(this, true);
 	}
 
@@ -240,11 +263,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				: R.string.title_disabled);
 		setTitle(res.getString(resid));
 	}
-	
+
 	/**
 	 * refresh the spinner
 	 */
-	private void refreshSpinner(){
+	private void refreshSpinner() {
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
 	}
@@ -394,21 +417,38 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						progress.dismiss();
 					} catch (Exception ex) {
 					}
-					createListView();
+					createListView("");
 				}
 			}.execute();
 		} else {
 			// the applications are cached, just show the list
-			createListView();
+			createListView("");
 		}
 	}
 
 	/**
 	 * Show the list of applications
+	 * 
+	 * Thanks to Ukanth for the Search code so I didn't have to reinvent the
+	 * whell
+	 * 
 	 */
-	private void createListView() {
+	private void createListView(final String searching) {
 		this.dirty = false;
-		final DroidApp[] apps = Api.getApps(this);
+		List<DroidApp> namesearch = new ArrayList<DroidApp>();
+		final DroidApp[] appnames = Api.getApps(this);
+		if (!searching.equals("") && searching.length() > 0) {
+			for (DroidApp app : appnames) {
+				for (String str : app.names) {
+					if (str.contains(searching)
+							|| str.toLowerCase().contains(searching)) {
+						namesearch.add(app);
+					}
+				}
+			}
+		}
+		final DroidApp[] apps = namesearch.size() > 0 ? namesearch
+				.toArray(new DroidApp[namesearch.size()]) : appnames;
 		// Sort applications - selected first, then alphabetically
 		Arrays.sort(apps, new Comparator<DroidApp>() {
 			@Override
@@ -1450,4 +1490,20 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			Api.saveRules(getApplicationContext());
 		}
 	}
+
+	private TextWatcher filterTextWatcher = new TextWatcher() {
+
+		public void afterTextChanged(Editable s) {
+			createListView(s.toString());
+		}
+
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			createListView(s.toString());
+		}
+	};
 }
