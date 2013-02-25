@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/profilenames" >
+
+    <EditTextPreference
+        android:key="default"
+        android:summary="Edit name for Default Profile"
+        android:title="@string/defaultprofile" />
+
+    <EditTextPreference
+        android:key="profile1"
+        android:summary="Edit name for profile1"
+        android:title="@string/profile1" />
+
+    <EditTextPreference
+        android:key="profile2"
+        android:summary="Edit name for profile2"
+        android:title="@string/profile2" />
+
+    <EditTextPreference
+        android:key="profile3"
+        android:summary="Edit name for profile3"
+        android:title="@string/profile3" />
+
+    <EditTextPreference
+        android:key="profile4"
+        android:summary="Edit name for profile4"
+        android:title="@string/profile4" />
+
+    <EditTextPreference
+        android:key="profile5"
+        android:summary="Edit name for profile5"
+        android:title="@string/profile5" />
+
+</PreferenceScreen>
