@@ -35,6 +35,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -45,7 +46,7 @@ public class RulesDialog extends ListActivity {
 			.getAbsolutePath() + "/androidfirewall/");
 	private static final String filetype = ".rules";
 
-	//opens the ListView
+	// opens the ListView
 	public void onCreate(Bundle ruleslist) {
 		super.onCreate(ruleslist);
 		String[] rulesfiles;
@@ -67,7 +68,7 @@ public class RulesDialog extends ListActivity {
 		finish();
 	}
 
-	//selects the file the user wants to delete
+	// selects the file the user wants to delete
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView items, View v, int position, long id) {
@@ -120,5 +121,13 @@ public class RulesDialog extends ListActivity {
 				errors.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

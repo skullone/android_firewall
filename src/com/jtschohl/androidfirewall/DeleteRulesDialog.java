@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -82,5 +83,13 @@ public class DeleteRulesDialog extends ListActivity {
 		AlertDialog alert = builder.create();
 		alert.show();
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

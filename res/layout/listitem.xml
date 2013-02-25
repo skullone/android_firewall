@@ -33,6 +33,13 @@
         android:layout_height="40dip"
         android:padding="0px" >
     </CheckBox>
+    
+    <CheckBox
+        android:id="@+id/itemcheck_vpn"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:padding="0px" >
+    </CheckBox>
 
     <TextView
         android:id="@+id/itemtext"

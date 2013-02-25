@@ -80,6 +80,7 @@ public final class Api {
 	public static final String PREF_3G_UIDS = "AllowedUids3G";
 	public static final String PREF_WIFI_UIDS = "AllowedUidsWifi";
 	public static final String PREF_ROAMING_UIDS = "AllowedUidsRoaming";
+	public static final String PREF_VPN_UIDS = "AllowsUidsVPN";
 	public static final String PREF_PASSWORD = "Password";
 	public static final String PREF_CUSTOMSCRIPT = "CustomScript";
 	public static final String PREF_CUSTOMSCRIPT2 = "CustomScript2"; // Executed
@@ -87,6 +88,7 @@ public final class Api {
 																		// shutdown
 	public static final String PREF_MODE = "BlockMode";
 	public static final String PREF_ENABLED = "Enabled";
+	public static final String PREF_VPNENABLED = "VpnEnabled";
 	public static final String PREF_LOGENABLED = "LogEnabled";
 	public static final String PREF_IP6TABLES = "IPv6Enabled";
 	public static final String PREF_REFRESH = "Enabled";
@@ -229,11 +231,16 @@ public final class Api {
 	 *            (depending on the working mode)
 	 * @param showErrors
 	 *            indicates if errors should be alerted
+	 *            
+	 *  Many thanks to Ventz for his independent work with the VPN rules and figuring out how to get
+	 *  the VPN functionality he wanted and then forwarding the rules to me to implement in the app.  
+	 *  Thank you sir, many times over!
+	 *  
 	 */
 
 	private static boolean applyIptablesRulesImpl(Context ctx,
 			List<Integer> uidsWifi, List<Integer> uids3g,
-			List<Integer> uidsroaming, boolean showErrors) {
+			List<Integer> uidsroaming, List<Integer> uidsvpn, boolean showErrors) {
 		if (ctx == null) {
 			return false;
 		}
@@ -244,12 +251,15 @@ public final class Api {
 				"vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 				"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
 				"rmnet0+", "cdma_rmnet+" };
+		final String ITFS_VPN[] = { "tun+", "tun0+" };
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
 				.equals(MODE_WHITELIST);
 		final boolean blacklist = !whitelist;
 		final boolean logenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_LOGENABLED, false);
+		final boolean vpnenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+				.getBoolean(PREF_VPNENABLED, false);
 		final boolean ipv6enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_IP6TABLES, false);
 		final boolean enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
@@ -269,6 +279,7 @@ public final class Api {
 					+ "$IPTABLES -L droidwall-3g >/dev/null 2>/dev/null || $IPTABLES --new droidwall-3g || exit 4\n"
 					+ "$IPTABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IPTABLES --new droidwall-wifi || exit 5\n"
 					+ "$IPTABLES -L droidwall-reject >/dev/null 2>/dev/null || $IPTABLES --new droidwall-reject || exit 6\n"
+					+ "$IPTABLES -L droidwall-vpn >/dev/null 2>/dev/null || $IPTABLES --new droidwall-vpn || exit 7 \n"
 					+ "# Add droidwall chain to OUTPUT chain if necessary\n"
 					+ "$IPTABLES -L OUTPUT | $GREP -q droidwall || $IPTABLES -A OUTPUT -j droidwall || exit 11\n"
 					+ "# Flush existing rules\n"
@@ -276,17 +287,17 @@ public final class Api {
 					+ "$IPTABLES -F droidwall-3g || exit 18\n"
 					+ "$IPTABLES -F droidwall-wifi || exit 19\n"
 					+ "$IPTABLES -F droidwall-reject || exit 20\n"
+					+ "$IPTABLES -F droidwall-vpn || exit 20\n"
 					+ "# Create reject rule and fix for WiFi slow DNS lookups"
 					+ "$IPTABLES -A droidwall-reject -j REJECT || exit 21\n"
 					+ "$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
 					+ "$IPTABLES -D OUTPUT -j droidwall || exit 11\n"
-					+ "$IPTABLES -I OUTPUT 1 -j droidwall || exit 12\n"
-					+ "");
+					+ "$IPTABLES -I OUTPUT 1 -g droidwall || exit 12\n" + "");
 			// Check if logging is enabled
 			if (logenabled) {
 				script.append(""
 						+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-						+ "$IPTABLES -A droidwall-reject -j LOG --log-prefix \"[DROIDWALL] \" --log-uid\n"
+						+ "$IPTABLES -A droidwall-reject --m limit --limit 750/min -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
 						+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 						+ "");
 			} else {
@@ -309,12 +320,16 @@ public final class Api {
 				script.append("$IPTABLES -A droidwall -o ").append(itf)
 						.append(" -j droidwall-wifi || exit 34\n");
 			}
-
+			for (final String itf : ITFS_VPN) {
+				script.append("$IPTABLES -A droidwall -o ").append(itf)
+						.append(" -j droidwall-vpn || exit 34\n");
+			}
 			script.append("# Filtering rules\n");
 			final String targetRule = (whitelist ? "RETURN"
 					: "droidwall-reject");
 			final boolean any_3g = uids3g.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_wifi = uidsWifi.indexOf(SPECIAL_UID_ANY) >= 0;
+			final boolean any_vpn = uidsvpn.indexOf(SPECIAL_UID_ANY) >= 0;
 			if (whitelist && !any_wifi) {
 				// When "white listing" wifi, we need to ensure that the dhcp
 				// and wifi users are allowed
@@ -407,6 +422,43 @@ public final class Api {
 					script.append("$IPTABLES -A droidwall-wifi -j droidwall-reject || exit 61\n");
 				}
 			}
+			if (vpnenabled) {
+				if (any_vpn && vpnenabled) {
+					if (blacklist) {
+						/* block any application on this interface */
+						script.append("$IPTABLES -A droidwall-vpn -j ")
+								.append(targetRule).append(" || exit 40\n");
+					}
+				} else {
+					/* release/block individual applications on this interface */
+					for (final Integer uid : uidsvpn) {
+						if (uid >= 0)
+							script.append(
+									"$IPTABLES -I droidwall-vpn -m owner --uid-owner ")
+									.append(uid).append(" -j ")
+									.append(targetRule).append(" || exit 42\n");
+					}
+				}
+				if (whitelist && vpnenabled) {
+					if (!any_vpn) {
+						if (uidsvpn.indexOf(SPECIAL_UID_KERNEL) >= 0) {
+							script.append("# hack to allow kernel packets on white-list\n");
+							script.append("$IPTABLES -A droidwall-vpn -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 48\n");
+						} else {
+							script.append("$IPTABLES -A droidwall-vpn -j droidwall-reject || exit 50\n");
+
+						}
+					} else {
+						script.append("$IPTABLES -A droidwall-vpn -j droidwall-reject || exit 54\n");
+					}
+				} else {
+					if (uidsvpn.indexOf(SPECIAL_UID_KERNEL) >= 0) {
+						script.append("# hack to BLOCK kernel packets on black-list\n");
+						script.append("$IPTABLES -A droidwall-vpn -m owner --uid-owner 0:999999999 -j RETURN || exit 56\n");
+						script.append("$IPTABLES -A droidwall-vpn -j droidwall-reject || exit 57\n");
+					}
+				}
+			}
 			if (ipv6enabled) {
 				{
 					script.append(scriptHeader(ctx));
@@ -417,6 +469,7 @@ public final class Api {
 							+ "$IP6TABLES -L droidwall-3g >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-3g || exit 64\n"
 							+ "$IP6TABLES -L droidwall-wifi >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-wifi || exit 65\n"
 							+ "$IP6TABLES -L droidwall-reject >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-reject || exit 66\n"
+							+ "$IP6TABLES -L droidwall-vpn >/dev/null 2>/dev/null || $IP6TABLES --new droidwall-vpn || exit 66\n"
 							+ "# Add droidwall chain to OUTPUT chain if necessary\n"
 							+ "$IP6TABLES -L OUTPUT | $GREP -q droidwall || $IP6TABLES -A OUTPUT -j droidwall || exit 67\n"
 							+ "# Flush existing rules\n"
@@ -424,6 +477,7 @@ public final class Api {
 							+ "$IP6TABLES -F droidwall-3g || exit 71\n"
 							+ "$IP6TABLES -F droidwall-wifi || exit 72\n"
 							+ "$IP6TABLES -F droidwall-reject || exit 73\n"
+							+ "$IP6TABLES -F droidwall-vpn || exit 73\n"
 							+ "# Create reject rule and fix for WiFi slow DNS lookups"
 							+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 74\n"
 							+ "$IP6TABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 75\n"
@@ -434,7 +488,7 @@ public final class Api {
 					if (logenabled && ipv6enabled) {
 						script.append(""
 								+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-								+ "$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[DROIDWALL] \" --log-uid\n"
+								+ "$IP6TABLES -A droidwall-reject --m limit --limit 750/min -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
 								+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 76\n"
 								+ "");
 					} else {
@@ -457,7 +511,12 @@ public final class Api {
 								.append(" -j droidwall-wifi || exit 79\n");
 
 					}
+					for (final String itf : ITFS_VPN) {
+						script.append("$IP6TABLES -A droidwall -o ")
+								.append(itf)
+								.append(" -j droidwall-vpn || exit 79\n");
 
+					}
 					int uid = android.os.Process.getUidForName("dhcp");
 					if (uid != -1) {
 						script.append("# dhcp user\n");
@@ -548,6 +607,44 @@ public final class Api {
 						script.append("$IP6TABLES -A droidwall-wifi -j droidwall-reject || exit 94\n");
 					}
 				}
+				if (vpnenabled && ipv6enabled) {
+					if (any_vpn && ipv6enabled) {
+						if (blacklist) {
+							// block any application on this interface
+							script.append("$IP6TABLES -A droidwall-vpn -j ")
+									.append(targetRule).append(" || exit 82\n");
+						}
+					} else {
+						/*
+						 * release/block individual applications on this
+						 * interface
+						 */
+						for (final Integer uid : uidsvpn) {
+							if (uid >= 0)
+								script.append(
+										"$IP6TABLES -I droidwall-vpn -m owner --uid-owner ")
+										.append(uid).append(" -j ")
+										.append(targetRule)
+										.append(" || exit 84\n");
+						}
+					}
+					if (whitelist && ipv6enabled && vpnenabled) {
+						if (!any_vpn) {
+							if (uidsvpn.indexOf(SPECIAL_UID_KERNEL) >= 0) {
+								script.append("# hack to allow kernel packets on white-list\n");
+								script.append("$IP6TABLES -A droidwall-vpn -m owner --uid-owner 0:999999999 -j droidwall-reject || exit 87\n");
+							} else {
+								script.append("$IP6TABLES -A droidwall-vpn -j droidwall-reject || exit 88\n");
+							}
+						}
+					} else {
+						if (uidsvpn.indexOf(SPECIAL_UID_KERNEL) >= 0) {
+							script.append("# hack to BLOCK kernel packets on black-list\n");
+							script.append("$IP6TABLES -A droidwall-vpn -m owner --uid-owner 0:999999999 -j RETURN || exit 91\n");
+							script.append("$IP6TABLES -A droidwall-vpn -j droidwall-reject || exit 92\n");
+						}
+					}
+				}
 			}
 			final StringBuilder res = new StringBuilder();
 			code = runScriptAsRoot(ctx, script.toString(), res);
@@ -587,7 +684,8 @@ public final class Api {
 			}
 		} catch (Exception e) {
 			if (showErrors)
-				alert(ctx, "error refreshing iptables: " + e);
+				Log.d("Android Firewall - error applying rules", e.getMessage());
+			alert(ctx, "error refreshing iptables: " + e);
 		}
 		return false;
 	}
@@ -611,6 +709,7 @@ public final class Api {
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
 		final String savedUids_roaming = prefs.getString(PREF_ROAMING_UIDS, "");
+		final String savedUids_vpn = prefs.getString(PREF_VPN_UIDS, "");
 		final List<Integer> uids_wifi = new LinkedList<Integer>();
 		if (savedUids_wifi.length() > 0) {
 			// Check which applications are allowed on wifi
@@ -621,6 +720,8 @@ public final class Api {
 					try {
 						uids_wifi.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
+						Log.d("Android Firewall - error with WiFi UIDs",
+								ex.getMessage());
 					}
 				}
 			}
@@ -635,6 +736,8 @@ public final class Api {
 					try {
 						uids_3g.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
+						Log.d("Android Firewall - error with Data UIDs",
+								ex.getMessage());
 					}
 				}
 			}
@@ -650,12 +753,30 @@ public final class Api {
 					try {
 						uids_roaming.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
+						Log.d("Android Firewall - error with Roaming UIDs",
+								ex.getMessage());
+					}
+				}
+			}
+		}
+		final List<Integer> uids_vpn = new LinkedList<Integer>();
+		if (savedUids_vpn.length() > 0) {
+			// Check which applications are allowed on 2G/3G
+			final StringTokenizer tok = new StringTokenizer(savedUids_vpn, "|");
+			while (tok.hasMoreTokens()) {
+				final String uid = tok.nextToken();
+				if (!uid.equals("")) {
+					try {
+						uids_vpn.add(Integer.parseInt(uid));
+					} catch (Exception ex) {
+						Log.d("Android Firewall - error with Data UIDs",
+								ex.getMessage());
 					}
 				}
 			}
 		}
 		return applyIptablesRulesImpl(ctx, uids_wifi, uids_3g, uids_roaming,
-				showErrors);
+				uids_vpn, showErrors);
 	}
 
 	/**
@@ -687,6 +808,7 @@ public final class Api {
 		final StringBuilder newuids_wifi = new StringBuilder();
 		final StringBuilder newuids_3g = new StringBuilder();
 		final StringBuilder newuids_roaming = new StringBuilder();
+		final StringBuilder newuids_vpn = new StringBuilder();
 		for (int i = 0; i < apps.length; i++) {
 			if (apps[i].selected_wifi) {
 				if (newuids_wifi.length() != 0)
@@ -703,12 +825,18 @@ public final class Api {
 					newuids_roaming.append('|');
 				newuids_roaming.append(apps[i].uid);
 			}
+			if (apps[i].selected_vpn) {
+				if (newuids_vpn.length() != 0)
+					newuids_vpn.append('|');
+				newuids_vpn.append(apps[i].uid);
+			}
 		}
 		// save the new list of UIDs
 		final Editor edit = prefs.edit();
 		edit.putString(PREF_WIFI_UIDS, newuids_wifi.toString());
 		edit.putString(PREF_3G_UIDS, newuids_3g.toString());
 		edit.putString(PREF_ROAMING_UIDS, newuids_roaming.toString());
+		edit.putString(PREF_VPN_UIDS, newuids_vpn.toString());
 		edit.commit();
 	}
 
@@ -771,12 +899,14 @@ public final class Api {
 			script.append("" + "$IPTABLES -F droidwall\n"
 					+ "$IPTABLES -F droidwall-reject\n"
 					+ "$IPTABLES -F droidwall-3g\n"
+					+ "$IPTABLES -F droidwall-vpn\n"
 					+ "$IPTABLES -F droidwall-wifi\n" + "");
 			if (ipv6enabled) {
 				script.append(scriptHeader(ctx));
 				script.append("" + "$IP6TABLES --flush droidwall\n"
 						+ "$IP6TABLES --flush droidwall-reject\n"
 						+ "$IP6TABLES --flush droidwall-3g\n"
+						+ "$IP6TABLES --flush droidwall-vpn\n"
 						+ "$IP6TABLES --flush droidwall-wifi\n" + "");
 			}
 			if (customScript.length() > 0) {
@@ -811,6 +941,7 @@ public final class Api {
 			script.append("" + "$IP6TABLES --flush droidwall\n"
 					+ "$IP6TABLES --flush droidwall-reject\n"
 					+ "$IP6TABLES --flush droidwall-3g\n"
+					+ "$IP6TABLES --flush droidwall-vpn\n"
 					+ "$IP6TABLES --flush droidwall-wifi\n" + "");
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
@@ -846,6 +977,7 @@ public final class Api {
 					"$IPTABLES -L -v -n\n", res);
 			alert(ctx, res);
 		} catch (Exception e) {
+			Log.d("Android Firewall - error show rules", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 	}
@@ -868,6 +1000,7 @@ public final class Api {
 			}
 			return true;
 		} catch (Exception e) {
+			Log.d("Android Firewall - error clearing the logs", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 		return false;
@@ -883,7 +1016,7 @@ public final class Api {
 		try {
 			StringBuilder res = new StringBuilder();
 			int code = runScriptAsRoot(ctx, scriptHeader(ctx)
-					+ "dmesg | $GREP DROIDWALL\n", res);
+					+ "dmesg | $GREP [Android Firewall]\n", res);
 			if (code != 0) {
 				if (res.length() == 0) {
 					res.append("Log is empty");
@@ -967,6 +1100,7 @@ public final class Api {
 			}
 			alert(ctx, res);
 		} catch (Exception e) {
+			Log.d("Android Firewall - error showing the logs", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 	}
@@ -986,9 +1120,11 @@ public final class Api {
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
 		final String savedUids_Roaming = prefs.getString(PREF_ROAMING_UIDS, "");
+		final String savedUids_Vpn = prefs.getString(PREF_VPN_UIDS, "");
 		int selected_wifi[] = new int[0];
 		int selected_3g[] = new int[0];
 		int selected_roaming[] = new int[0];
+		int selected_vpn[] = new int[0];
 		if (savedUids_wifi.length() > 0) {
 			// Check which applications are allowed
 			final StringTokenizer tok = new StringTokenizer(savedUids_wifi, "|");
@@ -1040,6 +1176,23 @@ public final class Api {
 			}
 			// Sort the array to allow using "Arrays.binarySearch" later
 			Arrays.sort(selected_roaming);
+		}
+		if (savedUids_Vpn.length() > 0) {
+			// Check which applications are allowed
+			final StringTokenizer tok = new StringTokenizer(savedUids_Vpn, "|");
+			selected_vpn = new int[tok.countTokens()];
+			for (int i = 0; i < selected_vpn.length; i++) {
+				final String uid = tok.nextToken();
+				if (!uid.equals("")) {
+					try {
+						selected_vpn[i] = Integer.parseInt(uid);
+					} catch (Exception ex) {
+						selected_vpn[i] = -1;
+					}
+				}
+			}
+			// Sort the array to allow using "Arrays.binarySearch" later
+			Arrays.sort(selected_vpn);
 		}
 		try {
 			final PackageManager pkgmanager = ctx.getPackageManager();
@@ -1100,6 +1253,10 @@ public final class Api {
 						&& Arrays.binarySearch(selected_roaming, app.uid) >= 0) {
 					app.selected_roaming = true;
 				}
+				if (!app.selected_vpn
+						&& Arrays.binarySearch(selected_roaming, app.uid) >= 0) {
+					app.selected_vpn = true;
+				}
 			}
 			if (changed) {
 				edit.commit();
@@ -1109,20 +1266,20 @@ public final class Api {
 					new DroidApp(
 							SPECIAL_UID_ANY,
 							"(Any application) - Same as selecting all applications",
-							false, false, false),
+							false, false, false, false),
 					new DroidApp(SPECIAL_UID_KERNEL, "(Kernel) - Linux kernel",
-							false, false, false),
+							false, false, false, false),
 					new DroidApp(android.os.Process.getUidForName("root"),
 							"(root) - Applications running as root", false,
-							false, false),
+							false, false, false),
 					new DroidApp(android.os.Process.getUidForName("media"),
-							"Media server", false, false, false),
+							"Media server", false, false, false, false),
 					new DroidApp(android.os.Process.getUidForName("vpn"),
-							"VPN networking", false, false, false),
+							"VPN networking", false, false, false, false),
 					new DroidApp(android.os.Process.getUidForName("shell"),
-							"Linux shell", false, false, false),
+							"Linux shell", false, false, false, false),
 					new DroidApp(android.os.Process.getUidForName("gps"),
-							"GPS", false, false, false), };
+							"GPS", false, false, false, false), };
 			for (int i = 0; i < special.length; i++) {
 				app = special[i];
 				if (app.uid != -1 && !map.containsKey(app.uid)) {
@@ -1136,6 +1293,9 @@ public final class Api {
 					if (Arrays.binarySearch(selected_roaming, app.uid) >= 0) {
 						app.selected_roaming = true;
 					}
+					if (Arrays.binarySearch(selected_vpn, app.uid) >= 0) {
+						app.selected_vpn = true;
+					}
 					map.put(app.uid, app);
 				}
 			}
@@ -1144,6 +1304,8 @@ public final class Api {
 			;
 			return applications;
 		} catch (Exception e) {
+			Log.d("Android Firewall - error generating list of apps",
+					e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 		return null;
@@ -1169,6 +1331,7 @@ public final class Api {
 				return true;
 			}
 		} catch (Exception e) {
+			Log.d("Android Firewall - No root access available", e.getMessage());
 		}
 		if (showErrors) {
 			alert(ctx,
@@ -1179,31 +1342,6 @@ public final class Api {
 		}
 		return false;
 	}
-
-	/**
-	 * Runs a script, wither as root or as a regular user (multiple commands
-	 * separated by "\n").
-	 * 
-	 * @param ctx
-	 *            mandatory context
-	 * @param script
-	 *            the script to be executed
-	 * @param res
-	 *            the script output response (stdout + stderr)
-	 * @param timeout
-	 *            timeout in milliseconds (-1 for none)
-	 * @return the script exit code
-	 */
-	/*
-	 * public static int runScript(Context ctx, String script, StringBuilder
-	 * res, long timeout, boolean asroot) { final File file = new
-	 * File(ctx.getDir("bin", 0), SCRIPT_FILE); final ScriptRunner runner = new
-	 * ScriptRunner(file, script, res, asroot); runner.start(); try { if
-	 * (timeout > 0) { runner.join(timeout); } else { runner.join(); } if
-	 * (runner.isAlive()) { // Timed-out runner.interrupt(); runner.join(150);
-	 * runner.destroy(); runner.join(50); } } catch (InterruptedException ex) {
-	 * } return runner.exitcode; }
-	 */
 
 	/**
 	 * Runs a script as root (multiple commands separated by "\n").
@@ -1335,7 +1473,17 @@ public final class Api {
 				false);
 	}
 
-	/*
+	/**
+	 * check to see if VPN support is enabled
+	 */
+	public static boolean vpnEnabled(Context ctx) {
+		if (ctx == null)
+			return false;
+		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(
+				PREF_VPNENABLED, false);
+	}
+
+	/**
 	 * determines if data connection is roaming
 	 */
 	public static boolean isRoaming(Context context) {
@@ -1408,6 +1556,7 @@ public final class Api {
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
 		final String savedUids_roaming = prefs.getString(PREF_ROAMING_UIDS, "");
+		final String savedUids_vpn = prefs.getString(PREF_VPN_UIDS, "");
 		final String uid_str = uid + "";
 		boolean changed = false;
 		// look for the removed application in the "wi-fi" list
@@ -1417,7 +1566,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("DroidWall", "Removing UID " + token
+					Log.d("Android Firewall", "Removing UID " + token
 							+ " from the wi-fi list (package removed)!");
 					changed = true;
 				} else {
@@ -1437,7 +1586,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("DroidWall", "Removing UID " + token
+					Log.d("Android Firewall", "Removing UID " + token
 							+ " from the 3G list (package removed)!");
 					changed = true;
 				} else {
@@ -1458,7 +1607,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("DroidWall", "Removing UID " + token
+					Log.d("Android Firewall", "Removing UID " + token
 							+ " from the Roaming list (package removed)!");
 					changed = true;
 				} else {
@@ -1471,16 +1620,33 @@ public final class Api {
 				editor.putString(PREF_ROAMING_UIDS, newuids.toString());
 			}
 		}
+		// look for the removed application in the vpn list
+		if (savedUids_vpn.length() > 0) {
+			final StringBuilder newuids = new StringBuilder();
+			final StringTokenizer tok = new StringTokenizer(savedUids_vpn, "|");
+			while (tok.hasMoreTokens()) {
+				final String token = tok.nextToken();
+				if (uid_str.equals(token)) {
+					Log.d("Android Firewall", "Removing UID " + token
+							+ " from the Roaming list (package removed)!");
+					changed = true;
+				} else {
+					if (newuids.length() > 0)
+						newuids.append('|');
+					newuids.append(token);
+				}
+			}
+			if (changed) {
+				editor.putString(PREF_VPN_UIDS, newuids.toString());
+			}
+		}
 		// if anything has changed, save the new prefs...
 		if (changed) {
 			editor.commit();
 			if (isEnabled(ctx)) {
 				// .. and also re-apply the rules if the firewall is enabled
 				applySavedIptablesRules(ctx, false);
-			} /*
-			 * else if (isIPv6Enabled(ctx)){ applySavedIp6tablesRules(ctx,
-			 * false); }
-			 */
+			}
 		}
 	}
 
@@ -1498,6 +1664,8 @@ public final class Api {
 		boolean selected_3g;
 		// indicated if this application is selected for roaming
 		boolean selected_roaming;
+		// indicates if this application is selected for vpn
+		boolean selected_vpn;
 		/** toString cache */
 		String tostr;
 		/** application info */
@@ -1513,12 +1681,14 @@ public final class Api {
 		}
 
 		public DroidApp(int uid, String name, boolean selected_wifi,
-				boolean selected_3g, boolean selected_roaming) {
+				boolean selected_3g, boolean selected_roaming,
+				boolean selected_vpn) {
 			this.uid = uid;
 			this.names = new String[] { name };
 			this.selected_wifi = selected_wifi;
 			this.selected_3g = selected_3g;
 			this.selected_roaming = selected_roaming;
+			this.selected_vpn = selected_vpn;
 		}
 
 		/**
@@ -1603,6 +1773,8 @@ public final class Api {
 		try {
 			returncode = new applyIptableRules().execute(script, res).get();
 		} catch (Exception e) {
+			Log.d("Android Firewall - error applying iptables in runScript",
+					e.getMessage());
 			Toast.makeText(ctx, "There was an error applying the iptables.",
 					Toast.LENGTH_LONG).show();
 		}
