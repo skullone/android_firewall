@@ -36,11 +36,10 @@ public class BootBroadcast extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		setRulesOnBootService.performAction(context,
-				setRulesOnBootService.BOOTUP_COMPLETED);
-		// The first performAction is called because of the number of variables
-		// due to using Intents.
-		// Yes, I'm starting to use more comments in my code.
+		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())){
+			Intent pushIntent = new Intent(context, setRulesOnBootService.class);
+			context.startService(pushIntent);
+		}
 	}
 
 }

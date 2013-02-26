@@ -292,7 +292,7 @@ public final class Api {
 					+ "$IPTABLES -A droidwall-reject -j REJECT || exit 21\n"
 					+ "$IPTABLES -A droidwall -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
 					+ "$IPTABLES -D OUTPUT -j droidwall || exit 11\n"
-					+ "$IPTABLES -I OUTPUT 1 -g droidwall || exit 12\n" + "");
+					+ "$IPTABLES -I OUTPUT 1 -j droidwall || exit 12\n" + "");
 			// Check if logging is enabled
 			if (logenabled) {
 				script.append(""

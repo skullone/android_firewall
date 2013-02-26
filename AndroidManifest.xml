@@ -19,6 +19,9 @@
     <!-- Write external storage is for exporting app rules -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
     </uses-permission>
+    <!-- Announces access to Superuser for added security in Koush's (ChainsDD and Chainfire to do the same) Superuser -->
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" >
+    </uses-permission>
 
     <supports-screens
         android:anyDensity="true"
@@ -32,7 +35,7 @@
         android:label="@string/app_name" >
         <activity
             android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>

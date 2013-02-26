@@ -102,6 +102,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 * Variables for spinner
 	 */
 	private Spinner spinner;
+	public ArrayAdapter<String> adapter1;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -148,11 +149,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				.toArray(new String[profilestring.size()]);
 
 		// adapter for spinner
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		adapter1 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, profileposition);
 
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter1);
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
 		spinner.post(new Runnable() {
 			public void run() {
@@ -236,7 +237,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			// Check the password
 			requestPassword(pwd);
 		}
-
 	}
 
 	@Override
@@ -249,7 +249,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 * update spinner with changed profile names
 	 */
 	public void updateSpinner() {
-		
+		adapter1.notifyDataSetChanged();
 	}
 
 	/**
