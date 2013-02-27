@@ -1108,6 +1108,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						: R.string.saving_rules), true);
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(getApplicationContext());
+				int i;
 				try {
 					progress.dismiss();
 				} catch (Exception ex) {
@@ -1119,6 +1122,25 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						Toast.makeText(MainActivity.this,
 								R.string.rules_applied, Toast.LENGTH_SHORT)
 								.show();
+						i = prefs.getInt("itemPosition", 0);
+						if (i == 0) {
+							saveDefaultProfile();
+						}
+						if (i == 1) {
+							saveProfile1();
+						}
+						if (i == 2) {
+							saveProfile2();
+						}
+						if (i == 3) {
+							saveProfile3();
+						}
+						if (i == 4) {
+							saveProfile4();
+						}
+						if (i == 5) {
+							saveProfile5();
+						}
 					} else {
 						Log.d("Android Firewall",
 								"Failed - Disabling firewall.");
@@ -1132,6 +1154,25 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 					Api.saveRules(MainActivity.this);
 					Toast.makeText(MainActivity.this, R.string.rules_saved,
 							Toast.LENGTH_SHORT).show();
+					i = prefs.getInt("itemPosition", 0);
+					if (i == 0) {
+						saveDefaultProfile();
+					}
+					if (i == 1) {
+						saveProfile1();
+					}
+					if (i == 2) {
+						saveProfile2();
+					}
+					if (i == 3) {
+						saveProfile3();
+					}
+					if (i == 4) {
+						saveProfile4();
+					}
+					if (i == 5) {
+						saveProfile5();
+					}
 				}
 				MainActivity.this.dirty = false;
 			}
@@ -1415,7 +1456,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1448,7 +1488,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Api.PREF_PROFILE1, Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1481,7 +1520,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Api.PREF_PROFILE2, Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1514,7 +1552,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Api.PREF_PROFILE3, Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1547,7 +1584,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Api.PREF_PROFILE4, Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1580,7 +1616,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				Api.PREF_PROFILE5, Context.MODE_PRIVATE);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
-
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
 			Object rule = entry.getValue();
 			String keys = entry.getKey();
@@ -1604,6 +1639,150 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		} else {
 			Api.saveRules(getApplicationContext());
 		}
+	}
+
+	private void saveDefaultProfile() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+	}
+
+	private void saveProfile1() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE1,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+	}
+
+	private void saveProfile2() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE2,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+	}
+
+	private void saveProfile3() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE3,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+	}
+
+	private void saveProfile4() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE4,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
+	}
+
+	private void saveProfile5() {
+		SharedPreferences prefs2 = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences(Api.PREF_PROFILE5,
+				Context.MODE_PRIVATE);
+		final Editor editRules = prefs.edit();
+		editRules.clear();
+		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
+			Object rule = entry.getValue();
+			String keys = entry.getKey();
+			if (rule instanceof Boolean)
+				editRules.putBoolean(keys, ((Boolean) rule).booleanValue());
+			else if (rule instanceof Float)
+				editRules.putFloat(keys, ((Float) rule).floatValue());
+			else if (rule instanceof String)
+				editRules.putString(keys, ((String) rule));
+			else if (rule instanceof Long)
+				editRules.putLong(keys, ((Long) rule).longValue());
+			else if (rule instanceof Integer)
+				editRules.putInt(keys, ((Integer) rule).intValue());
+		}
+		editRules.commit();
 	}
 
 	private TextWatcher filterTextWatcher = new TextWatcher() {
