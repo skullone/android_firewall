@@ -132,5 +132,11 @@
     <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
     <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
+    <string name="search_name">App Search</string>
+    <string name="profilenames">Edite nombres de perfil</string>
+    <string name="vpn_enabled">Soporte VPN se ha habilitado</string>
+    <string name="vpn_disabled">Soporte VPN se ha deshabilitado</string>
+    <string name="vpn_title">Soporte VPN</string>
+    <string name="vpn">VPN</string>
 
 </resources>

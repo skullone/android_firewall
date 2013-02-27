@@ -19,17 +19,14 @@ public final class R {
     }
     public static final class drawable {
         public static final int apply=0x7f020000;
-        public static final int eth_3g=0x7f020001;
-        public static final int eth_roam=0x7f020002;
-        public static final int eth_wifi=0x7f020003;
-        public static final int icon=0x7f020004;
-        public static final int notify_icon=0x7f020005;
-        public static final int show=0x7f020006;
-        public static final int widget_bg=0x7f020007;
-        public static final int widget_bg_focus=0x7f020008;
-        public static final int widget_bg_pressed=0x7f020009;
-        public static final int widget_off=0x7f02000a;
-        public static final int widget_on=0x7f02000b;
+        public static final int icon=0x7f020001;
+        public static final int notify_icon=0x7f020002;
+        public static final int show=0x7f020003;
+        public static final int widget_bg=0x7f020004;
+        public static final int widget_bg_focus=0x7f020005;
+        public static final int widget_bg_pressed=0x7f020006;
+        public static final int widget_off=0x7f020007;
+        public static final int widget_on=0x7f020008;
     }
     public static final class id {
         public static final int applyrules=0x7f0a0028;
