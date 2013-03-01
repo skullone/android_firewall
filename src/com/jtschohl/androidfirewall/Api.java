@@ -1254,7 +1254,7 @@ public final class Api {
 					app.selected_roaming = true;
 				}
 				if (!app.selected_vpn
-						&& Arrays.binarySearch(selected_roaming, app.uid) >= 0) {
+						&& Arrays.binarySearch(selected_vpn, app.uid) >= 0) {
 					app.selected_vpn = true;
 				}
 			}

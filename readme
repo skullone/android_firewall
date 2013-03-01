@@ -2,12 +2,13 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
 
+2.1.5 - Fix minor issue where checkboxes for VPN are not showing up when the app is re-opened.
 2.1.4 - Profile names now editable. Fix for NullPointerException. VPN support has been added. Many thanks to Ventz for all his work 
 		with it and randomly supplying me with the exact iptables rules needed to implement the functionality.
 		Updated the logging code.  Logs should hold more information now and not get over written as often.  Applying rules
 		on boot has been totally re-written.  Hopefully, this corrects any issues with rules applying on boot.  This also
 		corrected an issue with some devices on Android 2.x where the app would hang the first time you open it after a reboot.
-		Profiles now save changes made to them.  Do not forget to export your rules file though for safe keeping.
+		Profiles now save changes made to them.  Do not forget to export your rules file though for safe keeping. XHDPI icons added.
 2.1.3 - App search.  Widget fixed. Issue where the firewall rules don't work when Mobile Data Limit  is 
 		being used has been fixed.
 2.1.2 - Tasker/Locale plugin support. 

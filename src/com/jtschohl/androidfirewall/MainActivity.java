@@ -249,7 +249,28 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 * update spinner with changed profile names
 	 */
 	public void updateSpinner() {
-		adapter1.notifyDataSetChanged();
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		final List<String> profilestring = new ArrayList<String>();
+		profilestring.add(prefs.getString("default",
+				getString(R.string.defaultprofile)));
+		profilestring.add(prefs.getString("profile1",
+				getString(R.string.profile1)));
+		profilestring.add(prefs.getString("profile2",
+				getString(R.string.profile2)));
+		profilestring.add(prefs.getString("profile3",
+				getString(R.string.profile3)));
+		profilestring.add(prefs.getString("profile4",
+				getString(R.string.profile4)));
+		profilestring.add(prefs.getString("profile5",
+				getString(R.string.profile5)));
+		profileposition = profilestring
+				.toArray(new String[profilestring.size()]);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, profileposition);
+		adapter.notifyDataSetChanged();
+		spinner.setAdapter(adapter);
+		spinner.setSelection(prefs.getInt("itemPosition", 0));
 	}
 
 	/**
