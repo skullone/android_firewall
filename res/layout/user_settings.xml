@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="ipv6enabled"
+        android:summaryOff="@string/ipv6_disabled"
+        android:summaryOn="@string/ipv6_enabled"
+        android:title="@string/ipv6_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="vpnenabled"
+        android:summaryOff="@string/vpn_disabled"
+        android:summaryOn="@string/vpn_enabled"
+        android:title="@string/vpn_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="roamingenabled"
+        android:summaryOff="@string/roaming_disabled"
+        android:summaryOn="@string/roaming_enabled"
+        android:title="@string/roaming_title" />
+
+    <CheckBoxPreference
+        android:key="notifyenabled"
+        android:summaryOff="@string/notify_disabled"
+        android:summaryOn="@string/notify_enabled"
+        android:title="@string/notifications_title" />
+
+    <CheckBoxPreference
+        android:key="logenabled"
+        android:summaryOff="@string/log_disabled"
+        android:summaryOn="@string/log_enabled"
+        android:title="@string/enableLog_title" />
+
+</PreferenceScreen>
