@@ -116,12 +116,6 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
     <string name="search_name">Vyhledávání aplikací</string>
     <string name="profilenames">Úpravy Profil jmen</string>
@@ -129,5 +123,16 @@
     <string name="vpn_disabled">VPN Podpora byla vypnuté</string>
     <string name="vpn_title">Podpora VPN</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming podporu</string>
+    <string name="usersettings">Settings</string>
+    <string name="taskertoast_title">Tasker Upozorňování</string>
+    <string name="ipv6_summary">Toto nastavení povolí nebo zakáže podporu IPv6</string>
+    <string name="vpn_summary">Toto nastavení povolí nebo zakáže VPN podporu</string>
+    <string name="roaming_summary">Toto nastavení povolí nebo zakáže Roaming podporu sítě</string>
+    <string name="taskertoast_summary">Toto nastavení povolí nebo zakáže Tasker oznámení automaticky otevíraná okna, když jsou změněny profily</string>
+    <string name="log_summary">Toto nastavení povolí nebo zakáže Firewallu logů</string>
+    <string name="notification_summary">Toto nastavení povolí nebo zakáže oznámení pro nově instalované aplikace, které potřebují přístup k internetu</string>
+    <string name="tasker_profile">Tasker změnil profil chvíli pouľívá Android Firewall</string>
+    <string name="apply_setting_changes">Uplatňování pravidel pro nastavení změny</string>
 
 </resources>

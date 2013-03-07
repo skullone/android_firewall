@@ -118,6 +118,7 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f080000;
         public static final int apply=0x7f08003a;
+        public static final int apply_setting_changes=0x7f08007f;
         public static final int applying_rules=0x7f080019;
         public static final int applyingipv6_rules=0x7f08001a;
         public static final int applyrules=0x7f080004;
@@ -153,6 +154,7 @@ public final class R {
         public static final int invert=0x7f080069;
         public static final int ipv6_disabled=0x7f08000f;
         public static final int ipv6_enabled=0x7f08000e;
+        public static final int ipv6_summary=0x7f080078;
         public static final int ipv6_title=0x7f080066;
         public static final int ipv6_was_disabled=0x7f080011;
         public static final int ipv6_was_enabled=0x7f080010;
@@ -160,6 +162,7 @@ public final class R {
         public static final int log_cleared=0x7f080016;
         public static final int log_disabled=0x7f080013;
         public static final int log_enabled=0x7f080012;
+        public static final int log_summary=0x7f08007c;
         public static final int log_was_disabled=0x7f080015;
         public static final int log_was_enabled=0x7f080014;
         public static final int managerulefiles=0x7f08004a;
@@ -167,6 +170,7 @@ public final class R {
         public static final int mode_header=0x7f08002a;
         public static final int mode_whitelist=0x7f08002b;
         public static final int new_app_installed=0x7f080043;
+        public static final int notification_summary=0x7f08007d;
         public static final int notifications_title=0x7f080067;
         public static final int notify_disabled=0x7f080045;
         public static final int notify_enabled=0x7f080044;
@@ -195,15 +199,14 @@ public final class R {
         public static final int profile5saved=0x7f080060;
         public static final int profile_header=0x7f080052;
         public static final int profileapplied=0x7f080062;
-        public static final int profilenames=0x7f080078;
+        public static final int profilenames=0x7f080072;
         public static final int profileselect=0x7f080061;
         public static final int profilesoptions=0x7f080065;
         public static final int purgerules=0x7f080007;
         public static final int reading_apps=0x7f080028;
         public static final int roaming=0x7f08004e;
-        public static final int roaming_disabled=0x7f08007e;
-        public static final int roaming_enabled=0x7f08007d;
-        public static final int roaming_title=0x7f08007f;
+        public static final int roaming_summary=0x7f08007a;
+        public static final int roaming_title=0x7f080075;
         public static final int rules_applied=0x7f08001d;
         public static final int rules_deleted=0x7f08001f;
         public static final int rules_saved=0x7f08001e;
@@ -211,19 +214,16 @@ public final class R {
         public static final int saveprofile=0x7f08005a;
         public static final int saverules=0x7f080005;
         public static final int saving_rules=0x7f08001b;
-        public static final int search_name=0x7f080077;
+        public static final int search_name=0x7f080071;
         public static final int set_custom_script=0x7f080032;
         public static final int setpwd=0x7f080008;
         public static final int show_log=0x7f080017;
         public static final int showrules=0x7f080003;
         public static final int tasker_name=0x7f08006f;
-        public static final int tasker_profile=0x7f080070;
-        public static final int tasker_profile1=0x7f080071;
-        public static final int tasker_profile2=0x7f080072;
-        public static final int tasker_profile3=0x7f080073;
-        public static final int tasker_profile4=0x7f080074;
-        public static final int tasker_profile5=0x7f080075;
-        public static final int tasker_profile_disabled=0x7f080076;
+        public static final int tasker_profile=0x7f08007e;
+        public static final int tasker_profile_disabled=0x7f080070;
+        public static final int taskertoast_summary=0x7f08007b;
+        public static final int taskertoast_title=0x7f080077;
         public static final int title_disabled=0x7f080002;
         public static final int title_enabled=0x7f080001;
         public static final int toast_bin_installed=0x7f08002d;
@@ -238,11 +238,12 @@ public final class R {
         public static final int twofortyfouram_locale_menu_save=0x7f08006e;
         public static final int unsaved_changes=0x7f080038;
         public static final int unsaved_changes_message=0x7f080039;
-        public static final int usersettings=0x7f080080;
-        public static final int vpn=0x7f08007c;
-        public static final int vpn_disabled=0x7f08007a;
-        public static final int vpn_enabled=0x7f080079;
-        public static final int vpn_title=0x7f08007b;
+        public static final int usersettings=0x7f080076;
+        public static final int vpn=0x7f080074;
+        public static final int vpn_disabled=0x7f080081;
+        public static final int vpn_enabled=0x7f080080;
+        public static final int vpn_summary=0x7f080079;
+        public static final int vpn_title=0x7f080073;
         public static final int wifi=0x7f08004c;
         public static final int working=0x7f080027;
     }

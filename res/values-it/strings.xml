@@ -116,12 +116,6 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
     <string name="search_name">App Search</string>
     <string name="profilenames">Edit nomi dei profili</string>
@@ -129,5 +123,16 @@
     <string name="vpn_disabled">Supporto VPN è stato disattivato</string>
     <string name="vpn_title">Supporto VPN</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming Supporto</string>
+    <string name="usersettings">Impostazioni</string>
+    <string name="taskertoast_title">Tasker Notifiche</string>
+    <string name="ipv6_summary">Questa impostazione abilita o disabilita il supporto IPv6</string>
+    <string name="vpn_summary">Questa impostazione abilita o disabilita il supporto VPN</string>
+    <string name="roaming_summary">Questa impostazione abilita o disabilita Il Roaming supporto di rete</string>
+    <string name="taskertoast_summary">Questa impostazione abilita o disabilita Tasker notifica pop-up quando i profili sono cambiati</string>
+    <string name="log_summary">Questa impostazione abilita o disabilita del firewall i log</string>
+    <string name="notification_summary">Questa impostazione consente di attivare o disattivare le notifiche per le applicazioni di nuova installazione che richiedono l'accesso a Internet</string>
+    <string name="tasker_profile">Tasker è cambiato il profilo in uso da Android Firewall</string>
+    <string name="apply_setting_changes">Applicando norme relative alla fissazione cambia</string>
 
 </resources>

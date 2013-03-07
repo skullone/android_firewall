@@ -117,12 +117,6 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
     <string name="search_name">App Suche</string>
     <string name="profilenames">Profil bearbeiten Vornamen</string>
@@ -130,5 +124,16 @@
     <string name="vpn_disabled">VPN-Unterstützung deaktiviert wurde</string>
     <string name="vpn_title">VPN-Unterstützung</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming Unterstützung</string>
+    <string name="usersettings">Einstellungen</string>
+    <string name="taskertoast_title">Tasker Benachrichtigungen</string>
+    <string name="ipv6_summary">Diese Einstellung aktiviert oder deaktiviert die IPv6-Unterstützung</string>
+    <string name="vpn_summary">TDiese Einstellung aktiviert oder deaktiviert VPN-Unterstützung</string>
+    <string name="roaming_summary">Diese Einstellung aktiviert oder deaktiviert Roaming-Netz-Unterstützung</string>
+    <string name="taskertoast_summary">Diese Einstellung aktiviert oder deaktiviert Tasker Benachrichtigung Pop-ups, wenn Profile geändert werden</string>
+    <string name="log_summary">Diese Einstellung aktiviert oder deaktiviert die Firewall Logs</string>
+    <string name="notification_summary">Diese Einstellung aktiviert oder deaktiviert Benachrichtigungen für neu installierte Anwendungen, die InternetZugriff erforderlich</string>
+    <string name="tasker_profile">Tasker hat das Profil durch Android Firewall verwendet verändert</string>
+    <string name="apply_setting_changes">Anwenden von Regeln für die Einstellungsänderung</string>
 
 </resources>

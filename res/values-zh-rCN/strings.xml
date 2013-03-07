@@ -130,12 +130,6 @@
     <string name="twofortyfouram_locale_menu_help">帮助</string>
     <string name="twofortyfouram_locale_menu_save">完成</string>
     <string name="tasker_name">Android Firewall - 计划任务</string>
-    <string name="tasker_profile">计划任务已将配置更改为 默认配置</string>
-    <string name="tasker_profile1">计划任务已将配置更改为 配置1</string>
-    <string name="tasker_profile2">计划任务已将配置更改为 配置2</string>
-    <string name="tasker_profile3">计划任务已将配置更改为 配置3</string>
-    <string name="tasker_profile4">计划任务已将配置更改为 配置4</string>
-    <string name="tasker_profile5">计划任务已将配置更改为 配置5</string>
     <string name="tasker_profile_disabled">计划任务已将防火墙关闭</string>
     <string name="search_name">搜索应用</string>
     <string name="profilenames">编辑配置名</string>
@@ -143,5 +137,16 @@
     <string name="vpn_disabled">已禁用 VPN 支持</string>
     <string name="vpn_title">VPN 支持</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming Support</string>
+    <string name="usersettings">Settings</string>
+    <string name="taskertoast_title">Tasker Notifications</string>
+    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
+    <string name="vpn_summary">This setting enables or disables VPN support</string>
+    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
+    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
+    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
+    <string name="notification_summary">This setting enables ordisable notifications for newly installed applications that need Internet access</string>
+    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
+    <string name="apply_setting_changes">Applying rules for setting change</string>
 
 </resources>

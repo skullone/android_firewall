@@ -129,7 +129,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 		toggleVPNbutton();
 		toggleRoambutton();
-		
+
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 
@@ -442,7 +442,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			btn.setVisibility(View.GONE);
 		}
 	}
-	
+
 	private void toggleRoambutton() {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -455,7 +455,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		}
 
 	}
-
 
 	/**
 	 * If the applications are cached, just show them, otherwise load and show
@@ -562,7 +561,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						if (vpnenabled) {
 							entry.box_vpn.setVisibility(View.VISIBLE);
 						}
-						if (roamenabled){
+						if (roamenabled) {
 							entry.box_roaming.setVisibility(View.VISIBLE);
 						}
 						entry.text = (TextView) convertView
@@ -884,11 +883,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		intent.setClass(this, EditProfileNames.class);
 		startActivityForResult(intent, EDIT_PROFILE_REQUEST);
 	}
-	
+
 	/**
 	 * User Settings
 	 */
-	private void userSettings(){
+	private void userSettings() {
 		Intent intent = new Intent();
 		intent.setClass(this, UserSettings.class);
 		startActivityForResult(intent, USER_SETTINGS_REQUEST);
@@ -952,12 +951,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		if (requestCode == EDIT_PROFILE_REQUEST && resultCode == RESULT_OK) {
 			updateSpinner();
 		}
-		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK){
-			//Api.applications = null;
-			//showOrLoadApplications();
+		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
 			toggleVPNbutton();
 			toggleRoambutton();
-			applyOrSaveRules();
 		}
 		// for debugging purposes
 		// if (resultCode == RESULT_CANCELED)
@@ -1274,14 +1270,22 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	}
 
 	private void clearAllEntries() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
+		boolean roamenabled = prefs.getBoolean("roamingenabled", false);
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_wifi = false;
-			app.selected_roaming = false;
+			if (roamenabled) {
+				app.selected_roaming = false;
+			}
 			app.selected_3g = false;
-			app.selected_vpn = false;
+			if (vpnenabled) {
+				app.selected_vpn = false;
+			}
 			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();

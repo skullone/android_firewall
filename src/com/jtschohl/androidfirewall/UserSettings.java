@@ -44,8 +44,10 @@ public class UserSettings extends PreferenceActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.user_settings);
-		/*PreferenceManager.setDefaultValues(UserSettings.this,
-				R.layout.user_settings, false);*/
+		/*
+		 * PreferenceManager.setDefaultValues(UserSettings.this,
+		 * R.layout.user_settings, false);
+		 */
 
 		for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
 			initSummary(getPreferenceScreen().getPreference(i));
@@ -74,17 +76,66 @@ public class UserSettings extends PreferenceActivity implements
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		updatePrefSummary(findPreference(key));
-		
+
 		if (key.equals("ipv6enabled")) {
 			boolean ipv6 = sharedPreferences.getBoolean("ipv6enabled", false);
-			if (ipv6){
-				//resultOk();
+			if (ipv6) {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
 			} else {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
 				purgeIp6Rules();
 			}
 		}
+		if (key.equals("logenabled")) {
+			boolean log = sharedPreferences.getBoolean("logenabled", false);
+			if (log) {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			}
+		}
+		if (key.equals("vpnenabled")) {
+			boolean vpn = sharedPreferences.getBoolean("vpnenabled", false);
+			if (vpn) {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			}
+		}
+		if (key.equals("roamingenabled")) {
+			boolean roam = sharedPreferences
+					.getBoolean("roamingenabled", false);
+			if (roam) {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
+						.show();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			}
+		}
 	}
-	
+
 	private void purgeIp6Rules() {
 		final Resources res = getResources();
 		final ProgressDialog progress = ProgressDialog.show(this,
@@ -99,8 +150,8 @@ public class UserSettings extends PreferenceActivity implements
 				if (!Api.hasRootAccess(getApplicationContext(), true))
 					return;
 				if (Api.purgeIp6tables(getApplicationContext(), true)) {
-					Toast.makeText(getApplicationContext(), R.string.rules_deleted,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),
+							R.string.rules_deleted, Toast.LENGTH_SHORT).show();
 				}
 			}
 		};

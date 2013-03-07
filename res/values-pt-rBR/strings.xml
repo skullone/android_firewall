@@ -126,12 +126,6 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
     <string name="search_name">App Pesquisa</string>
     <string name="profilenames">Edite nomes de perfil</string>
@@ -139,5 +133,16 @@
     <string name="vpn_disabled">Suporte a VPN foi desabilitado</string>
     <string name="vpn_title">Suporte VPN</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming de Suporte</string>
+    <string name="usersettings">configurações</string>
+    <string name="taskertoast_title">Notificações Tasker</string>
+    <string name="ipv6_summary">Esta configuração habilita ou desabilita o suporte a IPv6</string>
+    <string name="vpn_summary">Esta configuração ativa ou desativa o suporte VPN</string>
+    <string name="roaming_summary">Esta configuração habilita ou desabilita Roaming suporte de rede</string>
+    <string name="taskertoast_summary">Esta configuração habilita ou desabilita Tasker notificação pop-ups quando os perfis são alteradas</string>
+    <string name="log_summary">Esta configuração habilita ou desabilita os logs de firewall</string>
+    <string name="notification_summary">Esta configuração habilita ou desabilita notificações para aplicativos recém-instalados que precisam de acesso à Internet</string>
+    <string name="tasker_profile">Tasker mudou o perfil que está sendo usado por Android Firewall</string>
+    <string name="apply_setting_changes">Aplicação de regras para definir mudanças</string>
 
 </resources>

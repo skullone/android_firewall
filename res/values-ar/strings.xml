@@ -113,12 +113,6 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
 	<string name="search_name">البحث التطبيق</string>
     <string name="profilenames">تعديل الأسماء الشخصي</string>
@@ -126,5 +120,16 @@
     <string name="vpn_disabled">تم تعطيل VPN الدعم</string>
     <string name="vpn_title">VPN الدعم</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">التجوال الدعم</string>
+    <string name="usersettings">إعدادات</string>
+    <string name="taskertoast_title">التبليغات تاسكر</string>
+    <string name="ipv6_summary">هذا الإعداد تمكين أو تعطيل دعم IPv6</string>
+    <string name="vpn_summary">هذا الإعداد تمكين أو تعطيل دعم VPN</string>
+    <string name="roaming_summary">هذا الإعداد تمكين أو تعطيل دعم الشبكة التجوال</string>
+    <string name="taskertoast_summary">هذا الإعداد تمكين أو تعطيل تاسكر الإخطار النوافذ المنبثقة عندما يتم تغيير محات</string>
+    <string name="log_summary">هذا الإعداد تمكين أو تعطيل جدار حماية السجلات رسائل</string>
+    <string name="notification_summary">هذا الإعداد تمكين أو تعطيل الإخطارات لتقديم الطلبات المثبتة حديثا التي تحتاج الوصول إلى الإنترنت</string>
+    <string name="tasker_profile">قد تغيرت الملف الشخصى تاسكر المستخدمة من قبل جدار حماية الروبوت</string>
+    <string name="apply_setting_changes">تطبيق قواعد لوضع التغيير</string>
     
 </resources>

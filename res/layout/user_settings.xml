@@ -3,34 +3,41 @@
 
     <CheckBoxPreference
         android:key="ipv6enabled"
-        android:summaryOff="@string/ipv6_disabled"
-        android:summaryOn="@string/ipv6_enabled"
+        android:summaryOff="@string/ipv6_summary"
+        android:summaryOn="@string/ipv6_summary"
         android:title="@string/ipv6_title" />
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="vpnenabled"
-        android:summaryOff="@string/vpn_disabled"
-        android:summaryOn="@string/vpn_enabled"
+        android:summaryOff="@string/vpn_summary"
+        android:summaryOn="@string/vpn_summary"
         android:title="@string/vpn_title" />
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="roamingenabled"
-        android:summaryOff="@string/roaming_disabled"
-        android:summaryOn="@string/roaming_enabled"
+        android:summaryOff="@string/roaming_summary"
+        android:summaryOn="@string/roaming_summary"
         android:title="@string/roaming_title" />
 
     <CheckBoxPreference
         android:key="notifyenabled"
-        android:summaryOff="@string/notify_disabled"
-        android:summaryOn="@string/notify_enabled"
+        android:summaryOff="@string/notification_summary"
+        android:summaryOn="@string/notification_summary"
         android:title="@string/notifications_title" />
 
     <CheckBoxPreference
         android:key="logenabled"
-        android:summaryOff="@string/log_disabled"
-        android:summaryOn="@string/log_enabled"
+        android:summaryOff="@string/log_summary"
+        android:summaryOn="@string/log_summary"
         android:title="@string/enableLog_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="taskertoastenabled"
+        android:summaryOff="@string/taskertoast_summary"
+        android:summaryOn="@string/taskertoast_summary"
+        android:title="@string/taskertoast_title" />
 
 </PreferenceScreen>

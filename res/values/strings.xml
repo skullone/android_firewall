@@ -130,22 +130,21 @@
     <string name="twofortyfouram_locale_menu_help">Help</string>
     <string name="twofortyfouram_locale_menu_save">Done</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
     <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
     <string name="search_name">App Search</string>
     <string name="profilenames">Edit Profile Names</string>
-    <string name="vpn_enabled">VPN Support has been enabled</string>
-    <string name="vpn_disabled">VPN Support has been disabled</string>
     <string name="vpn_title">VPN Support</string>
     <string name="vpn">VPN</string>
-    <string name="roaming_enabled">Roaming Support has been enabled</string>
-    <string name="roaming_disabled">Roaming Support has been disabled</string>
     <string name="roaming_title">Roaming Support</string>
     <string name="usersettings">Settings</string>
+    <string name="taskertoast_title">Tasker Notifications</string>
+    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
+    <string name="vpn_summary">This setting enables or disables VPN support</string>
+    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
+    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
+    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
+    <string name="notification_summary">This setting enables or disables notifications for newly installed applications that need Internet access</string>
+    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
+    <string name="apply_setting_changes">Applying rules for setting change</string>
 
 </resources>

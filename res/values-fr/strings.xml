@@ -130,12 +130,6 @@
     <string name="twofortyfouram_locale_menu_help">Aide</string>
     <string name="twofortyfouram_locale_menu_save">OK</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker a changé le Profil par Défaut d\'Android Firewall</string>
-    <string name="tasker_profile1">Tasker a changé le Profil 1 d\'Android Firewall</string>
-    <string name="tasker_profile2">Tasker a changé le Profil 2 d\'Android Firewall</string>
-    <string name="tasker_profile3">Tasker a changé le Profil 3 d\'Android Firewall</string>
-    <string name="tasker_profile4">Tasker a changé le Profil 4 d\'Android Firewall</string>
-    <string name="tasker_profile5">Tasker a changé le Profil 5 d\'Android Firewall</string>
     <string name="tasker_profile_disabled">Les profils d\'Android Firewall sont changés par Tasker. Firewall désactivé !</string>
     <string name="search_name">Rechercher Application</string>
     <string name="profilenames">Modifier le nom des profils</string>
@@ -143,5 +137,16 @@
     <string name="vpn_disabled">Le support VPN a été désactivé</string>
     <string name="vpn_title">Support VPN</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming Support</string>
+    <string name="usersettings">Settings</string>
+    <string name="taskertoast_title">Tasker Notifications</string>
+    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
+    <string name="vpn_summary">This setting enables or disables VPN support</string>
+    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
+    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
+    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
+    <string name="notification_summary">This setting enables or disables notifications for newly installed applications that need Internet access</string>
+    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
+    <string name="apply_setting_changes">Applying rules for setting change</string>
 
 </resources>
