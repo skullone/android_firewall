@@ -297,7 +297,7 @@ public final class Api {
 			if (logenabled) {
 				script.append(""
 						+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-						+ "$IPTABLES -A droidwall-reject -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
+						+ "$IPTABLES -A droidwall-reject -j LOG --log-prefix \"[AndroidFirewall] \" --log-level 4 --log-uid\n"
 						+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 						+ "");
 			} else {
@@ -488,7 +488,7 @@ public final class Api {
 					if (logenabled && ipv6enabled) {
 						script.append(""
 								+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-								+ "$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
+								+ "$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[AndroidFirewall] \" --log-level 4 --log-uid\n"
 								+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 76\n"
 								+ "");
 					} else {
@@ -1016,7 +1016,7 @@ public final class Api {
 		try {
 			StringBuilder res = new StringBuilder();
 			int code = runScriptAsRoot(ctx, scriptHeader(ctx)
-					+ "dmesg | $GREP [Android Firewall]\n", res);
+					+ "dmesg | $GREP [AndroidFirewall]\n", res);
 			if (code != 0) {
 				if (res.length() == 0) {
 					res.append("Log is empty");
@@ -1034,7 +1034,7 @@ public final class Api {
 			final HashMap<Integer, LogInfo> map = new HashMap<Integer, LogInfo>();
 			LogInfo loginfo = null;
 			while ((line = r.readLine()) != null) {
-				if (line.indexOf("[DROIDWALL]") == -1)
+				if (line.indexOf("[AndroidFirewall]") == -1)
 					continue;
 				appid = unknownUID;
 				if (((start = line.indexOf("UID=")) != -1)

@@ -131,7 +131,7 @@
     <string name="roaming_summary">Questa impostazione abilita o disabilita Il Roaming supporto di rete</string>
     <string name="taskertoast_summary">Questa impostazione abilita o disabilita Tasker notifica pop-up quando i profili sono cambiati</string>
     <string name="log_summary">Questa impostazione abilita o disabilita del firewall i log</string>
-    <string name="notification_summary">Questa impostazione consente di attivare o disattivare le notifiche per le applicazioni di nuova installazione che richiedono l'accesso a Internet</string>
+    <string name="notification_summary">Questa impostazione consente di attivare o disattivare le notifiche per le applicazioni di nuova installazione che richiedono l\'accesso a Internet</string>
     <string name="tasker_profile">Tasker è cambiato il profilo in uso da Android Firewall</string>
     <string name="apply_setting_changes">Applicando norme relative alla fissazione cambia</string>
 

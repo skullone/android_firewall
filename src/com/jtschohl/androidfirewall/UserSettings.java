@@ -30,11 +30,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -44,14 +40,6 @@ public class UserSettings extends PreferenceActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.user_settings);
-		/*
-		 * PreferenceManager.setDefaultValues(UserSettings.this,
-		 * R.layout.user_settings, false);
-		 */
-
-		for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
-			initSummary(getPreferenceScreen().getPreference(i));
-		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -72,68 +60,51 @@ public class UserSettings extends PreferenceActivity implements
 				.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		updatePrefSummary(findPreference(key));
 
-		if (key.equals("ipv6enabled")) {
+		if (key.equals("ipv6enabled") || key.equals("logenabled")
+				|| key.equals("vpnenabled") || key.equals("roamingenabled")) {
 			boolean ipv6 = sharedPreferences.getBoolean("ipv6enabled", false);
-			if (ipv6) {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				Api.applyIptablesRules(getApplicationContext(), true);
-			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				purgeIp6Rules();
-			}
-		}
-		if (key.equals("logenabled")) {
 			boolean log = sharedPreferences.getBoolean("logenabled", false);
-			if (log) {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				Api.applyIptablesRules(getApplicationContext(), true);
-			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				Api.applyIptablesRules(getApplicationContext(), true);
-			}
-		}
-		if (key.equals("vpnenabled")) {
 			boolean vpn = sharedPreferences.getBoolean("vpnenabled", false);
-			if (vpn) {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				Api.applyIptablesRules(getApplicationContext(), true);
-			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
-				Api.applyIptablesRules(getApplicationContext(), true);
-			}
-		}
-		if (key.equals("roamingenabled")) {
 			boolean roam = sharedPreferences
 					.getBoolean("roamingenabled", false);
-			if (roam) {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
+
+			if (ipv6) {
+				displayToast();
 				Api.applyIptablesRules(getApplicationContext(), true);
 			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.apply_setting_changes, Toast.LENGTH_SHORT)
-						.show();
+				displayToast();
+				purgeIp6Rules();
+			}
+			if (log) {
+				displayToast();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				displayToast();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			}
+			if (vpn) {
+				displayToast();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				displayToast();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			}
+			if (roam) {
+				displayToast();
+				Api.applyIptablesRules(getApplicationContext(), true);
+			} else {
+				displayToast();
 				Api.applyIptablesRules(getApplicationContext(), true);
 			}
 		}
+	}
+
+	private void displayToast() {
+		Toast.makeText(getApplicationContext(), R.string.apply_setting_changes,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	private void purgeIp6Rules() {
@@ -156,30 +127,6 @@ public class UserSettings extends PreferenceActivity implements
 			}
 		};
 		handler.sendEmptyMessageDelayed(0, 100);
-	}
-
-	private void initSummary(Preference p) {
-		if (p instanceof PreferenceCategory) {
-			PreferenceCategory pCat = (PreferenceCategory) p;
-			for (int i = 0; i < pCat.getPreferenceCount(); i++) {
-				initSummary(pCat.getPreference(i));
-			}
-		} else {
-			updatePrefSummary(p);
-		}
-
-	}
-
-	private void updatePrefSummary(Preference p) {
-		if (p instanceof ListPreference) {
-			ListPreference listPref = (ListPreference) p;
-			p.setSummary(listPref.getEntry());
-		}
-		if (p instanceof EditTextPreference) {
-			EditTextPreference editTextPref = (EditTextPreference) p;
-			p.setSummary(editTextPref.getText());
-		}
-
 	}
 
 	@Override
