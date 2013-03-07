@@ -32,7 +32,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 
 /**
  * Broadcast receiver responsible for removing rules that affect uninstalled
@@ -63,8 +65,9 @@ public class PackageBroadcast extends BroadcastReceiver {
 				// Force app list reload next time
 				Api.applications = null;
 				// check to see if Notifications are enabled
-				final boolean NotifyEnabled = context.getSharedPreferences(
-						Api.PREFS_NAME, 0).getBoolean(Api.PREF_NOTIFY, false);
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(context);
+				boolean NotifyEnabled = prefs.getBoolean("notifyenabled", false);
 				if (NotifyEnabled) {
 					String new_app_installed = intent.getData()
 							.getSchemeSpecificPart();

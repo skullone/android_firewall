@@ -143,5 +143,9 @@
     <string name="vpn_disabled">VPN Support has been disabled</string>
     <string name="vpn_title">VPN Support</string>
     <string name="vpn">VPN</string>
+    <string name="roaming_enabled">Roaming Support has been enabled</string>
+    <string name="roaming_disabled">Roaming Support has been disabled</string>
+    <string name="roaming_title">Roaming Support</string>
+    <string name="usersettings">Settings</string>
 
 </resources>

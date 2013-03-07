@@ -13,7 +13,7 @@
     <string name="help">Aide</string>
     <string name="close">Fermer</string>
     <string name="exit">Quitter</string>
-    <string name="fw_enabled">Activer pare-feu</string>
+    <string name="fw_enabled">Activer le pare-feu</string>
     <string name="fw_disabled">Pare-feu désactivé</string>
     <string name="ipv6_enabled">IPv6 activé</string>
     <string name="ipv6_disabled">IPv6 désactivé</string>
@@ -36,7 +36,7 @@
     <string name="pass_titleset">Définir un mot de passe</string>
     <string name="pass_titleget">Mot de passe requis</string>
     <string name="enterpass">Entrer le mot de passe:</string>
-    <string name="enternewpass">Entrer le nouveau mot de passe (ou laisser le champ vide pour le supprimer):</string>
+    <string name="enternewpass">Entrer le nouveau mot de passe (ou laisser le champ vide pour le supprimer)</string>
     <string name="passdefined">Verrouillage par mot de passe défini</string>
     <string name="passremoved">Verrouillage par mot de passe supprimé</string>
     <string name="passerror">Erreur pendant le changement du mot de passe</string>
@@ -56,28 +56,28 @@
     <string name="custom_script_removed">Script personnalisé supprimé</string>
     <string name="custom_script_error">Erreur d\'enregistrement du script personnalisé</string>
     <string name="custom_script_info"><b>Entrez votre script personnalisé ci-dessous.</b>		\n<i>(Ou laisser le champ vide pour le supprimer)</i>		\nPour plus d\'informations sur les scripts personnalisés, cliquez <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">ici</a>.</string>
-    <string name="custom_script2_info">    	\n<b>Script d\'arrêt personnalisé</b>    	Vous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>:</string>
+    <string name="custom_script2_info">		\n<b>Script d\'arrêt personnalisé.</b>		\nVous pouvez également définir un script personnalisé à exécuter lorsque le pare-feu est <b>inactif</b>.</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
     <string name="unsaved_changes_message">Vous avez des modifications non enregistrées.\nVoulez-vous les appliquer ou les annuler ?</string>
     <string name="apply">Appliquer</string>
     <string name="discard">Annuler</string>
-    <string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-        \n<i>Android Firewall v2.1.3</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
+    <string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n<i>Traduction FR: Joffrey Thibaut</i>		\n
+        \n<i>Android Firewall v2</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
         Android Firewall vous permet d\'empêcher vos applications d\'accèder à internet.
         \nC\'est la solution parfaite si vous n\'avez pas de forfait "internet illimité", ou si vous souhaitez juste que votre batterie dure plus longtemps.
         \n
-        \n<b>Utiliser Android Firewall :</b>        \n<b>1.</b> Cliquez sur <b>Mode</b> pour choisir un filtrage par <i>Liste blanche</i> ou par <i>Liste noire</i>.
-        \n<b>2.</b> Sélectionnez les applications que vous souhaitez bloquer ou autoriser à accèder à internet (selon le filtrage choisi) pour chaque interface (WIFI et réseaux mobiles).
+        \n<b>Utiliser Android Firewall :</b>        \n<b>1.</b> Cliquez sur <b>Mode</b> pour choisir un filtrage par <i>Liste blanche</i> ou <i>Liste noire</i>.
+        \n<b>2.</b> Sélectionnez les applications que vous souhaitez bloquer ou autoriser à accèder à internet (selon le filtrage choisi) pour chaque interface (WiFi, Data,  réseaux mobiles et VPN).
         \n<b>3.</b> Ouvrez le menu et activez le pare-feu. S\'il est déjà actif, sélectionnez juste <b>Appliquer les règles</b>.
         \nLes règles seront sauvegardées et automatiquement restaurés quand vous redémarrerez votre téléphone.
-        \nSi vous voulez vérifier les règles actives, sélectionnez -> <b>Voir les règles</b> dans le menu Options.
+        \nSi vous voulez vérifier les règles actives, sélectionnez dans le menu <b>Options</b> -> <b>Voir les règles</b>.
         \n
         \n<b>Widget :</b>        \nPour activer ou désactiver facilement le pare-feu, ajoutez le widget Android Firewall sur votre écran d\'accueil.
         \n
-        \n<b>Journaux du pare-feu :</b>        \nSi vous voulez voir les applications qui seront bloquées par Android Firewall, ouvrez le menu Options et sélectionnez -> <b>Journaux inactifs</b>.
-        \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu Options et en sélectionnant -> <b>Voir les journaux</b>.
+        \n<b>Journalisation du pare-feu :</b>        \nSi vous voulez voir les applications bloquées par Android Firewall, ouvrez le menu <b>Options</b> et sélectionnez -> <b>Activer la journalisation</b>.
+        \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu <b>Options</b> et en sélectionnant -> <b>Voir les journaux</b>.
         \n
-        \n<b>Vérrouillage par mot de passe :</b>        \nVous pouvez définir un mot de passe à saisir à l\'ouverture de Android Firewall en sélectionnant -> <b>Définir un mot de passe</b> dans les options du menu.
+        \n<b>Vérrouillage par mot de passe :</b>        \nVous pouvez définir un mot de passe à saisir à l\'ouverture d\'Android Firewall, en sélectionnant dans les <b>Options</b> du menu -> <b>Définir un mot de passe</b>.
         \nPour supprimer le mot de passe, il suffit de le modifier et de laisser le champ de saisie vide.</string>
     <string name="overwrite_rules">Vous êtes sur le point de remplacer les règles actuelles. Voulez-vous continuer ?</string>
     <string name="importsuccess">Importation réussie !</string>
@@ -85,26 +85,27 @@
     <string name="exportfailed">Échec de l\'exportation !</string>
     <string name="exportsuccess">Exporter avec succès !</string>
     <string name="enterfilename">Entrer le nom du fichier</string>
-    <string name="new_app_installed">Nouvelle application installée demande l\'accès aux données</string>
+    <string name="new_app_installed">L\'application installée demande l\'accès au réseau.</string>
     <string name="notify_enabled">Notifications activées</string>
     <string name="notify_disabled">Notifications désactivées</string>
-    <string name="notify_was_enabled">Les notifications ont été activés</string>
-    <string name="notify_was_disabled">Les notifications ont été désactivés</string>
+    <string name="notify_was_enabled">Les notifications ont été activées</string>
+    <string name="notify_was_disabled">Les notifications ont été désactivées</string>
     <string name="importrules"> Importer les règles</string>
     <string name="exportrules">Exporter les règles</string>
     <string name="managerulefiles">Gérer les fichiers de règles</string>
     <string name="options">Options</string>
-    <string name="wifi">Wifi</string>
-    <string name="data">Données</string>
-    <string name="roaming">Itinérant</string>
-    <string name="clear">Tout décocher</string>
-    <string name="password_not_same">Les mots de passe ne sont pas identiques! S\'il vous plaît essayez de nouveau.</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">Data</string>
+    <string name="roaming">Roam</string>
+    <string name="clear">Clean</string>
+    <string name="password_not_same">Les mots de passe ne sont pas identiques ! S\'il vous plaît essayez de nouveau.</string>
     <string name="password_enter_again">S\'il vous plaît entrer le mot de passe à nouveau.</string>
+    <string name="profile_header">Profil: %s</string>
     <string name="rulesoptions">Gestion des règles</string>
     <string name="profilesoptions">Gestion des profils</string>
     <string name="ipv6_title">Support IPv6</string>
-    <string name="notifications_title">Support des notifications</string>
-    <string name="enableLog_title"> Activer la journalisation du pare-feu</string>
+    <string name="notifications_title">Activer les notifications</string>
+    <string name="enableLog_title"> Activer la journalisation</string>
     <string name="defaultprofile">Défaut</string>
     <string name="profile1">Profil 1</string>
     <string name="profile2">Profil 2</string>
@@ -113,7 +114,7 @@
     <string name="profile5">Profil 5</string>
     <string name="pleasechoose">Choisissez le profil que vous souhaitez créer ou modifier</string>
     <string name="saveprofile">Créer un profil</string>
-    <string name="defaultsaved">Le profil par défaut a été sauvegardé avec succès !</string>
+    <string name="defaultsaved">Le Profil par Défaut a été sauvegardé avec succès !</string>
     <string name="profile1saved">Le Profil 1 a été sauvegardé avec succès !</string>
     <string name="profile2saved">Le Profil 2 a été sauvegardé avec succès !</string>
     <string name="profile3saved">Le Profil 3 a été sauvegardé avec succès !</string>
@@ -125,22 +126,22 @@
     <string name="invert">Inverser</string>
     <string name="twofortyfouram_locale_breadcrumb_format">%1$s%2$s%3$s</string>
     <string name="twofortyfouram_locale_breadcrumb_separator">" | "</string>
-    <string name="twofortyfouram_locale_menu_dontsave">Cancel</string>
-    <string name="twofortyfouram_locale_menu_help">Help</string>
-    <string name="twofortyfouram_locale_menu_save">Done</string>
+    <string name="twofortyfouram_locale_menu_dontsave">Annuler</string>
+    <string name="twofortyfouram_locale_menu_help">Aide</string>
+    <string name="twofortyfouram_locale_menu_save">OK</string>
     <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile">Tasker has changed Android Firewall to the Default Profile</string>
-    <string name="tasker_profile1">Tasker has changed Android Firewall to Profile 1</string>
-    <string name="tasker_profile2">Tasker has changed Android Firewall to Profile 2</string>
-    <string name="tasker_profile3">Tasker has changed Android Firewall to Profile 3</string>
-    <string name="tasker_profile4">Tasker has changed Android Firewall to Profile 4</string>
-    <string name="tasker_profile5">Tasker has changed Android Firewall to Profile 5</string>
-    <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
-    <string name="search_name">App Search</string>
-    <string name="profilenames">Edit Profile Names</string>
+    <string name="tasker_profile">Tasker a changé le Profil par Défaut d\'Android Firewall</string>
+    <string name="tasker_profile1">Tasker a changé le Profil 1 d\'Android Firewall</string>
+    <string name="tasker_profile2">Tasker a changé le Profil 2 d\'Android Firewall</string>
+    <string name="tasker_profile3">Tasker a changé le Profil 3 d\'Android Firewall</string>
+    <string name="tasker_profile4">Tasker a changé le Profil 4 d\'Android Firewall</string>
+    <string name="tasker_profile5">Tasker a changé le Profil 5 d\'Android Firewall</string>
+    <string name="tasker_profile_disabled">Les profils d\'Android Firewall sont changés par Tasker. Firewall désactivé !</string>
+    <string name="search_name">Rechercher Application</string>
+    <string name="profilenames">Modifier le nom des profils</string>
     <string name="vpn_enabled">Le support VPN a été activé</string>
     <string name="vpn_disabled">Le support VPN a été désactivé</string>
-    <string name="vpn_title">VPN Support</string>
+    <string name="vpn_title">Support VPN</string>
     <string name="vpn">VPN</string>
 
 </resources>

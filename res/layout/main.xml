@@ -92,8 +92,9 @@
             android:text="@string/roaming"
             android:textColor="@color/blue"
             android:textSize="11sp"
-            android:typeface="normal" />
-        
+            android:typeface="normal"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/label_vpn"
             android:layout_width="42dp"
@@ -103,7 +104,8 @@
             android:text="@string/vpn"
             android:textColor="@color/blue"
             android:textSize="11sp"
-            android:typeface="normal" />
+            android:typeface="normal"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/label_clear"

@@ -30,7 +30,7 @@ public final class R {
     }
     public static final class id {
         public static final int applyrules=0x7f0a0028;
-        public static final int clearlog=0x7f0a0037;
+        public static final int clearlog=0x7f0a0034;
         public static final int customscript=0x7f0a0001;
         public static final int customscript2=0x7f0a0002;
         public static final int customscript_cancel=0x7f0a0003;
@@ -39,13 +39,11 @@ public final class R {
         public static final int defaultprofile=0x7f0a000f;
         public static final int editprofilenames=0x7f0a002f;
         public static final int enableipv4=0x7f0a0027;
-        public static final int enableipv6=0x7f0a0031;
-        public static final int enablelog=0x7f0a0034;
-        public static final int exit=0x7f0a003a;
+        public static final int exit=0x7f0a0037;
         public static final int exportrules=0x7f0a0005;
         public static final int exportrules_cancel=0x7f0a0006;
         public static final int exportrules_ok=0x7f0a0007;
-        public static final int help=0x7f0a0039;
+        public static final int help=0x7f0a0036;
         public static final int importrules=0x7f0a002a;
         public static final int itemcheck_3g=0x7f0a000a;
         public static final int itemcheck_roam=0x7f0a000b;
@@ -66,18 +64,17 @@ public final class R {
         public static final int loadprofile_link=0x7f0a000e;
         public static final int main=0x7f0a001f;
         public static final int managerulefiles=0x7f0a002b;
-        public static final int notify=0x7f0a0033;
-        public static final int options=0x7f0a0030;
+        public static final int options=0x7f0a0031;
         public static final int pass_cancel=0x7f0a0023;
         public static final int pass_input=0x7f0a0022;
         public static final int pass_message=0x7f0a0021;
         public static final int pass_ok=0x7f0a0024;
-        public static final int popup_default=0x7f0a003b;
-        public static final int popup_profile1=0x7f0a003c;
-        public static final int popup_profile2=0x7f0a003d;
-        public static final int popup_profile3=0x7f0a003e;
-        public static final int popup_profile4=0x7f0a003f;
-        public static final int popup_profile5=0x7f0a0040;
+        public static final int popup_default=0x7f0a0038;
+        public static final int popup_profile1=0x7f0a0039;
+        public static final int popup_profile2=0x7f0a003a;
+        public static final int popup_profile3=0x7f0a003b;
+        public static final int popup_profile4=0x7f0a003c;
+        public static final int popup_profile5=0x7f0a003d;
         public static final int profile1=0x7f0a0010;
         public static final int profile2=0x7f0a0011;
         public static final int profile3=0x7f0a0012;
@@ -88,11 +85,11 @@ public final class R {
         public static final int saveprofile=0x7f0a002d;
         public static final int saveprofile_link=0x7f0a0026;
         public static final int search=0x7f0a0017;
-        public static final int setpwd=0x7f0a0038;
-        public static final int showlog=0x7f0a0035;
-        public static final int showrules=0x7f0a0036;
+        public static final int setpwd=0x7f0a0035;
+        public static final int showlog=0x7f0a0032;
+        public static final int showrules=0x7f0a0033;
         public static final int spinner=0x7f0a0016;
-        public static final int vpnsupport=0x7f0a0032;
+        public static final int usersettings=0x7f0a0030;
         public static final int widgetCanvas=0x7f0a0020;
     }
     public static final class layout {
@@ -108,6 +105,7 @@ public final class R {
         public static final int rules_dialog=0x7f030009;
         public static final int save_profile_buttons=0x7f03000a;
         public static final int tasker_profile_buttons=0x7f03000b;
+        public static final int user_settings=0x7f03000c;
     }
     public static final class menu {
         public static final int menu=0x7f090000;
@@ -203,6 +201,9 @@ public final class R {
         public static final int purgerules=0x7f080007;
         public static final int reading_apps=0x7f080028;
         public static final int roaming=0x7f08004e;
+        public static final int roaming_disabled=0x7f08007e;
+        public static final int roaming_enabled=0x7f08007d;
+        public static final int roaming_title=0x7f08007f;
         public static final int rules_applied=0x7f08001d;
         public static final int rules_deleted=0x7f08001f;
         public static final int rules_saved=0x7f08001e;
@@ -237,6 +238,7 @@ public final class R {
         public static final int twofortyfouram_locale_menu_save=0x7f08006e;
         public static final int unsaved_changes=0x7f080038;
         public static final int unsaved_changes_message=0x7f080039;
+        public static final int usersettings=0x7f080080;
         public static final int vpn=0x7f08007c;
         public static final int vpn_disabled=0x7f08007a;
         public static final int vpn_enabled=0x7f080079;

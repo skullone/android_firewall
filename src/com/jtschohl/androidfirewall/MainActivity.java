@@ -67,6 +67,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -126,8 +127,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.findViewById(R.id.label_vpn).setOnClickListener(this);
 		this.findViewById(R.id.label_invert).setOnClickListener(this);
 
+		toggleVPNbutton();
+		toggleRoambutton();
+		
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
+
 		// create the spinner
 		spinner = (Spinner) findViewById(R.id.spinner);
 
@@ -426,40 +431,31 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		return "";
 	}
 
-	/**
-	 * Toggle iptables log enabled/disabled
-	 */
-	private void toggleLogEnabled() {
-		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-		final boolean enabled = !prefs.getBoolean(Api.PREF_LOGENABLED, false);
-		final Editor editor = prefs.edit();
-		editor.putBoolean(Api.PREF_LOGENABLED, enabled);
-		editor.commit();
-		if (Api.isEnabled(this)) {
-			Api.applySavedIptablesRules(this, true);
+	private void toggleVPNbutton() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
+		Button btn = (Button) findViewById(R.id.label_vpn);
+		if (vpnenabled) {
+			btn.setVisibility(View.VISIBLE);
+		} else {
+			btn.setVisibility(View.GONE);
 		}
-		Toast.makeText(
-				MainActivity.this,
-				(enabled ? R.string.log_was_enabled : R.string.log_was_disabled),
-				Toast.LENGTH_SHORT).show();
+	}
+	
+	private void toggleRoambutton() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		boolean roamenabled = prefs.getBoolean("roamingenabled", false);
+		Button btn = (Button) findViewById(R.id.label_roam);
+		if (roamenabled) {
+			btn.setVisibility(View.VISIBLE);
+		} else {
+			btn.setVisibility(View.GONE);
+		}
+
 	}
 
-	/**
-	 * Toggle iptables vpn suport enabled/disabled
-	 */
-	private void toggleVpnSupport() {
-		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-		final boolean enabled = !prefs.getBoolean(Api.PREF_VPNENABLED, false);
-		final Editor editor = prefs.edit();
-		editor.putBoolean(Api.PREF_VPNENABLED, enabled);
-		editor.commit();
-		if (Api.isEnabled(this)) {
-			Api.applySavedIptablesRules(this, true);
-		}
-		Toast.makeText(MainActivity.this,
-				(enabled ? R.string.vpn_enabled : R.string.vpn_disabled),
-				Toast.LENGTH_SHORT).show();
-	}
 
 	/**
 	 * If the applications are cached, just show them, otherwise load and show
@@ -539,6 +535,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			final LayoutInflater inflater = getLayoutInflater();
 			ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 					R.layout.listitem, R.id.itemtext, apps) {
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(getApplicationContext());
+				boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
+				boolean roamenabled = prefs.getBoolean("roamingenabled", false);
+
 				@Override
 				public View getView(final int position, View convertView,
 						ViewGroup parent) {
@@ -558,6 +559,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 								.findViewById(R.id.itemcheck_roam);
 						entry.box_vpn = (CheckBox) convertView
 								.findViewById(R.id.itemcheck_vpn);
+						if (vpnenabled) {
+							entry.box_vpn.setVisibility(View.VISIBLE);
+						}
+						if (roamenabled){
+							entry.box_roaming.setVisibility(View.VISIBLE);
+						}
 						entry.text = (TextView) convertView
 								.findViewById(R.id.itemtext);
 						entry.icon = (ImageView) convertView
@@ -630,12 +637,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.applyrules:
 			applyOrSaveRules();
 			return true;
-		case R.id.enableipv6:
-			disableOrEnableIPv6();
-			return true;
-		case R.id.enablelog:
-			toggleLogEnabled();
-			return true;
 		case R.id.exit:
 			finish();
 			System.exit(0);
@@ -664,9 +665,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.importrules:
 			importRules();
 			return true;
-		case R.id.notify:
-			toggleNotifications();
-			return true;
 		case R.id.managerulefiles:
 			manageRuleFiles();
 			return true;
@@ -679,8 +677,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		case R.id.editprofilenames:
 			editProfileNames();
 			return true;
-		case R.id.vpnsupport:
-			toggleVpnSupport();
+		case R.id.usersettings:
+			userSettings();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -701,45 +699,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			item_apply.setTitle(R.string.applyrules);
 			item_onoff.setChecked(true);
 		}
-		final MenuItem item_onoff2 = menu.findItem(R.id.enableipv6);
-		final boolean ipv6enabled = Api.isIPv6Enabled(this);
-		if (!ipv6enabled) {
-			// item_onoff2.setTitle(R.string.ipv6_disabled);
-			item_onoff2.setChecked(false);
-		} else if (ipv6enabled) {
-			// item_onoff2.setTitle(R.string.ipv6_enabled);
-			item_onoff2.setChecked(true);
-		}
-		final MenuItem item_log = menu.findItem(R.id.enablelog);
-		final boolean logenabled = getSharedPreferences(Api.PREFS_NAME, 0)
-				.getBoolean(Api.PREF_LOGENABLED, false);
-		if (logenabled) {
-			// item_log.setTitle(R.string.log_enabled);
-			item_log.setChecked(true);
-		} else {
-			// item_log.setTitle(R.string.log_disabled);
-			item_log.setChecked(false);
-		}
-		final MenuItem item_notify = menu.findItem(R.id.notify);
-		final boolean notifyenabled = getSharedPreferences(Api.PREFS_NAME, 0)
-				.getBoolean(Api.PREF_NOTIFY, false);
-		if (notifyenabled) {
-			// item_notify.setTitle(R.string.notify_enabled);
-			item_notify.setChecked(true);
-		} else {
-			// item_notify.setTitle(R.string.notify_disabled);
-			item_notify.setChecked(false);
-		}
-		final MenuItem item_vpn = menu.findItem(R.id.vpnsupport);
-		final boolean vpnenabled = getSharedPreferences(Api.PREFS_NAME, 0)
-				.getBoolean(Api.PREF_VPNENABLED, false);
-		if (vpnenabled) {
-			// item_notify.setTitle(R.string.notify_enabled);
-			item_vpn.setChecked(true);
-		} else {
-			// item_notify.setTitle(R.string.notify_disabled);
-			item_vpn.setChecked(false);
-		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -756,36 +715,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			purgeRules();
 		}
 		refreshHeader();
-	}
-
-	// enable or disable IPv6 support
-	private void disableOrEnableIPv6() {
-		final boolean ipv6enabled = !Api.isIPv6Enabled(this);
-		Log.d("Android Firewall", "Enabling IPv6: " + ipv6enabled);
-		Api.setIPv6Enabled(this, ipv6enabled);
-		if (ipv6enabled) {
-			applyOrSaveRules();
-		} else {
-			purgeIp6Rules();
-		}
-		refreshHeader();
-	}
-
-	/**
-	 * Enable or disable Notifications
-	 */
-
-	private void toggleNotifications() {
-		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-		final boolean enabled = !prefs.getBoolean(Api.PREF_NOTIFY, false);
-		final Editor editor = prefs.edit();
-		editor.putBoolean(Api.PREF_NOTIFY, enabled);
-		editor.commit();
-		Toast.makeText(
-				MainActivity.this,
-				(enabled ? R.string.notify_was_enabled
-						: R.string.notify_was_disabled), Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	/**
@@ -955,6 +884,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		intent.setClass(this, EditProfileNames.class);
 		startActivityForResult(intent, EDIT_PROFILE_REQUEST);
 	}
+	
+	/**
+	 * User Settings
+	 */
+	private void userSettings(){
+		Intent intent = new Intent();
+		intent.setClass(this, UserSettings.class);
+		startActivityForResult(intent, USER_SETTINGS_REQUEST);
+	}
 
 	// set Request Code for Rules Import
 	static final int IMPORT_RULES_REQUEST = 10;
@@ -966,6 +904,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	static final int LOAD_PROFILE_REQUEST = 40;
 	// set Request Code for Edit Profile Names
 	static final int EDIT_PROFILE_REQUEST = 50;
+	// set Request Code for User Settings
+	static final int USER_SETTINGS_REQUEST = 60;
 
 	// @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1011,6 +951,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		}
 		if (requestCode == EDIT_PROFILE_REQUEST && resultCode == RESULT_OK) {
 			updateSpinner();
+		}
+		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK){
+			//Api.applications = null;
+			//showOrLoadApplications();
+			toggleVPNbutton();
+			toggleRoambutton();
+			applyOrSaveRules();
 		}
 		// for debugging purposes
 		// if (resultCode == RESULT_CANCELED)
@@ -1218,28 +1165,6 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				if (!Api.hasRootAccess(MainActivity.this, true))
 					return;
 				if (Api.purgeIptables(MainActivity.this, true)) {
-					Toast.makeText(MainActivity.this, R.string.rules_deleted,
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		};
-		handler.sendEmptyMessageDelayed(0, 100);
-	}
-
-	private void purgeIp6Rules() {
-		final Resources res = getResources();
-		final ProgressDialog progress = ProgressDialog.show(this,
-				res.getString(R.string.working),
-				res.getString(R.string.deleting_rules), true);
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					progress.dismiss();
-				} catch (Exception ex) {
-				}
-				if (!Api.hasRootAccess(MainActivity.this, true))
-					return;
-				if (Api.purgeIp6tables(MainActivity.this, true)) {
 					Toast.makeText(MainActivity.this, R.string.rules_deleted,
 							Toast.LENGTH_SHORT).show();
 				}

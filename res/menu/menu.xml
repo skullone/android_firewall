@@ -42,27 +42,14 @@
         </menu>
     </item>
     <item
+        android:id="@+id/usersettings"
+        android:title="@string/usersettings"/>
+    <item
         android:id="@+id/options"
         android:title="@string/options">
 
         <!-- "Options" submenu -->
         <menu>
-            <item
-                android:id="@+id/enableipv6"
-                android:checkable="true"
-                android:title="@string/ipv6_title"/>
-            <item
-                android:id="@+id/vpnsupport"
-                android:checkable="true"
-                android:title="@string/vpn_title"/>
-            <item
-                android:id="@+id/notify"
-                android:checkable="true"
-                android:title="@string/notifications_title"/>
-            <item
-                android:id="@+id/enablelog"
-                android:checkable="true"
-                android:title="@string/enableLog_title"/>
             <item
                 android:id="@+id/showlog"
                 android:title="@string/show_log"/>

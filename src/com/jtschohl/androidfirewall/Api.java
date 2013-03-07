@@ -52,6 +52,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -93,7 +94,6 @@ public final class Api {
 	public static final String PREF_IP6TABLES = "IPv6Enabled";
 	public static final String PREF_REFRESH = "Enabled";
 	public static final String PREF_EXPORTNAME = "ExportName";
-	public static final String PREF_NOTIFY = "NotifyEnabled";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -253,15 +253,15 @@ public final class Api {
 				"rmnet0+", "cdma_rmnet+" };
 		final String ITFS_VPN[] = { "tun+", "tun0+" };
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences prefs2 = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
 				.equals(MODE_WHITELIST);
 		final boolean blacklist = !whitelist;
-		final boolean logenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
-				.getBoolean(PREF_LOGENABLED, false);
-		final boolean vpnenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
-				.getBoolean(PREF_VPNENABLED, false);
-		final boolean ipv6enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
-				.getBoolean(PREF_IP6TABLES, false);
+		boolean logenabled = prefs2.getBoolean("logenabled", false);
+		boolean vpnenabled = prefs2.getBoolean("vpnenabled", false);
+		boolean roamenabled = prefs2.getBoolean("roamingenabled", false);
+		boolean ipv6enabled = prefs2.getBoolean("ipv6enabled", false);
 		final boolean enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_ENABLED, false);
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -297,7 +297,7 @@ public final class Api {
 			if (logenabled) {
 				script.append(""
 						+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-						+ "$IPTABLES -A droidwall-reject --m limit --limit 750/min -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
+						+ "$IPTABLES -A droidwall-reject -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
 						+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 						+ "");
 			} else {
@@ -356,7 +356,7 @@ public final class Api {
 				}
 			} else {
 				/* release/block individual applications on this interface */
-				if (isRoaming(ctx)) {
+				if (isRoaming(ctx) && roamenabled) {
 					for (final Integer uid : uidsroaming) {
 						if (uid >= 0)
 							script.append(
@@ -488,7 +488,7 @@ public final class Api {
 					if (logenabled && ipv6enabled) {
 						script.append(""
 								+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-								+ "$IP6TABLES -A droidwall-reject --m limit --limit 750/min -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
+								+ "$IP6TABLES -A droidwall-reject -j LOG --log-prefix \"[Android Firewall] \" --log-level 4 --log-uid\n"
 								+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 76\n"
 								+ "");
 					} else {
@@ -542,7 +542,7 @@ public final class Api {
 					}
 				} else {
 					/* release/block individual applications on this interface */
-					if (isRoaming(ctx) && ipv6enabled) {
+					if (isRoaming(ctx) && ipv6enabled && roamenabled) {
 						for (final Integer uid : uidsroaming) {
 							if (uid >= 0)
 								script.append(
@@ -1461,16 +1461,6 @@ public final class Api {
 			return false;
 		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(
 				PREF_IP6TABLES, false);
-	}
-
-	/**
-	 * check to see if notifications are enabled
-	 */
-	public static boolean isNotifyEnabled(Context ctx) {
-		if (ctx == null)
-			return false;
-		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_NOTIFY,
-				false);
 	}
 
 	/**

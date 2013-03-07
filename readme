@@ -2,6 +2,9 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
 
+2.1.6 - Translation updates to French and Chinese. Fix for firewall log always showing empty on some devices.  
+		UI clean up.  Many options moved to Settings menu.  VPN/Roaming support now optional and disappear
+		if disabled.
 2.1.5 - Fix minor issue where checkboxes for VPN are not showing up when the app is re-opened.
 2.1.4 - Profile names now editable. Fix for NullPointerException. VPN support has been added. Many thanks to Ventz for all his work 
 		with it and randomly supplying me with the exact iptables rules needed to implement the functionality.
