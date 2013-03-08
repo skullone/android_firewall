@@ -27,7 +27,7 @@
     <string name="show_log">Voir les journaux</string>
     <string name="clear_log">Effacer les journaux</string>
     <string name="applying_rules">Appliquer les règles iptables.</string>
-    <string name="applyingipv6_rules">Appliquer les règles ip6tables.</string>
+    <string name="applyingipv6_rules">Appliquer les règles ipv6tables.</string>
     <string name="saving_rules">Sauvegarder les règles iptables.</string>
     <string name="deleting_rules">Supprimer les règles iptables.</string>
     <string name="rules_applied">Les règles ont été appliquées</string>
@@ -74,7 +74,7 @@
         \n
         \n<b>Widget :</b>        \nPour activer ou désactiver facilement le pare-feu, ajoutez le widget Android Firewall sur votre écran d\'accueil.
         \n
-        \n<b>Journalisation du pare-feu :</b>        \nSi vous voulez voir les applications bloquées par Android Firewall, ouvrez le menu <b>Options</b> et sélectionnez -> <b>Activer la journalisation</b>.
+        \n<b>Journalisation du pare-feu :</b>        \nSi vous voulez voir les applications bloquées par Android Firewall, activez la règle dans le menu <b>Préférences</b>.
         \nAndroid Firewall enregistrera alors chaque application bloquée. Vous pouvez lire les journaux en ouvrant le menu <b>Options</b> et en sélectionnant -> <b>Voir les journaux</b>.
         \n
         \n<b>Vérrouillage par mot de passe :</b>        \nVous pouvez définir un mot de passe à saisir à l\'ouverture d\'Android Firewall, en sélectionnant dans les <b>Options</b> du menu -> <b>Définir un mot de passe</b>.
@@ -104,8 +104,8 @@
     <string name="rulesoptions">Gestion des règles</string>
     <string name="profilesoptions">Gestion des profils</string>
     <string name="ipv6_title">Support IPv6</string>
-    <string name="notifications_title">Activer les notifications</string>
-    <string name="enableLog_title"> Activer la journalisation</string>
+    <string name="notifications_title">Notifications du pare-feu</string>
+    <string name="enableLog_title">Journalisation du pare-feu</string>
     <string name="defaultprofile">Défaut</string>
     <string name="profile1">Profil 1</string>
     <string name="profile2">Profil 2</string>
@@ -137,16 +137,16 @@
     <string name="vpn_disabled">Le support VPN a été désactivé</string>
     <string name="vpn_title">Support VPN</string>
     <string name="vpn">VPN</string>
-    <string name="roaming_title">Roaming Support</string>
-    <string name="usersettings">Settings</string>
-    <string name="taskertoast_title">Tasker Notifications</string>
-    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
-    <string name="vpn_summary">This setting enables or disables VPN support</string>
-    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
-    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
-    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
-    <string name="notification_summary">This setting enables or disables notifications for newly installed applications that need Internet access</string>
-    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
-    <string name="apply_setting_changes">Applying rules for setting change</string>
+    <string name="roaming_title">Support Mode Itinérant</string>
+    <string name="usersettings">Préférences</string>
+    <string name="taskertoast_title">Notifications Tasker</string>
+    <string name="ipv6_summary">Activer ou désactiver le support IPv6</string>
+    <string name="vpn_summary">Activer ou désactiver le support VPN</string>
+    <string name="roaming_summary">Activer ou désactiver le mode itinérant (Roaming network)</string>
+    <string name="taskertoast_summary">Activer ou désactiver les Pop-ups de notification Tasker quand les profils sont changés</string>
+    <string name="log_summary">Activer ou désactiver les journaux du pare-feu</string>
+    <string name="notification_summary">Activer ou désactiver les notifications pour les applications nouvellement installées qui nécessitent un accès au réseau</string>
+    <string name="tasker_profile">Tasker a changé le profil utilisé par Android Firewall</string>
+    <string name="apply_setting_changes">Application de la nouvelle règle</string>
 
 </resources>
