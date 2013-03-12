@@ -103,9 +103,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -124,6 +123,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -145,9 +145,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE1, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -166,6 +165,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -187,9 +187,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE2, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -208,6 +207,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -229,9 +229,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE3, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -250,6 +249,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -271,9 +271,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE4, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -292,6 +291,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -313,9 +313,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				Context.MODE_PRIVATE);
 		final SharedPreferences prefs2 = context.getSharedPreferences(
 				Api.PREF_PROFILE5, Context.MODE_PRIVATE);
-		SharedPreferences prefs3 = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean toastenabled = prefs3.getBoolean("taskertoastenabled", false);
+		boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		final Editor editRules = prefs.edit();
 		editRules.clear();
 		for (Entry<String, ?> entry : prefs2.getAll().entrySet()) {
@@ -334,6 +333,7 @@ public final class FireReceiver extends BroadcastReceiver {
 		}
 		editRules.commit();
 		Api.applications = null;
+		toggleUserSettings(context);
 		if (Api.isEnabled(context)) {
 			Api.applyIptablesRules(context, true);
 			if (toastenabled) {
@@ -347,6 +347,49 @@ public final class FireReceiver extends BroadcastReceiver {
 				Toast.makeText(context, R.string.tasker_profile_disabled,
 						Toast.LENGTH_LONG).show();
 			}
+		}
+	}
+	
+	private void toggleUserSettings(Context ctx) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean ipv6support = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_IP6TABLES, false);
+		boolean logsupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_NOTIFY, false);
+		boolean taskerenabled = ctx
+				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+						Api.PREF_TASKERNOTIFY, false);
+		if (ipv6support) {
+			editor.putBoolean("ipv6enabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("ipv6enabled", false);
+			editor.commit();
+		}
+		if (logsupport) {
+			editor.putBoolean("logenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("logenabled", false);
+			editor.commit();
+		}
+		if (notifysupport) {
+			editor.putBoolean("notifyenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("notifyenabled", false);
+			editor.commit();
+		}
+		if (taskerenabled) {
+			editor.putBoolean("taskertoastenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("taskertoastenabled", false);
+			editor.commit();
 		}
 	}
 }

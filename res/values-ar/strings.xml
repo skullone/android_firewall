@@ -131,5 +131,10 @@
     <string name="notification_summary">هذا الإعداد تمكين أو تعطيل الإخطارات لتقديم الطلبات المثبتة حديثا التي تحتاج الوصول إلى الإنترنت</string>
     <string name="tasker_profile">قد تغيرت الملف الشخصى تاسكر المستخدمة من قبل جدار حماية الروبوت</string>
     <string name="apply_setting_changes">تطبيق قواعد لوضع التغيير</string>
+    <string name="rules_export_successfully">The rules have been exported successfully</string>
+    <string name="rules_import_successfully">The rules have been imported successfully</string>
+    <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
+    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
+    <string name="file_deleted">The file has been deleted.</string>
     
 </resources>

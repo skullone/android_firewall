@@ -134,5 +134,10 @@
     <string name="notification_summary">Questa impostazione consente di attivare o disattivare le notifiche per le applicazioni di nuova installazione che richiedono l\'accesso a Internet</string>
     <string name="tasker_profile">Tasker è cambiato il profilo in uso da Android Firewall</string>
     <string name="apply_setting_changes">Applicando norme relative alla fissazione cambia</string>
+    <string name="rules_export_successfully">Le regole siano state esportate con successo</string>
+    <string name="rules_import_successfully">Le regole siano stati importati con successo</string>
+    <string name="no_rules_file">Vi è un errore di accesso alla directory androidfirewall. Si prega di esportare un file di regole prima</string>
+    <string name="no_storage">Vi è un errore di accesso alla directory androidfirewall. Si prega di verificare che la SDcard è montata o di archiviazione esterna è accessibile.</string>
+    <string name="file_deleted">Il file è stato eliminato.</string>
 
 </resources>

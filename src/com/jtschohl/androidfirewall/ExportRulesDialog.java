@@ -72,8 +72,11 @@ public class ExportRulesDialog extends Activity implements OnClickListener {
 			resultOk();
 			InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			mgr.hideSoftInputFromWindow(user_input.getWindowToken(), 0);
-		} else {
+		}
+		if (v.getId() == R.id.exportrules_cancel) {
 			setResult(RESULT_CANCELED);
+			InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			mgr.hideSoftInputFromWindow(user_input.getWindowToken(), 0);
 			finish();
 		}
 	}

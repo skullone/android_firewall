@@ -127,8 +127,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.findViewById(R.id.label_vpn).setOnClickListener(this);
 		this.findViewById(R.id.label_invert).setOnClickListener(this);
 
-		toggleVPNbutton();
-		toggleRoambutton();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -431,29 +431,83 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		return "";
 	}
 
-	private void toggleVPNbutton() {
+	private void toggleVPNbutton(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
-		Button btn = (Button) findViewById(R.id.label_vpn);
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_VPNENABLED, false);
+		Button vpn = (Button) findViewById(R.id.label_vpn);
 		if (vpnenabled) {
-			btn.setVisibility(View.VISIBLE);
+			vpn.setVisibility(View.VISIBLE);
+			editor.putBoolean("vpnsupport", true);
+			editor.commit();
 		} else {
-			btn.setVisibility(View.GONE);
+			vpn.setVisibility(View.GONE);
+			editor.putBoolean("vpnsupport", false);
+			editor.commit();
 		}
 	}
 
-	private void toggleRoambutton() {
+	private void toggleRoambutton(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		boolean roamenabled = prefs.getBoolean("roamingenabled", false);
-		Button btn = (Button) findViewById(R.id.label_roam);
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ROAMENABLED, false);
+		Button roam = (Button) findViewById(R.id.label_roam);
 		if (roamenabled) {
-			btn.setVisibility(View.VISIBLE);
+			roam.setVisibility(View.VISIBLE);
+			editor.putBoolean("roamingsupport", true);
+			editor.commit();
 		} else {
-			btn.setVisibility(View.GONE);
+			roam.setVisibility(View.GONE);
+			editor.putBoolean("roamingsupport", false);
+			editor.commit();
 		}
+	}
 
+	private void toggleUserSettings(Context ctx) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean ipv6support = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_IP6TABLES, false);
+		boolean logsupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_NOTIFY, false);
+		boolean taskerenabled = ctx
+				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+						Api.PREF_TASKERNOTIFY, false);
+		if (ipv6support) {
+			editor.putBoolean("ipv6enabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("ipv6enabled", false);
+			editor.commit();
+		}
+		if (logsupport) {
+			editor.putBoolean("logenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("logenabled", false);
+			editor.commit();
+		}
+		if (notifysupport) {
+			editor.putBoolean("notifyenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("notifyenabled", false);
+			editor.commit();
+		}
+		if (taskerenabled) {
+			editor.putBoolean("taskertoastenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("taskertoastenabled", false);
+			editor.commit();
+		}
 	}
 
 	/**
@@ -534,11 +588,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			final LayoutInflater inflater = getLayoutInflater();
 			ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 					R.layout.listitem, R.id.itemtext, apps) {
-				SharedPreferences prefs = PreferenceManager
-						.getDefaultSharedPreferences(getApplicationContext());
-				boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
-				boolean roamenabled = prefs.getBoolean("roamingenabled", false);
-
+				SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+						0);
+				boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED,
+						false);
+				boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED,
+						false);
 				@Override
 				public View getView(final int position, View convertView,
 						ViewGroup parent) {
@@ -584,6 +639,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 								.findViewById(R.id.itemcheck_wifi);
 						entry.box_3g = (CheckBox) convertView
 								.findViewById(R.id.itemcheck_3g);
+						if (vpnenabled) {
+							entry.box_vpn.setVisibility(View.VISIBLE);
+						}
+						if (roamenabled) {
+							entry.box_roaming.setVisibility(View.VISIBLE);
+						}
 						entry.box_roaming = (CheckBox) convertView
 								.findViewById(R.id.itemcheck_roam);
 						entry.box_vpn = (CheckBox) convertView
@@ -690,11 +751,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		final MenuItem item_apply = menu.findItem(R.id.applyrules);
 		final boolean enabled = Api.isEnabled(this);
 		if (!enabled) {
-			// item_onoff.setTitle(R.string.fw_disabled);
 			item_apply.setTitle(R.string.saverules);
 			item_onoff.setChecked(false);
 		} else if (enabled) {
-			// item_onoff.setTitle(R.string.fw_enabled);
 			item_apply.setTitle(R.string.applyrules);
 			item_onoff.setChecked(true);
 		}
@@ -920,10 +979,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 					Toast.LENGTH_SHORT).show();
 			Api.applications = null;
 			showOrLoadApplications();
+			toggleVPNbutton(getApplicationContext());
+			toggleRoambutton(getApplicationContext());
+			toggleUserSettings(getApplicationContext());
 		}
 		if (requestCode == EXPORT_RULES_REQUEST && resultCode == RESULT_OK) {
-			// final String user_input =
-			// data.getStringExtra(Api.PREF_EXPORTNAME);
 			Toast.makeText(this, "The rules have been exported successfully.",
 					Toast.LENGTH_SHORT).show();
 			String exportedName = data.getStringExtra(Api.EXPORT_EXTRA);
@@ -942,6 +1002,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			showOrLoadApplications();
 			refreshHeader();
 			refreshSpinner();
+			toggleVPNbutton(getApplicationContext());
+			toggleRoambutton(getApplicationContext());
+			toggleUserSettings(getApplicationContext());
 			if (Api.isEnabled(getApplicationContext())) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 			} else {
@@ -952,8 +1015,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			updateSpinner();
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
-			toggleVPNbutton();
-			toggleRoambutton();
+			toggleVPNbutton(getApplicationContext());
+			toggleRoambutton(getApplicationContext());
 		}
 		// for debugging purposes
 		// if (resultCode == RESULT_CANCELED)
@@ -1169,7 +1232,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		handler.sendEmptyMessageDelayed(0, 100);
 	}
 
-	/*
+	/**
 	 * Called an application is check/unchecked
 	 */
 	@Override
@@ -1270,10 +1333,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	}
 
 	private void clearAllEntries() {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		boolean vpnenabled = prefs.getBoolean("vpnenabled", false);
-		boolean roamenabled = prefs.getBoolean("roamingenabled", false);
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
+		boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
@@ -1424,6 +1487,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {
@@ -1456,6 +1522,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {
@@ -1488,6 +1557,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {
@@ -1520,6 +1592,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {
@@ -1552,6 +1627,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {
@@ -1584,6 +1662,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Api.applications = null;
 		showOrLoadApplications();
 		refreshHeader();
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
+		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 		} else {

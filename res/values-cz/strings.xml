@@ -134,5 +134,10 @@
     <string name="notification_summary">Toto nastavení povolí nebo zakáže oznámení pro nově instalované aplikace, které potřebují přístup k internetu</string>
     <string name="tasker_profile">Tasker změnil profil chvíli pouľívá Android Firewall</string>
     <string name="apply_setting_changes">Uplatňování pravidel pro nastavení změny</string>
+    <string name="rules_export_successfully">Jednací byly vyvezeny úspěšně</string>
+    <string name="rules_import_successfully">Pravidla byla úspěšně importovány</string>
+    <string name="no_rules_file">Dispozici je chybě přístup na adresáři androidfirewall. Si prosím exportovat souboru s pravidly </string>
+    <string name="no_storage">Dispozici je chybě v přístupu k adresáři androidfirewall. Zkontrolujte prosím, zda váš SDcard je namontován, nebo externí paměťové, je přístupná.</string>
+    <string name="file_deleted">Soubor byla smazána.</string>
 
 </resources>

@@ -135,5 +135,10 @@
     <string name="notification_summary">Diese Einstellung aktiviert oder deaktiviert Benachrichtigungen für neu installierte Anwendungen, die InternetZugriff erforderlich</string>
     <string name="tasker_profile">Tasker hat das Profil durch Android Firewall verwendet verändert</string>
     <string name="apply_setting_changes">Anwenden von Regeln für die Einstellungsänderung</string>
+    <string name="rules_export_successfully">Die Regeln wurden erfolgreich exportiert</string>
+    <string name="rules_import_successfully">Die Regeln wurden erfolgreich importiert</string>
+    <string name="no_rules_file">Dort ist ein Fehler beim Zugriff auf die androidfirewall Verzeichnis. Bitte exportieren Sie eine Datei rules ersten</string>
+    <string name="no_storage">Dort ist ein Fehler beim Zugriff auf die androidfirewall Verzeichnis. Bitte überprüfen Sie, dass Ihre SDcard montiert ist oder ein externes Speichergerät zugänglich ist.</string>
+    <string name="file_deleted">Die Datei wurde gelöscht.</string>
 
 </resources>

@@ -144,6 +144,7 @@ public final class R {
         public static final int exportfailed=0x7f080040;
         public static final int exportrules=0x7f080049;
         public static final int exportsuccess=0x7f080041;
+        public static final int file_deleted=0x7f080084;
         public static final int fw_disabled=0x7f08000d;
         public static final int fw_enabled=0x7f08000c;
         public static final int help=0x7f080009;
@@ -170,6 +171,8 @@ public final class R {
         public static final int mode_header=0x7f08002a;
         public static final int mode_whitelist=0x7f08002b;
         public static final int new_app_installed=0x7f080043;
+        public static final int no_rules_file=0x7f080082;
+        public static final int no_storage=0x7f080083;
         public static final int notification_summary=0x7f08007d;
         public static final int notifications_title=0x7f080067;
         public static final int notify_disabled=0x7f080045;
@@ -209,6 +212,8 @@ public final class R {
         public static final int roaming_title=0x7f080075;
         public static final int rules_applied=0x7f08001d;
         public static final int rules_deleted=0x7f08001f;
+        public static final int rules_export_successfully=0x7f080080;
+        public static final int rules_import_successfully=0x7f080081;
         public static final int rules_saved=0x7f08001e;
         public static final int rulesoptions=0x7f080064;
         public static final int saveprofile=0x7f08005a;
@@ -240,8 +245,8 @@ public final class R {
         public static final int unsaved_changes_message=0x7f080039;
         public static final int usersettings=0x7f080076;
         public static final int vpn=0x7f080074;
-        public static final int vpn_disabled=0x7f080081;
-        public static final int vpn_enabled=0x7f080080;
+        public static final int vpn_disabled=0x7f080086;
+        public static final int vpn_enabled=0x7f080085;
         public static final int vpn_summary=0x7f080079;
         public static final int vpn_title=0x7f080073;
         public static final int wifi=0x7f08004c;

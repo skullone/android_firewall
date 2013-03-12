@@ -8,15 +8,13 @@
         android:title="@string/ipv6_title" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="vpnenabled"
+        android:key="vpnsupport"
         android:summaryOff="@string/vpn_summary"
         android:summaryOn="@string/vpn_summary"
         android:title="@string/vpn_title" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="roamingenabled"
+        android:key="roamingsupport"
         android:summaryOff="@string/roaming_summary"
         android:summaryOn="@string/roaming_summary"
         android:title="@string/roaming_title" />
@@ -34,7 +32,6 @@
         android:title="@string/enableLog_title" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
         android:key="taskertoastenabled"
         android:summaryOff="@string/taskertoast_summary"
         android:summaryOn="@string/taskertoast_summary"

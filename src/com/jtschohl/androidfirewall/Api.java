@@ -52,7 +52,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -66,8 +65,6 @@ public final class Api {
 	public static final int SPECIAL_UID_ANY = -10;
 	/** special application UID used to indicate the Linux Kernel */
 	public static final int SPECIAL_UID_KERNEL = -11;
-	/** root script filename */
-	// private static final String SCRIPT_FILE = "androidfirewall.sh";
 
 	// Preferences
 	public static String PREFS_NAME = "AndroidFirewallPrefs";
@@ -90,10 +87,13 @@ public final class Api {
 	public static final String PREF_MODE = "BlockMode";
 	public static final String PREF_ENABLED = "Enabled";
 	public static final String PREF_VPNENABLED = "VpnEnabled";
+	public static final String PREF_ROAMENABLED = "RoamingEnabled";
 	public static final String PREF_LOGENABLED = "LogEnabled";
 	public static final String PREF_IP6TABLES = "IPv6Enabled";
 	public static final String PREF_REFRESH = "Enabled";
 	public static final String PREF_EXPORTNAME = "ExportName";
+	public static final String PREF_NOTIFY = "NotifyEnabled";
+	public static final String PREF_TASKERNOTIFY = "TaskerNotifyEnabled";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -251,17 +251,15 @@ public final class Api {
 				"vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 				"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
 				"rmnet0+", "cdma_rmnet+" };
-		final String ITFS_VPN[] = { "tun+", "tun0+" };
+		final String ITFS_VPN[] = { "tun+", "tun0+", "ppp+", "ppp0+" };
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences prefs2 = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
 				.equals(MODE_WHITELIST);
 		final boolean blacklist = !whitelist;
-		boolean logenabled = prefs2.getBoolean("logenabled", false);
-		boolean vpnenabled = prefs2.getBoolean("vpnenabled", false);
-		boolean roamenabled = prefs2.getBoolean("roamingenabled", false);
-		boolean ipv6enabled = prefs2.getBoolean("ipv6enabled", false);
+		final boolean logenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_LOGENABLED, false);
+		final boolean vpnenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_VPNENABLED, false);
+		final boolean roamenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_ROAMENABLED, false);
+		final boolean ipv6enabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_IP6TABLES, false);
 		final boolean enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_ENABLED, false);
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -1336,8 +1334,8 @@ public final class Api {
 		if (showErrors) {
 			alert(ctx,
 					"Could not acquire root access.\n"
-							+ "You need a rooted phone to run DroidWall.\n\n"
-							+ "If this phone is already rooted, please make sure DroidWall has enough permissions to execute the \"su\" command.\n"
+							+ "You need a rooted phone to run Android Firewall.\n\n"
+							+ "If this phone is already rooted, please make sure Android Firewall has enough permissions to execute the \"su\" command.\n"
 							+ "Error message: " + res.toString());
 		}
 		return false;
@@ -1454,26 +1452,6 @@ public final class Api {
 	}
 
 	/**
-	 * check to see if IPv6 is enabled
-	 */
-	public static boolean isIPv6Enabled(Context ctx) {
-		if (ctx == null)
-			return false;
-		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(
-				PREF_IP6TABLES, false);
-	}
-
-	/**
-	 * check to see if VPN support is enabled
-	 */
-	public static boolean vpnEnabled(Context ctx) {
-		if (ctx == null)
-			return false;
-		return ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(
-				PREF_VPNENABLED, false);
-	}
-
-	/**
 	 * determines if data connection is roaming
 	 */
 	public static boolean isRoaming(Context context) {
@@ -1518,11 +1496,11 @@ public final class Api {
 		if (ctx == null)
 			return;
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
-		if (prefs.getBoolean(PREF_IP6TABLES, false) == ipv6enabled) {
+		if (prefs.getBoolean("ipv6enabled", false) == ipv6enabled) {
 			return;
 		}
 		final Editor edit = prefs.edit();
-		edit.putBoolean(PREF_IP6TABLES, ipv6enabled);
+		edit.putBoolean("ipv6enabled", ipv6enabled);
 		if (!edit.commit()) {
 			alert(ctx, "Error writing to preferences!");
 			return;

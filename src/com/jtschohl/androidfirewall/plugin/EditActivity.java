@@ -97,29 +97,51 @@ public class EditActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+
+		String defaultProfile = prefs.getString("default",
+				getString(R.string.defaultprofile));
+		Log.d("Android Firewall", "defaultProfile value is " + defaultProfile);
+		String Profile1 = prefs.getString("profile1",
+				getString(R.string.profile1));
+		Log.d("Android Firewall", "Profile1 value is " + Profile1);
+		String Profile2 = prefs.getString("profile2",
+				getString(R.string.profile2));
+		Log.d("Android Firewall", "Profile2 value is " + Profile2);
+		String Profile3 = prefs.getString("profile3",
+				getString(R.string.profile3));
+		Log.d("Android Firewall", "Profile3 value is " + Profile3);
+		String Profile4 = prefs.getString("profile4",
+				getString(R.string.profile4));
+		Log.d("Android Firewall", "Profile4 value is " + Profile4);
+		String Profile5 = prefs.getString("profile5",
+				getString(R.string.profile5));
+		Log.d("Android Firewall", "Profile5 value is " + Profile5);
+		
 		if (v.getId() == R.id.defaultprofile) {
 			i = 0;
-			profile = "Default Profile";
+			profile = defaultProfile;
 		}
 		if (v.getId() == R.id.profile1) {
 			i = 1;
-			profile = "Profile 1";
+			profile = Profile1;
 		}
 		if (v.getId() == R.id.profile2) {
 			i = 2;
-			profile = "Profile 2";
+			profile = Profile2;
 		}
 		if (v.getId() == R.id.profile3) {
 			i = 3;
-			profile = "Profile 3";
+			profile = Profile3;
 		}
 		if (v.getId() == R.id.profile4) {
 			i = 4;
-			profile = "Profile 4";
+			profile = Profile4;
 		}
 		if (v.getId() == R.id.profile5) {
 			i = 5;
-			profile = "Profile 5";
+			profile = Profile5;
 		}
 		Log.d(getClass().getName(), "value for EditActivity = " + i);
 		finish();

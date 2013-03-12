@@ -27,7 +27,7 @@
     <string name="show_log">Voir les journaux</string>
     <string name="clear_log">Effacer les journaux</string>
     <string name="applying_rules">Appliquer les règles iptables.</string>
-    <string name="applyingipv6_rules">Appliquer les règles ipv6tables.</string>
+    <string name="applyingipv6_rules">Appliquer les règles ip6tables.</string>
     <string name="saving_rules">Sauvegarder les règles iptables.</string>
     <string name="deleting_rules">Supprimer les règles iptables.</string>
     <string name="rules_applied">Les règles ont été appliquées</string>
@@ -142,11 +142,16 @@
     <string name="taskertoast_title">Notifications Tasker</string>
     <string name="ipv6_summary">Activer ou désactiver le support IPv6</string>
     <string name="vpn_summary">Activer ou désactiver le support VPN</string>
-    <string name="roaming_summary">Activer ou désactiver le mode itinérant (Roaming network)</string>
+    <string name="roaming_summary">Activer ou désactiver le mode itinérant (réseau Roaming)</string>
     <string name="taskertoast_summary">Activer ou désactiver les Pop-ups de notification Tasker quand les profils sont changés</string>
     <string name="log_summary">Activer ou désactiver les journaux du pare-feu</string>
     <string name="notification_summary">Activer ou désactiver les notifications pour les applications nouvellement installées qui nécessitent un accès au réseau</string>
     <string name="tasker_profile">Tasker a changé le profil utilisé par Android Firewall</string>
     <string name="apply_setting_changes">Application de la nouvelle règle</string>
+    <string name="rules_export_successfully">Les règles ont été exportées avec succès</string>
+    <string name="rules_import_successfully">Les règles ont été importées avec succès</string>
+    <string name="no_rules_file">Il ya une erreur en accédant au répertoire d\'Android Firewall. Exporter un fichier de règles en premier.</string>
+    <string name="no_storage">Il ya une erreur en accédant au répertoire d\'Android Firewall. Vérifiez que votre carte SD est montée ou que le disque externe est accessible.</string>
+    <string name="file_deleted">Le fichier a été supprimé.</string>
 
 </resources>

@@ -143,5 +143,10 @@
     <string name="notification_summary">Este parámetro activa o desactiva las notificaciones para nuevas aplicaciones instalados que se necesitan acceso a Internet</string>
     <string name="tasker_profile">Tasker ha cambiado el perfil siendo utilizado por Android Firewall</string>
     <string name="apply_setting_changes">Aplicación de las normas para configurar los cambios</string>
+    <string name="rules_export_successfully">Las reglas se han exportado con éxito</string>
+    <string name="rules_import_successfully">Las reglas se han importado correctamente</string>
+    <string name="no_rules_file">Hay un error al acceder al directorio androidfirewall. Por favor, exporte un archivo de reglas primero</string>
+    <string name="no_storage">Hay un error al acceder al directorio androidfirewall. Por favor, compruebe que su tarjeta SD está montada o almacenamiento externo es accesible.</string>
+    <string name="file_deleted">El archivo ha sido borrado.</string>
 
 </resources>

@@ -144,5 +144,10 @@
     <string name="notification_summary">Esta configuração habilita ou desabilita notificações para aplicativos recém-instalados que precisam de acesso à Internet</string>
     <string name="tasker_profile">Tasker mudou o perfil que está sendo usado por Android Firewall</string>
     <string name="apply_setting_changes">Aplicação de regras para definir mudanças</string>
+    <string name="rules_export_successfully">As regras foram exportados com sucesso</string>
+    <string name="rules_import_successfully">As regras foram importadas com sucesso</string>
+    <string name="no_rules_file">Há um erro ao acessar o diretório androidfirewall. Por favor, exportar um arquivo de regras primeiro</string>
+    <string name="no_storage">Há um erro ao acessar o diretório androidfirewall. Verifique se o seu SDcard é montado ou armazenamento externo está acessível.</string>
+    <string name="file_deleted">O arquivo de foi apagado.</string>
 
 </resources>
