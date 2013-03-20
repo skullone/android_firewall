@@ -14,7 +14,7 @@
     <string name="close">Close</string>
     <string name="exit">Exit</string>
     <string name="fw_enabled">Enable Firewall</string>
-    <string name="fw_disabled">Firewall disabled</string>
+    <string name="fw_disabled">Disable Firewall</string>
     <string name="ipv6_enabled">IPv6 enabled</string>
     <string name="ipv6_disabled">IPv6 disabled</string>
     <string name="ipv6_was_enabled">IPv6 has been enabled</string>
@@ -151,5 +151,6 @@
     <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
     <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
     <string name="file_deleted">The file has been deleted.</string>
+    <string name="widget_fail">Cannot disable the firewall. It is password protected.</string>
 
 </resources>

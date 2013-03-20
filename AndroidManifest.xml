@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
-    android:versionCode="216"
-    android:versionName="2.1.6" >
+    android:versionCode="217"
+    android:versionName="2.1.7" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -53,6 +53,11 @@
         <activity android:name=".LoadProfile" />
         <activity android:name=".EditProfileNames" />
         <activity android:name=".UserSettings" />
+        <activity android:name=".WidgetActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
 
         <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
         </service>

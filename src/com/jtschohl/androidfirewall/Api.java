@@ -231,11 +231,12 @@ public final class Api {
 	 *            (depending on the working mode)
 	 * @param showErrors
 	 *            indicates if errors should be alerted
-	 *            
-	 *  Many thanks to Ventz for his independent work with the VPN rules and figuring out how to get
-	 *  the VPN functionality he wanted and then forwarding the rules to me to implement in the app.  
-	 *  Thank you sir, many times over!
-	 *  
+	 * 
+	 *            Many thanks to Ventz for his independent work with the VPN
+	 *            rules and figuring out how to get the VPN functionality he
+	 *            wanted and then forwarding the rules to me to implement in the
+	 *            app. Thank you sir, many times over!
+	 * 
 	 */
 
 	private static boolean applyIptablesRulesImpl(Context ctx,
@@ -256,10 +257,14 @@ public final class Api {
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
 				.equals(MODE_WHITELIST);
 		final boolean blacklist = !whitelist;
-		final boolean logenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_LOGENABLED, false);
-		final boolean vpnenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_VPNENABLED, false);
-		final boolean roamenabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_ROAMENABLED, false);
-		final boolean ipv6enabled = ctx.getSharedPreferences(PREFS_NAME, 0).getBoolean(PREF_IP6TABLES, false);
+		final boolean logenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+				.getBoolean(PREF_LOGENABLED, false);
+		final boolean vpnenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+				.getBoolean(PREF_VPNENABLED, false);
+		final boolean roamenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+				.getBoolean(PREF_ROAMENABLED, false);
+		final boolean ipv6enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+				.getBoolean(PREF_IP6TABLES, false);
 		final boolean enabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_ENABLED, false);
 		final String customScript = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -648,7 +653,7 @@ public final class Api {
 			code = runScriptAsRoot(ctx, script.toString(), res);
 			if (showErrors && code != 0) {
 				String msg = res.toString();
-				Log.e("DroidWall", msg);
+				Log.e("AndroidFirewall", msg);
 				// Remove unnecessary help message from output
 				if (msg.indexOf("\nTry `iptables -h' or 'iptables --help' for more information.") != -1) {
 					msg = msg

@@ -975,7 +975,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			setCustomScript(script, script2);
 		}
 		if (requestCode == IMPORT_RULES_REQUEST && resultCode == RESULT_OK) {
-			Toast.makeText(this, "The rules have been imported successfully.",
+			Toast.makeText(this, R.string.rules_import_successfully,
 					Toast.LENGTH_SHORT).show();
 			Api.applications = null;
 			showOrLoadApplications();
@@ -984,7 +984,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			toggleUserSettings(getApplicationContext());
 		}
 		if (requestCode == EXPORT_RULES_REQUEST && resultCode == RESULT_OK) {
-			Toast.makeText(this, "The rules have been exported successfully.",
+			Toast.makeText(this, R.string.rules_export_successfully,
 					Toast.LENGTH_SHORT).show();
 			String exportedName = data.getStringExtra(Api.EXPORT_EXTRA);
 			Api.exportRulesToFile(MainActivity.this, exportedName);

@@ -2,6 +2,8 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
 
+2.1.7 - Widget has been replaced with a more functional one since the original gave people way too many problems.
+		New notification icon in order to look more like traditional Android notifications.
 2.1.6 - Translation updates to French and Chinese. Fix for firewall log always showing empty on some devices.  
 		UI clean up.  Many options moved to Settings menu.  VPN/Roaming support now optional and disappear
 		if disabled.  Tasker notifications now optional. Profile name changes now appear in Tasker.

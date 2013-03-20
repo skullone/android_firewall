@@ -32,20 +32,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-/**
- * ON/OFF Widget implementation
- */
-public class StatusWidget extends AppWidgetProvider {
+import com.jtschohl.androidfirewall.R;
 
+public class StatusWidget extends AppWidgetProvider {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		super.onReceive(context, intent);
+		
 		if (Api.STATUS_CHANGED_MSG.equals(intent.getAction())) {
 			// Broadcast sent when the firewall status has changed
 			final Bundle extras = intent.getExtras();
@@ -71,41 +67,6 @@ public class StatusWidget extends AppWidgetProvider {
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			final Handler toaster = new Handler() {
-				public void handleMessage(Message msg) {
-					if (msg.arg1 != 0)
-						Toast.makeText(context, msg.arg1, Toast.LENGTH_SHORT)
-								.show();
-				}
-			};
-			// Start a new thread to change the firewall - this prevents ANR
-			new Thread() {
-				@Override
-				public void run() {
-					Looper.prepare();
-					final Message msg = new Message();
-					if (enabled) {
-						if (Api.applySavedIptablesRules(context, false)) {
-							msg.arg1 = R.string.toast_enabled;
-							toaster.sendMessage(msg);
-						} else {
-							msg.arg1 = R.string.toast_error_enabling;
-							toaster.sendMessage(msg);
-							return;
-						}
-					} else {
-						if (Api.purgeIptables(context, false)) {
-							msg.arg1 = R.string.toast_disabled;
-							toaster.sendMessage(msg);
-						} else {
-							msg.arg1 = R.string.toast_error_disabling;
-							toaster.sendMessage(msg);
-							return;
-						}
-					}
-					Api.setEnabled(context, enabled);
-				}
-			}.start();
 		}
 	}
 
@@ -113,8 +74,8 @@ public class StatusWidget extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] ints) {
 		super.onUpdate(context, appWidgetManager, ints);
-		final SharedPreferences prefs = context.getSharedPreferences(
-				Api.PREFS_NAME, 0);
+
+		final SharedPreferences prefs = context.getSharedPreferences(Api.PREFS_NAME,  0);
 		boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, true);
 		showWidget(context, appWidgetManager, ints, enabled);
 	}
@@ -126,11 +87,10 @@ public class StatusWidget extends AppWidgetProvider {
 		final int iconId = enabled ? R.drawable.widget_on
 				: R.drawable.widget_off;
 		views.setImageViewResource(R.id.widgetCanvas, iconId);
-		final Intent msg = new Intent(Api.TOGGLE_REQUEST_MSG);
-		final PendingIntent intent = PendingIntent.getBroadcast(context, -1,
-				msg, PendingIntent.FLAG_UPDATE_CURRENT);
-		views.setOnClickPendingIntent(R.id.widgetCanvas, intent);
+		Intent intent = new Intent(context, WidgetActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+				intent, 0);
+		views.setOnClickPendingIntent(R.id.widgetCanvas, pendingIntent);
 		manager.updateAppWidget(widgetIds, views);
 	}
-
 }
