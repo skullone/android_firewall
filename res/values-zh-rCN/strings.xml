@@ -35,7 +35,7 @@
     <string name="rules_deleted">规则删除成功</string>
     <string name="pass_titleset">设置密码锁定</string>
     <string name="pass_titleget">需要密码</string>
-    <string name="enterpass">输入密码:</string>
+    <string name="enterpass">输入密码：</string>
     <string name="enternewpass">输入新密码(放空则删除):</string>
     <string name="passdefined">密码锁定已设置</string>
     <string name="passremoved">密码锁定已移除</string>
@@ -62,12 +62,12 @@
     <string name="apply">应用</string>
     <string name="discard">丢弃</string>
     <string name="help_dialog_text"><i>作者: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Android Firewall v2.1.3</i> 是Linux上功能强大的<b>iptables</b>防火墙前端程序.
+		\n<i>Android Firewall v2.1.3</i> 是Linux上功能强大的<b>iptables</b>防火墙前端程序 <i>DroidWall</i> 的一个分支.
 		它可以让你限定哪些程序可以访问你的数据网络.
 		\n如果你没有不限流量的套餐或只是想延长电池使用时间,这将是一个完美的解决方案.
 		\n
 		\n<b>使用Android Firewall:</b>		\n<b>1.</b> 点击<b>模式</b>切换 <i>白名单</i> 和 <i>黑名单</i> 模式.
-		\n<b>2.</b> 标记你想阻止或允许(取决于已选择的模式)的程序, 针对每一个接口.
+		\n<b>2.</b> 针对每一个接口，标记你想阻止或允许(取决于已选择的模式)的程序.
 		\n<b>3.</b> 打开菜单启用防火墙. 如果防火墙已启用,只需要选择<b>应用规则</b>.
 		\n规则将被保存并在你重启手机后自动恢复.
 		\n如果你想检查当前iptables规则, 在菜单中选择<b>显示规则</b>.
@@ -83,16 +83,16 @@
     <string name="importsuccess">导入成功！</string>
     <string name="importfailed">导入失败！</string>
     <string name="exportfailed">导出失败！</string>
-    <string name="exportsuccess">到处成功！</string>
+    <string name="exportsuccess">导出成功！</string>
     <string name="enterfilename">请输入文件名</string>
     <string name="new_app_installed">您安装了一款需要网络连接的应用</string>
-    <string name="notify_enabled">啟用通知</string>
+    <string name="notify_enabled">启用通知</string>
     <string name="notify_disabled">通知被禁用</string>
-    <string name="notify_was_enabled">通知已啟用</string>
-    <string name="notify_was_disabled">通知已啟用</string>
+    <string name="notify_was_enabled">通知已启用</string>
+    <string name="notify_was_disabled">通知已启用</string>
     <string name="importrules">导入规则</string>
     <string name="exportrules">导出规则</string>
-    <string name="managerulefiles">管理規則文件</string>
+    <string name="managerulefiles">管理规则文件</string>
     <string name="options">选项</string>
     <string name="wifi">无线</string>
     <string name="data">数据</string>
@@ -137,21 +137,22 @@
     <string name="vpn_disabled">已禁用 VPN 支持</string>
     <string name="vpn_title">VPN 支持</string>
     <string name="vpn">VPN</string>
-    <string name="roaming_title">Roaming Support</string>
-    <string name="usersettings">Settings</string>
-    <string name="taskertoast_title">Tasker Notifications</string>
-    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
-    <string name="vpn_summary">This setting enables or disables VPN support</string>
-    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
-    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
-    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
-    <string name="notification_summary">This setting enables ordisable notifications for newly installed applications that need Internet access</string>
-    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
-    <string name="apply_setting_changes">Applying rules for setting change</string>
-    <string name="rules_export_successfully">The rules have been exported successfully</string>
-    <string name="rules_import_successfully">The rules have been imported successfully</string>
-    <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
-    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
-    <string name="file_deleted">The file has been deleted.</string>
-
+    <string name="roaming_title">漫游支持</string>
+    <string name="usersettings">设置</string>
+    <string name="taskertoast_title">任务通知</string>
+    <string name="ipv6_summary">此选项启用或禁用 IPv6 支持</string>
+    <string name="vpn_summary">此选项启用或禁用 VPN 支持</string>
+    <string name="roaming_summary">此选项启用或禁用漫游网络支持</string>
+    <string name="taskertoast_summary">此选项启用或禁用在配置文件改变时的计划任务通知弹窗</string>
+    <string name="log_summary">此选项启用或禁用防火墙日志</string>
+    <string name="notification_summary">此选项启用或禁用新安装的需要网络连接的应用的通知</string>
+    <string name="tasker_profile">计划任务已经改变了 Android Firewall 当前使用的配置文件</string>
+    <string name="apply_setting_changes">根据设置变更应用规则</string>
+    <string name="rules_export_successfully">规则导出成功</string>
+    <string name="rules_import_successfully">规则导入成功</string>
+    <string name="no_rules_file">打开 Android Firewall 目录出错。请先导出一个规则文件</string>
+    <string name="no_storage">打开 Android Firewall 目录出错。请先检查您的SD卡是否已挂载或外部存储是否可以用</string>
+    <string name="file_deleted">文件已被删除</string>
+    <string name="widget_fail">无法禁用防火墙，因为设置了密码保护</string>
+    
 </resources>
