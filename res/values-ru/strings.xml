@@ -59,7 +59,7 @@
     <string name="apply">Применить</string>
     <string name="discard">Сбросить</string>
     <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>                \n<i>Перевод: Евгений Мартыненко</i>\n
-                \n<i>Android Firewall v2.1.3</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
+                \n<i>Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
                 Он позволяет ограничить круг приложений имеющих доступ к сетям передачи данных.
                 \nЭто идеальное решение, если у вас не безлимитный тарифный план, или Вы просто хотите сэкономить заряд вашей батареи.
                 \n

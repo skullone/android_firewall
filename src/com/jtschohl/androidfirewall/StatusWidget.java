@@ -1,7 +1,6 @@
 /**
- * ON/OFF Widget implementation
+ * Toggle Widget implementation
  * 
- * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
  * Copyright (C) 2012-2014	Jason Tschohl
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,8 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Rodrigo Zechin Rosauro
+
  * @author Jason Tschohl
  * @version 1.0
  */
@@ -62,8 +60,7 @@ public class StatusWidget extends AppWidgetProvider {
 			final boolean enabled = !prefs.getBoolean(Api.PREF_ENABLED, true);
 			final String pwd = prefs.getString(Api.PREF_PASSWORD, "");
 			if (!enabled && pwd.length() != 0) {
-				Toast.makeText(context,
-						"Cannot disable firewall - password defined!",
+				Toast.makeText(context, R.string.widget_fail,
 						Toast.LENGTH_SHORT).show();
 				return;
 			}

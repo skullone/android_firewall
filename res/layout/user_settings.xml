@@ -37,4 +37,11 @@
         android:summaryOn="@string/taskertoast_summary"
         android:title="@string/taskertoast_title" />
 
+    <ListPreference
+        android:entries="@array/language_support"
+        android:entryValues="@array/language_codes"
+        android:key="locale"
+        android:title="@string/languageSupport" >
+    </ListPreference>
+
 </PreferenceScreen>

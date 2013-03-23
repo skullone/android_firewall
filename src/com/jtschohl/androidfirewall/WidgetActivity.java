@@ -1,5 +1,5 @@
 /**
- * ON/OFF Widget implementation
+ * Toggle Widget implementation
  * 
  * Copyright (C) 2012-2014	Jason Tschohl
  *

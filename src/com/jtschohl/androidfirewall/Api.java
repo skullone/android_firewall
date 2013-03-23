@@ -36,22 +36,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import eu.chainfire.libsuperuser.Shell;
+import eu.chainfire.libsuperuser.Shell.SU;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -120,7 +123,7 @@ public final class Api {
 	// Cached applications
 	public static DroidApp applications[] = null;
 	// Do we have root access?
-	private static boolean hasroot = false;
+	//private static boolean hasroot = false;
 
 	/**
 	 * Display a simple alert box
@@ -132,9 +135,7 @@ public final class Api {
 	 */
 	public static void alert(Context ctx, CharSequence msg) {
 		if (ctx != null) {
-			new AlertDialog.Builder(ctx)
-					.setNeutralButton(android.R.string.ok, null)
-					.setMessage(msg).show();
+			Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -1108,6 +1109,20 @@ public final class Api {
 		}
 	}
 
+	
+	/**
+	 * Change user language
+	 */
+	public static void changeLanguage(Context context, String language){
+		if (!"".equals(language)){
+			Locale locale = new Locale(language);
+			Locale.setDefault(locale);
+			Configuration config = new Configuration();
+			config.locale = locale;
+			context.getResources().updateConfiguration(config, null);
+		}
+	}
+	
 	/**
 	 * @param ctx
 	 *            application context (mandatory)
@@ -1323,27 +1338,51 @@ public final class Api {
 	 *            indicates if errors should be alerted
 	 * @return boolean true if we have root
 	 */
-	public static boolean hasRootAccess(final Context ctx, boolean showErrors) {
-		if (hasroot)
-			return true;
-		final StringBuilder res = new StringBuilder();
-		try {
-			// Run an empty script just to check root access
-			if (runScriptAsRoot(ctx, "exit 0", res) == 0) {
-				hasroot = true;
-				return true;
+
+	public static boolean hasRootAccess(Context ctx, boolean showErrors) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
+		boolean rootaccess = prefs.getBoolean("superuser", false);
+
+		if (!rootaccess) {
+			try {
+				// Run an empty script just to check root access
+				int returnCode = new checkForRoot().execute(null, null).get();
+				if (returnCode == 0) {
+					rootaccess = true;
+					Editor edit = prefs.edit();
+					edit.putBoolean("superuser", true);
+					edit.commit();
+				} else {
+					if (showErrors) {
+						alert(ctx, ctx.getString(R.string.error_no_root));
+					}
+				}
+			} catch (Exception e) {
 			}
-		} catch (Exception e) {
-			Log.d("Android Firewall - No root access available", e.getMessage());
 		}
-		if (showErrors) {
-			alert(ctx,
-					"Could not acquire root access.\n"
-							+ "You need a rooted phone to run Android Firewall.\n\n"
-							+ "If this phone is already rooted, please make sure Android Firewall has enough permissions to execute the \"su\" command.\n"
-							+ "Error message: " + res.toString());
+		return rootaccess;
+	}
+
+	private static class checkForRoot extends
+			AsyncTask<Object, Object, Integer> {
+		private int exitCode = -1;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
 		}
-		return false;
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			try {
+				if (SU.available())
+					exitCode = 0;
+			} catch (Exception ex) {
+			}
+			return exitCode;
+		}
+
 	}
 
 	/**

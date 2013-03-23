@@ -87,6 +87,11 @@ public class UserSettings extends PreferenceActivity implements
 		if (key.equals("taskertoastenabled")) {
 			toggleTaskerNotifyenabled();
 		}
+		if (key.equals("locale")){
+			Api.applications = null;
+			Intent intent = new Intent();
+			setResult(RESULT_OK, intent);
+		}
 	}
 
 	private void purgeIp6Rules() {

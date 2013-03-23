@@ -2,6 +2,8 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
 
+2.1.8 - Bug fixes.  Added old widget back in.  The widgets are identifiable by their icons.  Green is On/Off widget.
+		Blue is the new toggle widget.  Ability to choose your language has been added.  Tasker can now Enable/Disable the firewall.
 2.1.7 - Widget has been replaced with a more functional one since the original gave people way too many problems.
 		New notification icon in order to look more like traditional Android notifications.
 2.1.6 - Translation updates to French and Chinese. Fix for firewall log always showing empty on some devices.  

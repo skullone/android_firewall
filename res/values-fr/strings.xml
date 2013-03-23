@@ -62,7 +62,7 @@
     <string name="apply">Appliquer</string>
     <string name="discard">Annuler</string>
     <string name="help_dialog_text"><i>Auteur: Jason Tschohl. Auteur Original: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n<i>Traduction FR: Joffrey Thibaut</i>		\n
-        \n<i>Android Firewall v2</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
+        \n<i>Android Firewall</i> est un fork de <i>DroidWall</i> utilisant <b>iptables</b>, le pare-feu surpuissant de Linux.
         Android Firewall vous permet d\'empêcher vos applications d\'accèder à internet.
         \nC\'est la solution parfaite si vous n\'avez pas de forfait "internet illimité", ou si vous souhaitez juste que votre batterie dure plus longtemps.
         \n

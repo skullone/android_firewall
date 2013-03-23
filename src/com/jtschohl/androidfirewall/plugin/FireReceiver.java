@@ -29,6 +29,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -52,6 +54,15 @@ public final class FireReceiver extends BroadcastReceiver {
 		 * Always be strict on input parameters! A malicious third-party app
 		 * could send a malformed Intent.
 		 */
+
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+				if (msg.arg1 != 0)
+					Toast.makeText(context, msg.arg1, Toast.LENGTH_SHORT)
+							.show();
+			}
+		};
+		final Message msg = new Message();
 
 		if (!com.twofortyfouram.locale.Intent.ACTION_FIRE_SETTING.equals(intent
 				.getAction())) {
@@ -95,6 +106,48 @@ public final class FireReceiver extends BroadcastReceiver {
 			editor.putInt("itemPosition", 5);
 			editor.commit();
 			LoadProfile5(context);
+		}
+		if (i == 6) {
+			boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME,
+					0).getBoolean(Api.PREF_TASKERNOTIFY, false);
+			if (Api.applySavedIptablesRules(context, false)) {
+				if (toastenabled) {
+					msg.arg1 = R.string.toast_enabled;
+					handler.sendMessage(msg);
+				}
+				Api.setEnabled(context, true);
+			} else {
+				if (toastenabled) {
+					msg.arg1 = R.string.toast_error_enabling;
+					handler.sendMessage(msg);
+				}
+			}
+		}
+		if (i == 7) {
+			final SharedPreferences prefs2 = context.getSharedPreferences(
+					Api.PREFS_NAME, 0);
+			boolean toastenabled = context.getSharedPreferences(Api.PREFS_NAME,
+					0).getBoolean(Api.PREF_TASKERNOTIFY, false);
+			final String oldPwd = prefs2.getString(Api.PREF_PASSWORD, "");
+			final String newPwd = context.getSharedPreferences(Api.PREFS_NAME,
+					0).getString("validationPassword", "");
+			if (oldPwd.length() == 0 && newPwd.length() == 0) {
+				if (Api.purgeIptables(context, false)) {
+					if (toastenabled) {
+						msg.arg1 = R.string.toast_disabled;
+						handler.sendMessage(msg);
+					}
+					Api.setEnabled(context, false);
+				} else {
+					if (toastenabled) {
+						msg.arg1 = R.string.toast_error_disabling;
+						handler.sendMessage(msg);
+					}
+				}
+			} else {
+				msg.arg1 = R.string.widget_fail;
+				handler.sendMessage(msg);
+			}
 		}
 	}
 
@@ -349,7 +402,7 @@ public final class FireReceiver extends BroadcastReceiver {
 			}
 		}
 	}
-	
+
 	private void toggleUserSettings(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
@@ -360,9 +413,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				.getBoolean(Api.PREF_LOGENABLED, false);
 		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
-		boolean taskerenabled = ctx
-				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
-						Api.PREF_TASKERNOTIFY, false);
+		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();

@@ -42,6 +42,8 @@ public class EditActivity extends Activity implements OnClickListener {
 	private Button profile3;
 	private Button profile4;
 	private Button profile5;
+	private Button enable;
+	private Button disable;
 	int i = -1;
 	String profile;
 
@@ -74,7 +76,7 @@ public class EditActivity extends Activity implements OnClickListener {
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
 		Log.d("Android Firewall", "Profile5 value is " + Profile5);
-		
+
 		this.defaultprofile = (Button) this.findViewById(R.id.defaultprofile);
 		this.defaultprofile.setText(defaultProfile);
 		this.defaultprofile.setOnClickListener(this);
@@ -93,6 +95,11 @@ public class EditActivity extends Activity implements OnClickListener {
 		this.profile5 = (Button) this.findViewById(R.id.profile5);
 		this.profile5.setText(Profile5);
 		this.profile5.setOnClickListener(this);
+		this.enable = (Button) this.findViewById(R.id.firewallEnable);
+		this.enable.setOnClickListener(this);
+		this.disable = (Button) this.findViewById(R.id.firewallDisable);
+		this.disable.setOnClickListener(this);
+
 	}
 
 	@Override
@@ -118,7 +125,7 @@ public class EditActivity extends Activity implements OnClickListener {
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
 		Log.d("Android Firewall", "Profile5 value is " + Profile5);
-		
+
 		if (v.getId() == R.id.defaultprofile) {
 			i = 0;
 			profile = defaultProfile;
@@ -142,6 +149,14 @@ public class EditActivity extends Activity implements OnClickListener {
 		if (v.getId() == R.id.profile5) {
 			i = 5;
 			profile = Profile5;
+		}
+		if (v.getId() == R.id.firewallEnable) {
+			i = 6;
+			profile = getString(R.string.fw_enabled);
+		}
+		if (v.getId() == R.id.firewallDisable) {
+			i = 7;
+			profile = getString(R.string.fw_disabled);
 		}
 		Log.d(getClass().getName(), "value for EditActivity = " + i);
 		finish();

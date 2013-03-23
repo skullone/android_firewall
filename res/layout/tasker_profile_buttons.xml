@@ -19,6 +19,20 @@
         android:orientation="vertical" >
 
         <Button
+            android:id="@+id/firewallEnable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fw_enabled" />
+
+        <Button
+            android:id="@+id/firewallDisable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fw_disabled" />
+
+        <Button
             android:id="@+id/defaultprofile"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

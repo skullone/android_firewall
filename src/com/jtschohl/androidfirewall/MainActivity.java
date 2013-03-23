@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -133,6 +134,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 
+		String language = prefs.getString("locale", "en");
+		Api.changeLanguage(getApplicationContext(), language);
+		
 		// create the spinner
 		spinner = (Spinner) findViewById(R.id.spinner);
 
@@ -584,7 +588,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				return 1;
 			}
 		});
-		try {
+	//	try {
 			final LayoutInflater inflater = getLayoutInflater();
 			ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 					R.layout.listitem, R.id.itemtext, apps) {
@@ -676,11 +680,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				}
 			};
 			this.listview.setAdapter(adapter);
-		} catch (Exception e) {
+	/*	} catch (Exception e) {
 			Log.d("Null pointer on listview", e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace();*/
 		}
-	}
+	//}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -1015,8 +1019,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			updateSpinner();
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			Intent intent = getIntent();
+			finish();
 			toggleVPNbutton(getApplicationContext());
 			toggleRoambutton(getApplicationContext());
+			String language = prefs.getString("locale", Locale.getDefault().getDisplayLanguage());
+			Api.changeLanguage(getApplicationContext(), language);
+			startActivity(intent);
 		}
 		// for debugging purposes
 		// if (resultCode == RESULT_CANCELED)

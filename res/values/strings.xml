@@ -62,7 +62,7 @@
     <string name="apply">Apply</string>
     <string name="discard">Discard</string>
     <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Android Firewall Version 2.1.4</i> is a fork of <i>DroidWall</i> which is a front-end application for the powerful <b>iptables</b> Linux firewall.
+		\n<i>Android Firewall</i> is a fork of <i>DroidWall</i> which is a front-end application for the powerful <b>iptables</b> Linux firewall.
 		It allows you to restrict which applications are permitted to access your data networks.
 		\nThis is the perfect solution if you don\'t have an unlimited data plan, or just wants to see your battery lasting longer.
 		\n
@@ -152,5 +152,7 @@
     <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
     <string name="file_deleted">The file has been deleted.</string>
     <string name="widget_fail">Cannot disable the firewall. It is password protected.</string>
+    <string name="error_no_root">Android Firewall has not been granted root access!</string>
+    <string name="languageSupport">Languages</string>
 
 </resources>
