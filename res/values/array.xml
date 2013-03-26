@@ -19,9 +19,7 @@
         <item>French</item>
         <item>Italian</item>
         <item>Japanese</item>
-        <item>Portuguese, Brazil</item>
         <item>Russian</item>
-        <item>Simplified Chinese</item>
     </string-array>
     
     <string-array name="language_codes">
@@ -33,9 +31,7 @@
         <item>fr</item>
         <item>it</item>
         <item>ja</item>
-        <item>pt-rBR</item>
         <item>ru</item>
-        <item>zh-rCN</item>
     </string-array>
 
 </resources>

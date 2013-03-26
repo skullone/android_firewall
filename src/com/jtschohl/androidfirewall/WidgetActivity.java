@@ -29,8 +29,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -51,15 +49,6 @@ public class WidgetActivity extends Activity implements OnClickListener {
 	private Button profile3;
 	private Button profile4;
 	private Button profile5;
-
-	final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			if (msg.arg1 != 0)
-				Toast.makeText(getApplicationContext(), msg.arg1,
-						Toast.LENGTH_SHORT).show();
-		}
-	};
-	final Message msg = new Message();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +105,13 @@ public class WidgetActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		if (v.getId() == R.id.enableFirewall) {
 			if (Api.applySavedIptablesRules(getApplicationContext(), false)) {
-				msg.arg1 = R.string.toast_enabled;
-				handler.sendMessage(msg);
+				Toast.makeText(getApplicationContext(), R.string.toast_enabled,
+						Toast.LENGTH_SHORT).show();
 				Api.setEnabled(getApplicationContext(), true);
 			} else {
-				msg.arg1 = R.string.toast_error_enabling;
-				handler.sendMessage(msg);
+				Toast.makeText(getApplicationContext(),
+						R.string.toast_error_enabling, Toast.LENGTH_SHORT)
+						.show();
 			}
 			finish();
 		}
@@ -133,16 +123,17 @@ public class WidgetActivity extends Activity implements OnClickListener {
 					.getString("validationPassword", "");
 			if (oldPwd.length() == 0 && newPwd.length() == 0) {
 				if (Api.purgeIptables(getApplicationContext(), false)) {
-					msg.arg1 = R.string.toast_disabled;
-					handler.sendMessage(msg);
+					Toast.makeText(getApplicationContext(),
+							R.string.toast_disabled, Toast.LENGTH_SHORT).show();
 					Api.setEnabled(getApplicationContext(), false);
 				} else {
-					msg.arg1 = R.string.toast_error_disabling;
-					handler.sendMessage(msg);
+					Toast.makeText(getApplicationContext(),
+							R.string.toast_error_disabling, Toast.LENGTH_SHORT)
+							.show();
 				}
 			} else {
-				msg.arg1 = R.string.widget_fail;
-				handler.sendMessage(msg);
+				Toast.makeText(getApplicationContext(), R.string.widget_fail,
+						Toast.LENGTH_SHORT).show();
 			}
 			finish();
 		}
@@ -180,7 +171,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
@@ -222,7 +213,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
@@ -264,7 +255,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
@@ -306,7 +297,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
@@ -348,7 +339,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
@@ -390,7 +381,7 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
-			} 
+			}
 			if (!enabled) {
 				Api.saveRules(getApplicationContext());
 				Api.purgeIptables(getApplicationContext(), true);
