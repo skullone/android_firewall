@@ -27,6 +27,8 @@ package com.jtschohl.androidfirewall;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * Broadcast receiver that set iptables rules on system startup. This is
@@ -37,8 +39,31 @@ public class BootBroadcast extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())){
-			Intent pushIntent = new Intent(context, setRulesOnBootService.class);
-			context.startService(pushIntent);
+			String mountState = Environment.getExternalStorageState();
+			int tries = 15;
+			do {
+				if (!mountState.equals(Environment.MEDIA_MOUNTED)){
+					Log.i("Android Firewall", "SDCard not yet ready. Waiting 2 seconds");
+					try{
+						Thread.sleep(2000); //sleep for one second
+					} catch (InterruptedException e){
+						Log.w("Android Firewall", "Interrupted!" + e);
+						break;
+					}
+					mountState = Environment.getExternalStorageState();
+				} else {
+					Log.i("Android Firewall", "SDCard is ready");
+					Intent pushIntent = new Intent(context, setRulesOnBootService.class);
+					context.startService(pushIntent);
+					break;
+				}
+			} while (--tries > 0);
+			if (tries == 0){
+				//give up
+				Log.d("Android Firewall", "Tries at 0");
+			}
+		//	Intent pushIntent = new Intent(context, setRulesOnBootService.class);
+			//context.startService(pushIntent);
 		}
 	}
 

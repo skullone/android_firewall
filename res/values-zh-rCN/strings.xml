@@ -154,5 +154,7 @@
     <string name="no_storage">打开 Android Firewall 目录出错。请先检查您的SD卡是否已挂载或外部存储是否可以用。</string>
     <string name="file_deleted">文件已被删除。</string>
     <string name="widget_fail">无法禁用防火墙，因为设置了密码保护</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
     
 </resources>

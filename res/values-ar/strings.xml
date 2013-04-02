@@ -136,5 +136,7 @@
     <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
     <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
     <string name="file_deleted">The file has been deleted.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
     
 </resources>

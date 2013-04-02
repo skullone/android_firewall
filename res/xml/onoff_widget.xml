@@ -3,6 +3,7 @@
     android:initialLayout="@layout/onoff_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"
+    android:previewImage="@drawable/widget_on"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0" >
 

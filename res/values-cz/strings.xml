@@ -139,5 +139,7 @@
     <string name="no_rules_file">Dispozici je chybě přístup na adresáři androidfirewall. Si prosím exportovat souboru s pravidly </string>
     <string name="no_storage">Dispozici je chybě v přístupu k adresáři androidfirewall. Zkontrolujte prosím, zda váš SDcard je namontován, nebo externí paměťové, je přístupná.</string>
     <string name="file_deleted">Soubor byla smazána.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

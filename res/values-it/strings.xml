@@ -139,5 +139,7 @@
     <string name="no_rules_file">Vi è un errore di accesso alla directory androidfirewall. Si prega di esportare un file di regole prima</string>
     <string name="no_storage">Vi è un errore di accesso alla directory androidfirewall. Si prega di verificare che la SDcard è montata o di archiviazione esterna è accessibile.</string>
     <string name="file_deleted">Il file è stato eliminato.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

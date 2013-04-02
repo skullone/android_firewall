@@ -142,5 +142,7 @@
     <string name="no_rules_file">Android Firewallディレクトリへアクセスエラーが発生しました. ルールをエクスポートして下さい.</string>
     <string name="no_storage">Android Firewallディレクトリへアクセスエラーが発生しました. 外部メモリがマウントされているか確認して下さい.</string>
     <string name="file_deleted">ファイルは削除されました</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

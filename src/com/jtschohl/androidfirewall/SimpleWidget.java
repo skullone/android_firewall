@@ -120,7 +120,7 @@ public class SimpleWidget extends AppWidgetProvider {
 			int[] widgetIds, boolean enabled) {
 		final RemoteViews views = new RemoteViews(context.getPackageName(),
 				R.layout.simple_widget);
-		final int iconId = enabled ? R.drawable.widget_on
+		final int iconId = enabled ? R.drawable.widget_on2
 				: R.drawable.widget_off;
 		views.setImageViewResource(R.id.simplewidget, iconId);
 

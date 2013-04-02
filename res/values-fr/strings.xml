@@ -153,5 +153,7 @@
     <string name="no_rules_file">Il ya une erreur en accédant au répertoire d\'Android Firewall. Exporter un fichier de règles en premier.</string>
     <string name="no_storage">Il ya une erreur en accédant au répertoire d\'Android Firewall. Vérifiez que votre carte SD est montée ou que le disque externe est accessible.</string>
     <string name="file_deleted">Le fichier a été supprimé.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

@@ -71,6 +71,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" >
+                </action>
+            </intent-filter>
         </receiver>
         <receiver android:name="com.jtschohl.androidfirewall.CheckForChangeToRoaming" >
             <intent-filter>
@@ -85,7 +89,9 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <receiver android:name="StatusWidget" >
+        <receiver
+            android:name="StatusWidget"
+            android:label="@string/statuswidget" >
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/onoff_widget" />
@@ -96,7 +102,9 @@
                 <action android:name="com.jtschohl.androidfirewall.intent.action.TOGGLE_REQUEST" />
             </intent-filter>
         </receiver>
-        <receiver android:name="SimpleWidget" >
+        <receiver
+            android:name="SimpleWidget"
+            android:label="@string/simplewidget" >
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/simplewidget" />

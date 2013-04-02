@@ -154,5 +154,7 @@
     <string name="widget_fail">Cannot disable the firewall. It is password protected.</string>
     <string name="error_no_root">Android Firewall has not been granted root access!</string>
     <string name="languageSupport">Languages</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

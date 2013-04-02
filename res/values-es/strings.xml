@@ -148,5 +148,7 @@
     <string name="no_rules_file">Hay un error al acceder al directorio androidfirewall. Por favor, exporte un archivo de reglas primero</string>
     <string name="no_storage">Hay un error al acceder al directorio androidfirewall. Por favor, compruebe que su tarjeta SD está montada o almacenamiento externo es accesible.</string>
     <string name="file_deleted">El archivo ha sido borrado.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
 
 </resources>

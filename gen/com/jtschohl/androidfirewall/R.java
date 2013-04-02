@@ -30,6 +30,7 @@ public final class R {
         public static final int widget_bg_pressed=0x7f020007;
         public static final int widget_off=0x7f020008;
         public static final int widget_on=0x7f020009;
+        public static final int widget_on2=0x7f02000a;
     }
     public static final class id {
         public static final int DefaultProfile=0x7f0a002e;
@@ -244,6 +245,8 @@ public final class R {
         public static final int setpwd=0x7f080008;
         public static final int show_log=0x7f080017;
         public static final int showrules=0x7f080003;
+        public static final int simplewidget=0x7f080088;
+        public static final int statuswidget=0x7f080089;
         public static final int tasker_name=0x7f08006f;
         public static final int tasker_profile=0x7f08007e;
         public static final int tasker_profile_disabled=0x7f080070;
@@ -265,8 +268,8 @@ public final class R {
         public static final int unsaved_changes_message=0x7f080039;
         public static final int usersettings=0x7f080076;
         public static final int vpn=0x7f080074;
-        public static final int vpn_disabled=0x7f080089;
-        public static final int vpn_enabled=0x7f080088;
+        public static final int vpn_disabled=0x7f08008b;
+        public static final int vpn_enabled=0x7f08008a;
         public static final int vpn_summary=0x7f080079;
         public static final int vpn_title=0x7f080073;
         public static final int widget_fail=0x7f080085;
