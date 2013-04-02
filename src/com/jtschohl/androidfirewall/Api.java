@@ -44,6 +44,7 @@ import eu.chainfire.libsuperuser.Shell.SU;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -122,8 +123,9 @@ public final class Api {
 
 	// Cached applications
 	public static DroidApp applications[] = null;
+
 	// Do we have root access?
-	//private static boolean hasroot = false;
+	// private static boolean hasroot = false;
 
 	/**
 	 * Display a simple alert box
@@ -135,7 +137,9 @@ public final class Api {
 	 */
 	public static void alert(Context ctx, CharSequence msg) {
 		if (ctx != null) {
-			Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
+			new AlertDialog.Builder(ctx)
+					.setNeutralButton(android.R.string.ok, null)
+					.setMessage(msg).show();
 		}
 	}
 
@@ -1109,12 +1113,11 @@ public final class Api {
 		}
 	}
 
-	
 	/**
 	 * Change user language
 	 */
-	public static void changeLanguage(Context context, String language){
-		if (!"".equals(language)){
+	public static void changeLanguage(Context context, String language) {
+		if (!"".equals(language)) {
 			Locale locale = new Locale(language);
 			Locale.setDefault(locale);
 			Configuration config = new Configuration();
@@ -1122,7 +1125,7 @@ public final class Api {
 			context.getResources().updateConfiguration(config, null);
 		}
 	}
-	
+
 	/**
 	 * @param ctx
 	 *            application context (mandatory)
