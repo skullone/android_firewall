@@ -55,7 +55,8 @@
     <string name="custom_script_defined">自定义脚本已定义</string>
     <string name="custom_script_removed">自定义脚本已删除</string>
     <string name="custom_script_error">保存自定义脚本时出错</string>
-    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.</string>
+    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
+</string>
     <string name="custom_script2_info">    	\n<b>自定义禁用脚本</b>    	\n在防火墙<b>被禁用</b>时执行的脚本：</string>
     <string name="unsaved_changes">未保存更改</string>
     <string name="unsaved_changes_message">有未保存更改。\n你想保存还是丢弃它们？</string>
@@ -78,7 +79,8 @@
 		\nAndroid Firewall将会记录每一个被阻止的程序. 你可以打开菜单并选择 <b>更多 -> 显示日志</b> 来检查日志。
 		\n
 		\n<b>程序锁：</b>		\n你可以使用菜单中的<b>设置密码</b>选项来为Android Firewall设置密码锁。
-		\n若要移除密码保护，只需要将它重置为空白。</string>
+		\n若要移除密码保护，只需要将它重置为空白。
+</string>
     <string name="overwrite_rules">即将覆盖现有规则，要继续吗？</string>
     <string name="importsuccess">导入成功！</string>
     <string name="importfailed">导入失败！</string>
@@ -154,7 +156,7 @@
     <string name="no_storage">打开 Android Firewall 目录出错。请先检查您的SD卡是否已挂载或外部存储是否可以用。</string>
     <string name="file_deleted">文件已被删除。</string>
     <string name="widget_fail">无法禁用防火墙，因为设置了密码保护</string>
-    <string name="simplewidget">On/Off Widget</string>
-    <string name="statuswidget">Menu Widget</string>
+    <string name="simplewidget">开关部件</string>
+    <string name="statuswidget">菜单部件</string>
     
 </resources>
