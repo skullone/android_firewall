@@ -1117,13 +1117,25 @@ public final class Api {
 	 * Change user language
 	 */
 	public static void changeLanguage(Context context, String language) {
-		if (!"".equals(language)) {
-			Locale locale = new Locale(language);
-			Locale.setDefault(locale);
+		Locale locale;
+
+		if (language.equals("")) {
+			/* use system language settings */
+			locale = Locale.getDefault();
+		} else if (language.contains("-")) {
+			/* handle special language code, in language-country format */
+			String array[] = language.split("-");
+			locale = new Locale(array[0], array[1]);
+		} else {
+			locale = new Locale(language);
+		}
+
+		//if (!"".equals(language)) {
+		//	Locale.setDefault(locale);
 			Configuration config = new Configuration();
 			config.locale = locale;
 			context.getResources().updateConfiguration(config, null);
-		}
+		//}
 	}
 
 	/**
