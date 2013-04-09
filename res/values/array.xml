@@ -11,6 +11,7 @@
     </string-array>
     
     <string-array name="language_support">
+        <item>System Language</item>
         <item>English</item>
         <item>Arabic</item>
         <item>Czech</item>
@@ -19,10 +20,13 @@
         <item>French</item>
         <item>Italian</item>
         <item>Japanese</item>
+        <item>Portuguese, Brazil</item>
         <item>Russian</item>
+        <item>Simplified Chinese</item>
     </string-array>
     
     <string-array name="language_codes">
+        <item></item>
         <item>en</item>
         <item>ar</item>
         <item>cz</item>
@@ -31,7 +35,9 @@
         <item>fr</item>
         <item>it</item>
         <item>ja</item>
+        <item>pt-BR</item>
         <item>ru</item>
+        <item>zh-CN</item>
     </string-array>
 
 </resources>

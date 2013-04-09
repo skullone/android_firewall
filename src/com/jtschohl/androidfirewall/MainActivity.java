@@ -134,7 +134,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 
-		String language = prefs.getString("locale", Locale.getDefault().getDisplayLanguage());
+		// use "" as default
+		String language = prefs.getString("locale", "");
 		Api.changeLanguage(getApplicationContext(), language);
 
 		// create the spinner
