@@ -134,9 +134,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 
-		String language = prefs.getString("locale", "en");
+		String language = prefs.getString("locale", Locale.getDefault().getDisplayLanguage());
 		Api.changeLanguage(getApplicationContext(), language);
-		
+
 		// create the spinner
 		spinner = (Spinner) findViewById(R.id.spinner);
 
@@ -481,9 +481,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				.getBoolean(Api.PREF_LOGENABLED, false);
 		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
-		boolean taskerenabled = ctx
-				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
-						Api.PREF_TASKERNOTIFY, false);
+		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -519,6 +518,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 */
 	public void showOrLoadApplications() {
 		final Resources res = getResources();
+		final String search = "";
 		if (Api.applications == null) {
 			// The applications are not cached.. so lets display the progress
 			// dialog
@@ -537,15 +537,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 					try {
 						progress.dismiss();
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error in showorloadappllications",
+						Log.d("Android Firewall - error in showorloadapplications",
 								ex.getMessage());
 					}
-					createListView("");
+					createListView(search);
 				}
 			}.execute();
 		} else {
 			// the applications are cached, just show the list
-			createListView("");
+			createListView(search);
 		}
 	}
 
@@ -553,7 +553,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 * Show the list of applications
 	 * 
 	 * Thanks to Ukanth for the Search code so I didn't have to reinvent the
-	 * whell
+	 * wheel
 	 * 
 	 */
 	private void createListView(final String searching) {
@@ -588,103 +588,100 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				return 1;
 			}
 		});
-	//	try {
-			final LayoutInflater inflater = getLayoutInflater();
-			ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
-					R.layout.listitem, R.id.itemtext, apps) {
-				SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
-						0);
-				boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED,
-						false);
-				boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED,
-						false);
-				@Override
-				public View getView(final int position, View convertView,
-						ViewGroup parent) {
-					ListEntry entry;
-					if (convertView == null) {
-						// Inflate a new view
-						convertView = inflater.inflate(R.layout.listitem,
-								parent, false);
-						Log.d("Android Firewall", ">> inflate(" + convertView
-								+ ")");
-						entry = new ListEntry();
-						entry.box_wifi = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_wifi);
-						entry.box_3g = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_3g);
-						entry.box_roaming = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_roam);
-						entry.box_vpn = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_vpn);
-						if (vpnenabled) {
-							entry.box_vpn.setVisibility(View.VISIBLE);
-						}
-						if (roamenabled) {
-							entry.box_roaming.setVisibility(View.VISIBLE);
-						}
-						entry.text = (TextView) convertView
-								.findViewById(R.id.itemtext);
-						entry.icon = (ImageView) convertView
-								.findViewById(R.id.itemicon);
-						entry.box_wifi
-								.setOnCheckedChangeListener(MainActivity.this);
-						entry.box_3g
-								.setOnCheckedChangeListener(MainActivity.this);
-						entry.box_roaming
-								.setOnCheckedChangeListener(MainActivity.this);
-						entry.box_vpn
-								.setOnCheckedChangeListener(MainActivity.this);
-						convertView.setTag(entry);
-					} else {
-						// Convert an existing view
-						entry = (ListEntry) convertView.getTag();
-						entry.box_wifi = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_wifi);
-						entry.box_3g = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_3g);
-						if (vpnenabled) {
-							entry.box_vpn.setVisibility(View.VISIBLE);
-						}
-						if (roamenabled) {
-							entry.box_roaming.setVisibility(View.VISIBLE);
-						}
-						entry.box_roaming = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_roam);
-						entry.box_vpn = (CheckBox) convertView
-								.findViewById(R.id.itemcheck_vpn);
+		// try {
+		final LayoutInflater inflater = getLayoutInflater();
+		ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
+				R.layout.listitem, R.id.itemtext, apps) {
+			SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+			boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
+			boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
+
+			@Override
+			public View getView(final int position, View convertView,
+					ViewGroup parent) {
+				ListEntry entry;
+				if (convertView == null) {
+					// Inflate a new view
+					convertView = inflater.inflate(R.layout.listitem, parent,
+							false);
+					Log.d("Android Firewall", ">> inflate(" + convertView + ")");
+					entry = new ListEntry();
+					entry.box_wifi = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_wifi);
+					entry.box_3g = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_3g);
+					entry.box_roaming = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_roam);
+					entry.box_vpn = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_vpn);
+					if (vpnenabled) {
+						entry.box_vpn.setVisibility(View.VISIBLE);
 					}
-					final DroidApp app = apps[position];
-					entry.app = app;
-					entry.text.setText(app.toString());
-					entry.icon.setImageDrawable(app.cached_icon);
-					if (!app.icon_loaded && app.appinfo != null) {
-						// this icon has not been loaded yet - load it on a
-						// separated thread
-						new LoadIconTask().execute(app, getPackageManager(),
-								convertView);
+					if (roamenabled) {
+						entry.box_roaming.setVisibility(View.VISIBLE);
 					}
-					final CheckBox box_wifi = entry.box_wifi;
-					box_wifi.setTag(app);
-					box_wifi.setChecked(app.selected_wifi);
-					final CheckBox box_3g = entry.box_3g;
-					box_3g.setTag(app);
-					box_3g.setChecked(app.selected_3g);
-					final CheckBox box_roaming = entry.box_roaming;
-					box_roaming.setTag(app);
-					box_roaming.setChecked(app.selected_roaming);
-					final CheckBox box_vpn = entry.box_vpn;
-					box_vpn.setTag(app);
-					box_vpn.setChecked(app.selected_vpn);
-					return convertView;
+					entry.text = (TextView) convertView
+							.findViewById(R.id.itemtext);
+					entry.icon = (ImageView) convertView
+							.findViewById(R.id.itemicon);
+					entry.box_wifi
+							.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_roaming
+							.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_vpn.setOnCheckedChangeListener(MainActivity.this);
+					convertView.setTag(entry);
+				} else {
+					// Convert an existing view
+					entry = (ListEntry) convertView.getTag();
+					entry.box_wifi = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_wifi);
+					entry.box_3g = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_3g);
+					if (vpnenabled) {
+						entry.box_vpn.setVisibility(View.VISIBLE);
+					}
+					if (roamenabled) {
+						entry.box_roaming.setVisibility(View.VISIBLE);
+					}
+					entry.box_roaming = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_roam);
+					entry.box_vpn = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_vpn);
 				}
-			};
-			this.listview.setAdapter(adapter);
-	/*	} catch (Exception e) {
-			Log.d("Null pointer on listview", e.getMessage());
-			e.printStackTrace();*/
-		}
-	//}
+				final DroidApp app = apps[position];
+				entry.app = app;
+				entry.text.setText(app.toString());
+				entry.icon.setImageDrawable(app.cached_icon);
+				if (!app.icon_loaded && app.appinfo != null) {
+					// this icon has not been loaded yet - load it on a
+					// separated thread
+					new LoadIconTask().execute(app, getPackageManager(),
+							convertView);
+				}
+				final CheckBox box_wifi = entry.box_wifi;
+				box_wifi.setTag(app);
+				box_wifi.setChecked(app.selected_wifi);
+				final CheckBox box_3g = entry.box_3g;
+				box_3g.setTag(app);
+				box_3g.setChecked(app.selected_3g);
+				final CheckBox box_roaming = entry.box_roaming;
+				box_roaming.setTag(app);
+				box_roaming.setChecked(app.selected_roaming);
+				final CheckBox box_vpn = entry.box_vpn;
+				box_vpn.setTag(app);
+				box_vpn.setChecked(app.selected_vpn);
+				return convertView;
+			}
+		};
+		this.listview.setAdapter(adapter);
+		/*
+		 * } catch (Exception e) { Log.d("Null pointer on listview",
+		 * e.getMessage()); e.printStackTrace();
+		 */
+	}
+
+	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -1019,12 +1016,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			updateSpinner();
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			SharedPreferences prefs = PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext());
 			Intent intent = getIntent();
 			finish();
 			toggleVPNbutton(getApplicationContext());
 			toggleRoambutton(getApplicationContext());
-			String language = prefs.getString("locale", Locale.getDefault().getDisplayLanguage());
+			String language = prefs.getString("locale", Locale.getDefault()
+					.getDisplayLanguage());
 			Api.changeLanguage(getApplicationContext(), language);
 			startActivity(intent);
 		}
@@ -1829,7 +1828,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	private TextWatcher filterTextWatcher = new TextWatcher() {
 
 		public void afterTextChanged(Editable s) {
-			MainActivity.this.createListView(s.toString());
+			createListView(s.toString());
 		}
 
 		public void beforeTextChanged(CharSequence s, int start, int count,
@@ -1838,7 +1837,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			MainActivity.this.createListView(s.toString());
+			createListView(s.toString());
 		}
 	};
 }

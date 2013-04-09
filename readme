@@ -2,6 +2,7 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog: 
 
+2.1.9 - Bug fixes.  Fixed issue where language was defaulting to English.
 2.1.8 - Bug fixes for crashes and NullPointerExceptions.  Added old widget back in.  The widgets are identifiable by their icons.  Blue-Green is On/Off widget.
 		Blue is the new toggle widget.  Ability to choose your language has been added (more will be added in the future).  Tasker can now Enable/Disable the firewall.
 2.1.7 - Widget has been replaced with a more functional one since the original gave people way too many problems.
