@@ -98,6 +98,7 @@ public final class Api {
 	public static final String PREF_EXPORTNAME = "ExportName";
 	public static final String PREF_NOTIFY = "NotifyEnabled";
 	public static final String PREF_TASKERNOTIFY = "TaskerNotifyEnabled";
+	public static final String PREF_SDCARD = "SDCard";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -382,6 +383,7 @@ public final class Api {
 					}
 				}
 			}
+			script.append("$IPTABLES -I droidwall-3g -m owner --uid-owner 9999 -j RETURN || exit 9999\n");
 			if (any_wifi) {
 				if (blacklist) {
 					/* block any application on this interface */
@@ -570,6 +572,7 @@ public final class Api {
 						}
 					}
 				}
+				script.append("$IP6TABLES -I droidwall-3g -m owner --uid-owner 9999 -j RETURN || exit 9999\n");
 				if (any_wifi && ipv6enabled) {
 					if (blacklist) {
 						// block any application on this interface

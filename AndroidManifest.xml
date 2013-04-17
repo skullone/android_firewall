@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
-    android:versionCode="219"
-    android:versionName="2.1.9" >
+    android:installLocation="internalOnly"
+    android:versionCode="220"
+    android:versionName="2.2.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -71,9 +72,14 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
             </intent-filter>
+        </receiver>
+        <receiver android:name="isMediaScanning" >
             <intent-filter>
-                <action android:name="android.intent.action.MEDIA_MOUNTED" >
+                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" >
                 </action>
+
+                <data android:scheme="file" >
+                </data>
             </intent-filter>
         </receiver>
         <receiver android:name="com.jtschohl.androidfirewall.CheckForChangeToRoaming" >

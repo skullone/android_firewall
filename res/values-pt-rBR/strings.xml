@@ -151,5 +151,7 @@
     <string name="file_deleted">O arquivo de foi apagado.</string>
     <string name="simplewidget">On/Off Widget</string>
     <string name="statuswidget">Menu Widget</string>
+    <string name="sdcard_title">Apps on SDCard Support</string>
+    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
 
 </resources>

@@ -32,7 +32,7 @@ import android.util.Log;
 import android.content.Intent;
 
 public class setRulesOnBootService extends Service {
-	
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -55,24 +55,32 @@ public class setRulesOnBootService extends Service {
 		new Thread() {
 			public void run() {
 				Looper.prepare();
-				final boolean enabled = Api.isEnabled(getApplicationContext());
-				if (enabled) {
-					Log.d("Android Firewall", "Applying rules.");
-					if (Api.hasRootAccess(getApplicationContext(), true)
-							&& Api.applyIptablesRules(getApplicationContext(),
-									true)) {
+				try {
+					//sleep 3 seconds for SDcard apps
+					sleep(5000);
+					final boolean enabled = Api
+							.isEnabled(getApplicationContext());
+					if (enabled) {
+						Log.d("Android Firewall", "Applying rules.");
+						if (Api.hasRootAccess(getApplicationContext(), true)
+								&& Api.applyIptablesRules(
+										getApplicationContext(), true)) {
+							Log.d("Android Firewall",
+									"Enabled - Firewall successfully enabled on boot.");
+						}
+					} else {
 						Log.d("Android Firewall",
-								"Enabled - Firewall successfully enabled on boot.");
+								"Failed - Disabling firewall.");
+						Api.setEnabled(getApplicationContext(), false);
 					}
-				} else {
-					Log.d("Android Firewall", "Failed - Disabling firewall.");
-					Api.setEnabled(getApplicationContext(), false);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}.start();
-		new Handler().postDelayed(new Runnable(){
+		new Handler().postDelayed(new Runnable() {
 			@Override
-			public void run(){
+			public void run() {
 				stopSelf();
 			}
 		}, 180000);

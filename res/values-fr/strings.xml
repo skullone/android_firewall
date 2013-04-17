@@ -155,5 +155,7 @@
     <string name="file_deleted">Le fichier a été supprimé.</string>
     <string name="simplewidget">On/Off Widget</string>
     <string name="statuswidget">Menu Widget</string>
+    <string name="sdcard_title">Support des applications sur la SDCard</string>
+    <string name="sdcard_summary">Ce réglage permet à l\'application d\'attendre la fin du scan de la SDCard avant d\'appliquer les règles. Ceci est nécessaire si vous utilisez des applications qui demandent l\'accès au réseau et que vous les déplacez sur la SDCard. Remarque: après un redémarrage le temps pour appliquer les règles sera augmenté.</string>
 
 </resources>

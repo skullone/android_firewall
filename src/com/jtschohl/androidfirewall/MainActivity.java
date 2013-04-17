@@ -484,6 +484,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
+		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -510,6 +512,13 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			editor.commit();
 		} else {
 			editor.putBoolean("taskertoastenabled", false);
+			editor.commit();
+		}
+		if (sdcard) {
+			editor.putBoolean("sdcard", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("sdcard", false);
 			editor.commit();
 		}
 	}

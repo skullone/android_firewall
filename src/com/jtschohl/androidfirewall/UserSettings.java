@@ -75,6 +75,9 @@ public class UserSettings extends PreferenceActivity implements
 		if (key.equals("logenabled")) {
 			toggleLogenabled();
 		}
+		if (key.equals("sdcard")) {
+			sdcardSupport();
+		}
 		if (key.equals("vpnsupport")) {
 			toggleVPNenabled();
 		}
@@ -87,7 +90,7 @@ public class UserSettings extends PreferenceActivity implements
 		if (key.equals("taskertoastenabled")) {
 			toggleTaskerNotifyenabled();
 		}
-		if (key.equals("locale")){
+		if (key.equals("locale")) {
 			Api.applications = null;
 			Intent intent = new Intent();
 			setResult(RESULT_OK, intent);
@@ -174,6 +177,17 @@ public class UserSettings extends PreferenceActivity implements
 		final boolean enabled = !prefs.getBoolean(Api.PREF_NOTIFY, false);
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_NOTIFY, enabled);
+		editor.commit();
+	}
+
+	/**
+	 * Toggle apps on SDCard support on/off
+	 */
+	private void sdcardSupport() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean enabled = !prefs.getBoolean(Api.PREF_SDCARD, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_SDCARD, enabled);
 		editor.commit();
 	}
 

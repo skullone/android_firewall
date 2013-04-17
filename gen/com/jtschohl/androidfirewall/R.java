@@ -240,6 +240,8 @@ public final class R {
         public static final int saveprofile=0x7f08005a;
         public static final int saverules=0x7f080005;
         public static final int saving_rules=0x7f08001b;
+        public static final int sdcard_summary=0x7f08008b;
+        public static final int sdcard_title=0x7f08008a;
         public static final int search_name=0x7f080071;
         public static final int set_custom_script=0x7f080032;
         public static final int setpwd=0x7f080008;
@@ -268,8 +270,8 @@ public final class R {
         public static final int unsaved_changes_message=0x7f080039;
         public static final int usersettings=0x7f080076;
         public static final int vpn=0x7f080074;
-        public static final int vpn_disabled=0x7f08008b;
-        public static final int vpn_enabled=0x7f08008a;
+        public static final int vpn_disabled=0x7f08008d;
+        public static final int vpn_enabled=0x7f08008c;
         public static final int vpn_summary=0x7f080079;
         public static final int vpn_title=0x7f080073;
         public static final int widget_fail=0x7f080085;

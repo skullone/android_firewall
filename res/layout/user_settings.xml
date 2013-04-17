@@ -36,6 +36,12 @@
         android:summaryOff="@string/taskertoast_summary"
         android:summaryOn="@string/taskertoast_summary"
         android:title="@string/taskertoast_title" />
+    
+    <CheckBoxPreference
+        android:key="sdcard"
+        android:summaryOff="@string/sdcard_summary"
+        android:summaryOn="@string/sdcard_summary"
+        android:title="@string/sdcard_title" />
 
     <ListPreference
         android:entries="@array/language_support"
