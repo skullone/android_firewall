@@ -56,7 +56,7 @@ public class setRulesOnBootService extends Service {
 			public void run() {
 				Looper.prepare();
 				try {
-					//sleep 3 seconds for SDcard apps
+					//sleep 5 seconds for SDcard apps
 					sleep(5000);
 					final boolean enabled = Api
 							.isEnabled(getApplicationContext());

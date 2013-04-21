@@ -1079,42 +1079,18 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 * Show iptable rules on a dialog
 	 */
 	private void showRules() {
-		final Resources res = getResources();
-		final ProgressDialog progress = ProgressDialog.show(this,
-				res.getString(R.string.working),
-				res.getString(R.string.please_wait), true);
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					progress.dismiss();
-				} catch (Exception ex) {
-				}
-				if (!Api.hasRootAccess(MainActivity.this, true))
-					return;
-				Api.showIptablesRules(MainActivity.this);
-			}
-		};
-		handler.sendEmptyMessageDelayed(0, 100);
+		Intent intent = new Intent();
+		intent.setClass(this, showRules.class);
+		startActivityForResult(intent, 0);
 	}
 
 	/**
 	 * Show logs on a dialog
 	 */
 	private void showLog() {
-		final Resources res = getResources();
-		final ProgressDialog progress = ProgressDialog.show(this,
-				res.getString(R.string.working),
-				res.getString(R.string.please_wait), true);
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					progress.dismiss();
-				} catch (Exception ex) {
-				}
-				Api.showLog(MainActivity.this);
-			}
-		};
-		handler.sendEmptyMessageDelayed(0, 100);
+		Intent intent = new Intent();
+		intent.setClass(this, showLog.class);
+		startActivityForResult(intent, 0);
 	}
 
 	/**
