@@ -570,11 +570,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		this.dirty = false;
 		List<DroidApp> namesearch = new ArrayList<DroidApp>();
 		final DroidApp[] appnames = Api.getApps(this);
-		if (!searching.equals("") && searching.length() > 0) {
+		if (searching != null && searching.length() > 1) {
 			for (DroidApp app : appnames) {
 				for (String str : app.names) {
-					if (str.contains(searching)
-							|| str.toLowerCase().contains(searching)) {
+					if (str.contains(searching.toLowerCase())
+							|| str.toLowerCase().contains(
+									searching.toLowerCase())) {
 						namesearch.add(app);
 					}
 				}

@@ -83,7 +83,7 @@ public class setRulesOnBootService extends Service {
 			public void run() {
 				stopSelf();
 			}
-		}, 180000);
+		}, 120000);
 	};
 
 }
