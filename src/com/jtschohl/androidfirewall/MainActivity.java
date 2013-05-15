@@ -685,7 +685,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				return convertView;
 			}
 		};
-		this.listview.setAdapter(adapter);
+		if (listview == null) {
+			Api.applications = null;
+			showOrLoadApplications();
+		} else {
+			this.listview.setAdapter(adapter);
+		}
 		/*
 		 * } catch (Exception e) { Log.d("Null pointer on listview",
 		 * e.getMessage()); e.printStackTrace();

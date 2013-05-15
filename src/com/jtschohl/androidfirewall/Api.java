@@ -250,7 +250,7 @@ public final class Api {
 		}
 		assertBinaries(ctx, showErrors);
 		final String ITFS_WIFI[] = { "tiwlan+", "wlan+", "eth+", "ra+",
-				"wlan0+", "eth0+" };
+				"wlan0+", "eth0+", "bnep0" };
 		final String ITFS_3G[] = { "rmnet+", "pdp+", "ppp+", "uwbr+", "wimax+",
 				"vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 				"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",

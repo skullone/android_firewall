@@ -2,6 +2,7 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:
  
+2.2.2 - Bug fixes for crashing on start up or after an app has been install/uninstalled.  Added Bluetooth interface names to WiFi for BT tethering.
 2.2.1 - Bug fixes.  Show rules and Show logs UI updated.
 2.2.0 - Users with apps on the SDCard can now change, under Settings, the way AF applies rules during a reboot to make sure the apps are loaded properly.  
 		Tethering now works without disabling the firewall.  You must enable "root" and "kernel" in the rules.
