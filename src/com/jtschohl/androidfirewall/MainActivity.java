@@ -1,7 +1,7 @@
 /**
  * Main application activity.
  * This is the screen displayed when you open the application
- * 
+ *
  * Copyright (C) 2009-2011  Rodrigo Zechin Rosauro
  * Copyright (C) 2012-2014	Jason Tschohl
  *
@@ -358,7 +358,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Set a new password lock
-	 * 
+	 *
 	 * @param pwd
 	 *            new password (empty to remove the lock)
 	 */
@@ -561,10 +561,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Show the list of applications
-	 * 
+	 *
 	 * Thanks to Ukanth for the Search code so I didn't have to reinvent the
 	 * wheel
-	 * 
+	 *
 	 */
 	private void createListView(final String searching) {
 		this.dirty = false;
@@ -587,17 +587,22 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		Arrays.sort(apps, new Comparator<DroidApp>() {
 			@Override
 			public int compare(DroidApp o1, DroidApp o2) {
-				if (o1.firstseem != o2.firstseem) {
-					return (o1.firstseem ? -1 : 1);
-				}
-				if ((o1.selected_wifi | o1.selected_3g) == (o2.selected_wifi | o2.selected_3g)) {
+				if (o1.firstseen != o2.firstseen) {
+					return (o1.firstseen ? -1 : 1);
+                }
+			//	if ((o1.selected_wifi | o1.selected_3g) == (o2.selected_wifi | o2.selected_3g)) {
+                boolean o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming || o1.selected_vpn;
+                boolean o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming || o2.selected_vpn;
+
+                if(o1_selected == o2_selected){
 					return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
 							o2.names[0]);
 				}
-				if (o1.selected_wifi || o1.selected_3g)
+			//	if (o1.selected_wifi || o1.selected_3g)
+                if (o1_selected)
 					return -1;
 				return 1;
-			}
+		}
 		});
 		// try {
 		final LayoutInflater inflater = getLayoutInflater();
@@ -1051,7 +1056,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Set a new init script
-	 * 
+	 *
 	 * @param script
 	 *            new script (empty to remove)
 	 * @param script2

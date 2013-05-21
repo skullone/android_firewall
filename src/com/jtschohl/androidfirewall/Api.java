@@ -250,12 +250,12 @@ public final class Api {
 		}
 		assertBinaries(ctx, showErrors);
 		final String ITFS_WIFI[] = { "tiwlan+", "wlan+", "eth+", "ra+",
-				"wlan0+", "eth0+", "bnep0" };
+				"wlan0+", "eth0+" };
 		final String ITFS_3G[] = { "rmnet+", "pdp+", "ppp+", "uwbr+", "wimax+",
 				"vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 				"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
 				"rmnet0+", "cdma_rmnet+" };
-		final String ITFS_VPN[] = { "tun+", "tun0+", "ppp+", "ppp0+" };
+		final String ITFS_VPN[] = { "tun+", "tun0+", "ppp+", "ppp0+", "bnep0" };
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
 				.equals(MODE_WHITELIST);
@@ -1259,7 +1259,7 @@ public final class Api {
 			String cachekey = null;
 			DroidApp app = null;
 			for (final ApplicationInfo apinfo : installed) {
-				boolean firstseem = false;
+				boolean firstseen = false;
 				app = map.get(apinfo.uid);
 				// filter applications which are not allowed to access the
 				// Internet
@@ -1278,7 +1278,7 @@ public final class Api {
 					name = pkgmanager.getApplicationLabel(apinfo).toString();
 					edit.putString(cachekey, name);
 					changed = true;
-					firstseem = true;
+					firstseen = true;
 				}
 				if (app == null) {
 					app = new DroidApp();
@@ -1293,7 +1293,7 @@ public final class Api {
 					newnames[app.names.length] = name;
 					app.names = newnames;
 				}
-				app.firstseem = firstseem;
+				app.firstseen = firstseen;
 				// check if this application is selected
 				if (!app.selected_wifi
 						&& Arrays.binarySearch(selected_wifi, app.uid) >= 0) {
@@ -1722,8 +1722,8 @@ public final class Api {
 		Drawable cached_icon;
 		/** indicates if the icon has been loaded already */
 		boolean icon_loaded;
-		/** first time seem? */
-		boolean firstseem;
+		/** first time seen? */
+		boolean firstseen;
 
 		public DroidApp() {
 		}
