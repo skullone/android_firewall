@@ -590,17 +590,58 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				if (o1.firstseen != o2.firstseen) {
 					return (o1.firstseen ? -1 : 1);
                 }
-			//	if ((o1.selected_wifi | o1.selected_3g) == (o2.selected_wifi | o2.selected_3g)) {
-                boolean o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming || o1.selected_vpn;
-                boolean o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming || o2.selected_vpn;
+                boolean o1_selected;
+                boolean o2_selected;
 
-                if(o1_selected == o2_selected){
-					return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
-							o2.names[0]);
-				}
-			//	if (o1.selected_wifi || o1.selected_3g)
-                if (o1_selected)
-					return -1;
+                boolean vpnenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+                        .getBoolean(Api.PREF_VPNENABLED, false);
+                boolean roamenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+                        .getBoolean(Api.PREF_ROAMENABLED, false);
+
+                if(vpnenabled && !roamenabled){
+                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_vpn;
+                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_vpn;
+
+                    if(o1_selected == o2_selected){
+                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
+                                o2.names[0]);
+                    }
+                    if (o1_selected)
+                        return -1;
+                }
+                if(roamenabled && !vpnenabled){
+                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming;
+                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming;
+
+                    if(o1_selected == o2_selected){
+                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
+                                o2.names[0]);
+                    }
+                    if (o1_selected)
+                        return -1;
+                }
+                if(roamenabled && vpnenabled){
+                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming || o1.selected_vpn;
+                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming || o2.selected_vpn;
+
+                    if(o1_selected == o2_selected){
+                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
+                                o2.names[0]);
+                    }
+                    if (o1_selected)
+                        return -1;
+                }
+                if(!roamenabled && !vpnenabled){
+                    o1_selected = o1.selected_3g || o1.selected_wifi;
+                    o2_selected = o2.selected_3g || o2.selected_wifi;
+
+                    if(o1_selected == o2_selected){
+                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
+                                o2.names[0]);
+                    }
+                    if (o1_selected)
+                        return -1;
+                }
 				return 1;
 		}
 		});
