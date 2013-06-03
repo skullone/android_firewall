@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:padding="6dp" >
 
-        <Spinner
+        <com.actionbarsherlock.internal.widget.IcsSpinner
             android:id="@+id/spinner"
             android:layout_width="130dp"
             android:layout_height="35dp"
