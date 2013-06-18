@@ -1150,13 +1150,9 @@ public final class Api {
 		} else {
 			locale = new Locale(language);
 		}
-
-		// if (!"".equals(language)) {
-		// Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
 		context.getResources().updateConfiguration(config, null);
-		// }
 	}
 
 	/**

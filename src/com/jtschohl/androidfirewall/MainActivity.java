@@ -135,7 +135,6 @@ public class MainActivity extends SherlockActivity implements
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-
 		// use "" as default
 		String language = prefs.getString("locale", "");
 		Api.changeLanguage(getApplicationContext(), language);
@@ -249,6 +248,8 @@ public class MainActivity extends SherlockActivity implements
 			// Check the password
 			requestPassword(pwd);
 		}
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
 	}
 
 	@Override
@@ -1039,6 +1040,8 @@ public class MainActivity extends SherlockActivity implements
 	static final int EDIT_PROFILE_REQUEST = 50;
 	// set Request Code for User Settings
 	static final int USER_SETTINGS_REQUEST = 60;
+	//set Request Code for Language Change
+	static final int CHANGE_LANGUAGE_REQUEST = 70;
 
 	// @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1091,7 +1094,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
 			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(getApplicationContext());
+				.getDefaultSharedPreferences(getApplicationContext());
 			Intent intent = getIntent();
 			finish();
 			toggleVPNbutton(getApplicationContext());
@@ -1575,8 +1578,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1610,8 +1629,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1645,8 +1680,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1680,8 +1731,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1715,8 +1782,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1750,8 +1833,24 @@ public class MainActivity extends SherlockActivity implements
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
