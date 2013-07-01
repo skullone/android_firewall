@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -63,7 +64,10 @@ public class SimpleWidget extends AppWidgetProvider {
 			final SharedPreferences prefs = context.getSharedPreferences(
 					Api.PREFS_NAME, 0);
 			final boolean enabled = !prefs.getBoolean(Api.PREF_ENABLED, true);
-			final String pwd = prefs.getString(Api.PREF_PASSWORD, "");
+			//final String pwd = prefs.getString(Api.PREF_PASSWORD, "");
+			SharedPreferences prefs2 = PreferenceManager
+					.getDefaultSharedPreferences(context);
+			final String pwd = prefs2.getString("password", "");
 			if (!enabled && pwd.length() != 0) {
 				Toast.makeText(context, R.string.widget_fail,
 						Toast.LENGTH_SHORT).show();

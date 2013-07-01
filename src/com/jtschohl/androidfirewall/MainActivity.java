@@ -215,19 +215,9 @@ public class MainActivity extends SherlockActivity implements
 		});
 
 		/**
-		 * Search function
+		 * Search function call
 		 */
-
-		final EditText filterText = (EditText) findViewById(R.id.search);
-		filterText.addTextChangedListener(filterTextWatcher);
-		filterText.post(new Runnable() {
-			@Override
-			public void run() {
-				filterText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		searchapps();
 
 		Api.assertBinaries(this, true);
 	}
@@ -239,8 +229,9 @@ public class MainActivity extends SherlockActivity implements
 			this.listview = (ListView) this.findViewById(R.id.listview);
 		}
 		refreshHeader();
-		final String pwd = getSharedPreferences(Api.PREFS_NAME, 0).getString(
-				Api.PREF_PASSWORD, "");
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		final String pwd = prefs.getString("password", "");
 		if (pwd.length() == 0) {
 			// No password lock
 			showOrLoadApplications();
@@ -256,6 +247,23 @@ public class MainActivity extends SherlockActivity implements
 	protected void onPause() {
 		super.onPause();
 		this.listview.setAdapter(null);
+	}
+	
+	/**
+	 * search function
+	 */
+	
+	public void searchapps(){
+		final EditText filterText = (EditText) findViewById(R.id.search);
+		filterText.addTextChangedListener(filterTextWatcher);
+		filterText.post(new Runnable() {
+			@Override
+			public void run() {
+				filterText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 	}
 
 	/**
@@ -367,20 +375,25 @@ public class MainActivity extends SherlockActivity implements
 	 */
 	private void setPassword(String pwd) {
 		final Resources res = getResources();
-		final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
+		//final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = prefs.edit();
 		String msg;
 		String hash = md5(pwd);
 		if (pwd.length() > 0) {
-			editor.putString(Api.PREF_PASSWORD, hash);
+			editor.putString("password", hash);
 			if (editor.commit()) {
 				msg = res.getString(R.string.passdefined);
+				getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 			} else {
 				msg = res.getString(R.string.passerror);
 			}
 		} else {
-			editor.putString(Api.PREF_PASSWORD, pwd);
+			editor.putString("password", pwd);
 			editor.commit();
 			msg = res.getString(R.string.passremoved);
+			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		}
 		Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
 	}
@@ -873,7 +886,7 @@ public class MainActivity extends SherlockActivity implements
 			}
 		}).show();
 	}
-
+	
 	private void checkPassword() {
 		new PassDialog(this, true, new android.os.Handler.Callback() {
 			public boolean handleMessage(Message msg) {

@@ -31,6 +31,7 @@ import android.os.Message;
 import android.os.Handler.Callback;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,6 +70,7 @@ public class PassDialog extends Dialog implements
 		setTitle(setting ? R.string.pass_titleset : R.string.pass_titleget);
 		setOnCancelListener(this);
 		setContentView(view);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	}
 
 	@Override

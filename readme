@@ -2,7 +2,9 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:
 
-2.2.5 - Fix for bug where menu items wouldn't update automatically if firewall is disabled and then enabled via profile change.
+2.2.5 - Fix for bug where menu items wouldn't update correctly if the firewall is disabled and then enabled via profile change.  Added data interface for Galaxy S4.
+		Fixed issue with Password where changing profiles via menu widget could remove it.
+		Keyboard now properly disappears when entering/setting/removing password.
 2.2.4 - Actionbarsherlock added.  This updates the UI for Android 2.2/2.3 users to Holo.  Fix for random issue where changes made in Settings wouldn't stick. 
 		Fix for issue where app would hang when changing profiles after a reboot.
 2.2.3 - Fix for sorting when VPN/Roaming not enabled. 
