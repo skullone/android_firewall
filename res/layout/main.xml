@@ -109,7 +109,7 @@
 
         <Button
             android:id="@+id/label_clear"
-            android:layout_width="42dp"
+            android:layout_width="wrap_content"
             android:layout_height="42dp"
             android:background="@color/black"
             android:clickable="true"
@@ -120,7 +120,7 @@
 
         <Button
             android:id="@+id/label_invert"
-            android:layout_width="42dp"
+            android:layout_width="wrap_content"
             android:layout_height="42dp"
             android:background="@color/black"
             android:clickable="true"
