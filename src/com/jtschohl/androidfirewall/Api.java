@@ -254,7 +254,7 @@ public final class Api {
 		final String ITFS_3G[] = { "rmnet+", "pdp+", "ppp+", "uwbr+", "wimax+",
 				"vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 				"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
-				"rmnet0+", "cdma_rmnet+" };
+				"rmnet0+", "cdma_rmnet+", "rmnet_usb0+", "rment_usb+" };
 		final String ITFS_VPN[] = { "tun+", "tun0+", "ppp+", "ppp0+", "bnep0" };
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final boolean whitelist = prefs.getString(PREF_MODE, MODE_WHITELIST)
@@ -1150,13 +1150,9 @@ public final class Api {
 		} else {
 			locale = new Locale(language);
 		}
-
-		// if (!"".equals(language)) {
-		// Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
 		context.getResources().updateConfiguration(config, null);
-		// }
 	}
 
 	/**

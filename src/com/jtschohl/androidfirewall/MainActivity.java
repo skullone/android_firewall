@@ -34,8 +34,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -56,16 +56,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -76,10 +71,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.internal.widget.IcsAdapterView;
+import com.actionbarsherlock.internal.widget.IcsSpinner;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.jtschohl.androidfirewall.Api.DroidApp;
 
 /**
@@ -88,8 +87,8 @@ import com.jtschohl.androidfirewall.Api.DroidApp;
  */
 
 @SuppressLint("DefaultLocale")
-public class MainActivity extends Activity implements OnCheckedChangeListener,
-		OnClickListener {
+public class MainActivity extends SherlockActivity implements
+		OnCheckedChangeListener, OnClickListener {
 
 	/** progress dialog instance */
 	private ListView listview = null;
@@ -100,10 +99,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	 */
 	private String[] profileposition;
 
+	private Menu abs_menu;
+
 	/**
 	 * Variables for spinner
 	 */
-	private Spinner spinner;
+	private IcsSpinner spinner;
 	public ArrayAdapter<String> adapter1;
 
 	/** Called when the activity is first created. */
@@ -120,6 +121,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		}
 		checkPreferences();
 		setContentView(R.layout.main);
+
 		this.findViewById(R.id.label_mode).setOnClickListener(this);
 		this.findViewById(R.id.label_clear).setOnClickListener(this);
 		this.findViewById(R.id.label_data).setOnClickListener(this);
@@ -133,13 +135,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-
 		// use "" as default
 		String language = prefs.getString("locale", "");
 		Api.changeLanguage(getApplicationContext(), language);
 
 		// create the spinner
-		spinner = (Spinner) findViewById(R.id.spinner);
+		spinner = (IcsSpinner) findViewById(R.id.spinner);
 
 		// profile names for spinner
 		final List<String> profilestring = new ArrayList<String>();
@@ -160,15 +161,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 		// adapter for spinner
 		adapter1 = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_dropdown_item, profileposition);
+				R.layout.sherlock_spinner_dropdown_item, profileposition);
 
-		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter1.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		spinner.setAdapter(adapter1);
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
 		spinner.post(new Runnable() {
 			public void run() {
-				spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> parent,
+				spinner.setOnItemSelectedListener(new IcsAdapterView.OnItemSelectedListener() {
+					public void onItemSelected(IcsAdapterView<?> parent,
 							View view, int position, long id) {
 						SharedPreferences prefs = PreferenceManager
 								.getDefaultSharedPreferences(getApplicationContext());
@@ -206,7 +207,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						}
 					}
 
-					public void onNothingSelected(AdapterView<?> parent) {
+					public void onNothingSelected(IcsAdapterView<?> parent) {
 						// do nothing
 					}
 				});
@@ -214,19 +215,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		});
 
 		/**
-		 * Search function
+		 * Search function call
 		 */
-
-		final EditText filterText = (EditText) findViewById(R.id.search);
-		filterText.addTextChangedListener(filterTextWatcher);
-		filterText.post(new Runnable() {
-			@Override
-			public void run() {
-				filterText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		searchapps();
 
 		Api.assertBinaries(this, true);
 	}
@@ -238,8 +229,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			this.listview = (ListView) this.findViewById(R.id.listview);
 		}
 		refreshHeader();
-		final String pwd = getSharedPreferences(Api.PREFS_NAME, 0).getString(
-				Api.PREF_PASSWORD, "");
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		final String pwd = prefs.getString("password", "");
 		if (pwd.length() == 0) {
 			// No password lock
 			showOrLoadApplications();
@@ -247,12 +239,31 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			// Check the password
 			requestPassword(pwd);
 		}
+		toggleVPNbutton(getApplicationContext());
+		toggleRoambutton(getApplicationContext());
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		this.listview.setAdapter(null);
+	}
+	
+	/**
+	 * search function
+	 */
+	
+	public void searchapps(){
+		final EditText filterText = (EditText) findViewById(R.id.search);
+		filterText.addTextChangedListener(filterTextWatcher);
+		filterText.post(new Runnable() {
+			@Override
+			public void run() {
+				filterText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 	}
 
 	/**
@@ -277,7 +288,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		profileposition = profilestring
 				.toArray(new String[profilestring.size()]);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_dropdown_item, profileposition);
+				R.layout.sherlock_spinner_dropdown_item, profileposition);
 		adapter.notifyDataSetChanged();
 		spinner.setAdapter(adapter);
 		spinner.setSelection(prefs.getInt("itemPosition", 0));
@@ -358,26 +369,31 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Set a new password lock
-	 *
+	 * 
 	 * @param pwd
 	 *            new password (empty to remove the lock)
 	 */
 	private void setPassword(String pwd) {
 		final Resources res = getResources();
-		final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
+		//final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = prefs.edit();
 		String msg;
 		String hash = md5(pwd);
 		if (pwd.length() > 0) {
-			editor.putString(Api.PREF_PASSWORD, hash);
+			editor.putString("password", hash);
 			if (editor.commit()) {
 				msg = res.getString(R.string.passdefined);
+				getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 			} else {
 				msg = res.getString(R.string.passerror);
 			}
 		} else {
-			editor.putString(Api.PREF_PASSWORD, pwd);
+			editor.putString("password", pwd);
 			editor.commit();
 			msg = res.getString(R.string.passremoved);
+			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		}
 		Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
 	}
@@ -561,10 +577,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Show the list of applications
-	 *
+	 * 
 	 * Thanks to Ukanth for the Search code so I didn't have to reinvent the
 	 * wheel
-	 *
+	 * 
 	 */
 	private void createListView(final String searching) {
 		this.dirty = false;
@@ -589,61 +605,69 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			public int compare(DroidApp o1, DroidApp o2) {
 				if (o1.firstseen != o2.firstseen) {
 					return (o1.firstseen ? -1 : 1);
-                }
-                boolean o1_selected;
-                boolean o2_selected;
+				}
+				boolean o1_selected;
+				boolean o2_selected;
 
-                boolean vpnenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
-                        .getBoolean(Api.PREF_VPNENABLED, false);
-                boolean roamenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
-                        .getBoolean(Api.PREF_ROAMENABLED, false);
+				boolean vpnenabled = getApplicationContext()
+						.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+								Api.PREF_VPNENABLED, false);
+				boolean roamenabled = getApplicationContext()
+						.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+								Api.PREF_ROAMENABLED, false);
 
-                if(vpnenabled && !roamenabled){
-                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_vpn;
-                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_vpn;
+				if (vpnenabled && !roamenabled) {
+					o1_selected = o1.selected_3g || o1.selected_wifi
+							|| o1.selected_vpn;
+					o2_selected = o2.selected_3g || o2.selected_wifi
+							|| o2.selected_vpn;
 
-                    if(o1_selected == o2_selected){
-                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
-                                o2.names[0]);
-                    }
-                    if (o1_selected)
-                        return -1;
-                }
-                if(roamenabled && !vpnenabled){
-                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming;
-                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming;
+					if (o1_selected == o2_selected) {
+						return String.CASE_INSENSITIVE_ORDER.compare(
+								o1.names[0], o2.names[0]);
+					}
+					if (o1_selected)
+						return -1;
+				}
+				if (roamenabled && !vpnenabled) {
+					o1_selected = o1.selected_3g || o1.selected_wifi
+							|| o1.selected_roaming;
+					o2_selected = o2.selected_3g || o2.selected_wifi
+							|| o2.selected_roaming;
 
-                    if(o1_selected == o2_selected){
-                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
-                                o2.names[0]);
-                    }
-                    if (o1_selected)
-                        return -1;
-                }
-                if(roamenabled && vpnenabled){
-                    o1_selected = o1.selected_3g || o1.selected_wifi || o1.selected_roaming || o1.selected_vpn;
-                    o2_selected = o2.selected_3g || o2.selected_wifi || o2.selected_roaming || o2.selected_vpn;
+					if (o1_selected == o2_selected) {
+						return String.CASE_INSENSITIVE_ORDER.compare(
+								o1.names[0], o2.names[0]);
+					}
+					if (o1_selected)
+						return -1;
+				}
+				if (roamenabled && vpnenabled) {
+					o1_selected = o1.selected_3g || o1.selected_wifi
+							|| o1.selected_roaming || o1.selected_vpn;
+					o2_selected = o2.selected_3g || o2.selected_wifi
+							|| o2.selected_roaming || o2.selected_vpn;
 
-                    if(o1_selected == o2_selected){
-                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
-                                o2.names[0]);
-                    }
-                    if (o1_selected)
-                        return -1;
-                }
-                if(!roamenabled && !vpnenabled){
-                    o1_selected = o1.selected_3g || o1.selected_wifi;
-                    o2_selected = o2.selected_3g || o2.selected_wifi;
+					if (o1_selected == o2_selected) {
+						return String.CASE_INSENSITIVE_ORDER.compare(
+								o1.names[0], o2.names[0]);
+					}
+					if (o1_selected)
+						return -1;
+				}
+				if (!roamenabled && !vpnenabled) {
+					o1_selected = o1.selected_3g || o1.selected_wifi;
+					o2_selected = o2.selected_3g || o2.selected_wifi;
 
-                    if(o1_selected == o2_selected){
-                        return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0],
-                                o2.names[0]);
-                    }
-                    if (o1_selected)
-                        return -1;
-                }
+					if (o1_selected == o2_selected) {
+						return String.CASE_INSENSITIVE_ORDER.compare(
+								o1.names[0], o2.names[0]);
+					}
+					if (o1_selected)
+						return -1;
+				}
 				return 1;
-		}
+			}
 		});
 		// try {
 		final LayoutInflater inflater = getLayoutInflater();
@@ -747,8 +771,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		super.onCreateOptionsMenu(menu);
+		getSupportMenuInflater().inflate(R.menu.menu, menu);
+		abs_menu = menu;
 		return true;
 	}
 
@@ -816,7 +841,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		if (!enabled) {
 			item_apply.setTitle(R.string.saverules);
 			item_onoff.setChecked(false);
-		} else if (enabled) {
+		}
+		if (enabled) {
 			item_apply.setTitle(R.string.applyrules);
 			item_onoff.setChecked(true);
 		}
@@ -860,7 +886,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			}
 		}).show();
 	}
-
+	
 	private void checkPassword() {
 		new PassDialog(this, true, new android.os.Handler.Callback() {
 			public boolean handleMessage(Message msg) {
@@ -1027,6 +1053,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 	static final int EDIT_PROFILE_REQUEST = 50;
 	// set Request Code for User Settings
 	static final int USER_SETTINGS_REQUEST = 60;
+	//set Request Code for Language Change
+	static final int CHANGE_LANGUAGE_REQUEST = 70;
 
 	// @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1079,7 +1107,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
 			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(getApplicationContext());
+				.getDefaultSharedPreferences(getApplicationContext());
 			Intent intent = getIntent();
 			finish();
 			toggleVPNbutton(getApplicationContext());
@@ -1097,7 +1125,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 
 	/**
 	 * Set a new init script
-	 *
+	 * 
 	 * @param script
 	 *            new script (empty to remove)
 	 * @param script2
@@ -1196,6 +1224,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						Toast.makeText(MainActivity.this,
 								R.string.rules_applied, Toast.LENGTH_SHORT)
 								.show();
+						if (abs_menu != null) {
+							final MenuItem item_onoff = abs_menu
+									.findItem(R.id.enableipv4);
+							final MenuItem item_apply = abs_menu
+									.findItem(R.id.applyrules);
+							item_apply.setTitle(R.string.applyrules);
+							item_onoff.setChecked(true);
+						}
 						i = prefs.getInt("itemPosition", 0);
 						if (i == 0) {
 							saveDefaultProfile();
@@ -1219,6 +1255,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 						Log.d("Android Firewall",
 								"Failed - Disabling firewall.");
 						Api.setEnabled(MainActivity.this, false);
+						if (abs_menu != null) {
+							final MenuItem item_onoff = abs_menu
+									.findItem(R.id.enableipv4);
+							final MenuItem item_apply = abs_menu
+									.findItem(R.id.applyrules);
+							item_apply.setTitle(R.string.saverules);
+							item_onoff.setChecked(false);
+						}
 					}
 
 				}
@@ -1273,6 +1317,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 				if (Api.purgeIptables(MainActivity.this, true)) {
 					Toast.makeText(MainActivity.this, R.string.rules_deleted,
 							Toast.LENGTH_SHORT).show();
+					if (abs_menu != null) {
+						final MenuItem item_onoff = abs_menu
+								.findItem(R.id.enableipv4);
+						final MenuItem item_apply = abs_menu
+								.findItem(R.id.applyrules);
+						item_apply.setTitle(R.string.saverules);
+						item_onoff.setChecked(false);
+					}
 				}
 			}
 		};
@@ -1539,8 +1591,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1574,8 +1642,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1609,8 +1693,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1644,8 +1744,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1679,8 +1795,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1714,8 +1846,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+			}
 		} else {
 			Api.saveRules(getApplicationContext());
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu
+						.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu
+						.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+			}
 		}
 	}
 
@@ -1878,4 +2026,20 @@ public class MainActivity extends Activity implements OnCheckedChangeListener,
 			createListView(s.toString());
 		}
 	};
+
+	@Override
+	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
+
+		if (event.getAction() == KeyEvent.ACTION_UP) {
+			switch (keyCode) {
+			case KeyEvent.KEYCODE_MENU:
+				if (abs_menu != null) {
+					abs_menu.performIdentifierAction(R.id.menu_items, 0);
+					return true;
+				}
+			}
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+
 }

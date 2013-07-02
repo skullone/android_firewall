@@ -1,7 +1,13 @@
 This is a fork of the Droidwall application.  The original code is located here:  http://codegoogle.com/p/droidwall/     My code is located here:  http://github.com/skullone/android_firewall
 
 Changelog:
- 
+
+2.2.5 - Fix for bug where menu items wouldn't update correctly if the firewall is disabled and then enabled via profile change.  Added data interface for Galaxy S4.
+		Fixed issue with Password where changing profiles via menu widget could remove it.
+		Keyboard now properly disappears when entering/setting/removing password.
+2.2.4 - Actionbarsherlock added.  This updates the UI for Android 2.2/2.3 users to Holo.  Fix for random issue where changes made in Settings wouldn't stick. 
+		Fix for issue where app would hang when changing profiles after a reboot.
+2.2.3 - Fix for sorting when VPN/Roaming not enabled. 
 2.2.2 - Bug fixes for crashing on start up or after an app has been install/uninstalled.  Added Bluetooth interface names to WiFi for BT tethering.
 2.2.1 - Bug fixes.  Show rules and Show logs UI updated.
 2.2.0 - Users with apps on the SDCard can now change, under Settings, the way AF applies rules during a reboot to make sure the apps are loaded properly.  

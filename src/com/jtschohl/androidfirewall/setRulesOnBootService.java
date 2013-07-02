@@ -82,6 +82,7 @@ public class setRulesOnBootService extends Service {
 			@Override
 			public void run() {
 				stopSelf();
+				System.exit(0);
 			}
 		}, 120000);
 	};

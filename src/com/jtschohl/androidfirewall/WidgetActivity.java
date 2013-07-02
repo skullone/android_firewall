@@ -116,12 +116,16 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			finish();
 		}
 		if (v.getId() == R.id.disableFirewall) {
-			final SharedPreferences prefs2 = getApplicationContext()
+			final SharedPreferences prefs = getApplicationContext()
 					.getSharedPreferences(Api.PREFS_NAME, 0);
-			final String oldPwd = prefs2.getString(Api.PREF_PASSWORD, "");
-			final String newPwd = getSharedPreferences(Api.PREFS_NAME, 0)
-					.getString("validationPassword", "");
-			if (oldPwd.length() == 0 && newPwd.length() == 0) {
+			final boolean enabled = !prefs.getBoolean(Api.PREF_ENABLED, true);
+			SharedPreferences prefs2 = PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext());
+			final String pwd = prefs2.getString("password", "");
+			if (!enabled && pwd.length() != 0) {
+				Toast.makeText(getApplicationContext(), R.string.widget_fail,
+						Toast.LENGTH_SHORT).show();
+			} else {
 				if (Api.purgeIptables(getApplicationContext(), false)) {
 					Toast.makeText(getApplicationContext(),
 							R.string.toast_disabled, Toast.LENGTH_SHORT).show();
@@ -131,9 +135,6 @@ public class WidgetActivity extends Activity implements OnClickListener {
 							R.string.toast_error_disabling, Toast.LENGTH_SHORT)
 							.show();
 				}
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.widget_fail,
-						Toast.LENGTH_SHORT).show();
 			}
 			finish();
 		}
@@ -168,14 +169,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}
@@ -210,14 +217,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}
@@ -252,14 +265,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}
@@ -294,14 +313,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}
@@ -336,14 +361,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}
@@ -378,14 +409,20 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.commit();
 			toggleUserSettings(getApplicationContext());
 			boolean enabled = prefs.getBoolean(Api.PREF_ENABLED, false);
+			final String pwd = prefs3.getString("password", "");
 			if (enabled) {
 				Api.applyIptablesRules(getApplicationContext(), true);
 				Api.setEnabled(getApplicationContext(), true);
 			}
 			if (!enabled) {
-				Api.saveRules(getApplicationContext());
-				Api.purgeIptables(getApplicationContext(), true);
-				Api.setEnabled(getApplicationContext(), false);
+				if (pwd.length() != 0) {
+					Toast.makeText(getApplicationContext(),
+							R.string.widget_fail, Toast.LENGTH_SHORT).show();
+				} else {
+					Api.saveRules(getApplicationContext());
+					Api.purgeIptables(getApplicationContext(), true);
+					Api.setEnabled(getApplicationContext(), false);
+				}
 			}
 			finish();
 		}

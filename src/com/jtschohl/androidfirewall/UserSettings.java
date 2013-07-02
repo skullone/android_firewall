@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -39,6 +40,10 @@ public class UserSettings extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		String language = prefs.getString("locale", "en");
+		Api.changeLanguage(getApplicationContext(), language);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.user_settings);
 	}
@@ -63,13 +68,16 @@ public class UserSettings extends PreferenceActivity implements
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-
+		boolean enabled = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getBoolean(Api.PREF_ENABLED, false);
 		boolean ipv6 = sharedPreferences.getBoolean("ipv6enabled", false);
 		if (key.equals("ipv6enabled")) {
 			if (ipv6) {
 				toggleIPv6enabled();
 			} else {
-				purgeIp6Rules();
+				if (enabled) {
+					purgeIp6Rules();
+				}
 			}
 		}
 		if (key.equals("logenabled")) {
@@ -80,9 +88,11 @@ public class UserSettings extends PreferenceActivity implements
 		}
 		if (key.equals("vpnsupport")) {
 			toggleVPNenabled();
+			Api.applications = null;
 		}
 		if (key.equals("roamingsupport")) {
 			toggleRoamenabled();
+			Api.applications = null;
 		}
 		if (key.equals("notifyenabled")) {
 			toggleNotifyenabled();
@@ -214,8 +224,8 @@ public class UserSettings extends PreferenceActivity implements
 	 * Set the activity result to RESULT_OK and terminate this activity.
 	 */
 	private void resultOk() {
-		final Intent response = new Intent(Api.PREF_PROFILES);
-		setResult(RESULT_OK, response);
+		// final Intent response = new Intent(Api.PREF_PROFILES);
+		// setResult(RESULT_OK, response);
 		finish();
 	}
 }
