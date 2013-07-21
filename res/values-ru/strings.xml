@@ -162,5 +162,5 @@
     <string name="sdcard_summary">Применять правила для приложений, требующих доступ к сети, после монтирования карты памяти</string>
     <string name="log_empty">Нет записей</string>
     <string name="log_title">Журнал брандмауэра</string>
-
+    
 </resources>
