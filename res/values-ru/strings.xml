@@ -1,156 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Translation of RU version (21.07.2013): Igor Nedoboy (k9russian<AT>gmail<DOT>com) -->
 <resources>
 
-    <string name="app_name">Android Firewall</string>
-    <string name="title_enabled">Android Firewall (Брандмауэр включен)</string>
-    <string name="title_disabled">Android Firewall (Брандмауэр отключен)</string>
-    <string name="showrules">Показать правила</string>
+    <string name="app_name">Брандмауэр</string>
+    <string name="title_enabled">Брандмауэр включён</string>
+    <string name="title_disabled">Брандмауэр отключён</string>
+    <string name="showrules">Правила</string>
     <string name="applyrules">Применить правила</string>
     <string name="saverules">Сохранить правила</string>
+    <string name="applyrules2">Применить правила IPv6</string>
     <string name="purgerules">Очистить правила</string>
-    <string name="setpwd">Установить пароль</string>
+    <string name="setpwd">Пароль</string>
     <string name="help">Справка</string>
     <string name="close">Закрыть</string>
     <string name="exit">Выход</string>
-    <string name="fw_enabled">Брандмауэр включен</string>
-    <string name="fw_disabled">Брандмауэр отключен</string>
-    <string name="log_enabled">Журнал включен</string>
-    <string name="log_disabled">Журнал отключен</string>
-    <string name="log_was_enabled">Протоколирование включено</string>
-    <string name="log_was_disabled">Протоколирование отключено</string>
+    <string name="fw_enabled">Включить</string>
+    <string name="fw_disabled">Отключить</string>
+    <string name="ipv6_enabled">IPv6 включён</string>
+    <string name="ipv6_disabled">IPv6 отключён</string>
+    <string name="ipv6_was_enabled">IPv6 включён</string>
+    <string name="ipv6_was_disabled">IPv6 отключён</string>
+    <string name="log_enabled">Журнал включён</string>
+    <string name="log_disabled">Журнал отключён</string>
+    <string name="log_was_enabled">Журнал включён</string>
+    <string name="log_was_disabled">Журнал отключён</string>
     <string name="ipv6_enabled">IPv6 включен</string>
     <string name="ipv6_disabled">IPv6 отключен</string>
-    <string name="ipv6_was_enabled">IPv6 has been включен</string>
-    <string name="ipv6_was_disabled">IPv6 has been отключен</string>
     <string name="log_cleared">Журнал очищен</string>
-    <string name="show_log">Показать журнал</string>
+    <string name="show_log">Журнал</string>
     <string name="clear_log">Очистить журнал</string>
     <string name="applying_rules">Применение правил iptables</string>
     <string name="saving_rules">Сохранение правил iptables</string>
     <string name="deleting_rules">Удаление правил iptables</string>
-    <string name="rules_applied">Правила успешно применены</string>
-    <string name="rules_saved">Правила успешно сохранены</string>
-    <string name="rules_deleted">Правила успешно удалены</string>
-    <string name="pass_titleset">Установить пароль блокировки</string>
-    <string name="pass_titleget">Необходимо ввести пароль</string>
+    <string name="rules_applied">Правила применены</string>
+    <string name="rules_saved">Правила сохранены</string>
+    <string name="rules_deleted">Правила удалены</string>
+    <string name="pass_titleset">Установка пароля</string>
+    <string name="pass_titleget">Вход заблокирован</string>
     <string name="enterpass">Введите пароль:</string>
-    <string name="enternewpass">Введите новый пароль (оставьте пустым для удаления):</string>
-    <string name="passdefined">Пароль блокировки определен</string>
-    <string name="passremoved">Пароль блокировки удален</string>
-    <string name="passerror">Ошибка при смене пароля блокировки</string>
-    <string name="working">Обработка...</string>
+    <string name="enternewpass">(оставьте пустым для удаления)</string>
+    <string name="passdefined">Пароль установлен</string>
+    <string name="passremoved">Пароль отключён</string>
+    <string name="passerror">Сбой смены пароля</string>
+    <string name="working">Обработка…</string>
     <string name="reading_apps">Чтение установленных приложений</string>
-    <string name="please_wait">Пожалуйста, подождите</string>
-    <string name="mode_header">Режим: %s</string>
-    <string name="mode_whitelist">Белый список (разрешить выбранные)</string>
-    <string name="mode_blacklist">Черный список (блокировать выбранные)</string>
-    <string name="toast_bin_installed">Android Firewall: Исполняемые файлы установлены!</string>
-    <string name="toast_enabled">Android Firewall:  Брандмауэр включен!</string>
-    <string name="toast_error_enabling">Android Firewall: Ошибка включения брандмауэра!</string>
-    <string name="toast_disabled">Android Firewall:  Брандмауэр отключен!</string>
-    <string name="toast_error_disabling">Android Firewall: Ошибка отключения брандмауэра!</string>
-    <string name="set_custom_script">Установить сценарий</string>
-    <string name="custom_script_defined">Пользовательский сценарий определён</string>
-    <string name="custom_script_removed">Пользовательский сценарий удалён</string>
-    <string name="custom_script_error">Ошибка при сохранении пользовательского сценария</string>
-    <string name="custom_script_info"><b>Введите ниже Ваш сценарий.</b>		\n<i>(Оставьте это поле пустым для удаления)</i>		\nДля получения информации о пользовательских сценариях, нажмите <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">здесь</a>.</string>
-    <string name="unsaved_changes">Несохраненные изменения</string>
-    <string name="unsaved_changes_message">У вас есть несохраненные изменения.\nВы хотите применить или сбросить их?</string>
-    <string name="apply">Применить</string>
-    <string name="discard">Сбросить</string>
-    <string name="help_dialog_text"><i>Автор: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>                \n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>                \n<i>Перевод: Евгений Мартыненко</i>\n
-                \n<i>Android Firewall</i> является внешним приложением интерфейса для мощного брандмауэра Linux - <b>iptables</b>.
-                Он позволяет ограничить круг приложений имеющих доступ к сетям передачи данных.
-                \nЭто идеальное решение, если у вас не безлимитный тарифный план, или Вы просто хотите сэкономить заряд вашей батареи.
-                \n
-                \n<b>Использование Android Firewall:</b>                \n<b>1.</b> Нажмите на <b>Режим</b> для переключения между режимами <i>Белый список</i> и <i>Черный список</i>.
-                \n<b>2.</b> Пометьте приложения, которые Вы хотите заблокировать или разрешить (в зависимости от выбранного режима), для каждого интерфейса.
-                \n<b>3.</b> Откройте меню и включите брандмауэр. Если брандмауэр уже включен, просто выберите <b>Применить правила</b>.
-                \nПравила будут сохранены и автоматически восстановлены, после перезагрузки Вашего телефона.
-                \nЕсли хотите проверить все действующие правила iptables, выберите в меню <b>Показать правила</b>.
-                \n
-                \n<b>Виджет:</b>                \nДля быстрого включения или отключения брандмауэра добавьте на Ваш домашний экран виджет Android Firewall.
-                \n
-                \n<b>Журналы брандмауэра:</b>                \nЕсли Вы хотите увидеть, какие приложения были заблокированы Android Firewall, откройте меню и включите ведение журнала.
-                \nAndroid Firewall зарегистрирует каждое заблокированное приложение. Вы можете проверить журнал, открыв меню и выбрав <b>Еще -> Показать журнал</b>.
-                \n
-                \n<b>Пароль блокировки:</b>                \nВы можете установить пароль блокировки для Android Firewall с помощью параметра меню <b>Установить пароль</b>.
-                \nДля удаления пароля блокировки, просто оставьте поле для ввода пустым</string>
-    <string name="overwrite_rules">Вы собираетесь перезаписывать существующие правила. Вы хотите продолжить?</string>
-    <string name="importsuccess">Импорт успешно!</string>
-    <string name="importfailed">Импорт не удался!</string>
-    <string name="exportfailed">Экспорт не удалось!</string>
-    <string name="exportsuccess">Экспорт успешным!</string>
-    <string name="enterfilename">Пожалуйста, введите имя файла</string>
+    <string name="please_wait">Подождите…</string>
+    <string name="mode_header">Список: %s</string>
+    <string name="mode_whitelist">белый (выбранные разрешены)</string>
+    <string name="mode_blacklist">чёрный (выбранные запрещены)</string>
+    <string name="toast_bin_installed">Исполняемые файлы брандмауэра установлены!</string>
+    <string name="toast_enabled">Брандмауэр включён!</string>
+    <string name="toast_error_enabling">Сбой включения брандмауэра!</string>
+    <string name="toast_disabled">Брандмауэр отключён!</string>
+    <string name="toast_error_disabling">Сбой отключения брандмауэра!</string>
+    <string name="set_custom_script">Скрипты</string>
+    <string name="custom_script_defined">Скрипт сохранён</string>
+    <string name="custom_script_removed">Скрипт удалён</string>
+    <string name="custom_script_error">Сбой сохранения скрипта</string>
+    <string name="custom_script_info"><b>Скрипт при включении:</b>\n<i>(<a href="http://code.google.com/p/droidwall/wiki/CustomScripts">подробнее</a>, оставьте пустым для удаления)</i></string>
+    <string name="custom_script2_info"><b>Скрипт при отключении:</b>\n<i>(выполняется при отключении брандмауэра)</i></string>
+    <string name="unsaved_changes">Несохранённые изменения</string>
+    <string name="unsaved_changes_message">Сохранить или отменить изменения?</string>
+    <string name="apply">Сохранить</string>
+    <string name="discard">Отмена</string>
+    <string name="help_dialog_text"><i>Автор: Jason Tschohl. Автор исходной версии: Rodrigo Zechin Rosauro</i>    	\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
+		\n<i>Android Firewall</i> является форком <i>DroidWall</i>.  Это интерфейс управления Linux-брандмауэром <b>iptables</b>.
+		Он позволяет ограничить доступ приложений к сети — что удобно при лимитных тарифных планах на передачу данных и полезно для продления времени работы от батареи.
+		\n
+		\n<b>Использование:</b>		\n<b>1.</b> Нажмите <b>Список</b> для переключения между <i>белым</i> и <i>чёрным</i>" списками.
+		\n<b>2.</b> Выберите приложения, которым хотите предоставить или запретить (в случае белого и чёрного списков соответственно) доступ к указанным интерфейсам.
+		\n<b>3.</b> Откройте меню и выберите команду <b>Включить</b>. Если брандмауэр уже включён, используйте команду <b>Применить правила</b>.
+		\nПравила будут сохранены и автоматически восстановятся при перезагрузке устройства.
+		\nДля просмотра всех текущих правил iptables выберите в меню команду <b>Правила</b>.
+		\n
+		\n<b>Виджет:</b>		\nДля быстрого включения и отключения брандмауэра доавьте на рабочий стол виджет <b>Брандмауэр — вкл/откл</b>. Виджет <b>Брандмауэр — меню</b> предоставляет быстрый доступ к выбору профиля правил.
+		\n
+		\n<b>Журнал:</b>		\nДля возможности просмотра приложений, заблокированных брандмауэром, включите журнал событий в настройках.
+		\nЧтобы просмотреть события блокировки приложений, выберите в меню команду <b>Журнал</b>.
+		\n
+		\n<b>Пароль:</b>		\nДля предотвращения отключения брандмауэра и изменения его настроек можно установить парольную защиту, выбрав в меню команду <b>Пароль</b>.
+		\nДля удаления пароля оставьте поле ввода пустым.
+</string>
+    <string name="overwrite_rules">Существующие правила будут перезаписаны. Продолжить?</string>
+    <string name="importsuccess">Импорт выполнен!</string>
+    <string name="importfailed">Сбой импорта!</string>
+    <string name="exportfailed">Сбой экспорта!</string>
+    <string name="exportsuccess">Экспорт выполнен!</string>
+    <string name="enterfilename">Введите имя файла</string>
+    <string name="new_app_installed">Приложение требует доступ к сети</string>
     <string name="notify_enabled">Уведомления включены</string>
     <string name="notify_disabled">Уведомления отключены</string>
-    <string name="notify_was_enabled">Уведомления были включены</string>
-    <string name="notify_was_disabled">Уведомления были отключены</string>
-    <string name="importrules">Импорт правил</string>
-    <string name="exportrules">Экспорт правил</string>
-    <string name="managerulefiles">Управление файлами правил</string>
+    <string name="notify_was_enabled">Уведомления включены</string>
+    <string name="notify_was_disabled">Уведомления отключены</string>
+    <string name="importrules">Импорт</string>
+    <string name="exportrules">Экспорт</string>
+    <string name="managerulefiles">Удалить</string>
     <string name="options">Опции</string>
     <string name="wifi">WiFi</string>
     <string name="data">Data</string>
     <string name="roaming">Roam</string>
-    <string name="clear">Clear</string>
-    <string name="password_not_same">Пароли не совпадают! Пожалуйста, попробуйте еще раз.</string>
-    <string name="password_enter_again">Пожалуйста, введите пароль еще раз.</string>
+    <string name="clear">Очистить</string>
+    <string name="password_not_same">Пароли не совпадают!</string>
+    <string name="password_enter_again">Введите пароль ещё раз</string>
+    <string name="profile_header">Профиль: %s</string>
     <string name="defaultprofile">Основной</string>
     <string name="profile1">Профиль 1</string>
     <string name="profile2">Профиль 2</string>
     <string name="profile3">Профиль 3</string>
     <string name="profile4">Профиль 4</string>
     <string name="profile5">Профиль 5</string>
-    <string name="pleasechoose">Пожалуйста выберите профиль, который Вы хотите создать или изменить</string>
-    <string name="saveprofile">Изменить профиль</string>
-    <string name="defaultsaved">Основной профиль успешно сохранён!</string>
-    <string name="profile1saved">Профиль 1 успешно сохранён</string>
-    <string name="profile2saved">Профиль 2 успешно сохранён</string>
-    <string name="profile3saved">Профиль 3 успешно сохранён</string>
-    <string name="profile4saved">Профиль 4 успешно сохранён</string>
-    <string name="profile5saved">Профиль 5 успешно сохранён</string>
-    <string name="profileselect">Прожалуйста выберите профиль, который бы Вы хотели применить</string>
-    <string name="profileapplied">Профиль успешно применён</string>
-    <string name="loadprofile">Загрузить профиль</string>
-    <string name="rulesoptions">Управление Правилами</string>
-    <string name="profilesoptions">Управление Профилями</string>
+    <string name="pleasechoose">Выберите профиль для изменения</string>
+    <string name="saveprofile">Изменить</string>
+    <string name="defaultsaved">Основной профиль сохранён</string>
+    <string name="profile1saved">Профиль 1 сохранён</string>
+    <string name="profile2saved">Профиль 2 сохранён</string>
+    <string name="profile3saved">Профиль 3 сохранён</string>
+    <string name="profile4saved">Профиль 4 сохранён</string>
+    <string name="profile5saved">Профиль 5 сохранён</string>
+    <string name="profileselect">Выберите профиль для применения</string>
+    <string name="profileapplied">Профиль применён</string>
+    <string name="loadprofile">Применить</string>
+    <string name="rulesoptions">Управление правилами</string>
+    <string name="profilesoptions">Управление профилями</string>
     <string name="ipv6_title">Поддержка IPv6</string>
-    <string name="notifications_title">Уведомления</string>
-    <string name="enableLog_title">Включить ведение журнала</string>
-    <string name="invert">Invert</string>
+    <string name="notifications_title">Запрос доступа</string>
+    <string name="enableLog_title">Журнал событий</string>
+    <string name="invert">Инверсия</string>
     <string name="twofortyfouram_locale_breadcrumb_format">%1$s%2$s%3$s</string>
     <string name="twofortyfouram_locale_breadcrumb_separator">" | "</string>
-    <string name="twofortyfouram_locale_menu_dontsave">Cancel</string>
-    <string name="twofortyfouram_locale_menu_help">Help</string>
-    <string name="twofortyfouram_locale_menu_save">Done</string>
-    <string name="tasker_name">Android Firewall - Tasker</string>
-    <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
-    <string name="search_name">App Search</string>
-    <string name="profilenames">Edit Profile Names</string>
-    <string name="vpn_enabled">Поддержка  VPN включена</string>
-    <string name="vpn_disabled">Поддержка VPN отключена</string>
-    <string name="vpn_title">VPN Support</string>
+    <string name="twofortyfouram_locale_menu_dontsave">Отмена</string>
+    <string name="twofortyfouram_locale_menu_help">Справка</string>
+    <string name="twofortyfouram_locale_menu_save">Готово</string>
+    <string name="tasker_name">Брандмауэр — Tasker</string>
+    <string name="tasker_profile_disabled">Tasker отключил правила Брандмауэра!</string>
+    <string name="search_name">приложение</string>
+    <string name="profilenames">Имя</string>
+    <string name="vpn_title">Поддержка VPN</string>
     <string name="vpn">VPN</string>
-    <string name="roaming_title">Roaming Support</string>
-    <string name="usersettings">настройки</string>
-    <string name="taskertoast_title">Tasker Уведомления</string>
-    <string name="ipv6_summary">Эта настройка включает или отключает поддержку IPv6</string>
-    <string name="vpn_summary">Эта настройка включает или отключает поддержку VPN</string>
-    <string name="roaming_summary">Эта настройка включает или отключает поддержку сети Roaming</string>
-    <string name="taskertoast_summary">Эта настройка включает или отключает Tasker уведомлении всплывающие окна, когда профили изменилась</string>
-    <string name="log_summary">Этот параметр включает или отключает брандмауэр Логи</string>
-    <string name="notification_summary">Эта настройка включает или отключает уведомлений для вновь установленных приложений, которым требуется доступ в Интернет</string>
-    <string name="tasker_profile">Tasker изменился профиль используется Android Firewall</string>
-    <string name="apply_setting_changes">Применяя правила установления изменений</string>
-    <string name="rules_export_successfully">The rules have been exported successfully</string>
-    <string name="rules_import_successfully">The rules have been imported successfully</string>
-    <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
-    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
-    <string name="file_deleted">The file has been deleted.</string>
-    <string name="simplewidget">On/Off Widget</string>
-    <string name="statuswidget">Menu Widget</string>
-    <string name="sdcard_title">Apps on SDCard Support</string>
-    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
-
+    <string name="roaming_title">Поддержка роуминга</string>
+    <string name="usersettings">Настройки</string>
+    <string name="taskertoast_title">Срабатывание Tasker</string>
+    <string name="ipv6_summary">Поддержка сетей IPv6</string>
+    <string name="vpn_summary">Поддержка сетей VPN</string>
+    <string name="roaming_summary">Поддержка роуминговых сетей</string>
+    <string name="taskertoast_summary">Уведомление о переключении правил программой Tasker</string>
+    <string name="log_summary">Журналирование событий брандмауэра</string>
+    <string name="notification_summary">Уведомление о новых приложениях, требующих доступ к сети</string>
+    <string name="tasker_profile">Tasker изменил профиль Брандмауэра</string>
+    <string name="apply_setting_changes">Применение правил из-за изменения настроек</string>
+    <string name="rules_export_successfully">Экспорт правил выполнен</string>
+    <string name="rules_import_successfully">Импорт правил выполнен</string>
+    <string name="no_rules_file">Не найден файл правил Android Firewall. Сначала выполните экспорт правил</string>
+    <string name="no_storage">Не найдена карта памяти. Убедитесь, что устройство не подключено к ПК в режиме накопителя</string>
+    <string name="file_deleted">Файл удалён</string>
+    <string name="widget_fail">Брандмауэр защищён паролем!</string>
+    <string name="error_no_root">Android Firewall не предоставлены права root!</string>
+    <string name="languageSupport">Язык приложения</string>
+    <string name="simplewidget">Брандмауэр — вкл/откл</string>
+    <string name="statuswidget">Брандмауэр — меню</string>
+    <string name="sdcard_title">Приложения на SD</string>
+    <string name="sdcard_summary">Применять правила для приложений, требующих доступ к сети, после монтирования карты памяти</string>
+    <string name="log_empty">Нет записей</string>
+    <string name="log_title">Журнал брандмауэра</string>
+    
 </resources>
