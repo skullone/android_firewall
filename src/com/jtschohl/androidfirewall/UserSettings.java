@@ -37,7 +37,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 

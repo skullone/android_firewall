@@ -166,28 +166,18 @@ public final class Api {
 		final String app_iptables = dir + "/iptables_armv5";
 		final String ipv4 = "iptables ";
 		final String myBusybox = getBusyBoxPath(ctx);
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		final String binary_location = prefs.getString("iptables_path", "2");
+		int version = Build.VERSION.SDK_INT;
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			myiptables = ipv4;
 			Log.d("Android Firewall",
-					"Using system iptables because Android is 4.x " + arch);
-		} else {
-			if (binary_location.equals("2")) {
-				if (arch.equals("i686")) {
-					myiptables = ipv4;
-					Log.d("Android Firewall", "using x86 architecture " + arch);
-				} else {
-					myiptables = app_iptables;
-					Log.d("Android Firewall", "using included iptables " + arch);
-				}
-			} else {
-				myiptables = ipv4;
-				Log.d("Android Firewall",
-						"Using system iptables as chosen by user " + arch);
-			}
-		}
+					"Using system iptables because Android is 4.x " + version + " " + arch);
+		} 
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {	
+			myiptables = app_iptables;
+			Log.d("Android Firewall",
+					"Using included iptables because Android is 3.x or lower " + version + " " + arch );
+		} 
 
 		return "" + "IPTABLES=iptables\n" + "IP6TABLES=ip6tables\n"
 				+ "BUSYBOX=busybox\n" + "GREP=grep\n" + "ECHO=echo\n"
@@ -1699,24 +1689,6 @@ public final class Api {
 	 * @return the script exit code
 	 * @throws IOException
 	 *             on any error executing the script, or writing it to disk
-	 */
-	/*
-	 * public static int runScriptAsRoot2(Context ctx, String script,
-	 * StringBuilder res) throws IOException { int returncode = -1;
-	 * 
-	 * if ((Looper.myLooper() != null) && (Looper.myLooper() ==
-	 * Looper.getMainLooper())) { Log.e("Android Firewall",
-	 * "Should not run runScriptAsRoot on Main Thread to prevent ANR"); for
-	 * (StackTraceElement e : new Throwable().getStackTrace()) {
-	 * Log.e("Android Firewall", e.toString()); } } try { returncode = new
-	 * applyIptableRules().execute(script, res).get(); } catch
-	 * (RejectedExecutionException r) { Log.e("Android Firewall",
-	 * "Cannot run script" + r.getLocalizedMessage()); } catch
-	 * (InterruptedException e) { Log.e("Android Firewall",
-	 * "Caught InterruptedException"); } catch (ExecutionException e) {
-	 * Log.e("Android Firewall", "Cannot run script" + e.getLocalizedMessage());
-	 * } catch (Exception e) { Log.e("Android Firewall", "Cannot run script" +
-	 * e.getLocalizedMessage()); } return returncode; }
 	 */
 
 	public static int runScriptAsRoot(Context ctx, String script,

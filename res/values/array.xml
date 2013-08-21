@@ -56,14 +56,4 @@
         <item>Set Custom Script</item>
     </string-array>
     
-    <string-array name="iptables_binary">
-        <item>@string/system_iptables</item>
-        <item>@string/included_iptables</item>
-    </string-array>
-    
-    <string-array name="iptables_location">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
 </resources>

@@ -10,8 +10,6 @@ package com.jtschohl.androidfirewall;
 public final class R {
     public static final class array {
         public static final int drawer_menu=0x7f0d0003;
-        public static final int iptables_binary=0x7f0d0004;
-        public static final int iptables_location=0x7f0d0005;
         public static final int language_codes=0x7f0d0002;
         public static final int language_support=0x7f0d0001;
         public static final int profile=0x7f0d0000;

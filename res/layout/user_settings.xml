@@ -63,13 +63,6 @@
         android:title="@string/sdcard_title" />
     
     <ListPreference
-        android:entries="@array/iptables_binary"
-        android:entryValues="@array/iptables_location"
-        android:title="@string/iptables_title"
-        android:key="iptables_path"
-        android:defaultValue="2"></ListPreference>
-
-    <ListPreference
         android:entries="@array/language_support"
         android:entryValues="@array/language_codes"
         android:key="locale"
