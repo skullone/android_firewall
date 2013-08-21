@@ -41,5 +41,29 @@
         <item>zh-CN</item>
         <item>vi</item>
     </string-array>
+    
+    <string-array name="drawer_menu">
+        <item>Export Rules</item>
+        <item>Import Rules</item>
+        <item>Manage Rule Files</item>
+        <item>Create Profile</item>
+        <item>Load Profile</item>
+        <item>Edit Profile Names</item>
+        <item>Show Log</item>
+        <item>Clear Log</item>
+        <item>Show Rules</item>
+        <item>Set Password</item>
+        <item>Set Custom Script</item>
+    </string-array>
+    
+    <string-array name="iptables_binary">
+        <item>@string/system_iptables</item>
+        <item>@string/included_iptables</item>
+    </string-array>
+    
+    <string-array name="iptables_location">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>

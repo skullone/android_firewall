@@ -2,60 +2,35 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:
 
+2.2.7 - New Help menu with detailed information on AF functionality.  Navigation drawer added and most options moved to Nav drawer.  Swipe from left to access Nav drawer. LAN support added. This requires the Internet Permission in order to see the network changes.  AF makes NO calls to the outside world. AF will now show up in the list of apps with Internet access. Fixed hard coded strings to make them part of strings file for translation. Android 4.3 support. Made changes to interfaces. BlueTooth tether interfaces are now under VPN. Apologies for this but ran into complications with duplicate interfaces and had to make a decision that would best fix the issue and make it easier to deal with in the future.  Better tethering support.  It is now enabled under Settings.  Allow users to choose which iptables binary to use. Newer binaries can be more stable and have more options. Busybox binary updated to version 1.21.0. Added x86 busybox binary.  x86 support added.
 2.2.6 - Fix for text issues with Clear/Invert buttons for some languages.  Vietnamese language added.  German language updated.  Thanks to alienyd from Crowdin for both!  Added bt-pan interface for Bluetooth tethering to data string.  Added interface for LG Revolution.
-2.2.5 - Fix for bug where menu items wouldn't update correctly if the firewall is disabled and then enabled via profile change.  Added data interface for Galaxy S4.
-		Fixed issue with Password where changing profiles via menu widget could remove it.
-		Keyboard now properly disappears when entering/setting/removing password.
-2.2.4 - Actionbarsherlock added.  This updates the UI for Android 2.2/2.3 users to Holo.  Fix for random issue where changes made in Settings wouldn't stick. 
-		Fix for issue where app would hang when changing profiles after a reboot.
+2.2.5 - Fix for bug where menu items wouldn't update correctly if the firewall is disabled and then enabled via profile change.  Added data interface for Galaxy S4.  Fixed issue with Password where changing profiles via menu widget could remove it.  Keyboard now properly disappears when entering/setting/removing password.
+2.2.4 - Actionbarsherlock added.  This updates the UI for Android 2.2/2.3 users to Holo.  Fix for random issue where changes made in Settings wouldn't stick. Fix for issue where app would hang when changing profiles after a reboot.
 2.2.3 - Fix for sorting when VPN/Roaming not enabled. 
 2.2.2 - Bug fixes for crashing on start up or after an app has been install/uninstalled.  Added Bluetooth interface names to WiFi for BT tethering.
 2.2.1 - Bug fixes.  Show rules and Show logs UI updated.
-2.2.0 - Users with apps on the SDCard can now change, under Settings, the way AF applies rules during a reboot to make sure the apps are loaded properly.  
-		Tethering now works without disabling the firewall.  You must enable "root" and "kernel" in the rules.
+2.2.0 - Users with apps on the SDCard can now change, under Settings, the way AF applies rules during a reboot to make sure the apps are loaded properly.  Tethering now works without disabling the firewall.  You must enable "root" and "kernel" in the rules.  
 2.1.9 - Bug fixes.  Fixed issue where language was defaulting to English.
-2.1.8 - Bug fixes for crashes and NullPointerExceptions.  Added old widget back in.  The widgets are identifiable by their icons.  Blue-Green is On/Off widget.
-		Blue is the new toggle widget.  Ability to choose your language has been added (more will be added in the future).  Tasker can now Enable/Disable the firewall.
-2.1.7 - Widget has been replaced with a more functional one since the original gave people way too many problems.
-		New notification icon in order to look more like traditional Android notifications.
-2.1.6 - Translation updates to French and Chinese. Fix for firewall log always showing empty on some devices.  
-		UI clean up.  Many options moved to Settings menu.  VPN/Roaming support now optional and disappear
-		if disabled.  Tasker notifications now optional. Profile name changes now appear in Tasker.
-		All settings are saved to the rules files.  
+2.1.8 - Bug fixes for crashes and NullPointerExceptions.  Added old widget back in.  The widgets are identifiable by their icons.  Blue-Green is On/Off widget.  Blue is the new toggle widget.  Ability to choose your language has been added (more will be added in the future).  Tasker can now Enable/Disable the firewall.
+2.1.7 - Widget has been replaced with a more functional one since the original gave people way too many problems. New notification icon in order to look more like traditional Android notifications.
+2.1.6 - Translation updates to French and Chinese. Fix for firewall log always showing empty on some devices. UI clean up.  Many options moved to Settings menu.  VPN/Roaming support now optional and disappear if disabled.  Tasker notifications now optional. Profile name changes now appear in Tasker.  All settings are saved to the rules files.  
 2.1.5 - Fix minor issue where checkboxes for VPN are not showing up when the app is re-opened.
-2.1.4 - Profile names now editable. Fix for NullPointerException. VPN support has been added. Many thanks to Ventz for all his work 
-		with it and randomly supplying me with the exact iptables rules needed to implement the functionality.
-		Updated the logging code.  Logs should hold more information now and not get over written as often.  Applying rules
-		on boot has been totally re-written.  Hopefully, this corrects any issues with rules applying on boot.  This also
-		corrected an issue with some devices on Android 2.x where the app would hang the first time you open it after a reboot.
-		Profiles now save changes made to them.  Do not forget to export your rules file though for safe keeping. XHDPI icons added.
-2.1.3 - App search.  Widget fixed. Issue where the firewall rules don't work when Mobile Data Limit  is 
-		being used has been fixed.
+2.1.4 - Profile names now editable. Fix for NullPointerException. VPN support has been added. Many thanks to Ventz for all his work with it and randomly supplying me with the exact iptables rules needed to implement the functionality.  Updated the logging code.  Logs should hold more information now and not get over written as often.  Applying rules on boot has been totally re-written.  Hopefully, this corrects any issues with rules applying on boot.  This also corrected an issue with some devices on Android 2.x where the app would hang the first time you open it after a reboot. Profiles now save changes made to them.  Do not forget to export your rules file though for safe keeping. XHDPI icons added.
+2.1.3 - App search.  Widget fixed. Issue where the firewall rules don't work when Mobile Data Limit  is being used has been fixed.
 2.1.2 - Tasker/Locale plugin support. 
-2.1.1 - Shell script replaced by proper SU binary support with SuperSU binary.  Thanks to Chainfire for a great product and his write up
-		"How-to su".  I chose SuperSU over Superuser because of Chainfires write up. In the end either SU versions
-		would have worked just fine.  Fixed issue where loading profiles through menu wouldn't properly set the spinner position.
-		Update to the French translation, Thanks Joffrey!
-2.1.0 - Save/Load Profiles functionality. Spinner option added to main screen for quick swap of profiles. Main menu totally revamped.
-		Invert option for WiFi/Data added for those who swap between Blacklist and Whitelist.  Roaming still left up to the user. 
-		Notifications no longer fire when an app is updated, only new installs get a notification.  Code cleanup.  Translation updates. 
-		Thanks to Joffrey for French, Alex for Russian and iptux for Chinese, and Hiroki Ogawa for Japanese.
+2.1.1 - Shell script replaced by proper SU binary support with SuperSU binary.  Thanks to Chainfire for a great product and his write up "How-to su".  I chose SuperSU over Superuser because of Chainfires write up. In the end either SU versions would have worked just fine.  Fixed issue where loading profiles through menu wouldn't properly set the spinner position. Update to the French translation, Thanks Joffrey!
+2.1.0 - Save/Load Profiles functionality. Spinner option added to main screen for quick swap of profiles. Main menu totally revamped. Invert option for WiFi/Data added for those who swap between Blacklist and Whitelist.  Roaming still left up to the user. Notifications no longer fire when an app is updated, only new installs get a notification.  Code cleanup.  Translation updates. Thanks to Joffrey for French, Alex for Russian and iptux for Chinese, and Hiroki Ogawa for Japanese.
 2.0.4 - Select/Clear All now works correctly.  Thanks for sblack1 for the fix.  Minor changes to Russian and German translations.
-2.0.3 - MD5 hashing of password has been added.  Confirm password added before setting password.  Select all/clear all options have been added.  Fixed menu.xml issue with string names. Thanks to iptux for that and for the updated Chinese translation.  
-		Thanks to Joffery for again updating the French translation.  Updated the other translations with Google Translate.  
+2.0.3 - MD5 hashing of password has been added.  Confirm password added before setting password.  Select all/clear all options have been added.  Fixed menu.xml issue with string names. Thanks to iptux for that and for the updated Chinese translation. Thanks to Joffery for again updating the French translation.  Updated the other translations with Google Translate.  
 2.0.2 - Rules file  management support added.  Notifications added.  Notifications off by default.  Fix for issue where if changes to rules are made and you click the back key and say apply the app doesn't exit afterwards.
 2.0.1 - Fix for Null Pointer Exception when trying to import rules before exporting rules.  Added a check for External storage in case a device doesn't have its SDcard mounted at the time.
-2.0.0 - Added Roaming Support.  Added Export/Import of Rules.  BootBroadcast updated to correct issues
-		with some devices not applying rules after a reboot.
+2.0.0 - Added Roaming Support.  Added Export/Import of Rules.  BootBroadcast updated to correct issues with some devices not applying rules after a reboot.
 1.0.9 - Updated the translations.  IPv6 support cleaned up.  Back to a single shell script.
 1.0.8 - Menu's cleaned up.  IPv6 support available again for some devices.  Please note that not all devices support IPv6. IPv6 support is now an option to enable.  If your device does not support IPv6 you get an error saying "ip6tabled not found".
 1.0.7 - Reverted IPv6 support due to issues with older devices.
-1.0.6 - Fixed issue where HTTPS sites and apps could bypass rules on some devices. 
-		Added IPv6 support. Updated iptables binaries.
+1.0.6 - Fixed issue where HTTPS sites and apps could bypass rules on some devices. Added IPv6 support. Updated iptables binaries.
 1.0.5 - Updated the fix for the Verizon SGS3 to make it cleaner.
-1.0.4 - Fix for Verizon Samsung Galaxy S 3 ignoring rules. Added interface name for VZW SGS3. 
-        Many thanks to Warren for all the help with testing the SGS3! 
-        Updated the translations. Fix for link in Custom Scripts not working.
+1.0.4 - Fix for Verizon Samsung Galaxy S 3 ignoring rules. Added interface name for VZW SGS3. Many thanks to Warren for all the help with testing the SGS3! Updated the translations. Fix for link in Custom Scripts not working.
 1.0.2 - Updated French translation thanks to Joffrey.  Fix for issue where any user could make a DNS call thanks to tripolar!
 1.0.1 - Added a number of translations.
 1.0.0 - initial release. Updated for Android 4.x.  Added new interfaces for new devices.

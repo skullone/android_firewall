@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
     android:installLocation="internalOnly"
-    android:versionCode="226"
-    android:versionName="2.2.6" >
+    android:versionCode="227"
+    android:versionName="2.2.7" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
     <!--
     Boot completed permission is for applying iptables/ip6tables after a reboot.  iptables/ip6tables is not persistent so a reboot
     wipes it out
@@ -23,6 +23,8 @@
     <!-- Announces access to Superuser for added security in Koush's (ChainsDD and Chainfire to do the same) Superuser -->
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" >
     </uses-permission>
+    <!-- The following permission is needed for the new LAN support in order to access the subnets and get the address ranges -->
+    <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
 
     <supports-screens
         android:anyDensity="true"
@@ -33,7 +35,7 @@
     <application
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
-        android:label="@string/app_name" 
+        android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
         <activity
             android:name=".MainActivity"
@@ -57,6 +59,7 @@
         <activity android:name=".UserSettings" />
         <activity android:name=".showLog" />
         <activity android:name=".showRules" />
+        <activity android:name=".HelpDialog" />
         <activity
             android:name=".WidgetActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
@@ -67,6 +70,7 @@
 
         <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
         </service>
+        <service android:name="com.jtschohl.androidfirewall.InterfaceIntent"></service>
 
         <receiver
             android:name="BootBroadcast"
@@ -85,7 +89,7 @@
                 </data>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.jtschohl.androidfirewall.CheckForChangeToRoaming" >
+        <receiver android:name="com.jtschohl.androidfirewall.CheckForIfaceChange" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

@@ -68,14 +68,14 @@ public class DeleteRulesDialog extends ListActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Do you want to delete the file " + file)
 				.setCancelable(false)
-				.setPositiveButton("Yes",
+				.setPositiveButton(R.string.delete_rules_yes,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								file.delete();
 								resultOk();
 							}
 						})
-				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.delete_rules_no, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}

@@ -22,22 +22,30 @@
 
 package com.jtschohl.androidfirewall;
 
+import java.io.File;
+
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.jtschohl.androidfirewall.RootShell.RootCommand;
+
 public class UserSettings extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
+
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		SharedPreferences prefs = PreferenceManager
@@ -46,6 +54,7 @@ public class UserSettings extends PreferenceActivity implements
 		Api.changeLanguage(getApplicationContext(), language);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.user_settings);
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -82,6 +91,7 @@ public class UserSettings extends PreferenceActivity implements
 		}
 		if (key.equals("logenabled")) {
 			toggleLogenabled();
+			toggleLogtarget();
 		}
 		if (key.equals("sdcard")) {
 			sdcardSupport();
@@ -94,6 +104,10 @@ public class UserSettings extends PreferenceActivity implements
 			toggleRoamenabled();
 			Api.applications = null;
 		}
+		if (key.equals("lansupport")) {
+			toggleLANenabled();
+			Api.applications = null;
+		}
 		if (key.equals("notifyenabled")) {
 			toggleNotifyenabled();
 		}
@@ -104,6 +118,13 @@ public class UserSettings extends PreferenceActivity implements
 			Api.applications = null;
 			Intent intent = new Intent();
 			setResult(RESULT_OK, intent);
+		}
+		if (key.equals("connectchangerules")) {
+			toggleAutoFirewallRules();
+			Api.applications = null;
+		}
+		if (key.equals("tetheringsupport")) {
+			toggleTetherenabled();
 		}
 	}
 
@@ -130,11 +151,33 @@ public class UserSettings extends PreferenceActivity implements
 	}
 
 	/**
+	 * Toggle Auto firewall rules
+	 */
+	private void toggleAutoFirewallRules() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean autorules = !prefs.getBoolean(Api.PREF_AUTORULES, false);
+		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, true);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_AUTORULES, autorules);
+		if (lanenabled) {
+			editor.putBoolean(Api.PREF_LANENABLED, false);
+		}
+		editor.commit();
+		if (Api.isEnabled(this)) {
+			Api.applySavedIptablesRules(this, true);
+		}
+	}
+
+	/**
 	 * Toggle log on/off
+	 */
+
+	/**
+	 * Toggle VPN support on/off
 	 */
 	private void toggleLogenabled() {
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
-		final boolean enabled = !prefs.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean enabled = !prefs.getBoolean(Api.PREF_LOGENABLED, false);
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_LOGENABLED, enabled);
 		editor.commit();
@@ -143,17 +186,73 @@ public class UserSettings extends PreferenceActivity implements
 		}
 	}
 
+	private void toggleLogtarget() {
+
+		final Context ctx = getApplicationContext();
+
+		new AsyncTask<Void, Void, Boolean>() {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREFS_NAME, 0);
+			final Editor editor = prefs.edit();
+
+			@Override
+			public Boolean doInBackground(Void... args) {
+				Api.getTargets(
+						ctx,
+						new RootCommand().setReopenShell(true)
+								.setFailureToast(R.string.log_failed)
+								.setCallback(new RootCommand.Callback() {
+									@Override
+									public void cbFunc(RootCommand state) {
+										if (state.exitCode == 0) {
+											for (String str : state.lastCommandResult
+													.toString().split("\n")) {
+												if ("LOG".equals(str)) {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"LOG");
+													editor.commit();
+													break;
+												} /*else if ("NFLOG".equals(str)) {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"NFLOG");
+													editor.commit();
+													break;
+												} */else {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"");
+													editor.commit();
+												}
+											}
+										}
+									}
+								}));
+				return true;
+			}
+		}.execute();
+	}
+
 	/**
 	 * Toggle ipv6 on/off
 	 */
 	private void toggleIPv6enabled() {
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		final boolean enabled = !prefs.getBoolean(Api.PREF_IP6TABLES, false);
+		File ipv6tables = new File("/system/bin/ip6tables");
 		final Editor editor = prefs.edit();
-		editor.putBoolean(Api.PREF_IP6TABLES, enabled);
-		editor.commit();
-		if (Api.isEnabled(this)) {
-			Api.applySavedIptablesRules(this, true);
+		if (ipv6tables.exists()) {
+			editor.putBoolean(Api.PREF_IP6TABLES, enabled);
+			editor.commit();
+			if (Api.isEnabled(this)) {
+				Api.applySavedIptablesRules(this, true);
+			}
+		} else {
+			editor.putBoolean(Api.PREF_IP6TABLES, false);
+			editor.commit();
+			Toast.makeText(getApplicationContext(), R.string.ipv6_unavailable,
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -165,6 +264,17 @@ public class UserSettings extends PreferenceActivity implements
 		boolean vpnenabled = !prefs.getBoolean(Api.PREF_VPNENABLED, false);
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_VPNENABLED, vpnenabled);
+		editor.commit();
+	}
+
+	/**
+	 * Toggle LAN support on/off
+	 */
+	private void toggleLANenabled() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		boolean lanenabled = !prefs.getBoolean(Api.PREF_LANENABLED, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_LANENABLED, lanenabled);
 		editor.commit();
 	}
 
@@ -210,6 +320,20 @@ public class UserSettings extends PreferenceActivity implements
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_TASKERNOTIFY, enabled);
 		editor.commit();
+	}
+
+	/**
+	 * Toggle Tethering support on/off
+	 */
+	private void toggleTetherenabled() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean enabled = !prefs.getBoolean(Api.PREF_TETHER, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_TETHER, enabled);
+		editor.commit();
+		if (Api.isEnabled(this)) {
+			Api.applySavedIptablesRules(this, true);
+		}
 	}
 
 	@Override

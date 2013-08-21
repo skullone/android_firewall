@@ -29,11 +29,12 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.concurrent.RejectedExecutionException;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -44,6 +45,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +53,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -61,6 +66,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -80,6 +86,7 @@ import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jtschohl.androidfirewall.Api.DroidApp;
+import com.jtschohl.androidfirewall.RootShell.RootCommand;
 
 /**
  * Main application activity. This is the screen displayed when you open the
@@ -107,6 +114,17 @@ public class MainActivity extends SherlockActivity implements
 	private IcsSpinner spinner;
 	public ArrayAdapter<String> adapter1;
 
+	/**
+	 * Navigation drawer variables
+	 */
+
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private CharSequence mDrawerTitle;
+	private CharSequence mTitle;
+	private String[] mMenuTitles;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,6 +140,45 @@ public class MainActivity extends SherlockActivity implements
 		checkPreferences();
 		setContentView(R.layout.main);
 
+		// set Nav drawer
+
+		mTitle = mDrawerTitle = getTitle();
+		mMenuTitles = getResources().getStringArray(R.array.drawer_menu);
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list, mMenuTitles));
+
+		// Capture button clicks on side menu
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+		// Enable ActionBar app icon to behave as action to toggle nav drawer
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// ActionBarDrawerToggle ties together the the proper interactions
+		// between the sliding drawer and the action bar app icon
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
+
+			public void onDrawerClosed(View view) {
+				getSupportActionBar().setTitle(mTitle);
+				supportInvalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getSupportActionBar().setTitle(mDrawerTitle);
+				supportInvalidateOptionsMenu();
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
 		this.findViewById(R.id.label_mode).setOnClickListener(this);
 		this.findViewById(R.id.label_clear).setOnClickListener(this);
 		this.findViewById(R.id.label_data).setOnClickListener(this);
@@ -129,9 +186,11 @@ public class MainActivity extends SherlockActivity implements
 		this.findViewById(R.id.label_roam).setOnClickListener(this);
 		this.findViewById(R.id.label_vpn).setOnClickListener(this);
 		this.findViewById(R.id.label_invert).setOnClickListener(this);
+		this.findViewById(R.id.label_lan).setOnClickListener(this);
 
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -241,6 +300,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 	}
 
 	@Override
@@ -248,12 +308,102 @@ public class MainActivity extends SherlockActivity implements
 		super.onPause();
 		this.listview.setAdapter(null);
 	}
-	
+
+	/**
+	 * try to open a root shell in background on launch
+	 */
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		List<String> cmds = new ArrayList<String>();
+		cmds.add("true");
+		new RootCommand().setFailureToast(R.string.error_no_root)
+				.setReopenShell(true).run(getApplicationContext(), cmds);
+	}
+
+	/**
+	 * The click listener for ListView in the navigation drawer
+	 */
+
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view,
+				int drawerposition, long id) {
+			selectItem(drawerposition);
+		}
+	}
+
+	private void selectItem(int drawerposition) {
+		// Locate Position
+		switch (drawerposition) {
+		case 0:
+			exportRules();
+			break;
+		case 1:
+			importRules();
+			break;
+		case 2:
+			manageRuleFiles();
+			break;
+		case 3:
+			saveProfile();
+			break;
+		case 4:
+			selectProfile();
+			break;
+		case 5:
+			editProfileNames();
+			break;
+		case 6:
+			showLog();
+			break;
+		case 7:
+			clearLog();
+			break;
+		case 8:
+			showRules();
+			break;
+		case 9:
+			setPassword();
+			break;
+		case 10:
+			setCustomScript();
+			break;
+		}
+		// ft.commit();
+		mDrawerList.setItemChecked(drawerposition, true);
+		// Close drawer
+		mDrawerLayout.closeDrawer(mDrawerList);
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getSupportActionBar().setTitle(mTitle);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggles
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
 	/**
 	 * search function
 	 */
-	
-	public void searchapps(){
+
+	public void searchapps() {
 		final EditText filterText = (EditText) findViewById(R.id.search);
 		filterText.addTextChangedListener(filterTextWatcher);
 		filterText.post(new Runnable() {
@@ -364,7 +514,7 @@ public class MainActivity extends SherlockActivity implements
 								editor.commit();
 								refreshHeader();
 							}
-						}).setTitle("Select mode:").show();
+						}).setTitle(R.string.select_mode).show();
 	}
 
 	/**
@@ -375,7 +525,7 @@ public class MainActivity extends SherlockActivity implements
 	 */
 	private void setPassword(String pwd) {
 		final Resources res = getResources();
-		//final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
+		// final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		SharedPreferences.Editor editor = prefs.edit();
@@ -385,7 +535,9 @@ public class MainActivity extends SherlockActivity implements
 			editor.putString("password", hash);
 			if (editor.commit()) {
 				msg = res.getString(R.string.passdefined);
-				getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+				getWindow()
+						.setSoftInputMode(
+								WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 			} else {
 				msg = res.getString(R.string.passerror);
 			}
@@ -393,7 +545,8 @@ public class MainActivity extends SherlockActivity implements
 			editor.putString("password", pwd);
 			editor.commit();
 			msg = res.getString(R.string.passremoved);
-			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+			getWindow().setSoftInputMode(
+					WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		}
 		Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
 	}
@@ -488,6 +641,24 @@ public class MainActivity extends SherlockActivity implements
 		}
 	}
 
+	private void toggleLANbutton(Context ctx) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean lanenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LANENABLED, false);
+		Button lan = (Button) findViewById(R.id.label_lan);
+		if (lanenabled) {
+			lan.setVisibility(View.VISIBLE);
+			editor.putBoolean("lansupport", true);
+			editor.commit();
+		} else {
+			lan.setVisibility(View.GONE);
+			editor.putBoolean("lansupport", false);
+			editor.commit();
+		}
+	}
+
 	private void toggleUserSettings(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
@@ -502,6 +673,16 @@ public class MainActivity extends SherlockActivity implements
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
 		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_SDCARD, false);
+		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_VPNENABLED, false);
+		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ROAMENABLED, false);
+		boolean lanenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LANENABLED, false);
+		boolean autorules = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_AUTORULES, false);
+		boolean tetherenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TETHER, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -535,6 +716,41 @@ public class MainActivity extends SherlockActivity implements
 			editor.commit();
 		} else {
 			editor.putBoolean("sdcard", false);
+			editor.commit();
+		}
+		if (vpnenabled) {
+			editor.putBoolean("vpnsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("vpnsupport", false);
+			editor.commit();
+		}
+		if (roamenabled) {
+			editor.putBoolean("roamingsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("roamingsupport", false);
+			editor.commit();
+		}
+		if (lanenabled) {
+			editor.putBoolean("lansupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("lansupport", false);
+			editor.commit();
+		}
+		if (autorules) {
+			editor.putBoolean("connectchangerules", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("connectchangerules", false);
+			editor.commit();
+		}
+		if (tetherenabled) {
+			editor.putBoolean("tetheringsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("tetheringsupport", false);
 			editor.commit();
 		}
 	}
@@ -576,6 +792,34 @@ public class MainActivity extends SherlockActivity implements
 	}
 
 	/**
+	 * sort apps when searched
+	 */
+
+	class sortList implements Comparator<DroidApp> {
+
+		@Override
+		public int compare(DroidApp o1, DroidApp o2) {
+			if (o1.firstseen != o2.firstseen) {
+				return (o1.firstseen ? -1 : 1);
+			}
+			boolean o1_selected = o1.selected_3g || o1.selected_wifi
+					|| o1.selected_roaming || o1.selected_vpn
+					|| o1.selected_lan;
+			boolean o2_selected = o2.selected_3g || o2.selected_wifi
+					|| o2.selected_roaming || o2.selected_vpn
+					|| o2.selected_lan;
+
+			if (o1_selected == o2_selected) {
+				return String.CASE_INSENSITIVE_ORDER.compare(o1.names.get(0)
+						.toString(), o2.names.get(0).toString());
+			}
+			if (o1_selected)
+				return -1;
+			return 1;
+		}
+	}
+
+	/**
 	 * Show the list of applications
 	 * 
 	 * Thanks to Ukanth for the Search code so I didn't have to reinvent the
@@ -585,7 +829,8 @@ public class MainActivity extends SherlockActivity implements
 	private void createListView(final String searching) {
 		this.dirty = false;
 		List<DroidApp> namesearch = new ArrayList<DroidApp>();
-		final DroidApp[] appnames = Api.getApps(this);
+		final List<DroidApp> appnames = Api.getApps(this);
+		boolean isResultsFound = false;
 		if (searching != null && searching.length() > 1) {
 			for (DroidApp app : appnames) {
 				for (String str : app.names) {
@@ -593,89 +838,23 @@ public class MainActivity extends SherlockActivity implements
 							|| str.toLowerCase().contains(
 									searching.toLowerCase())) {
 						namesearch.add(app);
+						isResultsFound = true;
 					}
 				}
 			}
 		}
-		final DroidApp[] apps = namesearch.size() > 0 ? namesearch
-				.toArray(new DroidApp[namesearch.size()]) : appnames;
+		final List<DroidApp> apps = isResultsFound ? namesearch : searching
+				.equals("") ? appnames : new ArrayList<Api.DroidApp>();
 		// Sort applications - selected first, then alphabetically
-		Arrays.sort(apps, new Comparator<DroidApp>() {
-			@Override
-			public int compare(DroidApp o1, DroidApp o2) {
-				if (o1.firstseen != o2.firstseen) {
-					return (o1.firstseen ? -1 : 1);
-				}
-				boolean o1_selected;
-				boolean o2_selected;
+		Collections.sort(apps, new sortList());
 
-				boolean vpnenabled = getApplicationContext()
-						.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
-								Api.PREF_VPNENABLED, false);
-				boolean roamenabled = getApplicationContext()
-						.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
-								Api.PREF_ROAMENABLED, false);
-
-				if (vpnenabled && !roamenabled) {
-					o1_selected = o1.selected_3g || o1.selected_wifi
-							|| o1.selected_vpn;
-					o2_selected = o2.selected_3g || o2.selected_wifi
-							|| o2.selected_vpn;
-
-					if (o1_selected == o2_selected) {
-						return String.CASE_INSENSITIVE_ORDER.compare(
-								o1.names[0], o2.names[0]);
-					}
-					if (o1_selected)
-						return -1;
-				}
-				if (roamenabled && !vpnenabled) {
-					o1_selected = o1.selected_3g || o1.selected_wifi
-							|| o1.selected_roaming;
-					o2_selected = o2.selected_3g || o2.selected_wifi
-							|| o2.selected_roaming;
-
-					if (o1_selected == o2_selected) {
-						return String.CASE_INSENSITIVE_ORDER.compare(
-								o1.names[0], o2.names[0]);
-					}
-					if (o1_selected)
-						return -1;
-				}
-				if (roamenabled && vpnenabled) {
-					o1_selected = o1.selected_3g || o1.selected_wifi
-							|| o1.selected_roaming || o1.selected_vpn;
-					o2_selected = o2.selected_3g || o2.selected_wifi
-							|| o2.selected_roaming || o2.selected_vpn;
-
-					if (o1_selected == o2_selected) {
-						return String.CASE_INSENSITIVE_ORDER.compare(
-								o1.names[0], o2.names[0]);
-					}
-					if (o1_selected)
-						return -1;
-				}
-				if (!roamenabled && !vpnenabled) {
-					o1_selected = o1.selected_3g || o1.selected_wifi;
-					o2_selected = o2.selected_3g || o2.selected_wifi;
-
-					if (o1_selected == o2_selected) {
-						return String.CASE_INSENSITIVE_ORDER.compare(
-								o1.names[0], o2.names[0]);
-					}
-					if (o1_selected)
-						return -1;
-				}
-				return 1;
-			}
-		});
-		// try {
 		final LayoutInflater inflater = getLayoutInflater();
-		ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
+		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 				R.layout.listitem, R.id.itemtext, apps) {
 			SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 			boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 			boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
+			boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
 
 			@Override
 			public View getView(final int position, View convertView,
@@ -695,11 +874,16 @@ public class MainActivity extends SherlockActivity implements
 							.findViewById(R.id.itemcheck_roam);
 					entry.box_vpn = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_vpn);
+					entry.box_lan = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_lan);
 					if (vpnenabled) {
 						entry.box_vpn.setVisibility(View.VISIBLE);
 					}
 					if (roamenabled) {
 						entry.box_roaming.setVisibility(View.VISIBLE);
+					}
+					if (lanenabled) {
+						entry.box_lan.setVisibility(View.VISIBLE);
 					}
 					entry.text = (TextView) convertView
 							.findViewById(R.id.itemtext);
@@ -711,6 +895,7 @@ public class MainActivity extends SherlockActivity implements
 					entry.box_roaming
 							.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_vpn.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_lan.setOnCheckedChangeListener(MainActivity.this);
 					convertView.setTag(entry);
 				} else {
 					// Convert an existing view
@@ -725,33 +910,44 @@ public class MainActivity extends SherlockActivity implements
 					if (roamenabled) {
 						entry.box_roaming.setVisibility(View.VISIBLE);
 					}
+					if (lanenabled) {
+						entry.box_lan.setVisibility(View.VISIBLE);
+					}
 					entry.box_roaming = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_roam);
 					entry.box_vpn = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_vpn);
+					entry.box_lan = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_lan);
 				}
-				final DroidApp app = apps[position];
-				entry.app = app;
-				entry.text.setText(app.toString());
-				entry.icon.setImageDrawable(app.cached_icon);
-				if (!app.icon_loaded && app.appinfo != null) {
+				entry.app = apps.get(position);
+				entry.text.setText(entry.app.toString());
+				entry.icon.setImageDrawable(entry.app.cached_icon);
+				if (!entry.app.icon_loaded && entry.app.appinfo != null) {
 					// this icon has not been loaded yet - load it on a
 					// separated thread
-					new LoadIconTask().execute(app, getPackageManager(),
-							convertView);
+					try {
+						new LoadIconTask().execute(entry.app,
+								getPackageManager(), convertView);
+					} catch (RejectedExecutionException r) {
+
+					}
 				}
 				final CheckBox box_wifi = entry.box_wifi;
-				box_wifi.setTag(app);
-				box_wifi.setChecked(app.selected_wifi);
+				box_wifi.setTag(entry.app);
+				box_wifi.setChecked(entry.app.selected_wifi);
 				final CheckBox box_3g = entry.box_3g;
-				box_3g.setTag(app);
-				box_3g.setChecked(app.selected_3g);
+				box_3g.setTag(entry.app);
+				box_3g.setChecked(entry.app.selected_3g);
 				final CheckBox box_roaming = entry.box_roaming;
-				box_roaming.setTag(app);
-				box_roaming.setChecked(app.selected_roaming);
+				box_roaming.setTag(entry.app);
+				box_roaming.setChecked(entry.app.selected_roaming);
 				final CheckBox box_vpn = entry.box_vpn;
-				box_vpn.setTag(app);
-				box_vpn.setChecked(app.selected_vpn);
+				box_vpn.setTag(entry.app);
+				box_vpn.setChecked(entry.app.selected_vpn);
+				final CheckBox box_lan = entry.box_lan;
+				box_lan.setTag(entry.app);
+				box_lan.setChecked(entry.app.selected_lan);
 				return convertView;
 			}
 		};
@@ -761,13 +957,7 @@ public class MainActivity extends SherlockActivity implements
 		} else {
 			this.listview.setAdapter(adapter);
 		}
-		/*
-		 * } catch (Exception e) { Log.d("Null pointer on listview",
-		 * e.getMessage()); e.printStackTrace();
-		 */
 	}
-
-	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -777,8 +967,16 @@ public class MainActivity extends SherlockActivity implements
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+				mDrawerLayout.closeDrawer(mDrawerList);
+			} else {
+				mDrawerLayout.openDrawer(mDrawerList);
+			}
+			return true;
 		case R.id.enableipv4:
 			disableOrEnable();
 			return true;
@@ -790,40 +988,7 @@ public class MainActivity extends SherlockActivity implements
 			System.exit(0);
 			return true;
 		case R.id.help:
-			new HelpDialog(this).show();
-			return true;
-		case R.id.setpwd:
-			setPassword();
-			return true;
-		case R.id.showlog:
-			showLog();
-			return true;
-		case R.id.showrules:
-			showRules();
-			return true;
-		case R.id.clearlog:
-			clearLog();
-			return true;
-		case R.id.customscript:
-			setCustomScript();
-			return true;
-		case R.id.exportrules:
-			exportRules();
-			return true;
-		case R.id.importrules:
-			importRules();
-			return true;
-		case R.id.managerulefiles:
-			manageRuleFiles();
-			return true;
-		case R.id.saveprofile:
-			saveProfile();
-			return true;
-		case R.id.loadprofile:
-			selectProfile();
-			return true;
-		case R.id.editprofilenames:
-			editProfileNames();
+			HelpDialog();
 			return true;
 		case R.id.usersettings:
 			userSettings();
@@ -886,7 +1051,7 @@ public class MainActivity extends SherlockActivity implements
 			}
 		}).show();
 	}
-	
+
 	private void checkPassword() {
 		new PassDialog(this, true, new android.os.Handler.Callback() {
 			public boolean handleMessage(Message msg) {
@@ -937,10 +1102,8 @@ public class MainActivity extends SherlockActivity implements
 		if (filepath.isDirectory()) {
 			startActivityForResult(intent, IMPORT_RULES_REQUEST);
 		} else {
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_rules_file, Toast.LENGTH_LONG)
+					.show();
 		}
 
 	}
@@ -956,18 +1119,12 @@ public class MainActivity extends SherlockActivity implements
 			startActivityForResult(intent, EXPORT_RULES_REQUEST);
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 			// We can only read the media
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
 		} else {
 			// Something else is wrong. It may be one of many other states, but
 			// all we need
 			// to know is we can neither read nor write
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
 		}
 
 	}
@@ -981,10 +1138,8 @@ public class MainActivity extends SherlockActivity implements
 		if (filepath.isDirectory()) {
 			startActivityForResult(intent, MANAGE_RULES_REQUEST);
 		} else {
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_rules_file, Toast.LENGTH_LONG)
+					.show();
 		}
 
 	}
@@ -998,10 +1153,8 @@ public class MainActivity extends SherlockActivity implements
 		if (filepath.isDirectory()) {
 			startActivityForResult(intent, 0);
 		} else {
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_rules_file, Toast.LENGTH_LONG)
+					.show();
 		}
 
 	}
@@ -1016,10 +1169,8 @@ public class MainActivity extends SherlockActivity implements
 		if (filepath.isDirectory()) {
 			startActivityForResult(intent, LOAD_PROFILE_REQUEST);
 		} else {
-			Toast.makeText(
-					this,
-					"There is an error accessing the androidfirewall directory. Please export a rules file first.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_rules_file, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
 
@@ -1053,7 +1204,7 @@ public class MainActivity extends SherlockActivity implements
 	static final int EDIT_PROFILE_REQUEST = 50;
 	// set Request Code for User Settings
 	static final int USER_SETTINGS_REQUEST = 60;
-	//set Request Code for Language Change
+	// set Request Code for Language Change
 	static final int CHANGE_LANGUAGE_REQUEST = 70;
 
 	// @Override
@@ -1072,6 +1223,7 @@ public class MainActivity extends SherlockActivity implements
 			showOrLoadApplications();
 			toggleVPNbutton(getApplicationContext());
 			toggleRoambutton(getApplicationContext());
+			toggleLANbutton(getApplicationContext());
 			toggleUserSettings(getApplicationContext());
 		}
 		if (requestCode == EXPORT_RULES_REQUEST && resultCode == RESULT_OK) {
@@ -1082,7 +1234,7 @@ public class MainActivity extends SherlockActivity implements
 
 		}
 		if (requestCode == MANAGE_RULES_REQUEST && resultCode == RESULT_OK) {
-			Toast.makeText(this, "The file has been deleted.",
+			Toast.makeText(this, R.string.rules_file_deleted,
 					Toast.LENGTH_SHORT).show();
 			manageRuleFiles();
 		}
@@ -1095,6 +1247,7 @@ public class MainActivity extends SherlockActivity implements
 			refreshSpinner();
 			toggleVPNbutton(getApplicationContext());
 			toggleRoambutton(getApplicationContext());
+			toggleLANbutton(getApplicationContext());
 			toggleUserSettings(getApplicationContext());
 			if (Api.isEnabled(getApplicationContext())) {
 				Api.applyIptablesRules(getApplicationContext(), true);
@@ -1107,11 +1260,12 @@ public class MainActivity extends SherlockActivity implements
 		}
 		if (requestCode == USER_SETTINGS_REQUEST && resultCode == RESULT_OK) {
 			SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
+					.getDefaultSharedPreferences(getApplicationContext());
 			Intent intent = getIntent();
 			finish();
 			toggleVPNbutton(getApplicationContext());
 			toggleRoambutton(getApplicationContext());
+			toggleLANbutton(getApplicationContext());
 			String language = prefs.getString("locale", Locale.getDefault()
 					.getDisplayLanguage());
 			Api.changeLanguage(getApplicationContext(), language);
@@ -1170,6 +1324,16 @@ public class MainActivity extends SherlockActivity implements
 	private void showLog() {
 		Intent intent = new Intent();
 		intent.setClass(this, showLog.class);
+		startActivityForResult(intent, 0);
+	}
+
+	/**
+	 * Dispay Help
+	 */
+
+	private void HelpDialog() {
+		Intent intent = new Intent();
+		intent.setClass(this, HelpDialog.class);
 		startActivityForResult(intent, 0);
 	}
 
@@ -1363,6 +1527,12 @@ public class MainActivity extends SherlockActivity implements
 					this.dirty = true;
 				}
 				break;
+			case R.id.itemcheck_lan:
+				if (app.selected_lan != isChecked) {
+					app.selected_lan = isChecked;
+					this.dirty = true;
+				}
+				break;
 			}
 		}
 	}
@@ -1390,6 +1560,9 @@ public class MainActivity extends SherlockActivity implements
 			break;
 		case R.id.label_vpn:
 			selectAllVpn();
+			break;
+		case R.id.label_lan:
+			selectAllLan();
 			break;
 		}
 	}
@@ -1436,6 +1609,7 @@ public class MainActivity extends SherlockActivity implements
 				Context.MODE_PRIVATE);
 		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
+		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
@@ -1447,6 +1621,9 @@ public class MainActivity extends SherlockActivity implements
 			app.selected_3g = false;
 			if (vpnenabled) {
 				app.selected_vpn = false;
+			}
+			if (lanenabled) {
+				app.selected_lan = false;
 			}
 			this.dirty = true;
 		}
@@ -1471,6 +1648,17 @@ public class MainActivity extends SherlockActivity implements
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_vpn = true;
+			this.dirty = true;
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void selectAllLan() {
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_lan = true;
 			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
@@ -1556,6 +1744,7 @@ public class MainActivity extends SherlockActivity implements
 		private CheckBox box_3g;
 		private CheckBox box_roaming;
 		private CheckBox box_vpn;
+		private CheckBox box_lan;
 		private TextView text;
 		private ImageView icon;
 		private DroidApp app;
@@ -1588,24 +1777,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}
@@ -1639,24 +1825,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}
@@ -1690,24 +1873,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}
@@ -1741,24 +1921,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}
@@ -1792,24 +1969,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}
@@ -1843,24 +2017,21 @@ public class MainActivity extends SherlockActivity implements
 		refreshHeader();
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
+		toggleLANbutton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.applyrules);
 				item_onoff.setChecked(true);
 			}
 		} else {
 			Api.saveRules(getApplicationContext());
 			if (abs_menu != null) {
-				final MenuItem item_onoff = abs_menu
-						.findItem(R.id.enableipv4);
-				final MenuItem item_apply = abs_menu
-						.findItem(R.id.applyrules);
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
 				item_apply.setTitle(R.string.saverules);
 				item_onoff.setChecked(false);
 			}

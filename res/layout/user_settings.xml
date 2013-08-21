@@ -18,6 +18,25 @@
         android:summaryOff="@string/roaming_summary"
         android:summaryOn="@string/roaming_summary"
         android:title="@string/roaming_title" />
+    
+    <CheckBoxPreference
+        android:key="connectchangerules"
+        android:summaryOff="@string/connectchangerules_summary"
+        android:summaryOn="@string/connectchangerules_summary"
+        android:title="@string/connectchangerules_title" />
+    
+    <CheckBoxPreference
+        android:key="lansupport"
+        android:dependency="connectchangerules"
+        android:summaryOff="@string/lan_summary"
+        android:summaryOn="@string/lan_summary"
+        android:title="@string/lan_title" />
+    
+    <CheckBoxPreference
+        android:key="tetheringsupport"
+        android:summaryOff="@string/tether_summary"
+        android:summaryOn="@string/tether_summary"
+        android:title="@string/tether_title" />
 
     <CheckBoxPreference
         android:key="notifyenabled"
@@ -42,6 +61,13 @@
         android:summaryOff="@string/sdcard_summary"
         android:summaryOn="@string/sdcard_summary"
         android:title="@string/sdcard_title" />
+    
+    <ListPreference
+        android:entries="@array/iptables_binary"
+        android:entryValues="@array/iptables_location"
+        android:title="@string/iptables_title"
+        android:key="iptables_path"
+        android:defaultValue="2"></ListPreference>
 
     <ListPreference
         android:entries="@array/language_support"
