@@ -167,17 +167,19 @@ public final class Api {
 		final String ipv4 = "iptables ";
 		final String myBusybox = getBusyBoxPath(ctx);
 		int version = Build.VERSION.SDK_INT;
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			myiptables = ipv4;
 			Log.d("Android Firewall",
-					"Using system iptables because Android is 4.x " + version + " " + arch);
-		} 
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {	
+					"Using system iptables because Android is 4.x " + version
+							+ " " + arch);
+		}
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			myiptables = app_iptables;
 			Log.d("Android Firewall",
-					"Using included iptables because Android is 3.x or lower " + version + " " + arch );
-		} 
+					"Using included iptables because Android is 3.x or lower "
+							+ version + " " + arch);
+		}
 
 		return "" + "IPTABLES=iptables\n" + "IP6TABLES=ip6tables\n"
 				+ "BUSYBOX=busybox\n" + "GREP=grep\n" + "ECHO=echo\n"
@@ -380,12 +382,21 @@ public final class Api {
 			}
 			for (final String itf : ITFS_WIFI) {
 				if (lanenabled) {
-					script.append("$IPTABLES -A droidwall -d ")
-							.append(config.lanipv4).append(" -o ").append(itf)
-							.append(" -j droidwall-lan || exit 34\n");
-					script.append("$IPTABLES -A droidwall '!' -d ")
-							.append(config.lanipv4).append(" -o ").append(itf)
-							.append(" -j droidwall-wifi || exit 34\n");
+					if (!config.lanipv4.equals("")) {
+						script.append("$IPTABLES -A droidwall -d ")
+								.append(config.lanipv4).append(" -o ")
+								.append(itf)
+								.append(" -j droidwall-lan || exit 34\n");
+						script.append("$IPTABLES -A droidwall '!' -d ")
+								.append(config.lanipv4).append(" -o ")
+								.append(itf)
+								.append(" -j droidwall-wifi || exit 34\n");
+					} else {
+						// for preventing leaks after device connects to WiFi
+						// When a device gets an ip the intent needs to fire so
+						// block connection until Auto rules fire.
+						script.append("$IPTABLES -A droidwall-wifi -j REJECT || exit 344\n");
+					}
 				} else {
 					script.append("$IPTABLES -A droidwall -o ").append(itf)
 							.append(" -j droidwall-wifi || exit 34\n");
@@ -452,7 +463,6 @@ public final class Api {
 					/* block any application on this interface */
 					script.append("$IPTABLES -A droidwall-wifi -j ")
 							.append(targetRule).append(" || exit 44\n");
-					// script.append("$IP6TABLES -A droidwall-wifi -j ").append(targetRule).append(" || exit 45\n");
 				}
 			} else {
 				/* release/block individual applications on this interface */
@@ -640,15 +650,26 @@ public final class Api {
 
 					}
 					for (final String itf : ITFS_WIFI) {
-						if (lanenabled) {
-							script.append("$IP6TABLES -A droidwall -d ")
-									.append(config.lanipv4).append(" -o ")
-									.append(itf)
-									.append(" -j droidwall-lan || exit 34\n");
-							script.append("$IP6TABLES -A droidwall '!' -d ")
-									.append(config.lanipv4).append(" -o ")
-									.append(itf)
-									.append(" -j droidwall-wifi || exit 34\n");
+						if (lanenabled && ipv6enabled) {
+							if (!config.lanipv6.equals("")) {
+								script.append("$IP6TABLES -A droidwall -d ")
+										.append(config.lanipv6)
+										.append(" -o ")
+										.append(itf)
+										.append(" -j droidwall-lan || exit 34\n");
+								script.append("$IP6TABLES -A droidwall '!' -d ")
+										.append(config.lanipv6)
+										.append(" -o ")
+										.append(itf)
+										.append(" -j droidwall-wifi || exit 34\n");
+							} else {
+								// for preventing leaks after device connects to
+								// WiFi again.
+								// When a device gets an ip the intent needs to
+								// fire so
+								// block connection until Auto rules fire.
+								script.append("$IP6TABLES -A droidwall-wifi -j REJECT || exit 345\n");
+							}
 						} else {
 							script.append("$IP6TABLES -A droidwall -o ")
 									.append(itf)
@@ -821,7 +842,7 @@ public final class Api {
 							}
 						}
 					} else {
-						if (uidsvpn.indexOf(SPECIAL_UID_KERNEL) >= 0) {
+						if (uidslan.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 							script.append("# hack to BLOCK kernel packets on black-list\n");
 							script.append("$IP6TABLES -A droidwall-lan -m owner --uid-owner 0:999999999 -j RETURN || exit 91\n");
 							script.append("$IP6TABLES -A droidwall-lan -j droidwall-reject || exit 92\n");

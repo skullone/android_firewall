@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
     android:installLocation="internalOnly"
-    android:versionCode="227"
-    android:versionName="2.2.7" >
+    android:versionCode="228"
+    android:versionName="2.2.8" >
 
     <uses-sdk
         android:minSdkVersion="8"

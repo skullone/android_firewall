@@ -212,13 +212,13 @@ public class UserSettings extends PreferenceActivity implements
 															"LOG");
 													editor.commit();
 													break;
-												} /*else if ("NFLOG".equals(str)) {
+												} else if ("NFLOG".equals(str)) {
 													editor.putString(
 															Api.PREF_LOGTARGET,
 															"NFLOG");
 													editor.commit();
 													break;
-												} */else {
+												} else {
 													editor.putString(
 															Api.PREF_LOGTARGET,
 															"");

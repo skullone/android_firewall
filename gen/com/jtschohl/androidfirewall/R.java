@@ -910,16 +910,15 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int drawer_shadow=0x7f020070;
-        public static final int ic_drawer=0x7f020071;
-        public static final int icon=0x7f020072;
-        public static final int notify_icon=0x7f020073;
-        public static final int widget_bg=0x7f020074;
-        public static final int widget_bg_focus=0x7f020075;
-        public static final int widget_bg_pressed=0x7f020076;
-        public static final int widget_off=0x7f020077;
-        public static final int widget_on=0x7f020078;
-        public static final int widget_on2=0x7f020079;
+        public static final int ic_drawer=0x7f020070;
+        public static final int icon=0x7f020071;
+        public static final int notify_icon=0x7f020072;
+        public static final int widget_bg=0x7f020073;
+        public static final int widget_bg_focus=0x7f020074;
+        public static final int widget_bg_pressed=0x7f020075;
+        public static final int widget_off=0x7f020076;
+        public static final int widget_on=0x7f020077;
+        public static final int widget_on2=0x7f020078;
     }
     public static final class id {
         public static final int DefaultProfile=0x7f060069;
