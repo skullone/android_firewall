@@ -146,7 +146,6 @@
     <string name="delete_rules_yes">Yes</string>
     <string name="delete_rules_no">No</string>
     <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
-    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
     <string name="rules_file_deleted">The file has been deleted.</string>
     <string name="version_about">Version:</string>
     <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
