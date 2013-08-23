@@ -25,13 +25,11 @@ package com.jtschohl.androidfirewall;
 import java.io.File;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,8 +37,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
-
-import com.jtschohl.androidfirewall.RootShell.RootCommand;
 
 public class UserSettings extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -90,7 +86,6 @@ public class UserSettings extends PreferenceActivity implements
 		}
 		if (key.equals("logenabled")) {
 			toggleLogenabled();
-			toggleLogtarget();
 		}
 		if (key.equals("sdcard")) {
 			sdcardSupport();
@@ -170,10 +165,6 @@ public class UserSettings extends PreferenceActivity implements
 	/**
 	 * Toggle log on/off
 	 */
-
-	/**
-	 * Toggle VPN support on/off
-	 */
 	private void toggleLogenabled() {
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		boolean enabled = !prefs.getBoolean(Api.PREF_LOGENABLED, false);
@@ -183,54 +174,6 @@ public class UserSettings extends PreferenceActivity implements
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
 		}
-	}
-
-	private void toggleLogtarget() {
-
-		final Context ctx = getApplicationContext();
-
-		new AsyncTask<Void, Void, Boolean>() {
-			final SharedPreferences prefs = getSharedPreferences(
-					Api.PREFS_NAME, 0);
-			final Editor editor = prefs.edit();
-
-			@Override
-			public Boolean doInBackground(Void... args) {
-				Api.getTargets(
-						ctx,
-						new RootCommand().setReopenShell(true)
-								.setFailureToast(R.string.log_failed)
-								.setCallback(new RootCommand.Callback() {
-									@Override
-									public void cbFunc(RootCommand state) {
-										if (state.exitCode == 0) {
-											for (String str : state.lastCommandResult
-													.toString().split("\n")) {
-												if ("LOG".equals(str)) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"LOG");
-													editor.commit();
-													break;
-												} else if ("NFLOG".equals(str)) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"NFLOG");
-													editor.commit();
-													break;
-												} else {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"");
-													editor.commit();
-												}
-											}
-										}
-									}
-								}));
-				return true;
-			}
-		}.execute();
 	}
 
 	/**

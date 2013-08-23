@@ -189,6 +189,13 @@ public class MainActivity extends SherlockActivity implements
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
 
+		final String logtarget = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");
+		if (logtarget.equals("")) {
+			Log.d("{AndroidFirewall}", "logtarget is empty, let's populate it");
+			toggleLogtarget();
+		}
+
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		// use "" as default
@@ -313,7 +320,7 @@ public class MainActivity extends SherlockActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("true");
 		new RootCommand().setFailureToast(R.string.error_no_root)
@@ -2208,6 +2215,63 @@ public class MainActivity extends SherlockActivity implements
 			}
 		}
 		return super.onKeyUp(keyCode, event);
+	}
+
+	private void toggleLogtarget() {
+
+		final Context ctx = getApplicationContext();
+
+		new AsyncTask<Void, Void, Boolean>() {
+			final SharedPreferences prefs = getSharedPreferences(
+					Api.PREFS_NAME, 0);
+			final Editor editor = prefs.edit();
+
+			@Override
+			public Boolean doInBackground(Void... args) {
+				Api.getTargets(
+						ctx,
+						new RootCommand().setReopenShell(true)
+								.setFailureToast(R.string.log_failed)
+								.setCallback(new RootCommand.Callback() {
+									@Override
+									public void cbFunc(RootCommand state) {
+										if (state.exitCode == 0) {
+											for (String str : state.lastCommandResult
+													.toString().split("\n")) {
+												if ("LOG".equals(str)) {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"LOG");
+													editor.commit();
+													Log.d("[AndroidFirewall]",
+															"LOG fetch "
+																	+ Api.PREF_LOGTARGET);
+													break;
+												} else if ("NFLOG".equals(str)) {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"NFLOG");
+													editor.commit();
+													Log.d("[AndroidFirewall]",
+															"NFLOG fetch "
+																	+ Api.PREF_LOGTARGET);
+													break;
+												} else {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"");
+													editor.commit();
+													Log.d("[AndroidFirewall]",
+															"Empty fetch "
+																	+ Api.PREF_LOGTARGET);
+												}
+											}
+										}
+									}
+								}));
+				return true;
+			}
+		}.execute();
 	}
 
 }

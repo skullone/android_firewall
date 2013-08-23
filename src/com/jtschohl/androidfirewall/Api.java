@@ -106,7 +106,7 @@ public final class Api {
 	public static final String PREF_LANENABLED = "LanEnabled";
 	public static final String PREF_AUTORULES = "AutoRulesEnabled";
 	public static final String PREF_TETHER = "TetheringEnabled";
-	public static String PREF_LOGTARGET = "LogTarget";
+	public static String PREF_LOGTARGET = "";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -338,15 +338,19 @@ public final class Api {
 			if (logenabled) {
 				if (logtarget.equals("LOG")) {
 					script.append(""
-							+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-							+ "$IPTABLES -A droidwall-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid\n"
+							+ "$IPTABLES -A droidwall-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 299\n"
 							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 							+ "");
+					Log.d("[AF]", "LOG code" + logtarget);
 				} else if (logtarget.equals("NFLOG")) {
 					script.append(""
-							+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-							+ "$IPTABLES -A droidwall-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0\n"
+							+ "$IPTABLES -A droidwall-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 2999\n"
 							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
+							+ "");
+					Log.d("[AF]", "NFLOG code" + logtarget);
+				} else {
+					script.append(""
+							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 30\n"
 							+ "");
 				}
 			} else {
@@ -611,14 +615,19 @@ public final class Api {
 						if (logtarget.equals("LOG")) {
 							script.append(""
 									+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-									+ "$IP6TABLES -A droidwall-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid\n"
+									+ "$IP6TABLES -A droidwall-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 3000\n"
 									+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 29\n"
 									+ "");
 						} else if (logtarget.equals("NFLOG")) {
 							script.append(""
 									+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
-									+ "$IP6TABLES -A droidwall-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0\n"
+									+ "$IP6TABLES -A droidwall-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 3001\n"
 									+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 29\n"
+									+ "");
+						} else {
+							script.append(""
+									+ "# Create the reject rule (issue getting LOG/NFLOG)\n"
+									+ "$IP6TABLES -A droidwall-reject -j REJECT || exit 30\n"
 									+ "");
 						}
 					} else {
