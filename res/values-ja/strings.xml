@@ -121,35 +121,35 @@
     <string name="no_rules_file">Android Firewallディレクトリへアクセスエラーが発生しました. ルールをエクスポートして下さい.</string>
     <string name="no_storage">Android Firewallディレクトリへアクセスエラーが発生しました. 外部メモリがマウントされているか確認して下さい.</string>
     <string name="file_deleted">ファイルは削除されました</string>
-    <string name="simplewidget">On/Off Widget</string>
-    <string name="statuswidget">Menu Widget</string>
-    <string name="sdcard_title">Apps on SDCard Support</string>
-    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
+    <string name="simplewidget">On/Offウィジェット</string>
+    <string name="statuswidget">メニューウィジェット</string>
+    <string name="sdcard_title">Apps on SDCardサポート</string>
+    <string name="sdcard_summary">OS起動してSDカード読み込み完了後にルールを適用する. 通信権限を持つアプリがSDカード内に移動してある場合, この設定を有効にする必要があります.*再起動後、Firewallが適用されるまでの時間が多少増えるため注意して下さい.</string>
     <string name="lan">LAN</string>
-    <string name="lan_summary">This setting enables or disables LAN support.  This allows an app access to your LAN but not the Internet.</string>
-    <string name="lan_title">LAN Support</string>
-    <string name="select_mode">Select mode:</string>
-    <string name="delete_rules_yes">Yes</string>
-    <string name="delete_rules_no">No</string>
-    <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
-    <string name="rules_file_deleted">The file has been deleted.</string>
-    <string name="version_about">Version:</string>
-    <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
-\n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
-\n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
-\nThe rules will be saved and automatically restored when you restart your phone.
-\nIf you want to check all current iptables rules, select <b>Show rules</b> from the Navigation Drawer.
+    <string name="lan_summary">LAN設定を有効or無効にする. LAN接続による通信を制御します.</string>
+    <string name="lan_title">LANサポート</string>
+    <string name="select_mode">モード選択:</string>
+    <string name="delete_rules_yes">はい</string>
+    <string name="delete_rules_no">いいえ</string>
+    <string name="no_rules_files">androidfirewallディレクトリにアクセスできません. はじめに, ルールをエクスポートして下さい.</string>
+    <string name="rules_file_deleted">ファイルは削除されました.</string>
+    <string name="version_about">バージョン:</string>
+    <string name="help_usage"><b>Android Firewallの使い方</b>\n<b>1.</b> <b>モード</b>をクリックすると, <i>ホワイトリスト</i>または<i>ブラックリスト</i>モードの切り替えが出来ます.
+\n<b>2.</b> アプリをマークすることで, アプリの通信は指定した制御モードにより制御されます.
+\n<b>3.</b> メニューを開いて、Firewall有効にする. 既に有効になっている場合は, ルールを適用するだけです.
+\nルールは, 自動的に保存されます.また, 保存されたルールは, 再起動後, 自動的にリストアされます.
+\n現在のiptablesルールを確認したい場合は, ナビゲーションドロワーの<b>ルール表示</b>で確認できます.
 \n
-\n<b>Widgets</b>\nTo quickly enable or disable the firewall with a single touch, add the On/Off Widget to your home screen.
-\nTo quickly change profiles or enable/disable the firewall, add the Menu Widget to your home screen.
+\n<b>ウィジェット</b>\n簡単かつ素早くFirewallを有効or無効にしたい場合, ON/OFFウィジェットをホームスクリーンに設置して下さい.
+\n簡単かつ素早くFirewallルールを変更したい場合, メニューウィジェットをホームスクリーンに設置して下さい.
 \n
-\n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
-\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer.
+\n<b>Firewall 通信履歴</b>\nAndroid Firewallによる通信を制御の履歴を見たい場合, <i>設定</i>を開いて通信ログ機能を有効にして下さい.
+\n有効後, Android Firewallは通信ログを取得します. 通信ログの確認は, ナビゲーションドロワーの<b>通信ログ表示</b>をご覧下さい.
 \n
-\n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
-\nTo remove the password protection, just reset it to blank.
+\n<b>パスワードロック</b>\nAndroid Firewallにパスワードロックをかけることができます. ナビゲーションドロワーの<b>パスワード設定</b>によりパスワードを設定します.
+\nパスワードロックを解除したい場合は,パスワード欄を空白にすることでロック解除できます.
 \n
-\n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
+\n<b>アプリ検索</b>\nアプリの名前やキーワードを入力することで, 検索バーから特定のアプリを検索することができます.
 \n
 \n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
 \n
