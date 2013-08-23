@@ -155,7 +155,6 @@
     <string name="delete_rules_yes">Yes</string>
     <string name="delete_rules_no">No</string>
     <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
-    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
     <string name="rules_file_deleted">The file has been deleted.</string>
     <string name="version_about">Version:</string>
     <string name="connectchangerules_summary">Enabling this will apply the firewall rules on every connectivity change when on Data, WiFi, Roaming, or LAN.  This is required for LAN support.  Older devices may see performance issues with this enabled.</string>

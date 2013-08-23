@@ -155,7 +155,6 @@
   <string name="delete_rules_yes">Có</string>
   <string name="delete_rules_no">Không</string>
   <string name="no_rules_files">Có lỗi khi truy nhập vào thư mục androidfirewall. Trước hết hãy xuất một tập tin quy tắc.</string>
-  <string name="no_storage">Xảy ra lỗi khi truy cập vào thư mục androidfirewall. Hãy đảm bảo bạn đã lắp thẻ SD hoặc bộ nhớ ngoài có thể truy cập được.</string>
   <string name="rules_file_deleted">Đã xoá tập tin.</string>
   <string name="version_about">Phiên bản:</string>
   <string name="help_usage"><b>Sử dụng Android Firewall</b>\n<b>1.</b> Bấm vào <b>Chế độ</b> để chuyển giữa chế độ <i>Danh sách Trắng</i> và <i>Danh sách Đen</i>.
