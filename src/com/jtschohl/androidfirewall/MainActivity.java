@@ -189,12 +189,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
 
-		final String logtarget = getApplicationContext().getSharedPreferences(
-				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");
-		if (logtarget.equals("")) {
-			Log.d("{AndroidFirewall}", "logtarget is empty, let's populate it");
-			toggleLogtarget();
-		}
+		toggleLogtarget();
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -2225,6 +2220,8 @@ public class MainActivity extends SherlockActivity implements
 			final SharedPreferences prefs = getSharedPreferences(
 					Api.PREFS_NAME, 0);
 			final Editor editor = prefs.edit();
+			boolean nflog = false;
+			boolean log = false;
 
 			@Override
 			public Boolean doInBackground(Void... args) {
@@ -2238,25 +2235,40 @@ public class MainActivity extends SherlockActivity implements
 										if (state.exitCode == 0) {
 											for (String str : state.lastCommandResult
 													.toString().split("\n")) {
-												if ("LOG".equals(str)) {
+												if ("NFLOG".equals(str)) {
+													nflog = true;
+													Log.d("[AndroidFirewall]",
+															"NFLOG fetch "
+																	+ Api.PREF_LOGTARGET);
+												} else if ("LOG".equals(str)) {
+													Log.d("[AndroidFirewall]",
+															"LOG fetch "
+																	+ Api.PREF_LOGTARGET);
+													log = true;
+												}
+												if (nflog == true
+														&& log == true) {
 													editor.putString(
 															Api.PREF_LOGTARGET,
 															"LOG");
 													editor.commit();
-													Log.d("[AndroidFirewall]",
-															"LOG fetch "
-																	+ Api.PREF_LOGTARGET);
-													break;
-												} else if ("NFLOG".equals(str)) {
+												}
+												if (log == true
+														&& nflog == false) {
+													editor.putString(
+															Api.PREF_LOGTARGET,
+															"LOG");
+													editor.commit();
+												}
+												if (log == false
+														&& nflog == true) {
 													editor.putString(
 															Api.PREF_LOGTARGET,
 															"NFLOG");
 													editor.commit();
-													Log.d("[AndroidFirewall]",
-															"NFLOG fetch "
-																	+ Api.PREF_LOGTARGET);
-													break;
-												} else {
+												}
+												if (log == false
+														&& nflog == false) {
 													editor.putString(
 															Api.PREF_LOGTARGET,
 															"");
