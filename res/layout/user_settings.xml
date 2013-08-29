@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="ipv6enabled"
+        android:summaryOff="@string/ipv6_summary"
+        android:summaryOn="@string/ipv6_summary"
+        android:title="@string/ipv6_title" />
+
+    <CheckBoxPreference
+        android:key="vpnsupport"
+        android:summaryOff="@string/vpn_summary"
+        android:summaryOn="@string/vpn_summary"
+        android:title="@string/vpn_title" />
+
+    <CheckBoxPreference
+        android:key="roamingsupport"
+        android:summaryOff="@string/roaming_summary"
+        android:summaryOn="@string/roaming_summary"
+        android:title="@string/roaming_title" />
+    
+    <CheckBoxPreference
+        android:key="connectchangerules"
+        android:summaryOff="@string/connectchangerules_summary"
+        android:summaryOn="@string/connectchangerules_summary"
+        android:title="@string/connectchangerules_title" />
+    
+    <CheckBoxPreference
+        android:key="lansupport"
+        android:dependency="connectchangerules"
+        android:summaryOff="@string/lan_summary"
+        android:summaryOn="@string/lan_summary"
+        android:title="@string/lan_title" />
+    
+    <CheckBoxPreference
+        android:key="tetheringsupport"
+        android:summaryOff="@string/tether_summary"
+        android:summaryOn="@string/tether_summary"
+        android:title="@string/tether_title" />
+
+    <CheckBoxPreference
+        android:key="notifyenabled"
+        android:summaryOff="@string/notification_summary"
+        android:summaryOn="@string/notification_summary"
+        android:title="@string/notifications_title" />
+
+    <CheckBoxPreference
+        android:key="logenabled"
+        android:summaryOff="@string/log_summary"
+        android:summaryOn="@string/log_summary"
+        android:title="@string/enableLog_title" />
+
+    <CheckBoxPreference
+        android:key="taskertoastenabled"
+        android:summaryOff="@string/taskertoast_summary"
+        android:summaryOn="@string/taskertoast_summary"
+        android:title="@string/taskertoast_title" />
+    
+    <CheckBoxPreference
+        android:key="sdcard"
+        android:summaryOff="@string/sdcard_summary"
+        android:summaryOn="@string/sdcard_summary"
+        android:title="@string/sdcard_title" />
+    
+    <ListPreference
+        android:entries="@array/language_support"
+        android:entryValues="@array/language_codes"
+        android:key="locale"
+        android:title="@string/languageSupport" >
+    </ListPreference>
+
+</PreferenceScreen>

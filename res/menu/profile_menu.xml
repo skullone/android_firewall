@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/popup_default"
+        android:title="@string/defaultprofile"/>
+    <item
+        android:id="@+id/popup_profile1"
+        android:title="@string/profile1"/>
+    <item
+        android:id="@+id/popup_profile2"
+        android:title="@string/profile2"/>
+    <item
+        android:id="@+id/popup_profile3"
+        android:title="@string/profile3"/>
+    <item
+        android:id="@+id/popup_profile4"
+        android:title="@string/profile4"/>
+    <item
+        android:id="@+id/popup_profile5"
+        android:title="@string/profile5"/>
+
+</menu>

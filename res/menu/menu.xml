@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_items"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_dark"
+        android:showAsAction="always"
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/enableipv4"
+                android:checkable="true"
+                android:showAsAction="ifRoom"
+                android:title="@string/fw_enabled"/>
+            <item
+                android:id="@+id/applyrules"
+                android:showAsAction="ifRoom"
+                android:title="@string/applyrules"/>
+            <item
+                android:id="@+id/usersettings"
+                android:showAsAction="ifRoom"
+                android:title="@string/usersettings"/>
+            <item
+                android:id="@+id/help"
+                android:showAsAction="ifRoom"
+                android:title="@string/help"/>
+            <item
+                android:id="@+id/exit"
+                android:showAsAction="ifRoom"
+                android:title="@string/exit"/>
+        </menu>
+    </item>
+
+</menu>

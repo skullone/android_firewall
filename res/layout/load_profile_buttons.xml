@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/loadprofile_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/profileselect"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/defaultprofile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/defaultprofile" />
+
+        <Button
+            android:id="@+id/profile1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile1" />
+
+        <Button
+            android:id="@+id/profile2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile2" />
+
+        <Button
+            android:id="@+id/profile3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile3" />
+
+        <Button
+            android:id="@+id/profile4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile4" />
+
+        <Button
+            android:id="@+id/profile5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile5" />
+    </LinearLayout>
+
+</LinearLayout>

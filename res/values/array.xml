@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="profile">
+        <item>@string/defaultprofile</item>
+        <item>@string/profile1</item>
+        <item>@string/profile2</item>
+        <item>@string/profile3</item>
+        <item>@string/profile4</item>
+        <item>@string/profile5</item>
+    </string-array>
+    
+    <string-array name="language_support">
+        <item>System Language</item>
+        <item>English</item>
+        <item>Arabic</item>
+        <item>Czech</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Portuguese, Brazil</item>
+        <item>Russian</item>
+        <item>Simplified Chinese</item>
+        <item>Vietnamese</item>
+    </string-array>
+    
+    <string-array name="language_codes">
+        <item></item>
+        <item>en</item>
+        <item>ar</item>
+        <item>cz</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>pt-BR</item>
+        <item>ru</item>
+        <item>zh-CN</item>
+        <item>vi</item>
+    </string-array>
+    
+    <string-array name="drawer_menu">
+        <item>Export Rules</item>
+        <item>Import Rules</item>
+        <item>Manage Rule Files</item>
+        <item>Create Profile</item>
+        <item>Load Profile</item>
+        <item>Edit Profile Names</item>
+        <item>Show Log</item>
+        <item>Clear Log</item>
+        <item>Show Rules</item>
+        <item>Set Password</item>
+        <item>Set Custom Script</item>
+    </string-array>
+    
+</resources>

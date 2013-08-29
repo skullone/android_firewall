@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center" >
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/enableFirewall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/fw_enabled" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/disableFirewall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/fw_disabled" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/DefaultProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/defaultprofile" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Profile1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile1" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Profile2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile2" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Profile3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile3" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Profile4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile4" />
+    </FrameLayout>
+
+    <FrameLayout android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Profile5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile5" />
+    </FrameLayout>
+
+</TableLayout>
