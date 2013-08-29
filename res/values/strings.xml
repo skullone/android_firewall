@@ -197,7 +197,7 @@
 \n
 \n<i>LAN support</i> allows apps to access LAN data but not the Internet.  LAN support requries the new <i>Automatic Firewall Rules</i> option in <i>Settings</i> to be enabled.  Please refer to the description for more information.
 \n
-\n<b>NOTE:</b> <i>Automatic Firewall Rules and LAN support</i> require the Internet permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
+\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
 \n
 \n<i>Tethering support</i> allows you to tether a laptop/tablet/phone to your device without having to disable the firewall.  This is new and improved and no longer requires allowing "apps that run as root" and "kernel".  Bluetooth tethering interfaces are now supported via VPN support in order to maintain better control over the interface names.
 \n
@@ -296,11 +296,15 @@
 \n8.  Touch the \'Edit\' button.
 \n9.  Select which profile you want Tasker to apply.
 \n10.  Hit the back key once. You may now test the Tasker profile by touching the \'Play\' button in the bottom left corner.</string>
-    <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n    <i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
+    <string name="help_dialog_text"><i>Author: Jason Tschohl.  
+        \nOriginal Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
+		\n<i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
 		It allows you to restrict which applications are permitted to access your data networks.\n
-		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.\n
+		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.
 		\n
-		\n  </string>
+		\n<i>Android Firewall</i> is an open source application under <b>GPL v3</b>.  
+		\n
+		\nIncluded libraries:
+		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
 
 </resources>

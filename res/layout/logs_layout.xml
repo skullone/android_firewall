@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="wrap_content" >
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <LinearLayout
+        <!--
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:orientation="vertical">
+			<TextView android:id="@+id/help_dialog_disclaimer"
+				android:layout_height="fill_parent" android:layout_width="fill_parent"
+				android:padding="6dip" />
+        -->
+
+        <TextView
+            android:id="@+id/showlogs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="?actionBarSize"
-            android:orientation="vertical" >
+            android:padding="6dip"
+            android:text="@string/log_empty" />
 
-            <EditText
-                android:id="@+id/showlogs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:clickable="false"
-                android:focusable="false"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:text="@string/log_empty" />
-        </LinearLayout>
+        <!-- </LinearLayout> -->
     </ScrollView>
 
 </FrameLayout>

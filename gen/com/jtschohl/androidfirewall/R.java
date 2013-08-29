@@ -1100,7 +1100,7 @@ containing a value of this type.
         public static final int profile_menu=0x7f0e0001;
     }
     public static final class raw {
-        public static final int busybox_g2=0x7f050000;
+        public static final int busybox_g1=0x7f050000;
         public static final int busybox_x86=0x7f050001;
         public static final int iptables_armv5=0x7f050002;
         public static final int nflog=0x7f050003;

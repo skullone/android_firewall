@@ -47,7 +47,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class RootShell {
 
-	public static final String TAG = "Android Firewall";
+	public static final String TAG = "[AndroidFirewall]";
 
 	/* write command completion times to logcat */
 	private static final boolean enableProfiling = false;

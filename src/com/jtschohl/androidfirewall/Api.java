@@ -165,7 +165,6 @@ public final class Api {
 		String myiptables = null;
 		final String app_iptables = dir + "/iptables_armv5";
 		final String ipv4 = "iptables ";
-		final String myBusybox = getBusyBoxPath(ctx);
 		int version = Build.VERSION.SDK_INT;
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -185,12 +184,10 @@ public final class Api {
 				+ "BUSYBOX=busybox\n" + "GREP=grep\n" + "ECHO=echo\n"
 				+ "# Try to find busybox\n" + "if "
 				+ dir
-				+ myBusybox
-				+ "--help >/dev/null 2>/dev/null ; then\n"
+				+ "/busybox_g1 --help >/dev/null 2>/dev/null ; then\n"
 				+ "	BUSYBOX="
 				+ dir
-				+ myBusybox
-				+ "\n"
+				+ "/busybox_g1\n"
 				+ "	GREP=\"$BUSYBOX grep\"\n"
 				+ "	ECHO=\"$BUSYBOX echo\"\n"
 				+ "elif busybox --help >/dev/null 2>/dev/null ; then\n"
@@ -341,13 +338,13 @@ public final class Api {
 							+ "$IPTABLES -A droidwall-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 299\n"
 							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 							+ "");
-					Log.d("[AF]", "LOG code" + logtarget);
+					Log.d("[AF]", "LOG code " + logtarget);
 				} else if (logtarget.equals("NFLOG")) {
 					script.append(""
 							+ "$IPTABLES -A droidwall-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 2999\n"
 							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 29\n"
 							+ "");
-					Log.d("[AF]", "NFLOG code" + logtarget);
+					Log.d("[AF]", "NFLOG code " + logtarget);
 				} else {
 					script.append(""
 							+ "$IPTABLES -A droidwall-reject -j REJECT || exit 30\n"
@@ -1273,52 +1270,52 @@ public final class Api {
 	 *            application context
 	 */
 
-	public static void fetchDmesg(Context ctx, RootCommand callback) {
-		final String logtarget = ctx.getSharedPreferences(PREFS_NAME, 0)
-				.getString(PREF_LOGTARGET, "");
-		if (logtarget.equals("LOG")) {
-			callback.run(ctx, getBusyBoxPath(ctx) + " dmesg");
-		} else if (logtarget.equals("NFLOG")) {
-			callback.run(ctx, getNflogPath(ctx) + " 0");
-		}
-	}
-
 	static String getBusyBoxPath(Context ctx) {
 		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
 		String arch = System.getProperty("os.arch");
 		String busybox = "busybox ";
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		final String busybox_choice = prefs.getString("bb_path", "2");
-		if (busybox_choice.equals("2")) {
-			if (arch.equals("i686")) {
-				busybox = dir + "/busybox_x86 ";
-				Log.d("Android Firewall", "Using x86 Busybox. " + arch);
-			} else {
-				busybox = dir + "/busybox_g2 ";
-				Log.d("Android Firewall", "Using ARM Busybox. " + arch);
-			}
+		if (arch.equals("i686")) {
+			busybox = dir + "/busybox_x86 ";
+			Log.d("Android Firewall", "Using x86 Busybox. " + arch);
+		} else {
+			busybox = dir + "/busybox_g1 ";
+			Log.d("Android Firewall", "Using G1 Busybox. " + arch);
 		}
 		return busybox;
 	}
 
-	static String getNflogPath(Context ctx) {
+	/*static String getNflogPath(Context ctx) {
 		return ctx.getDir("bin", 0).getAbsolutePath() + "/nflog ";
-	}
+	}*/
 
 	public static void getTargets(Context ctx, RootCommand callback) {
-		String busybox = getBusyBoxPath(ctx);
-		String grep = busybox + " grep";
 		List<String> out = new ArrayList<String>();
-		out.add(grep + " \\.\\* /proc/net/ip_tables_targets");
+		out.add("cat /proc/net/ip_tables_targets");
 		callback.run(ctx, out);
 	}
 
-	public static String showLog(Context ctx, String dmesg) {
-		final BufferedReader r = new BufferedReader(new StringReader(
-				dmesg.toString()));
-		final Integer unknownUID = -99;
+	public static String showLog(Context ctx) {
+		 
 		StringBuilder res = new StringBuilder();
+		StringBuilder output = new StringBuilder();
+		int code = 0;
+		try {
+			code = runScriptAsRoot(ctx, scriptHeader(ctx)
+					+ "dmesg | $GREP [AndroidFirewall]\n", res);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (code != 0) {
+			if (res.length() == 0) {
+				output.append(ctx.getString(R.string.log_empty));
+			}
+			return output.toString();
+		}
+		final BufferedReader r = new BufferedReader(new StringReader(
+				res.toString()));
+		final Integer unknownUID = -99;
+		res = new StringBuilder();
 		String line;
 		int start, end;
 		Integer appid;
@@ -1387,7 +1384,8 @@ public final class Api {
 				res.append("\n\t---------\n");
 			}
 		} catch (Exception e) {
-			return null;
+			Log.d("Android Firewall - error showing the logs", e.getMessage());
+			alert(ctx, "error: " + e);
 		}
 		if (res.length() == 0) {
 			res.append(ctx.getString(R.string.log_empty));
@@ -1768,10 +1766,10 @@ public final class Api {
 				copyRawFile(ctx, R.raw.iptables_armv5, file, "755");
 				changed = true;
 			}
-			// Check busybox for arm
-			file = new File(ctx.getDir("bin", 0), "busybox_g2");
+			// Check busybox for ARM
+			file = new File(ctx.getDir("bin", 0), "busybox_g1");
 			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.busybox_g2, file, "755");
+				copyRawFile(ctx, R.raw.busybox_g1, file, "755");
 				changed = true;
 			}
 			// Check busybox for x86
