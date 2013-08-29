@@ -1,15 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/main"
-        android:layout_width="72dip"
-        android:layout_height="72dip"
-        android:gravity="top">
-        
-        <ImageButton
-            android:id="@+id/widgetCanvas"
-            android:layout_width="72dip"
-            android:layout_height="72dip"
-            android:background="@drawable/widget_bg"
-            android:layout_gravity="top"
-        />
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toggle_widget"
+    android:layout_width="72dp"
+    android:layout_height="72dp"
+    android:gravity="center" >
+
+    <ImageButton
+        android:id="@+id/widgetCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/widget_bg" />
+
+    <!--
+        <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Android Firewall" />
+    -->
+
 </LinearLayout>

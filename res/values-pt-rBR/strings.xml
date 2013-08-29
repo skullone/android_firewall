@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Android Firewall</string>
     <string name="title_enabled">Android Firewall (Firewall ligado)</string>
     <string name="title_disabled">Android Firewall (Firewall desligado)</string>
@@ -17,6 +18,10 @@
     <string name="log_disabled">Log desligado</string>
     <string name="log_was_enabled">Log ligado</string>
     <string name="log_was_disabled">Log desligado</string>
+    <string name="ipv6_enabled">IPv6 ligado</string>
+    <string name="ipv6_disabled">IPv6 desligado</string>
+    <string name="ipv6_was_enabled">IPv6 ligado</string>
+    <string name="ipv6_was_disabled">IPv6 desligado</string>
     <string name="log_cleared">Log limpo</string>
     <string name="show_log">Exibir log</string>
     <string name="clear_log">Limpar log</string>
@@ -48,40 +53,217 @@
     <string name="custom_script_defined">Script personalizado definido</string>
     <string name="custom_script_removed">Script personalizado removido</string>
     <string name="custom_script_error">Erro salvando script personalizado</string>
-    <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>
-		\n<i>(Deixe em branco para remover)</i>
-		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.
-	</string>
-    <string name="custom_script2_info">
-    	\n<b>Script personalizado ao desligar</b>
-    	\nVocê pode definir também um script personalizado para ser executado quando o firewall é <b>desligado</b>:</string>
+    <string name="custom_script_info"><b>Digite seu script personalizado abaixo.</b>		\n<i>(Deixe em branco para remover)</i>		\nPara informações (em inglês) sobre scripts personalizados, clique <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">aqui</a>.</string>
+    <string name="custom_script2_info">    	\n<b>Script personalizado ao desligar</b>    	\nVocê pode definir também um script personalizado para ser executado quando o firewall é <b>desligado</b>:</string>
     <string name="unsaved_changes">Alterações não salvas</string>
     <string name="unsaved_changes_message">Você tem alterações não salvas.\nDeseja aplicar ou descartar essas alterações?</string>
     <string name="apply">Aplicar</string>
     <string name="discard">Descartar</string>
-	<string name="help_dialog_text"><i>Autor: Rodrigo Zechin Rosauro and updated by Jason Tschohl</i>
-		\n<i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>
+    <string name="overwrite_rules">Você está prestes a substituir as regras atuais. Você quer continuar?</string>
+    <string name="importsuccess">Importar sucesso!</string>
+    <string name="importfailed">Importação falhou!</string>
+    <string name="exportfailed">Exportação falhou!</string>
+    <string name="exportsuccess">Exportar sucesso!</string>
+    <string name="enterfilename">Por favor insira o nome do arquivo</string>
+    <string name="notify_enabled">Notificações habilitado</string>
+    <string name="notify_disabled">Notificações desativado</string>
+    <string name="notify_was_enabled">Notificações foram habilitados</string>
+    <string name="notify_was_disabled">Notificações foram desativados</string>
+    <string name="importrules">Regras de importação</string>
+    <string name="exportrules">Regras de Exportação</string>
+    <string name="managerulefiles">Gerenciar Regra de arquivos</string>
+    <string name="options">opções</string>
+    <string name="wifi">WiFi</string>
+    <string name="data">dados</string>
+    <string name="roaming">Roam</string>
+    <string name="clear">Clear</string>
+    <string name="password_not_same">As senhas não são iguais! Por favor, tente novamente.</string>
+    <string name="password_enter_again">Por favor, digite a senha novamente.</string>
+    <string name="defaultprofile">Default</string>
+    <string name="profile1">perfil 1</string>
+    <string name="profile2">perfil 2</string>
+    <string name="profile3">perfil 3</string>
+    <string name="profile4">perfil 4</string>
+    <string name="profile5">perfil 5</string>
+    <string name="pleasechoose">Por favor, escolha o perfil que deseja criar ou modificar</string>
+    <string name="saveprofile">Criar Perfil</string>
+    <string name="defaultsaved">O perfil padrão foi salvo com sucesso!</string>
+    <string name="profile1saved">Perfil 1 foi salvo com sucesso</string>
+    <string name="profile2saved">Perfil 2 foi salvo com sucesso</string>
+    <string name="profile3saved">Perfil 3 foi salvo com sucesso</string>
+    <string name="profile4saved">Perfil 4 foi salvo com sucesso</string>
+    <string name="profile5saved">Perfil 5 foi salvo com sucesso</string>
+    <string name="profileselect">Por favor, escolher o perfil que deseja aplicar</string>
+    <string name="profileapplied">O perfil foi aplicado com sucesso</string>
+    <string name="loadprofile">Load Profile</string>
+    <string name="rulesoptions">Rules Management</string>
+    <string name="profilesoptions">Profile Management</string>
+    <string name="ipv6_title">IPv6 Support</string>
+    <string name="notifications_title">Notification Support</string>
+    <string name="enableLog_title">Enable Firewall Log</string>
+    <string name="invert">Invert</string>
+    <string name="twofortyfouram_locale_breadcrumb_format">%1$s%2$s%3$s</string>
+    <string name="twofortyfouram_locale_breadcrumb_separator">" | "</string>
+    <string name="twofortyfouram_locale_menu_dontsave">Cancel</string>
+    <string name="twofortyfouram_locale_menu_help">Help</string>
+    <string name="twofortyfouram_locale_menu_save">Done</string>
+    <string name="tasker_name">Android Firewall - Tasker</string>
+    <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
+    <string name="search_name">App Pesquisa</string>
+    <string name="profilenames">Edite nomes de perfil</string>
+    <string name="vpn_enabled">Suporte a VPN foi habilitado</string>
+    <string name="vpn_disabled">Suporte a VPN foi desabilitado</string>
+    <string name="vpn_title">Suporte VPN</string>
+    <string name="vpn">VPN</string>
+    <string name="roaming_title">Roaming de Suporte</string>
+    <string name="usersettings">configurações</string>
+    <string name="taskertoast_title">Notificações Tasker</string>
+    <string name="ipv6_summary">Esta configuração habilita ou desabilita o suporte a IPv6</string>
+    <string name="vpn_summary">Esta configuração ativa ou desativa o suporte VPN</string>
+    <string name="roaming_summary">Esta configuração habilita ou desabilita Roaming suporte de rede</string>
+    <string name="taskertoast_summary">Esta configuração habilita ou desabilita Tasker notificação pop-ups quando os perfis são alteradas</string>
+    <string name="log_summary">Esta configuração habilita ou desabilita os logs de firewall</string>
+    <string name="notification_summary">Esta configuração habilita ou desabilita notificações para aplicativos recém-instalados que precisam de acesso à Internet</string>
+    <string name="tasker_profile">Tasker mudou o perfil que está sendo usado por Android Firewall</string>
+    <string name="apply_setting_changes">Aplicação de regras para definir mudanças</string>
+    <string name="rules_export_successfully">As regras foram exportados com sucesso</string>
+    <string name="rules_import_successfully">As regras foram importadas com sucesso</string>
+    <string name="no_rules_file">Há um erro ao acessar o diretório androidfirewall. Por favor, exportar um arquivo de regras primeiro</string>
+    <string name="no_storage">Há um erro ao acessar o diretório androidfirewall. Verifique se o seu SDcard é montado ou armazenamento externo está acessível.</string>
+    <string name="file_deleted">O arquivo de foi apagado.</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
+    <string name="sdcard_title">Apps on SDCard Support</string>
+    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
+    <string name="lan">LAN</string>
+    <string name="lan_summary">This setting enables or disables LAN support.  This allows an app access to your LAN but not the Internet.</string>
+    <string name="lan_title">LAN Support</string>
+    <string name="select_mode">Select mode:</string>
+    <string name="delete_rules_yes">Yes</string>
+    <string name="delete_rules_no">No</string>
+    <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
+    <string name="rules_file_deleted">The file has been deleted.</string>
+    <string name="version_about">Version:</string>
+    <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
+\n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
+\n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
+\nThe rules will be saved and automatically restored when you restart your phone.
+\nIf you want to check all current iptables rules, select <b>Show rules</b> from the Navigation Drawer.
+\n
+\n<b>Widgets</b>\nTo quickly enable or disable the firewall with a single touch, add the On/Off Widget to your home screen.
+\nTo quickly change profiles or enable/disable the firewall, add the Menu Widget to your home screen.
+\n
+\n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
+\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer.
+\n
+\n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
+\nTo remove the password protection, just reset it to blank.
+\n
+\n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
+\n
+\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
+\n
+\n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
+\n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
+\n<i>LAN support</i> allows apps to access LAN data but not the Internet.
+\n
+\n<b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
+\nNotifications from Tasker stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
+\n
+\n<b>Other settings</b>\n
+\nIPv6 support is available under <i>Settings</i> for those who use IPv6.
+\nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
+\nSDcard support for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n
+\n<b>Information</b>\n
+\n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n
+\n<i>Tethering</i> requires <b>(root) - applications running as root</b> and <b>Kernel</b>.  Please use your profiles to quickly enable/disable those rules.</string>
+    <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
+        \nAll user preferences are stored in the rules file so when you export a rules file you also save your Settings like notification support, log enabled, IPv6 support, and the rest.  These files are used to create your profiles as well.
+\n
+\n<b>Export Rules</b> exports your current rules and settings.
+\n<b>Import Rules</b> imports rules and settings from a file.
+\n<b>Manage Rule Files</b> allows you to delete rules files.
+\n
+\n<i><b>Instructions</b></i>\n
+\n<b>Export Rules</b>	\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Export Rules</i>.
+\n3.  Enter a name for the export files.
+\n4.  Touch OK to save the file.
+\n
+\nThe file is stored on whatever your device considers its external storage in a folder named <i>androidfirewall</i>.  The file name is the user entered name and \'_af.rules\' appended to the end.
+\n
+\n<b>Import Rules</b>	\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Import Rules</i>.
+\n3.  Touch the rules file you want to import.
+\n
+\nAfter you touch the rules file you want to import, the data is imported and firewall settings are changed and rules applied.
+\n
+\n<b>Manage Rule Files</b>	\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Manage Rule Files</i>.
+\n3.  Touch the rules file you want to delete.
+\n4.  You will receive a dialog box to confirm the deletion.
+\n5.  Touch \'No\' or \'Yes\'.  
+\n
+\nIf you touch \'Yes\' the rules file is deleted.</string>
+    <string name="help_profiles"><i>Profiles</i> are used to quickly change the firewall rules and settings.  This is a very powerful tool as you may want a totally different set of rules depending on where you are or what network you are on.  For example, when at work your rules may be very different compared to when you are home.
+\n
+\nProfiles are created from rules files that you have exported so you can swap between them quickly and easily if you ever need more than 5 profiles.\n
+\n<b>Create Profile</b> allows you to choose a rules file and assign those rules and settings to a profile.
+\n<b>Load Profile</b> allows you to apply a profile.
+\n<b>Edit Profile Names</b> allows you to edit the names of the profiles in order to make it easier to remember what profile does what.
+\n
+\nYou can swap profiles in a variety of different ways:
+\n
+\n<b>1.</b> Manually load a profile by using Load Profile.
+\n<b>2.</b> Load a profile by using the dropdown spinner on the main app screen.
+\n<b>3.</b> Use an app like Tasker or Locale to automatically change the profile based on time, location, or some other variable you choose.
+\n<b>4.</b> Use the <i>Menu Widget</i> to quickly change profiles from your homescreen.
+\n
+\n<i><b>Instructions</b></i>\n
+\n<b>Create Profile</b>\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Create Profile</i>.
+\n3.  Touch the profile you wish to create.
+\n4.  Touch the rules file you want assigned to that profile.
+\n5.  Touch another profile if you want to assign another rules files otherwise hit the back key.
+\n
+\n<b>Load Profile</b>\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Load Profile</i>.
+\n3.  Touch the profile you wish to apply.
+\n
+\n<b>Edit Profile Names</b>\n
+\n1.  Swipe left to open the Navigation Drawer.
+\n2.  Touch <i>Edit Profile Names</i>.
+\n3.  Touch the profile you want to rename.
+\n4.  Enter the name for the profile and touch \'OK\'.
+\n5.  Continue modifying the names otherwise hit the back key.
+\n
+\n<b>Using the Spinner</b>\n
+\n1.  Touch the spinner and a drop down with all the profiles appears.
+\n2.  Touch the profile you wish to load.
+\n
+\n<b>Using Tasker</b>\n
+\n1.  Open Tasker.
+\n2.  Touch the \'+\' and select the \'First Context\' for what will cause the profile change.
+\n3.  After you done setting up your context you will be prompted to \'Enter Task\'.
+\n4.  Enter a name for the task if you desire then touch the checkmark.
+\n5.  Touch the \'+\' and a \'Select Action Category\' screen appears.
+\n6.  Touch \'Plugin\'.
+\n7.  Touch <i>Android Firewall</i>.
+\n8.  Touch the \'Edit\' button.
+\n9.  Select which profile you want Tasker to apply.
+\n10.  Hit the back key once. You may now test the Tasker profile by touching the \'Play\' button in the bottom left corner.</string>
+    <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
+		\n    <i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
+		It allows you to restrict which applications are permitted to access your data networks.\n
+		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.\n
 		\n
-		\n<i>Android Firewall</i> é um aplicativo que utiliza o poderoso firewall <b>iptables</b> do Linux.
-		Ele permite restringir o acesso de cada aplicativo Android à rede de dados.
-		\nEsta é a solução perfeita se você não possui um plano de dados ilimitado, ou apenas deseja economizar bateria.
-		\n
-		\n<b>Utilizando o Android Firewall:</b>
-		\n<b>1.</b> Clique em <b>Modo</b> para escolher qual o modo de bloqueio (<i>Lista Branca</i> ou <i>Lista Negra</i>).
-		\n<b>2.</b> Marque os aplicativos que você deseja bloquear ou permitir (dependendo do modo selecionado), para cada interface de dados.
-		\n<b>3.</b> Abra o menu e ligue o firewall. Caso o firewall já esteja ligado, selecione <b>Aplicar regras</b>.
-		\nAs regras serão salvas e automaticamente re-aplicadas quando o dispositivo for re-iniciado.
-		\nSe desejar ver as regras do iptables, selecione <b>Exibir regras</b> no menu.
-		\n
-		\n<b>Widget:</b>
-		\nPara ligar ou desligar rápidamente o firewall, adicione o widget do Android Firewall em sua área de trabalho (home).
-		\n
-		\n<b>Logs do firewall:</b>
-		\nSe desejar saber quais aplicativos foram bloqueados pelo Android Firewall, abra o menu e ligue o log.
-		\nO Android Firewall irá então logar todos as tentativas de conexão bloqueadas. Você pode verificar o log abrido o menu e selecionando <b>Mais -> Exibir log</b>.
-		\n
-		\n<b>Senha de acesso:</b>
-		\nVocê pode definir uma senha de acesso para o Android Firewall utilizando a função <b>Definir senha</b> do menu.
-		\nPara remover a senha de acesso, deixe ela em branco.
-	</string>
+		\n  </string>
+
 </resources>
