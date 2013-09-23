@@ -58,8 +58,8 @@ public final class InterfaceTracker {
 			"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
 			"rmnet0+", "cdma_rmnet+", "rmnet_usb0+", "rmnet_usb+", "bond1+",
 			"ppp0+" };
-	public static final String ITFS_VPN[] = { "tun+", "tun0+", "bnep0+",
-			"bt-pan+" };
+	public static final String ITFS_VPN[] = { "tun+", "tun0+" };
+	public static final String ITFS_TETHER[] = { "bnep0+", "bt-pan+", "rndis0+" };
 
 	private static class OldInterfaceScanner {
 

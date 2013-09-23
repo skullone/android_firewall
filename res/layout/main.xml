@@ -124,6 +124,18 @@
                 android:textSize="11sp"
                 android:typeface="normal"
                 android:visibility="gone" />
+            
+            <Button
+                android:id="@+id/label_input_wifi"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@color/black"
+                android:clickable="true"
+                android:text="@string/input_wifi"
+                android:textColor="@color/blue"
+                android:textSize="11sp"
+                android:typeface="normal"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/label_clear"

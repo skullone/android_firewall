@@ -170,7 +170,19 @@
     <string name="LogAppName">Application Name</string>
     <string name="LogPackBlock">Total Packets Blocked</string>
     <string name="log_failed">Error updating log status.</string>
-    <string name="nflog_service">Android Firewall - NFLOG is ACTIVE</string>
+    <string name="input_off_summary">Enabling this will activate the INPUT chains for iptables. This will allow you to block certain types of communication headed TO your device.</string>
+    <string name="input_on_summary">Disabling this will deactivate the INPUT chains for iptables.</string>
+    <string name="input_title">INPUT Chains</string>
+    <string name="input_options_title">INPUT Chain Settings</string>
+    <string name="settings_title">Application Settings</string>
+    <string name="multiuser_summary">Enabling this option will unlock multi-user support.  Multi-user support <b><i>REQUIRES</i></b> that you use Blacklist for <b><i>ALL USERS</i></b>.  Multi-user also requires Android 4.1 or greater.  Multi-user is not supported on phones.</string>
+    <string name="multiuser_title">Multi-user Support</string>
+    <string name="multiuser_enabled">Multi-user support enabled. Switching to Blacklist.</string>
+    <string name="multiuser_disabled">Multi-user support is disabled and you are not the main account.  Please enable multi-user support on all accounts before proceeding.</string>
+    <string name="input_wifi">INPUT Chain</string>
+    <string name="dst_ip">Destination IP</string>
+    <string name="src_ip">Source IP</string>
+    <string name="dst_port">Destination Port</string>
     <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
 \n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
 \n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
@@ -182,14 +194,13 @@
 \n
 \n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
 \nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer. 
-\nSome newer devices, most notably the Nexus devices, use NFLOG instead of LOG.  Android Firewall now supports both. 
+\nSome newer devices, most notably the Nexus devices, use NFLOG instead of LOG.  Android Firewall now supports both. Devices that use NFLOG now have a pair of services that run in order to catch the data.  These services only run when logging is enabled.  
 \n
 \n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
 \nTo remove the password protection, just reset it to blank.
-\n
 \n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
 \n
-\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
+\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are available.  These are enabled under <i>Settings</i>.
 \n
 \n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
 \n
@@ -197,12 +208,16 @@
 \n
 \n<i>LAN support</i> allows apps to access LAN data but not the Internet.  LAN support requries the new <i>Automatic Firewall Rules</i> option in <i>Settings</i> to be enabled.  Please refer to the description for more information.
 \n
-\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
+\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission and Access WiFi State permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
 \n
-\n<i>Tethering support</i> allows you to tether a laptop/tablet/phone to your device without having to disable the firewall.  This is new and improved and no longer requires allowing "apps that run as root" and "kernel".  Bluetooth tethering interfaces are now supported via VPN support in order to maintain better control over the interface names.
+\n<i>Tethering support</i> allows you to tether a laptop/tablet/phone to your device without having to disable the firewall.  This is new and improved and no longer requires allowing "apps that run as root" and "kernel".  Bluetooth tethering interfaces are now supported by this setting.
 \n
 \n<b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
 \nNotifications from Tasker stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
+\n
+\n<b>Multi-user Support</b>\n<i>Android Firewall</i> supports multiple users on tablets.  Multi-user support requires you to use Blacklist at this time and must be enabled under Settings.  Multi-user support uses unique IPTABLES chains for each individual user so each user has control over what can access the data stream.  
+\n
+\n<b>INPUT Chain Support</b>\n<i>Android Firewall</i> supports INPUT chains.  INPUT chains are used to prevent communication from outside sources.  INPUT chains works a little bit differently than the OUTPUT chains in <i>Android Firewall</i>.  INPUT chains applies to both WiFi and cellular data connections at the same time since there is no way to apply the rules to a specific interface.  INPUT chains works with both Blacklist and Whitelist just like current OUTPUT chains.  
 \n
 \n<b>Other settings</b>\n
 \n<i>IPv6 support</i> is available under <i>Settings</i> for those who use IPv6.
@@ -211,7 +226,7 @@
 \n
 \n<i>SDcard support</i> for users who have moved apps to their SDcard.  Please read the setting description before enabling.
 \n
-\nUsers can choose which iptables binary they wish to use.  You can use the binary file included in Android Firewall or you can choose to use the system binary file.  This option is under <i>Settings</i>.
+\n<i>x86 Support</i> for devices running Intel processors.  
 \n
 \n<b>Information</b>\n
 \n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
@@ -303,6 +318,9 @@
 		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.
 		\n
 		\n<i>Android Firewall</i> is an open source application under <b>GPL v3</b>.  
+		\n
+		\nIf you would like to help translate <i>Android Firewall</i> please visit the Crowdin website:
+		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
 		\n
 		\nIncluded libraries:
 		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
