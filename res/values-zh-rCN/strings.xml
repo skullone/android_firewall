@@ -116,8 +116,6 @@
     <string name="tasker_profile_disabled">计划任务已将防火墙关闭！</string>
     <string name="search_name">搜索应用</string>
     <string name="profilenames">编辑配置名</string>
-    <string name="vpn_enabled">已启用 VPN 支持</string>
-    <string name="vpn_disabled">已禁用 VPN 支持</string>
     <string name="vpn_title">VPN 支持</string>
     <string name="vpn">VPN</string>
     <string name="roaming_title">漫游支持</string>
@@ -137,10 +135,20 @@
     <string name="no_storage">打开 Android Firewall 目录出错。请先检查您的SD卡是否已挂载或外部存储是否可以用。</string>
     <string name="file_deleted">文件已被删除。</string>
     <string name="widget_fail">无法禁用防火墙，因为设置了密码保护</string>
+    <string name="error_no_root">Android Firewall 未取得root权限！</string>
+    <string name="languageSupport">语言</string>
     <string name="simplewidget">开关部件</string>
     <string name="statuswidget">菜单部件</string>
     <string name="sdcard_title">Apps on SDCard 支持</string>
     <string name="sdcard_summary">此选项让应用在重启后应用规则之前等待SD卡扫描完成。如果有些应用需要访问数据，并且您已经把它们移动到SD卡上，则该选项是必需的。请注意访选项将增加重启后应用规则的时间。</string>
+    <string name="log_empty">日志为空</string>
+    <string name="log_title">防火墙日志</string>
+    <string name="usage_help">使用方法</string>
+    <string name="rules_help">规则管理</string>
+    <string name="profiles_help">配置帮助</string>
+    <string name="about_help">关于</string>
+    <string name="drawer_open">打开导航抽屉</string>
+    <string name="drawer_close">关闭导航抽屉</string>
     <string name="lan">LAN</string>
     <string name="lan_summary">此选项启用或禁用 LAN 支持。允许一个应用程序能访问LAN（局域网）而不能访问互联网。</string>
     <string name="lan_title">LAN 支持</string>
@@ -150,6 +158,32 @@
     <string name="no_rules_files">访问 androidfirewall 文件夹时发生错误。请先导出一个规则文件。</string>
     <string name="rules_file_deleted">文件已被删除。</string>
     <string name="version_about">版本：</string>
+    <string name="connectchangerules_summary">启用该选项将在每次数据，WiFi，漫游或LAN连接改变时应用防火墙规则。该选项需要启用LAN支持。在旧设备上启用该选项可能会有性能问题。</string>
+    <string name="connectchangerules_title">自动防火墙规则</string>
+    <string name="system_iptables">系统iptables</string>
+    <string name="included_iptables">自带iptables</string>
+    <string name="iptables_title">iptables二进制文件</string>
+    <string name="ipv6_unavailable">IPv6 支持在您的设备上不可用。</string>
+    <string name="tether_summary">启用该选项将允许您分享互联网连接给其它设备。</string>
+    <string name="tether_title">网络共享支持</string>
+    <string name="log_fetch_error">无法获取日志</string>
+    <string name="log_parse_error">无法解析日志。</string>
+    <string name="LogAppName">程序名称</string>
+    <string name="LogPackBlock">共阻止包</string>
+    <string name="log_failed">更新日志状态出错。</string>
+    <string name="input_off_summary">启用该选项将激活iptables的INPUT链。它允许您阻止发送到您设置上的特定类型通讯包。</string>
+    <string name="input_on_summary">禁用用该选项将禁用iptables的INPUT链。</string>
+    <string name="input_title">INPUT 链</string>
+    <string name="input_options_title">INPUT 链设置</string>
+    <string name="settings_title">程序设置</string>
+    <string name="multiuser_summary">启用该选项将解锁多用户支持。多用户支持<b><i>需要</i></b>让<b><i>所有用户</i></b>使用黑名单。多用户也需要 Android 4.1 或更新版本。手机不支持多用户。</string>
+    <string name="multiuser_title">多用户支持</string>
+    <string name="multiuser_enabled">多用户支持已启用。切换到黑名单。</string>
+    <string name="multiuser_disabled">多用户支持已禁用，您不是主账户。请先在所有账户下启用多用户支持。</string>
+    <string name="input_wifi">INPUT 链</string>
+    <string name="dst_ip">目标IP</string>
+    <string name="src_ip">来源IP</string>
+    <string name="dst_port">目标Port</string>
     <string name="help_usage"><b>使用 Android Firewall</b>\n<b>1.</b> 点击 <b>模式</b> 在 <i>白名单</i> 和 <i>黑名单</i> 模式间切换。
 \n<b>2.</b> 标记您想要阻止或允许的应用程序（取决于已选择的模式），每个网络接口单独设置。
 \n<b>3.</b> 打开菜单并启用防火墙。如果防火墙已经启用，只需要点击 <b>应用规则</b>。
@@ -173,18 +207,27 @@
 \n<i>漫游 支持</i> 允许应用程序在漫游时访问网络。
 \n<i>LAN 支持</i> 允许应用程序访问局域网而无法访问互联网。
 \n
+\n<b>注意：</b><i>自动防火墙规则与LAN支持</i> 需要访问网络权限与访问WiFi状态权限来访问每个接口的子网和LAN地址信息。<b>Android Firewall</b>不会传送数据或访问网络。
+\n
+\n<i>网络共享 支持</i> 允许您共享设备网络连接给便携电脑/平板/手机，而不用禁用防火墙。这是改进的新功能，不再需要允许"apps that run as root"和"kernel"。该设置现在也支持蓝牙网络共享。
+\n
 \n<b>Tasker/Locale 支持</b>\n<i>Android Firewall</i> 包含 Tasker 和 Locale 插件。该插件允许这两个程序根据变量启用或禁用防火墙，切换配置。更多信息请阅读配置帮助下的Tasker介绍。
 \nTasker 改变防火墙状态时通知默认被禁用。可在 <i>设置</i> 中启用。
+\n
+\n<b>多用户 支持</b>\n<i>Android Firewall</i>在平板上支持多用户。多用户支持目前需要您使用黑名单并在设置中启用。多用户支持为每个用户使用独立的IPTABLES链，每个用户都能控制网络访问。  
+\n
+\n<b>INPUT链 支持</b>\n<i>Android Firewall</i> 支持INPUT链。 INPUT链用于阻止外部向内的通讯。<i>Android Firewall</i>中INPUT链与OUTPUT链的工作方式有些不同。INPUT链同时应用到WiFi和数据连接，因为无法应用规则到指定的接口。INPUT链在黑名单和白名单下都能工作，与OUTPUT链相同。  
 \n
 \n<b>其它设置</b>\n
 \nIPv6 支持在 <i>设置</i> 中，为 IPv6 用户准备。
 \n用户可以在 <i>设置</i> 中切换应用程序语言为支持的某一种语言。
-\n为移动应用到SDcard的用户提供 SDcard 支持。请在启用前阅读设置描述。
+\n<i>SDcard 支持</i>为移动应用到SDcard的用户提供 SDcard 支持。请在启用前阅读设置描述。
+\n
+\n<i>x86 支持</i> 可在使用Intel处理器的设备上使用。 
 \n
 \n<b>信息</b>\n
 \n<i>YouTube</i> 正常使用 <b>需要</b><i>媒体服务器</i>。
-\n
-\n<i>Tethering（热点共享）</i> 需要 <b>(root) - applications running as root</b> 和 <b>Kernel</b>。请使用配置文件快速开关这些规则。</string>
+\n</string>
     <string name="help_rules"><i>规则管理</i> 可以导出，导入和删除规则文件。\n  
         \n所有用户配置都保存在规则文件中，当您导出规则文件时您同时保存了您的设置，例如通知支持，启用日志，IPv6 支持等。这些文件也能用于创建您的配置。
 \n
@@ -270,6 +313,12 @@
 		它允许您限定哪些应用程序可以访问数据网络。\n
 		\n如果您没有不限流量的数据套餐，或您关注隐私，本应用是一个完美的解决方案。\n
 		\n
-		\n  </string>
+		\n<i>Android Firewall</i> 是使用 <b>GPL v3</b> 的开源项目。  
+		\n
+		\n如果您想帮助翻译<i>Android Firewall</i>，请访问Crowdin网站：
+		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
+		\n
+		\n使用的库:
+		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
 
 </resources>
