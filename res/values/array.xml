@@ -24,6 +24,7 @@
         <item>Russian</item>
         <item>Simplified Chinese</item>
         <item>Vietnamese</item>
+        <item>Polish</item>
     </string-array>
     
     <string-array name="language_codes">
@@ -40,20 +41,21 @@
         <item>ru</item>
         <item>zh-CN</item>
         <item>vi</item>
+        <item>pl</item>
     </string-array>
     
     <string-array name="drawer_menu">
-        <item>Export Rules</item>
-        <item>Import Rules</item>
-        <item>Manage Rule Files</item>
-        <item>Create Profile</item>
-        <item>Load Profile</item>
-        <item>Edit Profile Names</item>
-        <item>Show Log</item>
-        <item>Clear Log</item>
-        <item>Show Rules</item>
-        <item>Set Password</item>
-        <item>Set Custom Script</item>
+        <item>@string/exportrules</item>
+        <item>@string/importrules</item>
+        <item>@string/managerulefiles</item>
+        <item>@string/saveprofile</item>
+        <item>@string/loadprofile</item>
+        <item>@string/profilenames</item>
+        <item>@string/show_log</item>
+        <item>@string/clear_log</item>
+        <item>@string/showrules</item>
+        <item>@string/setpwd</item>
+        <item>@string/set_custom_script</item>
     </string-array>
     
 </resources>

@@ -26,6 +26,7 @@
 package com.jtschohl.androidfirewall;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -48,16 +49,19 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.UserManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +69,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -106,6 +111,11 @@ public class MainActivity extends SherlockActivity implements
 	private String[] profileposition;
 
 	private Menu abs_menu;
+
+	/**
+	 * Variable for userid
+	 */
+	int userid;
 
 	/**
 	 * Variables for spinner
@@ -184,12 +194,33 @@ public class MainActivity extends SherlockActivity implements
 		this.findViewById(R.id.label_vpn).setOnClickListener(this);
 		this.findViewById(R.id.label_invert).setOnClickListener(this);
 		this.findViewById(R.id.label_lan).setOnClickListener(this);
+		this.findViewById(R.id.label_input_wifi).setOnClickListener(this);
 
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 
 		toggleLogtarget();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			isCurrentUserOwner(getApplicationContext());
+			SharedPreferences prefs2 = PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext());
+			final String chainName = prefs2.getString("chainName", "");
+			Log.d("{AF}", "Executed isCurrentUserOwner " + chainName);
+		} else {
+			final SharedPreferences prefs2 = getSharedPreferences(
+					Api.PREFS_NAME, 0);
+			final Editor editor = prefs2.edit();
+			editor.putString("chainName", "droidwall");
+			editor.commit();
+			Log.d("{AF}",
+					"Skipping isCurrentUserOwner "
+							+ prefs2.getString("chainName", ""));
+		}
+
+		toggleUser();
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
@@ -300,26 +331,15 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
+		isCurrentUserOwner(getApplicationContext());
+		toggleUser();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		this.listview.setAdapter(null);
-	}
-
-	/**
-	 * try to open a root shell in background on launch
-	 */
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		List<String> cmds = new ArrayList<String>();
-		cmds.add("true");
-		new RootCommand().setFailureToast(R.string.error_no_root)
-				.setReopenShell(true).run(getApplicationContext(), cmds);
 	}
 
 	/**
@@ -372,7 +392,6 @@ public class MainActivity extends SherlockActivity implements
 			setCustomScript();
 			break;
 		}
-		// ft.commit();
 		mDrawerList.setItemChecked(drawerposition, true);
 		// Close drawer
 		mDrawerLayout.closeDrawer(mDrawerList);
@@ -658,6 +677,24 @@ public class MainActivity extends SherlockActivity implements
 		}
 	}
 
+	private void toggleInputWifiButton(Context ctx) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean inputwifienabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_INPUTENABLED, false);
+		Button inputwifi = (Button) findViewById(R.id.label_input_wifi);
+		if (inputwifienabled) {
+			inputwifi.setVisibility(View.VISIBLE);
+			editor.putBoolean("inputwifisupport", true);
+			editor.commit();
+		} else {
+			inputwifi.setVisibility(View.GONE);
+			editor.putBoolean("inputwifisupport", false);
+			editor.commit();
+		}
+	}
+	
 	private void toggleUserSettings(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
@@ -682,6 +719,10 @@ public class MainActivity extends SherlockActivity implements
 				.getBoolean(Api.PREF_AUTORULES, false);
 		boolean tetherenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TETHER, false);
+		boolean multiuserenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_MULTIUSER, false);
+		boolean inputenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_INPUTENABLED, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -752,6 +793,20 @@ public class MainActivity extends SherlockActivity implements
 			editor.putBoolean("tetheringsupport", false);
 			editor.commit();
 		}
+		if (multiuserenabled) {
+			editor.putBoolean("multiuser", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("multiuser", false);
+			editor.commit();
+		}
+		if (inputenabled) {
+			editor.putBoolean("inputenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("inputenabled", false);
+			editor.commit();
+		}		
 	}
 
 	/**
@@ -803,10 +858,10 @@ public class MainActivity extends SherlockActivity implements
 			}
 			boolean o1_selected = o1.selected_3g || o1.selected_wifi
 					|| o1.selected_roaming || o1.selected_vpn
-					|| o1.selected_lan;
+					|| o1.selected_lan || o1.selected_input_wifi;
 			boolean o2_selected = o2.selected_3g || o2.selected_wifi
 					|| o2.selected_roaming || o2.selected_vpn
-					|| o2.selected_lan;
+					|| o2.selected_lan || o2.selected_input_wifi;
 
 			if (o1_selected == o2_selected) {
 				return String.CASE_INSENSITIVE_ORDER.compare(o1.names.get(0)
@@ -854,6 +909,7 @@ public class MainActivity extends SherlockActivity implements
 			boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 			boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
 			boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
+			boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
 
 			@Override
 			public View getView(final int position, View convertView,
@@ -875,6 +931,8 @@ public class MainActivity extends SherlockActivity implements
 							.findViewById(R.id.itemcheck_vpn);
 					entry.box_lan = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_lan);
+					entry.box_input_wifi = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_input_wifi);
 					if (vpnenabled) {
 						entry.box_vpn.setVisibility(View.VISIBLE);
 					}
@@ -883,6 +941,9 @@ public class MainActivity extends SherlockActivity implements
 					}
 					if (lanenabled) {
 						entry.box_lan.setVisibility(View.VISIBLE);
+					}
+					if (inputwifienabled) {
+						entry.box_input_wifi.setVisibility(View.VISIBLE);
 					}
 					entry.text = (TextView) convertView
 							.findViewById(R.id.itemtext);
@@ -895,6 +956,7 @@ public class MainActivity extends SherlockActivity implements
 							.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_vpn.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_lan.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_input_wifi.setOnCheckedChangeListener(MainActivity.this);
 					convertView.setTag(entry);
 				} else {
 					// Convert an existing view
@@ -912,12 +974,17 @@ public class MainActivity extends SherlockActivity implements
 					if (lanenabled) {
 						entry.box_lan.setVisibility(View.VISIBLE);
 					}
+					if (inputwifienabled) {
+						entry.box_input_wifi.setVisibility(View.VISIBLE);
+					}
 					entry.box_roaming = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_roam);
 					entry.box_vpn = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_vpn);
 					entry.box_lan = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_lan);
+					entry.box_input_wifi = (CheckBox) convertView
+							.findViewById(R.id.itemcheck_input_wifi);
 				}
 				entry.app = apps.get(position);
 				entry.text.setText(entry.app.toString());
@@ -947,6 +1014,9 @@ public class MainActivity extends SherlockActivity implements
 				final CheckBox box_lan = entry.box_lan;
 				box_lan.setTag(entry.app);
 				box_lan.setChecked(entry.app.selected_lan);
+				final CheckBox box_input_wifi = entry.box_input_wifi;
+				box_input_wifi.setTag(entry.app);
+				box_input_wifi.setChecked(entry.app.selected_input_wifi);
 				return convertView;
 			}
 		};
@@ -1532,6 +1602,12 @@ public class MainActivity extends SherlockActivity implements
 					this.dirty = true;
 				}
 				break;
+			case R.id.itemcheck_input_wifi:
+				if (app.selected_input_wifi != isChecked) {
+					app.selected_input_wifi = isChecked;
+					this.dirty = true;
+				}
+				break;
 			}
 		}
 	}
@@ -1562,6 +1638,9 @@ public class MainActivity extends SherlockActivity implements
 			break;
 		case R.id.label_lan:
 			selectAllLan();
+			break;
+		case R.id.label_input_wifi:
+			selectAllInputWifi();
 			break;
 		}
 	}
@@ -1609,6 +1688,7 @@ public class MainActivity extends SherlockActivity implements
 		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
 		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
+		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
@@ -1624,6 +1704,9 @@ public class MainActivity extends SherlockActivity implements
 			if (lanenabled) {
 				app.selected_lan = false;
 			}
+			if (inputwifienabled) {
+				app.selected_input_wifi = false;
+			}
 			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
@@ -1631,11 +1714,25 @@ public class MainActivity extends SherlockActivity implements
 
 	private void invertApps() {
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME,
+				Context.MODE_PRIVATE);
+		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
+		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
+		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
 			app.selected_3g = !app.selected_3g;
 			app.selected_wifi = !app.selected_wifi;
+			if (vpnenabled) {
+				app.selected_vpn = !app.selected_vpn;
+			}
+			if (lanenabled) {
+				app.selected_lan = !app.selected_lan;
+			}
+			if (inputwifienabled) {
+				app.selected_input_wifi = !app.selected_input_wifi;
+			}
 			this.dirty = true;
 		}
 		adapter.notifyDataSetChanged();
@@ -1663,6 +1760,17 @@ public class MainActivity extends SherlockActivity implements
 		adapter.notifyDataSetChanged();
 	}
 
+	private void selectAllInputWifi() {
+		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
+		int count = adapter.getCount();
+		for (int item = 0; item < count; item++) {
+			DroidApp app = (DroidApp) adapter.getItem(item);
+			app.selected_input_wifi = true;
+			this.dirty = true;
+		}
+		adapter.notifyDataSetChanged();
+	}
+	
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		// Handle the back button when dirty
@@ -1744,6 +1852,7 @@ public class MainActivity extends SherlockActivity implements
 		private CheckBox box_roaming;
 		private CheckBox box_vpn;
 		private CheckBox box_lan;
+		private CheckBox box_input_wifi;
 		private TextView text;
 		private ImageView icon;
 		private DroidApp app;
@@ -1777,6 +1886,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -1825,6 +1935,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -1873,6 +1984,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -1921,6 +2033,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -1969,6 +2082,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -2017,6 +2131,7 @@ public class MainActivity extends SherlockActivity implements
 		toggleVPNbutton(getApplicationContext());
 		toggleRoambutton(getApplicationContext());
 		toggleLANbutton(getApplicationContext());
+		toggleInputWifiButton(getApplicationContext());
 		toggleUserSettings(getApplicationContext());
 		if (Api.isEnabled(getApplicationContext())) {
 			Api.applyIptablesRules(getApplicationContext(), true);
@@ -2286,4 +2401,67 @@ public class MainActivity extends SherlockActivity implements
 		}.execute();
 	}
 
+	@SuppressLint("NewApi")
+	public void isCurrentUserOwner(Context context) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			try {
+				Method getUserHandle = UserManager.class
+						.getMethod("getUserHandle");
+				int userHandle = (Integer) getUserHandle.invoke(context
+						.getSystemService(Context.USER_SERVICE));
+				Log.d("{AF}",
+						String.format("Found user value = %d", userHandle));
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(getApplicationContext());
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putLong("userID", userHandle);
+				editor.commit();
+			} catch (Exception e) {
+				Log.d("{AF}",
+						"Exception on isCurrentUserOwner " + e.getMessage());
+			}
+		}
+	}
+
+	public void toggleUser() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = prefs.edit();
+		boolean multiuserenabled = getApplicationContext()
+				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+						Api.PREF_MULTIUSER, false);
+		if (prefs.getLong("userID", 0) == 0) {
+			Log.d("{AF}", "userHandle is 0");
+			editor.putString("chainName", "droidwall");
+			editor.commit();
+			Log.d("{AF}", "User = " + prefs.getLong("userID", 0)
+					+ " and CHAINNAME = " + prefs.getString("chainName", ""));
+		} else {
+			Log.d("{AF}", "userHandle greater than 0");
+			if (multiuserenabled) {
+				editor.putString("chainName", prefs.getLong("userID", 0)
+						+ "droidwall");
+				editor.commit();
+				Log.d("{AF}",
+						"User = " + prefs.getLong("userID", 0)
+								+ " and CHAINNAME = "
+								+ prefs.getString("chainName", ""));
+			} else {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(R.string.multiuser_title);
+				builder.setMessage(R.string.multiuser_disabled);
+				builder.setPositiveButton("OK",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								userSettings();
+							}
+						});
+				AlertDialog dialog = builder.show();
+				TextView msg = (TextView) dialog
+						.findViewById(android.R.id.message);
+				msg.setGravity(Gravity.CENTER);
+			}
+		}
+	}
 }

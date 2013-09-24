@@ -684,6 +684,7 @@ containing a value of this type.
          */
         public static final int abs__config_showMenuShortcutsWhenKeyboardPresent=0x7f070003;
         public static final int abs__split_action_bar_is_narrow=0x7f070001;
+        public static final int isTablet=0x7f070006;
     }
     public static final class color {
         public static final int abs__background_holo_dark=0x7f080000;
@@ -921,12 +922,12 @@ containing a value of this type.
         public static final int widget_on2=0x7f020078;
     }
     public static final class id {
-        public static final int DefaultProfile=0x7f060069;
-        public static final int Profile1=0x7f06006a;
-        public static final int Profile2=0x7f06006b;
-        public static final int Profile3=0x7f06006c;
-        public static final int Profile4=0x7f06006d;
-        public static final int Profile5=0x7f06006e;
+        public static final int DefaultProfile=0x7f06006b;
+        public static final int Profile1=0x7f06006c;
+        public static final int Profile2=0x7f06006d;
+        public static final int Profile3=0x7f06006e;
+        public static final int Profile4=0x7f06006f;
+        public static final int Profile5=0x7f060070;
         public static final int about_version=0x7f06003b;
         public static final int abs__action_bar=0x7f060020;
         public static final int abs__action_bar_container=0x7f06001f;
@@ -967,82 +968,84 @@ containing a value of this type.
         public static final int abs__textButton=0x7f060013;
         public static final int abs__title=0x7f06001b;
         public static final int abs__up=0x7f06000b;
-        public static final int applyrules=0x7f060071;
+        public static final int applyrules=0x7f060073;
         public static final int customscript=0x7f060033;
         public static final int customscript2=0x7f060034;
         public static final int customscript_cancel=0x7f060035;
         public static final int customscript_link=0x7f060032;
         public static final int customscript_ok=0x7f060036;
-        public static final int defaultprofile=0x7f060045;
-        public static final int disableFirewall=0x7f060068;
+        public static final int defaultprofile=0x7f060046;
+        public static final int disableFirewall=0x7f06006a;
         public static final int disableHome=0x7f060009;
-        public static final int drawer_layout=0x7f06004c;
+        public static final int drawer_layout=0x7f06004d;
         public static final int edit_query=0x7f060026;
-        public static final int enableFirewall=0x7f060067;
-        public static final int enableipv4=0x7f060070;
-        public static final int exit=0x7f060074;
+        public static final int enableFirewall=0x7f060069;
+        public static final int enableipv4=0x7f060072;
+        public static final int exit=0x7f060076;
         public static final int exportrules=0x7f060038;
         public static final int exportrules_cancel=0x7f060039;
         public static final int exportrules_ok=0x7f06003a;
-        public static final int firewallDisable=0x7f060065;
-        public static final int firewallEnable=0x7f060064;
-        public static final int help=0x7f060073;
+        public static final int firewallDisable=0x7f060067;
+        public static final int firewallEnable=0x7f060066;
+        public static final int help=0x7f060075;
         public static final int homeAsUp=0x7f060006;
         public static final int itemcheck_3g=0x7f06003f;
+        public static final int itemcheck_input_wifi=0x7f060043;
         public static final int itemcheck_lan=0x7f060042;
         public static final int itemcheck_roam=0x7f060040;
         public static final int itemcheck_vpn=0x7f060041;
         public static final int itemcheck_wifi=0x7f06003e;
         public static final int itemicon=0x7f06003d;
-        public static final int itemtext=0x7f060043;
-        public static final int label=0x7f06005f;
-        public static final int label_clear=0x7f060055;
-        public static final int label_data=0x7f060051;
-        public static final int label_invert=0x7f060056;
-        public static final int label_lan=0x7f060054;
-        public static final int label_mode=0x7f06004d;
-        public static final int label_roam=0x7f060052;
-        public static final int label_vpn=0x7f060053;
-        public static final int label_wifi=0x7f060050;
-        public static final int left_drawer=0x7f060058;
+        public static final int itemtext=0x7f060044;
+        public static final int label=0x7f060061;
+        public static final int label_clear=0x7f060057;
+        public static final int label_data=0x7f060052;
+        public static final int label_input_wifi=0x7f060056;
+        public static final int label_invert=0x7f060058;
+        public static final int label_lan=0x7f060055;
+        public static final int label_mode=0x7f06004e;
+        public static final int label_roam=0x7f060053;
+        public static final int label_vpn=0x7f060054;
+        public static final int label_wifi=0x7f060051;
+        public static final int left_drawer=0x7f06005a;
         public static final int listMode=0x7f060002;
-        public static final int listview=0x7f060057;
-        public static final int loadprofile_link=0x7f060044;
-        public static final int main=0x7f060062;
-        public static final int menu_items=0x7f06006f;
+        public static final int listview=0x7f060059;
+        public static final int loadprofile_link=0x7f060045;
+        public static final int main=0x7f060064;
+        public static final int menu_items=0x7f060071;
         public static final int normal=0x7f060001;
         public static final int pager=0x7f06003c;
-        public static final int pass_cancel=0x7f06005d;
-        public static final int pass_input=0x7f06005c;
-        public static final int pass_message=0x7f06005b;
-        public static final int pass_ok=0x7f06005e;
-        public static final int popup_default=0x7f060075;
-        public static final int popup_profile1=0x7f060076;
-        public static final int popup_profile2=0x7f060077;
-        public static final int popup_profile3=0x7f060078;
-        public static final int popup_profile4=0x7f060079;
-        public static final int popup_profile5=0x7f06007a;
-        public static final int profile1=0x7f060046;
-        public static final int profile2=0x7f060047;
-        public static final int profile3=0x7f060048;
-        public static final int profile4=0x7f060049;
-        public static final int profile5=0x7f06004a;
-        public static final int saveprofile_link=0x7f060061;
-        public static final int search=0x7f06004f;
+        public static final int pass_cancel=0x7f06005f;
+        public static final int pass_input=0x7f06005e;
+        public static final int pass_message=0x7f06005d;
+        public static final int pass_ok=0x7f060060;
+        public static final int popup_default=0x7f060077;
+        public static final int popup_profile1=0x7f060078;
+        public static final int popup_profile2=0x7f060079;
+        public static final int popup_profile3=0x7f06007a;
+        public static final int popup_profile4=0x7f06007b;
+        public static final int popup_profile5=0x7f06007c;
+        public static final int profile1=0x7f060047;
+        public static final int profile2=0x7f060048;
+        public static final int profile3=0x7f060049;
+        public static final int profile4=0x7f06004a;
+        public static final int profile5=0x7f06004b;
+        public static final int saveprofile_link=0x7f060063;
+        public static final int search=0x7f060050;
         public static final int showCustom=0x7f060008;
         public static final int showHome=0x7f060005;
         public static final int showTitle=0x7f060007;
-        public static final int showlogs=0x7f06004b;
-        public static final int showrules=0x7f060060;
-        public static final int simplewidget=0x7f060063;
-        public static final int spinner=0x7f06004e;
+        public static final int showlogs=0x7f06004c;
+        public static final int showrules=0x7f060062;
+        public static final int simplewidget=0x7f060065;
+        public static final int spinner=0x7f06004f;
         public static final int tabMode=0x7f060003;
         public static final int text1=0x7f060037;
-        public static final int toggle_widget=0x7f060059;
+        public static final int toggle_widget=0x7f06005b;
         public static final int useLogo=0x7f060004;
-        public static final int usersettings=0x7f060072;
-        public static final int widgetCanvas=0x7f06005a;
-        public static final int widget_container=0x7f060066;
+        public static final int usersettings=0x7f060074;
+        public static final int widgetCanvas=0x7f06005c;
+        public static final int widget_container=0x7f060068;
         public static final int wrap_content=0x7f060000;
     }
     public static final class integer {
@@ -1092,8 +1095,7 @@ containing a value of this type.
         public static final int sherlock_spinner_item=0x7f030028;
         public static final int simple_widget=0x7f030029;
         public static final int tasker_profile_buttons=0x7f03002a;
-        public static final int user_settings=0x7f03002b;
-        public static final int widget_menu=0x7f03002c;
+        public static final int widget_menu=0x7f03002b;
     }
     public static final class menu {
         public static final int menu=0x7f0e0000;
@@ -1103,7 +1105,7 @@ containing a value of this type.
         public static final int busybox_g1=0x7f050000;
         public static final int busybox_x86=0x7f050001;
         public static final int iptables_armv5=0x7f050002;
-        public static final int nflog=0x7f050003;
+        public static final int nflogv2=0x7f050003;
     }
     public static final class string {
         public static final int LogAppName=0x7f0b00b3;
@@ -1174,6 +1176,8 @@ containing a value of this type.
         public static final int discard=0x7f0b0048;
         public static final int drawer_close=0x7f0b009f;
         public static final int drawer_open=0x7f0b009e;
+        public static final int dst_ip=0x7f0b00c0;
+        public static final int dst_port=0x7f0b00c2;
         public static final int enableLog_title=0x7f0b0074;
         public static final int enterfilename=0x7f0b004e;
         public static final int enternewpass=0x7f0b0030;
@@ -1187,14 +1191,19 @@ containing a value of this type.
         public static final int fw_disabled=0x7f0b001a;
         public static final int fw_enabled=0x7f0b0019;
         public static final int help=0x7f0b0016;
-        public static final int help_dialog_text=0x7f0b00ba;
-        public static final int help_profiles=0x7f0b00b9;
-        public static final int help_rules=0x7f0b00b8;
-        public static final int help_usage=0x7f0b00b7;
+        public static final int help_dialog_text=0x7f0b00c6;
+        public static final int help_profiles=0x7f0b00c5;
+        public static final int help_rules=0x7f0b00c4;
+        public static final int help_usage=0x7f0b00c3;
         public static final int importfailed=0x7f0b004b;
         public static final int importrules=0x7f0b0054;
         public static final int importsuccess=0x7f0b004a;
         public static final int included_iptables=0x7f0b00ac;
+        public static final int input_off_summary=0x7f0b00b6;
+        public static final int input_on_summary=0x7f0b00b7;
+        public static final int input_options_title=0x7f0b00b9;
+        public static final int input_title=0x7f0b00b8;
+        public static final int input_wifi=0x7f0b00bf;
         public static final int invert=0x7f0b0075;
         public static final int iptables_title=0x7f0b00ad;
         public static final int ipv6_disabled=0x7f0b001c;
@@ -1224,8 +1233,11 @@ containing a value of this type.
         public static final int mode_blacklist=0x7f0b0039;
         public static final int mode_header=0x7f0b0037;
         public static final int mode_whitelist=0x7f0b0038;
+        public static final int multiuser_disabled=0x7f0b00be;
+        public static final int multiuser_enabled=0x7f0b00bd;
+        public static final int multiuser_summary=0x7f0b00bb;
+        public static final int multiuser_title=0x7f0b00bc;
         public static final int new_app_installed=0x7f0b004f;
-        public static final int nflog_service=0x7f0b00b6;
         public static final int no_rules_file=0x7f0b008e;
         public static final int no_rules_files=0x7f0b00a6;
         public static final int no_storage=0x7f0b008f;
@@ -1284,9 +1296,11 @@ containing a value of this type.
         public static final int select_mode=0x7f0b00a3;
         public static final int set_custom_script=0x7f0b003f;
         public static final int setpwd=0x7f0b0015;
+        public static final int settings_title=0x7f0b00ba;
         public static final int show_log=0x7f0b0024;
         public static final int showrules=0x7f0b0010;
         public static final int simplewidget=0x7f0b0094;
+        public static final int src_ip=0x7f0b00c1;
         public static final int statuswidget=0x7f0b0095;
         public static final int system_iptables=0x7f0b00ab;
         public static final int tasker_name=0x7f0b007b;
@@ -1314,8 +1328,8 @@ containing a value of this type.
         public static final int usersettings=0x7f0b0082;
         public static final int version_about=0x7f0b00a8;
         public static final int vpn=0x7f0b0080;
-        public static final int vpn_disabled=0x7f0b00bc;
-        public static final int vpn_enabled=0x7f0b00bb;
+        public static final int vpn_disabled=0x7f0b00c8;
+        public static final int vpn_enabled=0x7f0b00c7;
         public static final int vpn_summary=0x7f0b0085;
         public static final int vpn_title=0x7f0b007f;
         public static final int widget_fail=0x7f0b0091;
@@ -1416,6 +1430,7 @@ containing a value of this type.
     public static final class xml {
         public static final int onoff_widget=0x7f040000;
         public static final int simplewidget=0x7f040001;
+        public static final int user_settings=0x7f040002;
     }
     public static final class styleable {
         /**  Attributes used to style the Action Bar. 
