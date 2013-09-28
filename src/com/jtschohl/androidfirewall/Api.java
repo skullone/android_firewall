@@ -264,7 +264,7 @@ public final class Api {
 	 * @param uids3g
 	 *            list of selected UIDs for 2G/3G to allow or disallow
 	 *            (depending on the working mode)
-	 * @param uids_input_wifi 
+	 * @param uids_input_wifi
 	 * @param showErrors
 	 *            indicates if errors should be alerted
 	 * 
@@ -278,7 +278,8 @@ public final class Api {
 	private static boolean applyIptablesRulesImpl(Context ctx,
 			List<Integer> uidsWifi, List<Integer> uids3g,
 			List<Integer> uidsroaming, List<Integer> uidsvpn,
-			List<Integer> uidslan, List<Integer> uidsinputwifi, boolean showErrors) {
+			List<Integer> uidslan, List<Integer> uidsinputwifi,
+			boolean showErrors) {
 		if (ctx == null) {
 			return false;
 		}
@@ -321,34 +322,102 @@ public final class Api {
 			script.append("" + "dmesg -c >/dev/null || exit\n"
 					+ "$IPTABLES --version || exit 1\n"
 					+ "# Create the droidwall chains if necessary\n"
-					+ "$IPTABLES -L " + chainName + " >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + " || exit 3\n"
-					+ "$IPTABLES -L " + chainName + "-3g >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-3g || exit 4\n"
-					+ "$IPTABLES -L " + chainName + "-wifi >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-wifi || exit 5\n"
-					+ "$IPTABLES -L " + chainName + "-reject >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-reject || exit 6\n"
-					+ "$IPTABLES -L " + chainName + "-input-drop >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-input-drop || exit 6\n"
-					+ "$IPTABLES -L " + chainName + "-vpn >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-vpn || exit 7 \n"
-					+ "$IPTABLES -L " + chainName + "-lan >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-lan || exit 7 \n"
-					+ "$IPTABLES -L " + chainName + "-input >/dev/null 2>/dev/null || $IPTABLES --new " + chainName + "-input || exit 501\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ " >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ " || exit 3\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-3g >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-3g || exit 4\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-wifi >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-wifi || exit 5\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-reject >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-reject || exit 6\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-input-drop >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-input-drop || exit 6\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-vpn >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-vpn || exit 7 \n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-lan >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-lan || exit 7 \n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-input >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-input || exit 501\n"
 					+ "# Add droidwall chain to OUTPUT chain if necessary\n"
-					+ "$IPTABLES -L OUTPUT | $GREP -q " + chainName + " || $IPTABLES -A OUTPUT -j " + chainName + " || exit 11\n"
+					+ "$IPTABLES -L OUTPUT | $GREP -q "
+					+ chainName
+					+ " || $IPTABLES -A OUTPUT -j "
+					+ chainName
+					+ " || exit 11\n"
 					+ "# Add droidwall-input chain to INPUT chain if necessary\n"
-					+ "$IPTABLES -L INPUT | $GREP -q " + chainName + "-input || $IPTABLES -A INPUT -j " + chainName + "-input || exit 1111\n"
+					+ "$IPTABLES -L INPUT | $GREP -q "
+					+ chainName
+					+ "-input || $IPTABLES -A INPUT -j "
+					+ chainName
+					+ "-input || exit 1111\n"
 					+ "# Flush existing rules\n"
-					+ "$IPTABLES -F " + chainName + " || exit 17\n"
-					+ "$IPTABLES -F " + chainName + "-3g || exit 18\n"
-					+ "$IPTABLES -F " + chainName + "-wifi || exit 19\n"
-					+ "$IPTABLES -F " + chainName + "-reject || exit 20\n"
-					+ "$IPTABLES -F " + chainName + "-vpn || exit 20\n"
-					+ "$IPTABLES -F " + chainName + "-lan || exit 20\n"
-					+ "$IPTABLES -F " + chainName + "-input || exit 503\n"
-					+ "$IPTABLES -F " + chainName + "-input-drop || exit 503\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ " || exit 17\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-3g || exit 18\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-wifi || exit 19\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-reject || exit 20\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-vpn || exit 20\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-lan || exit 20\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-input || exit 503\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-input-drop || exit 503\n"
 					+ "# Create reject rule and fix for WiFi slow DNS lookups\n"
-					+ "$IPTABLES -A " + chainName+ " -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
-					+ "$IPTABLES -A " + chainName+ " -m owner --uid-owner 1000 -p udp --dport 123 -j RETURN || exit 22\n"
-					+ "$IPTABLES -D INPUT -j " + chainName + "-input || exit 507\n"
-					+ "$IPTABLES -I INPUT 1 -j " + chainName + "-input || exit 508\n"
-					+ "$IPTABLES -D OUTPUT -j " + chainName + " || exit 11\n"
-					+ "$IPTABLES -I OUTPUT 1 -j " + chainName + " || exit 12\n"
+					+ "$IPTABLES -A "
+					+ chainName
+					+ " -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
+					+ "$IPTABLES -A "
+					+ chainName
+					+ " -m owner --uid-owner 1000 -p udp --dport 123 -j RETURN || exit 22\n"
+					+ "$IPTABLES -D INPUT -j "
+					+ chainName
+					+ "-input || exit 507\n"
+					+ "$IPTABLES -I INPUT 1 -j "
+					+ chainName
+					+ "-input || exit 508\n"
+					+ "$IPTABLES -D OUTPUT -j "
+					+ chainName
+					+ " || exit 11\n"
+					+ "$IPTABLES -I OUTPUT 1 -j "
+					+ chainName
+					+ " || exit 12\n"
 					+ "");
 			// Check if logging is enabled
 			if (logenabled) {
@@ -359,18 +428,18 @@ public final class Api {
 							+ "-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 299\n"
 							+ "$IPTABLES -A " + chainName
 							+ "-reject -j REJECT || exit 29\n" + "");
-					if (inputenabled){
+					if (inputenabled) {
 						script.append(""
 								+ "$IPTABLES -A "
 								+ chainName
 								+ "-input-drop -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 510\n"
 								+ "");
+						script.append(""
+								+ "# Create the input drop rule (log disabled)\n"
+								+ "$IPTABLES -A " + chainName
+								+ "-input-drop -j REJECT || exit 30\n" + "");
+						Log.d("[AF]", "LOG code " + logtarget);
 					}
-					script.append("" + "# Create the input drop rule (log disabled)\n"
-							+ "$IPTABLES -A " + chainName
-							+ "-input-drop -j REJECT || exit 30\n" + "");
-					Log.d("[AF]", "LOG code " + logtarget);
-					
 				} else if (logtarget.equals("NFLOG")) {
 					script.append(""
 							+ "$IPTABLES -A "
@@ -378,31 +447,38 @@ public final class Api {
 							+ "-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 2999\n"
 							+ "$IPTABLES -A " + chainName
 							+ "-reject -j REJECT || exit 29\n" + "");
-					if (inputenabled){
+					if (inputenabled) {
 						script.append(""
 								+ "$IPTABLES -A "
 								+ chainName
 								+ "-input-drop -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 510\n"
 								+ "");
+						script.append(""
+								+ "# Create the input drop rule (log disabled)\n"
+								+ "$IPTABLES -A " + chainName
+								+ "-input-drop -j REJECT || exit 30\n" + "");
 					}
-					script.append("" + "# Create the input drop rule (log disabled)\n"
-							+ "$IPTABLES -A " + chainName
-							+ "-input-drop -j REJECT || exit 30\n" + "");
 					Log.d("[AF]", "NFLOG code " + logtarget);
 				} else {
 					script.append("" + "$IPTABLES -A " + chainName
 							+ "-reject -j REJECT || exit 30\n" + "");
-					script.append("" + "# Create the input drop rule (log disabled)\n"
-							+ "$IPTABLES -A " + chainName
-							+ "-input-drop -j REJECT || exit 30\n" + "");
+					if (inputenabled) {
+						script.append(""
+								+ "# Create the input drop rule (log disabled)\n"
+								+ "$IPTABLES -A " + chainName
+								+ "-input-drop -j REJECT || exit 30\n" + "");
+					}
 				}
 			} else {
 				script.append("" + "# Create the reject rule (log disabled)\n"
 						+ "$IPTABLES -A " + chainName
 						+ "-reject -j REJECT || exit 30\n" + "");
-				script.append("" + "# Create the input drop rule (log disabled)\n"
-						+ "$IPTABLES -A " + chainName
-						+ "-input-drop -j REJECT || exit 30\n" + "");
+				if (inputenabled) {
+					script.append(""
+							+ "# Create the input drop rule (log disabled)\n"
+							+ "$IPTABLES -A " + chainName
+							+ "-input-drop -j REJECT || exit 30\n" + "");
+				}
 			}
 			if (tetherenabled) {
 				script.append("" + "# Create the tethering rules\n"
@@ -477,15 +553,16 @@ public final class Api {
 				}
 			}
 			if (vpnenabled) {
-			for (final String itf : ITFS_VPN) {
-				script.append("$IPTABLES -A " + chainName + " -o ").append(itf)
-						.append(" -j " + chainName + "-vpn || exit 34\n");
+				for (final String itf : ITFS_VPN) {
+					script.append("$IPTABLES -A " + chainName + " -o ")
+							.append(itf)
+							.append(" -j " + chainName + "-vpn || exit 34\n");
 				}
 			}
-			if (tetherenabled){
+			if (tetherenabled) {
 				for (final String itf : ITFS_TETHER) {
-					script.append("$IPTABLES -A " + chainName + " -o ").append(itf)
-							.append(" -j RETURN || exit 32\n");
+					script.append("$IPTABLES -A " + chainName + " -o ")
+							.append(itf).append(" -j RETURN || exit 32\n");
 				}
 			}
 			script.append("# Filtering rules\n");
@@ -495,7 +572,8 @@ public final class Api {
 			final boolean any_wifi = uidsWifi.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_vpn = uidsvpn.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_lan = uidslan.indexOf(SPECIAL_UID_ANY) >= 0;
-			final boolean any_inputwifi = uidsinputwifi.indexOf(SPECIAL_UID_ANY) >= 0;
+			final boolean any_inputwifi = uidsinputwifi
+					.indexOf(SPECIAL_UID_ANY) >= 0;
 			if (whitelist && !any_wifi) {
 				// When "white listing" wifi, we need to ensure that the dhcp
 				// and wifi users are allowed
@@ -567,8 +645,8 @@ public final class Api {
 							script.append(
 									"$IPTABLES -A " + chainName
 											+ "-wifi -m owner --uid-owner ")
-									.append(uid).append(" -j ").append(targetRule)
-									.append(" || exit 46\n");
+									.append(uid).append(" -j ")
+									.append(targetRule).append(" || exit 46\n");
 					}
 				}
 			} else {
@@ -632,14 +710,18 @@ public final class Api {
 						script.append("$IPTABLES -A " + chainName + "-vpn -j ")
 								.append(targetRule).append(" || exit 40\n");
 					} else {
-						/* release/block individual applications on this interface */
+						/*
+						 * release/block individual applications on this
+						 * interface
+						 */
 						for (final Integer uid : uidsvpn) {
 							if (uid >= 0)
 								script.append(
 										"$IPTABLES -I " + chainName
 												+ "-vpn -m owner --uid-owner ")
 										.append(uid).append(" -j ")
-										.append(targetRule).append(" || exit 42\n");
+										.append(targetRule)
+										.append(" || exit 42\n");
 						}
 					}
 				} else {
@@ -689,14 +771,18 @@ public final class Api {
 						script.append("$IPTABLES -A " + chainName + "-lan -j ")
 								.append(targetRule).append(" || exit 40\n");
 					} else {
-						/* release/block individual applications on this interface */
+						/*
+						 * release/block individual applications on this
+						 * interface
+						 */
 						for (final Integer uid : uidslan) {
 							if (uid >= 0)
 								script.append(
 										"$IPTABLES -I " + chainName
 												+ "-lan -m owner --uid-owner ")
 										.append(uid).append(" -j ")
-										.append(targetRule).append(" || exit 42\n");
+										.append(targetRule)
+										.append(" || exit 42\n");
 						}
 					}
 				} else {
@@ -739,21 +825,27 @@ public final class Api {
 					}
 				}
 			}
-			if (inputenabled){
+			if (inputenabled) {
 				if (any_inputwifi && inputenabled) {
 					if (blacklist) {
 						/* block any application on this interface */
-						script.append("$IPTABLES -A " + chainName + "-input -j ")
+						script.append(
+								"$IPTABLES -A " + chainName + "-input -j ")
 								.append(targetRule).append(" || exit 40\n");
 					} else {
-						/* release/block individual applications on this interface */
+						/*
+						 * release/block individual applications on this
+						 * interface
+						 */
 						for (final Integer uid : uidsinputwifi) {
 							if (uid >= 0)
 								script.append(
-										"$IPTABLES -I " + chainName
+										"$IPTABLES -I "
+												+ chainName
 												+ "-input -m owner --uid-owner ")
 										.append(uid).append(" -j ")
-										.append(targetRule).append(" || exit 42\n");
+										.append(targetRule)
+										.append(" || exit 42\n");
 						}
 					}
 				} else {
@@ -782,8 +874,9 @@ public final class Api {
 
 						}
 					} else {
-						script.append("$IPTABLES -A " + chainName + "-input-wifi -j "
-								+ chainName + "-input-drop || exit 54\n");
+						script.append("$IPTABLES -A " + chainName
+								+ "-input-wifi -j " + chainName
+								+ "-input-drop || exit 54\n");
 					}
 				} else {
 					if (uidsinputwifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
@@ -791,48 +884,121 @@ public final class Api {
 						script.append("$IPTABLES -A "
 								+ chainName
 								+ "-input -m owner --uid-owner 0:999999999 -j RETURN || exit 56\n");
-						script.append("$IPTABLES -A " + chainName + "-input -j "
-								+ chainName + "-input-drop || exit 57\n");
+						script.append("$IPTABLES -A " + chainName
+								+ "-input -j " + chainName
+								+ "-input-drop || exit 57\n");
 					}
 				}
-				script.append("$IPTABLES -I " + chainName + "-input -m owner --uid-owner 0 -j RETURN || exit 4444\n");
-				script.append("$IPTABLES -I " + chainName + "-input -m state --state ESTABLISHED,RELATED -j ACCEPT || exit 4455\n");
+				script.append("$IPTABLES -I "
+						+ chainName
+						+ "-input -m owner --uid-owner 0 -j RETURN || exit 4444\n");
+				script.append("$IPTABLES -I "
+						+ chainName
+						+ "-input -m state --state ESTABLISHED,RELATED -j ACCEPT || exit 4455\n");
 			}
 			if (ipv6enabled) {
 				{
 					script.append(scriptHeader(ctx));
 					script.append("" + "$IP6TABLES --version || exit 60\n"
 							+ "# Create the droidwall chains if necessary\n"
-							+ "$IP6TABLES -L " + chainName + " >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + " || exit 3\n"
-							+ "$IP6TABLES -L " + chainName + "-input >/dev/null 2>/dev/null || $IP6TABLES --new "	+ chainName 	+ "-input || exit 500\n"
-							+ "$IP6TABLES -L " + chainName + "-3g >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-3g || exit 4\n"
-							+ "$IP6TABLES -L " + chainName + "-wifi >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-wifi || exit 5\n"
-							+ "$IP6TABLES -L " + chainName + "-reject >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-reject || exit 6\n"
-							+ "$IP6TABLES -L " + chainName + "-input-drop >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-input-drop || exit 6\n"
-							+ "$IP6TABLES -L " + chainName + "-vpn >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-vpn || exit 7 \n"
-							+ "$IP6TABLES -L " + chainName + "-lan >/dev/null 2>/dev/null || $IP6TABLES --new " + chainName + "-lan || exit 7 \n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ " >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ " || exit 3\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-input >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-input || exit 500\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-3g >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-3g || exit 4\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-wifi >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-wifi || exit 5\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-reject >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-reject || exit 6\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-input-drop >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-input-drop || exit 6\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-vpn >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-vpn || exit 7 \n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-lan >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-lan || exit 7 \n"
 							+ "# Add droidwall chain to OUTPUT chain if necessary\n"
-							+ "$IP6TABLES -L OUTPUT | $GREP -q " + chainName + " || $IP6TABLES -A OUTPUT -j " + chainName + " || exit 11\n"
+							+ "$IP6TABLES -L OUTPUT | $GREP -q "
+							+ chainName
+							+ " || $IP6TABLES -A OUTPUT -j "
+							+ chainName
+							+ " || exit 11\n"
 							+ "# Add droidwall-input chain to INPUT chain if necessary\n"
-							+ "$IP6TABLES -L INPUT | $GREP -q " + chainName + "-input || $IP6TABLES -A INPUT -j " + chainName + "-input || exit 1111\n"
+							+ "$IP6TABLES -L INPUT | $GREP -q "
+							+ chainName
+							+ "-input || $IP6TABLES -A INPUT -j "
+							+ chainName
+							+ "-input || exit 1111\n"
 							+ "# Flush existing rules\n"
-							+ "$IP6TABLES -F " + chainName + " || exit 17\n"
-							+ "$IP6TABLES -F " + chainName + "-3g || exit 18\n"
-							+ "$IP6TABLES -F " + chainName + "-wifi || exit 19\n"
-							+ "$IP6TABLES -F " + chainName + "-reject || exit 20\n"
-							+ "$IP6TABLES -F " + chainName + "-input-drop || exit 20\n"
-							+ "$IP6TABLES -F " + chainName + "-vpn || exit 20\n"
-							+ "$IP6TABLES -F " + chainName + "-lan || exit 20\n"
-							+ "$IP6TABLES -F " + chainName + "-input || exit 502\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ " || exit 17\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-3g || exit 18\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-wifi || exit 19\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-reject || exit 20\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-input-drop || exit 20\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-vpn || exit 20\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-lan || exit 20\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-input || exit 502\n"
 							+ "# Create reject rule and fix for WiFi slow DNS lookups"
-							+ "$IP6TABLES -A " + chainName + "-reject -j REJECT || exit 21\n"
-							+ "$IP6TABLES -A " + chainName+ " -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
-							+ "$IP6TABLES -A " + chainName+ " -m owner --uid-owner 1000 -p udp --dport 123 -j RETURN || exit 22\n"
-							+ "$IP6TABLES -D INPUT -j " + chainName + "-input || exit 507\n"
-							+ "$IP6TABLES -I INPUT 1 -j " + chainName + "-input || exit 508\n"
-							+ "$IP6TABLES -D OUTPUT -j " + chainName + " || exit 11\n"
-							+ "$IP6TABLES -I OUTPUT 1 -j " + chainName + " || exit 12\n"
-							+ "");
+							+ "$IP6TABLES -A "
+							+ chainName
+							+ "-reject -j REJECT || exit 21\n"
+							+ "$IP6TABLES -A "
+							+ chainName
+							+ " -m owner --uid-owner 0 -p udp --dport 53 -j RETURN || exit 22\n"
+							+ "$IP6TABLES -A "
+							+ chainName
+							+ " -m owner --uid-owner 1000 -p udp --dport 123 -j RETURN || exit 22\n"
+							+ "$IP6TABLES -D INPUT -j "
+							+ chainName
+							+ "-input || exit 507\n"
+							+ "$IP6TABLES -I INPUT 1 -j "
+							+ chainName
+							+ "-input || exit 508\n"
+							+ "$IP6TABLES -D OUTPUT -j "
+							+ chainName
+							+ " || exit 11\n"
+							+ "$IP6TABLES -I OUTPUT 1 -j "
+							+ chainName + " || exit 12\n" + "");
 					// Check if logging is enabled
 					if (logenabled && ipv6enabled) {
 						if (logtarget.equals("LOG")) {
@@ -843,16 +1009,18 @@ public final class Api {
 									+ "-reject -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 3000\n"
 									+ "$IP6TABLES -A " + chainName
 									+ "-reject -j REJECT || exit 29\n" + "");
-							if (inputenabled){
+							if (inputenabled) {
 								script.append(""
 										+ "$IP6TABLES -A "
 										+ chainName
 										+ "-input-drop -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewall]\" --log-level 4 --log-uid || exit 610\n"
 										+ "");
+								script.append(""
+										+ "# Create the input drop rule (log disabled)\n"
+										+ "$IP6TABLES -A " + chainName
+										+ "-input-drop -j REJECT || exit 30\n"
+										+ "");
 							}
-							script.append("" + "# Create the input drop rule (log disabled)\n"
-									+ "$IP6TABLES -A " + chainName
-									+ "-input-drop -j REJECT || exit 30\n" + "");		
 						} else if (logtarget.equals("NFLOG")) {
 							script.append(""
 									+ "# Create the log and reject rules (ignore errors on the LOG target just in case it is not available)\n"
@@ -861,33 +1029,42 @@ public final class Api {
 									+ "-reject -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 3001\n"
 									+ "$IP6TABLES -A " + chainName
 									+ "-reject -j REJECT || exit 29\n" + "");
-							if (inputenabled){
+							if (inputenabled) {
 								script.append(""
 										+ "$IP6TABLES -A "
 										+ chainName
 										+ "-input-drop -j NFLOG --nflog-prefix \"[AndroidFirewall]\" --nflog-group 0 || exit 610\n"
 										+ "");
+								script.append(""
+										+ "# Create the input drop rule (log disabled)\n"
+										+ "$IP6TABLES -A " + chainName
+										+ "-input-drop -j REJECT || exit 30\n"
+										+ "");
 							}
-							script.append("" + "# Create the input drop rule (log disabled)\n"
-									+ "$IP6TABLES -A " + chainName
-									+ "-input-drop -j REJECT || exit 30\n" + "");	
 						} else {
 							script.append(""
 									+ "# Create the reject rule (issue getting LOG/NFLOG)\n"
 									+ "$IP6TABLES -A " + chainName
 									+ "-reject -j REJECT || exit 30\n" + "");
-							script.append("" + "# Create the input drop rule (log disabled)\n"
-									+ "$IP6TABLES -A " + chainName
-									+ "-input-drop -j REJECT || exit 30\n" + "");
+							if (inputenabled) {
+								script.append(""
+										+ "# Create the input drop rule (log disabled)\n"
+										+ "$IP6TABLES -A " + chainName
+										+ "-input-drop -j REJECT || exit 30\n"
+										+ "");
+							}
 						}
 					} else {
 						script.append(""
 								+ "# Create the reject rule (log disabled)\n"
 								+ "$IP6TABLES -A " + chainName
 								+ "-reject -j REJECT || exit 77\n" + "");
-						script.append("" + "# Create the input drop rule (log disabled)\n"
-								+ "$IP6TABLES -A " + chainName
-								+ "-input-drop -j REJECT || exit 30\n" + "");
+						if (inputenabled) {
+							script.append(""
+									+ "# Create the input drop rule (log disabled)\n"
+									+ "$IP6TABLES -A " + chainName
+									+ "-input-drop -j REJECT || exit 30\n" + "");
+						}
 					}
 					if (tetherenabled) {
 						script.append("" + "# Create the tethering rules\n"
@@ -1040,14 +1217,16 @@ public final class Api {
 								"$IP6TABLES -A " + chainName + "-wifi -j ")
 								.append(targetRule).append(" || exit 85\n");
 					} else {
-						// release/block individual applications on this interface
+						// release/block individual applications on this
+						// interface
 						for (final Integer uid : uidsWifi) {
 							if (uid >= 0)
 								script.append(
 										"$IP6TABLES -A " + chainName
 												+ "-wifi -m owner --uid-owner ")
 										.append(uid).append(" -j ")
-										.append(targetRule).append(" || exit 86\n");
+										.append(targetRule)
+										.append(" || exit 86\n");
 						}
 					}
 				} else {
@@ -1122,7 +1301,8 @@ public final class Api {
 							for (final Integer uid : uidsvpn) {
 								if (uid >= 0)
 									script.append(
-											"$IP6TABLES -I " + chainName
+											"$IP6TABLES -I "
+													+ chainName
 													+ "-vpn -m owner --uid-owner ")
 											.append(uid).append(" -j ")
 											.append(targetRule)
@@ -1185,7 +1365,8 @@ public final class Api {
 							for (final Integer uid : uidslan) {
 								if (uid >= 0)
 									script.append(
-											"$IP6TABLES -I " + chainName
+											"$IP6TABLES -I "
+													+ chainName
 													+ "-lan -m owner --uid-owner ")
 											.append(uid).append(" -j ")
 											.append(targetRule)
@@ -1233,32 +1414,43 @@ public final class Api {
 						}
 					}
 				}
-				if (inputenabled && ipv6enabled){
+				if (inputenabled && ipv6enabled) {
 					if (any_inputwifi && inputenabled) {
 						if (blacklist) {
 							/* block any application on this interface */
-							script.append("$IP6TABLES -A " + chainName + "-input -j ")
+							script.append(
+									"$IP6TABLES -A " + chainName + "-input -j ")
 									.append(targetRule).append(" || exit 40\n");
 						} else {
-							/* release/block individual applications on this interface */
+							/*
+							 * release/block individual applications on this
+							 * interface
+							 */
 							for (final Integer uid : uidsinputwifi) {
 								if (uid >= 0)
 									script.append(
-											"$IP6TABLES -I " + chainName
+											"$IP6TABLES -I "
+													+ chainName
 													+ "-input -m owner --uid-owner ")
 											.append(uid).append(" -j ")
-											.append(targetRule).append(" || exit 42\n");
+											.append(targetRule)
+											.append(" || exit 42\n");
 							}
 						}
 					} else {
-						/* release/block individual applications on this interface */
+						/*
+						 * release/block individual applications on this
+						 * interface
+						 */
 						for (final Integer uid : uidsinputwifi) {
 							if (uid >= 0)
 								script.append(
-										"$IP6TABLES -I " + chainName
+										"$IP6TABLES -I "
+												+ chainName
 												+ "-input -m owner --uid-owner ")
 										.append(uid).append(" -j ")
-										.append(targetRule).append(" || exit 42\n");
+										.append(targetRule)
+										.append(" || exit 42\n");
 						}
 					}
 					if (whitelist && inputenabled) {
@@ -1268,7 +1460,8 @@ public final class Api {
 								script.append("$IP6TABLES -A "
 										+ chainName
 										+ "-input -m owner --uid-owner 0:999999999 -j "
-										+ chainName + "-input-drop || exit 48\n");
+										+ chainName
+										+ "-input-drop || exit 48\n");
 							} else {
 								script.append("$IP6TABLES -A " + chainName
 										+ "-input -j " + chainName
@@ -1276,8 +1469,9 @@ public final class Api {
 
 							}
 						} else {
-							script.append("$IP6TABLES -A " + chainName + "-input-wifi -j "
-									+ chainName + "-input-drop || exit 54\n");
+							script.append("$IP6TABLES -A " + chainName
+									+ "-input-wifi -j " + chainName
+									+ "-input-drop || exit 54\n");
 						}
 					} else {
 						if (uidsinputwifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
@@ -1285,12 +1479,17 @@ public final class Api {
 							script.append("$IP6TABLES -A "
 									+ chainName
 									+ "-input -m owner --uid-owner 0:999999999 -j RETURN || exit 56\n");
-							script.append("$IP6TABLES -A " + chainName + "-input -j "
-									+ chainName + "-input-drop || exit 57\n");
+							script.append("$IP6TABLES -A " + chainName
+									+ "-input -j " + chainName
+									+ "-input-drop || exit 57\n");
 						}
 					}
-					script.append("$IP6TABLES -I " + chainName + "-input -m owner --uid-owner 0 -j RETURN || exit 4444\n");
-					script.append("$IP6TABLES -I " + chainName + "-input -m state --state ESTABLISHED,RELATED -j ACCEPT || exit 4455\n");
+					script.append("$IP6TABLES -I "
+							+ chainName
+							+ "-input -m owner --uid-owner 0 -j RETURN || exit 4444\n");
+					script.append("$IP6TABLES -I "
+							+ chainName
+							+ "-input -m state --state ESTABLISHED,RELATED -j ACCEPT || exit 4455\n");
 				}
 			}
 			final StringBuilder res = new StringBuilder();
@@ -1358,7 +1557,8 @@ public final class Api {
 		final String savedUids_roaming = prefs.getString(PREF_ROAMING_UIDS, "");
 		final String savedUids_vpn = prefs.getString(PREF_VPN_UIDS, "");
 		final String savedUids_lan = prefs.getString(PREF_LAN_UIDS, "");
-		final String savedUids_input_wifi = prefs.getString(PREF_INPUT_WIFI_UIDS, "");
+		final String savedUids_input_wifi = prefs.getString(
+				PREF_INPUT_WIFI_UIDS, "");
 		final List<Integer> uids_wifi = new LinkedList<Integer>();
 		if (savedUids_wifi.length() > 0) {
 			// Check which applications are allowed on wifi
@@ -1443,7 +1643,8 @@ public final class Api {
 		final List<Integer> uids_input_wifi = new LinkedList<Integer>();
 		if (savedUids_input_wifi.length() > 0) {
 			// Check which applications are allowed on 2G/3G
-			final StringTokenizer tok = new StringTokenizer(savedUids_input_wifi, "|");
+			final StringTokenizer tok = new StringTokenizer(
+					savedUids_input_wifi, "|");
 			while (tok.hasMoreTokens()) {
 				final String uid = tok.nextToken();
 				if (!uid.equals("")) {
@@ -1594,18 +1795,15 @@ public final class Api {
 					.getDefaultSharedPreferences(ctx);
 			final String chainName = prefs2.getString("chainName", "");
 			script.append(scriptHeader(ctx));
-			script.append("" 
-					+ "$IPTABLES -F " + chainName + "\n"
+			script.append("" + "$IPTABLES -F " + chainName + "\n"
 					+ "$IPTABLES -F " + chainName + "-reject\n"
-					+ "$IPTABLES -F " + chainName + "-3g\n"
-					+ "$IPTABLES -F " + chainName + "-vpn\n" 
-					+ "$IPTABLES -F " + chainName + "-lan\n" 
-					+ "$IPTABLES -F " + chainName + "-wifi\n" 
+					+ "$IPTABLES -F " + chainName + "-3g\n" + "$IPTABLES -F "
+					+ chainName + "-vpn\n" + "$IPTABLES -F " + chainName
+					+ "-lan\n" + "$IPTABLES -F " + chainName + "-wifi\n"
 					+ "$IPTABLES -F " + chainName + "-input\n"
 					+ "$IPTABLES -F " + chainName + "-input-wifi\n"
 					+ "$IPTABLES -F " + chainName + "-input-3g\n"
-					+ "$IPTABLES -F " + chainName + "-input-drop\n"
-					+ "");
+					+ "$IPTABLES -F " + chainName + "-input-drop\n" + "");
 			if (ipv6enabled) {
 				script.append(scriptHeader(ctx));
 				script.append("" + "$IP6TABLES --flush " + chainName + "\n"
@@ -1613,12 +1811,11 @@ public final class Api {
 						+ "$IP6TABLES --flush " + chainName + "-3g\n"
 						+ "$IP6TABLES --flush " + chainName + "-vpn\n"
 						+ "$IP6TABLES --flush " + chainName + "-lan\n"
-						+ "$IP6TABLES --flush " + chainName + "-wifi\n" 
+						+ "$IP6TABLES --flush " + chainName + "-wifi\n"
 						+ "$IP6TABLES -F " + chainName + "-input\n"
 						+ "$IP6TABLES -F " + chainName + "-input-wifi\n"
 						+ "$IP6TABLES -F " + chainName + "-input-3g\n"
-						+ "$IP6TABLES -F " + chainName + "-input-drop\n"
-						+ "");
+						+ "$IP6TABLES -F " + chainName + "-input-drop\n" + "");
 			}
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
@@ -1657,12 +1854,11 @@ public final class Api {
 					+ "$IP6TABLES --flush " + chainName + "-3g\n"
 					+ "$IP6TABLES --flush " + chainName + "-vpn\n"
 					+ "$IP6TABLES --flush " + chainName + "-lan\n"
-					+ "$IP6TABLES --flush " + chainName + "-wifi\n" 
+					+ "$IP6TABLES --flush " + chainName + "-wifi\n"
 					+ "$IP6TABLES -F " + chainName + "-input\n"
 					+ "$IP6TABLES -F " + chainName + "-input-wifi\n"
 					+ "$IP6TABLES -F " + chainName + "-input-3g\n"
-					+ "$IP6TABLES -F " + chainName + "-input-drop\n"
-					+ "");
+					+ "$IP6TABLES -F " + chainName + "-input-drop\n" + "");
 			if (customScript.length() > 0) {
 				script.append("\n# BEGIN OF CUSTOM SCRIPT (user-defined)\n");
 				script.append(customScript);
@@ -1732,24 +1928,25 @@ public final class Api {
 	public static boolean clearLog(Context ctx) {
 		final String logtarget = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getString(PREF_LOGTARGET, "");
-		if (logtarget.equals("NFLOG")){
+		if (logtarget.equals("NFLOG")) {
 			NflogService.clearLog();
 			return true;
 		} else {
-		try {
-			final StringBuilder res = new StringBuilder();
-			int code = runScriptAsRoot(ctx, "dmesg -c >/dev/null || exit\n",
-					res);
-			if (code != 0) {
-				alert(ctx, res);
-				return false;
+			try {
+				final StringBuilder res = new StringBuilder();
+				int code = runScriptAsRoot(ctx,
+						"dmesg -c >/dev/null || exit\n", res);
+				if (code != 0) {
+					alert(ctx, res);
+					return false;
+				}
+				return true;
+			} catch (Exception e) {
+				Log.d("Android Firewall - error clearing the logs",
+						e.getMessage());
+				alert(ctx, "error: " + e);
 			}
-			return true;
-		} catch (Exception e) {
-			Log.d("Android Firewall - error clearing the logs", e.getMessage());
-			alert(ctx, "error: " + e);
-		}
-		return false;
+			return false;
 		}
 	}
 
@@ -1774,11 +1971,9 @@ public final class Api {
 		return busybox;
 	}
 
-
-	static String getNflogPath(Context ctx) { 
-		return ctx.getDir("bin", 0).getAbsolutePath() + "/nflogv2 "; 
-		}
-	 
+	static String getNflogPath(Context ctx) {
+		return ctx.getDir("bin", 0).getAbsolutePath() + "/nflogv2 ";
+	}
 
 	public static void getTargets(Context ctx, RootCommand callback) {
 		List<String> out = new ArrayList<String>();
@@ -1882,22 +2077,22 @@ public final class Api {
 				totalBlocked = loginfo.totalBlocked;
 				if (loginfo.dstBlocked.size() > 0) {
 					for (String dst : loginfo.dstBlocked.keySet()) {
-						address.append("Destination IP: " + dst + "(" + loginfo.dstBlocked.get(dst)
-								+ ")");
+						address.append("Destination IP: " + dst + "("
+								+ loginfo.dstBlocked.get(dst) + ")");
 						address.append("\n");
 					}
 				}
 				if (loginfo.srcBlocked.size() > 0) {
 					for (String src : loginfo.srcBlocked.keySet()) {
-						address.append("Source IP: " + src + "(" + loginfo.srcBlocked.get(src)
-								+ ")");
+						address.append("Source IP: " + src + "("
+								+ loginfo.srcBlocked.get(src) + ")");
 						address.append("\n");
 					}
 				}
 				if (loginfo.dptBlocked.size() > 0) {
 					for (String dpt : loginfo.dptBlocked.keySet()) {
-						address.append("Destination Port: " + dpt + "(" + loginfo.dptBlocked.get(dpt)
-								+ ")");
+						address.append("Destination Port: " + dpt + "("
+								+ loginfo.dptBlocked.get(dpt) + ")");
 						address.append("\n");
 					}
 				}
@@ -1917,12 +2112,13 @@ public final class Api {
 		}
 		return res.toString();
 	}
-	
+
 	/**
 	 * get NFLOG information
 	 */
 	public static String parseLog(Context ctx, String dmesg) {
-		final BufferedReader r = new BufferedReader(new StringReader(dmesg.toString()));
+		final BufferedReader r = new BufferedReader(new StringReader(
+				dmesg.toString()));
 		final Integer unknownUID = -99;
 		StringBuilder res = new StringBuilder();
 		String line;
@@ -1933,10 +2129,12 @@ public final class Api {
 
 		try {
 			while ((line = r.readLine()) != null) {
-				if (line.indexOf("[AndroidFirewall]") == -1) continue;
+				if (line.indexOf("[AndroidFirewall]") == -1)
+					continue;
 				appid = unknownUID;
-				if (((start=line.indexOf("UID=")) != -1) && ((end=line.indexOf(" ", start)) != -1)) {
-					appid = Integer.parseInt(line.substring(start+4, end));
+				if (((start = line.indexOf("UID=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					appid = Integer.parseInt(line.substring(start + 4, end));
 				}
 				loginfo = map.get(appid);
 				if (loginfo == null) {
@@ -1944,26 +2142,32 @@ public final class Api {
 					map.put(appid, loginfo);
 				}
 				loginfo.totalBlocked += 1;
-				if (((start=line.indexOf("DST=")) != -1) && ((end=line.indexOf(" ", start)) != -1)) {
-					String dst = line.substring(start+4, end);
+				if (((start = line.indexOf("DST=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					String dst = line.substring(start + 4, end);
 					if (loginfo.dstBlocked.containsKey(dst)) {
-						loginfo.dstBlocked.put(dst, loginfo.dstBlocked.get(dst) + 1);
+						loginfo.dstBlocked.put(dst,
+								loginfo.dstBlocked.get(dst) + 1);
 					} else {
 						loginfo.dstBlocked.put(dst, 1);
 					}
 				}
-				if (((start=line.indexOf("SRC=")) != -1) && ((end=line.indexOf(" ", start)) != -1)) {
-					String src = line.substring(start+4, end);
+				if (((start = line.indexOf("SRC=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					String src = line.substring(start + 4, end);
 					if (loginfo.srcBlocked.containsKey(src)) {
-						loginfo.srcBlocked.put(src, loginfo.srcBlocked.get(src) + 1);
+						loginfo.srcBlocked.put(src,
+								loginfo.srcBlocked.get(src) + 1);
 					} else {
 						loginfo.srcBlocked.put(src, 1);
 					}
 				}
-				if (((start=line.indexOf("DPT=")) != -1) && ((end=line.indexOf(" ", start)) != -1)) {
-					String dpt = line.substring(start+4, end);
+				if (((start = line.indexOf("DPT=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					String dpt = line.substring(start + 4, end);
 					if (loginfo.dptBlocked.containsKey(dpt)) {
-						loginfo.dptBlocked.put(dpt, loginfo.dptBlocked.get(dpt) + 1);
+						loginfo.dptBlocked.put(dpt,
+								loginfo.dptBlocked.get(dpt) + 1);
 					} else {
 						loginfo.dptBlocked.put(dpt, 1);
 					}
@@ -1974,58 +2178,60 @@ public final class Api {
 			String appName = "";
 			int appId = -1;
 			int totalBlocked;
-			for(int i = 0; i < map.size(); i++) {
+			for (int i = 0; i < map.size(); i++) {
 				StringBuilder address = new StringBuilder();
-				   id = map.keyAt(i);
-				   if (id != unknownUID) {
-						for (DroidApp app : apps) {
-							if (app.uid == id) {
-								appId = id;
-								appName = app.names.get(0);
-								break;
-							}
-						}
-					} else {
-						appName = "Kernel";
-					}
-				   loginfo = map.valueAt(i);
-				   totalBlocked = loginfo.totalBlocked;
-					if (loginfo.dstBlocked.size() > 0) {
-						for (String dst : loginfo.dstBlocked.keySet()) {
-							address.append("Destination IP: " + dst + "(" + loginfo.dstBlocked.get(dst) + ")");
-							address.append("\n");
+				id = map.keyAt(i);
+				if (id != unknownUID) {
+					for (DroidApp app : apps) {
+						if (app.uid == id) {
+							appId = id;
+							appName = app.names.get(0);
+							break;
 						}
 					}
-					if (loginfo.srcBlocked.size() > 0) {
-						for (String src : loginfo.srcBlocked.keySet()) {
-							address.append("Source IP: " + src + "(" + loginfo.srcBlocked.get(src)
-									+ ")");
-							address.append("\n");
-						}
-					}
-					if (loginfo.dptBlocked.size() > 0) {
-						for (String dpt : loginfo.dptBlocked.keySet()) {
-							address.append("Destination Port: " + dpt + "(" + loginfo.dptBlocked.get(dpt)
-									+ ")");
-							address.append("\n");
-						}
-					}
-					res.append("AppID :\t" +  appId + "\n"  + ctx.getString(R.string.LogAppName) +":\t" + appName + "\n" 
-					+ ctx.getString(R.string.LogPackBlock) + ":\t" +  totalBlocked  + "\n");
-					res.append(address.toString());
-					res.append("\n\t---------\n");
+				} else {
+					appName = "Kernel";
 				}
+				loginfo = map.valueAt(i);
+				totalBlocked = loginfo.totalBlocked;
+				if (loginfo.dstBlocked.size() > 0) {
+					for (String dst : loginfo.dstBlocked.keySet()) {
+						address.append("Destination IP: " + dst + "("
+								+ loginfo.dstBlocked.get(dst) + ")");
+						address.append("\n");
+					}
+				}
+				if (loginfo.srcBlocked.size() > 0) {
+					for (String src : loginfo.srcBlocked.keySet()) {
+						address.append("Source IP: " + src + "("
+								+ loginfo.srcBlocked.get(src) + ")");
+						address.append("\n");
+					}
+				}
+				if (loginfo.dptBlocked.size() > 0) {
+					for (String dpt : loginfo.dptBlocked.keySet()) {
+						address.append("Destination Port: " + dpt + "("
+								+ loginfo.dptBlocked.get(dpt) + ")");
+						address.append("\n");
+					}
+				}
+				res.append("AppID :\t" + appId + "\n"
+						+ ctx.getString(R.string.LogAppName) + ":\t" + appName
+						+ "\n" + ctx.getString(R.string.LogPackBlock) + ":\t"
+						+ totalBlocked + "\n");
+				res.append(address.toString());
+				res.append("\n\t---------\n");
+			}
 		} catch (Exception e) {
 			Log.d("{AF}", "NFLOG is null");
 			return null;
-			
+
 		}
 		if (res.length() == 0) {
 			res.append(ctx.getString(R.string.log_empty));
 		}
 		return res.toString();
 	}
-
 
 	/**
 	 * Change user language
@@ -2105,8 +2311,9 @@ public final class Api {
 				.getBoolean(PREF_LANENABLED, false);
 		final boolean roamenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_ROAMENABLED, false);
-		final boolean inputwifienabled = ctx.getSharedPreferences(PREFS_NAME, 0)
-				.getBoolean(PREF_INPUTENABLED, false);
+		final boolean inputwifienabled = ctx
+				.getSharedPreferences(PREFS_NAME, 0).getBoolean(
+						PREF_INPUTENABLED, false);
 
 		// allowed application names separated by pipe '|' (persisted)
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
@@ -2114,7 +2321,8 @@ public final class Api {
 		final String savedUids_Roaming = prefs.getString(PREF_ROAMING_UIDS, "");
 		final String savedUids_Vpn = prefs.getString(PREF_VPN_UIDS, "");
 		final String savedUids_Lan = prefs.getString(PREF_LAN_UIDS, "");
-		final String savedUids_InputWifi = prefs.getString(PREF_INPUT_WIFI_UIDS, "");
+		final String savedUids_InputWifi = prefs.getString(
+				PREF_INPUT_WIFI_UIDS, "");
 
 		List<Integer> selected_wifi = new ArrayList<Integer>();
 		List<Integer> selected_3g = new ArrayList<Integer>();
@@ -2230,7 +2438,8 @@ public final class Api {
 					app.selected_lan = true;
 				}
 				if (!app.selected_input_wifi
-						&& Collections.binarySearch(selected_input_wifi, app.uid) >= 0) {
+						&& Collections.binarySearch(selected_input_wifi,
+								app.uid) >= 0) {
 					app.selected_input_wifi = true;
 				}
 			}
@@ -2536,7 +2745,8 @@ public final class Api {
 		final String savedUids_roaming = prefs.getString(PREF_ROAMING_UIDS, "");
 		final String savedUids_vpn = prefs.getString(PREF_VPN_UIDS, "");
 		final String savedUids_lan = prefs.getString(PREF_LAN_UIDS, "");
-		final String savedUids_input_wifi = prefs.getString(PREF_INPUT_WIFI_UIDS, "");
+		final String savedUids_input_wifi = prefs.getString(
+				PREF_INPUT_WIFI_UIDS, "");
 		final String uid_str = uid + "";
 		boolean changed = false;
 		// look for the removed application in the "wi-fi" list
@@ -2641,25 +2851,26 @@ public final class Api {
 			}
 		}
 		// look for the removed application in the input wifi list
-				if (savedUids_input_wifi.length() > 0) {
-					final StringBuilder newuids = new StringBuilder();
-					final StringTokenizer tok = new StringTokenizer(savedUids_input_wifi, "|");
-					while (tok.hasMoreTokens()) {
-						final String token = tok.nextToken();
-						if (uid_str.equals(token)) {
-							Log.d("Android Firewall", "Removing UID " + token
-									+ " from the Input Wifi list (package removed)!");
-							changed = true;
-						} else {
-							if (newuids.length() > 0)
-								newuids.append('|');
-							newuids.append(token);
-						}
-					}
-					if (changed) {
-						editor.putString(PREF_INPUT_WIFI_UIDS, newuids.toString());
-					}
+		if (savedUids_input_wifi.length() > 0) {
+			final StringBuilder newuids = new StringBuilder();
+			final StringTokenizer tok = new StringTokenizer(
+					savedUids_input_wifi, "|");
+			while (tok.hasMoreTokens()) {
+				final String token = tok.nextToken();
+				if (uid_str.equals(token)) {
+					Log.d("Android Firewall", "Removing UID " + token
+							+ " from the Input Wifi list (package removed)!");
+					changed = true;
+				} else {
+					if (newuids.length() > 0)
+						newuids.append('|');
+					newuids.append(token);
 				}
+			}
+			if (changed) {
+				editor.putString(PREF_INPUT_WIFI_UIDS, newuids.toString());
+			}
+		}
 		// if anything has changed, save the new prefs...
 		if (changed) {
 			editor.commit();
@@ -2690,7 +2901,7 @@ public final class Api {
 		boolean selected_lan;
 		// indicates if this application is selected for input chain on wifi
 		boolean selected_input_wifi;
-		
+
 		/** toString cache */
 		String tostr;
 		/** application info */
@@ -2707,7 +2918,8 @@ public final class Api {
 
 		public DroidApp(int uid, String name, boolean selected_wifi,
 				boolean selected_3g, boolean selected_roaming,
-				boolean selected_vpn, boolean selected_lan, boolean selected_input_wifi) {
+				boolean selected_vpn, boolean selected_lan,
+				boolean selected_input_wifi) {
 			this.uid = uid;
 			this.names = new ArrayList<String>();
 			this.names.add(name);
@@ -2751,7 +2963,7 @@ public final class Api {
 														// address
 		private HashMap<String, Integer> srcBlocked;
 		private HashMap<String, Integer> dptBlocked;
-		
+
 		private LogInfo() {
 			this.dstBlocked = new HashMap<String, Integer>();
 			this.srcBlocked = new HashMap<String, Integer>();

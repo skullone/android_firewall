@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +45,8 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 public class UserSettings extends SherlockPreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 
+	boolean oldAndroid;
+	
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		SharedPreferences prefs = PreferenceManager
@@ -52,9 +55,18 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		Api.changeLanguage(getApplicationContext(), language);
 		super.onCreate(savedInstanceState);
 		boolean istablet = getResources().getBoolean(R.bool.isTablet);
+		oldAndroid = false;
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			oldAndroid = true;
+		}
 		addPreferencesFromResource(R.xml.user_settings);
 		if (!istablet) {
 			CheckBoxPreference checkbox = (CheckBoxPreference) findPreference("multiuser");
+			PreferenceCategory category = (PreferenceCategory) findPreference("prefcat");
+			category.removePreference(checkbox);
+		}
+		if (oldAndroid == true){
+			CheckBoxPreference checkbox = (CheckBoxPreference) findPreference("inputenabled");
 			PreferenceCategory category = (PreferenceCategory) findPreference("prefcat");
 			category.removePreference(checkbox);
 		}
