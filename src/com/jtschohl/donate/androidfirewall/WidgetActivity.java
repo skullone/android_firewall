@@ -440,6 +440,22 @@ public class WidgetActivity extends Activity implements OnClickListener {
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
+		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false);
+		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_VPNENABLED, false);
+		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ROAMENABLED, false);
+		boolean lanenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LANENABLED, false);
+		boolean autorules = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_AUTORULES, false);
+		boolean tetherenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TETHER, false);
+		boolean multiuserenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_MULTIUSER, false);
+		boolean inputenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_INPUTENABLED, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -468,6 +484,62 @@ public class WidgetActivity extends Activity implements OnClickListener {
 			editor.putBoolean("taskertoastenabled", false);
 			editor.commit();
 		}
+		if (sdcard) {
+			editor.putBoolean("sdcard", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("sdcard", false);
+			editor.commit();
+		}
+		if (vpnenabled) {
+			editor.putBoolean("vpnsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("vpnsupport", false);
+			editor.commit();
+		}
+		if (roamenabled) {
+			editor.putBoolean("roamingsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("roamingsupport", false);
+			editor.commit();
+		}
+		if (lanenabled) {
+			editor.putBoolean("lansupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("lansupport", false);
+			editor.commit();
+		}
+		if (autorules) {
+			editor.putBoolean("connectchangerules", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("connectchangerules", false);
+			editor.commit();
+		}
+		if (tetherenabled) {
+			editor.putBoolean("tetheringsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("tetheringsupport", false);
+			editor.commit();
+		}
+		if (multiuserenabled) {
+			editor.putBoolean("multiuser", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("multiuser", false);
+			editor.commit();
+		}
+		if (inputenabled) {
+			editor.putBoolean("inputenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("inputenabled", false);
+			editor.commit();
+		}		
 	}
 
 	@Override

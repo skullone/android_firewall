@@ -30,17 +30,23 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceActivity;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-public class UserSettings extends PreferenceActivity implements
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+
+public class UserSettings extends SherlockPreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 
+	boolean oldAndroid;
+	
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		SharedPreferences prefs = PreferenceManager
@@ -48,25 +54,38 @@ public class UserSettings extends PreferenceActivity implements
 		String language = prefs.getString("locale", "en");
 		Api.changeLanguage(getApplicationContext(), language);
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.layout.user_settings);
-
+		boolean istablet = getResources().getBoolean(R.bool.isTablet);
+		oldAndroid = false;
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			oldAndroid = true;
+		}
+		addPreferencesFromResource(R.xml.user_settings);
+		if (!istablet) {
+			CheckBoxPreference checkbox = (CheckBoxPreference) findPreference("multiuser");
+			PreferenceCategory category = (PreferenceCategory) findPreference("prefcat");
+			category.removePreference(checkbox);
+		}
+		if (oldAndroid == true){
+			CheckBoxPreference checkbox = (CheckBoxPreference) findPreference("inputenabled");
+			PreferenceCategory category = (PreferenceCategory) findPreference("prefcat");
+			category.removePreference(checkbox);
+		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		super.onResume();
 		// Set up a listener whenever a key changes
-		getPreferenceScreen().getSharedPreferences()
+		PreferenceManager.getDefaultSharedPreferences(this)
 				.registerOnSharedPreferenceChangeListener(this);
+
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onPause() {
 		super.onPause();
 		// Unregister the listener whenever a key changes
-		getPreferenceScreen().getSharedPreferences()
+		PreferenceManager.getDefaultSharedPreferences(this)
 				.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
@@ -120,6 +139,12 @@ public class UserSettings extends PreferenceActivity implements
 		if (key.equals("tetheringsupport")) {
 			toggleTetherenabled();
 		}
+		if (key.equals("multiuser")) {
+			toggleMultiuserEnabled();
+		}
+		if (key.equals("inputenabled")) {
+			toggleInputEnabled();
+		}
 	}
 
 	private void purgeIp6Rules() {
@@ -171,6 +196,24 @@ public class UserSettings extends PreferenceActivity implements
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_LOGENABLED, enabled);
 		editor.commit();
+		final String logtarget = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");
+		if (enabled && logtarget.equals("NFLOG")) {
+			Intent intent = new Intent(getApplicationContext(),
+					NflogService.class);
+			getApplicationContext().startService(intent);
+			Intent intent2 = new Intent(getApplicationContext(),
+					RootShell.class);
+			getApplicationContext().startService(intent2);
+		}
+		if (!enabled && logtarget.equals("NFLOG")) {
+			Intent intent = new Intent(getApplicationContext(),
+					NflogService.class);
+			getApplicationContext().stopService(intent);
+			Intent intent2 = new Intent(getApplicationContext(),
+					RootShell.class);
+			getApplicationContext().stopService(intent2);
+		}
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
 		}
@@ -278,6 +321,37 @@ public class UserSettings extends PreferenceActivity implements
 		}
 	}
 
+	/**
+	 * Toggle Multi-user support on/off
+	 */
+	private void toggleMultiuserEnabled() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean enabled = !prefs.getBoolean(Api.PREF_MULTIUSER, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_MULTIUSER, enabled);
+		editor.commit();
+		editor.putString(Api.PREF_MODE, Api.MODE_BLACKLIST);
+		editor.commit();
+		if (enabled) {
+			Toast.makeText(getApplicationContext(), R.string.multiuser_enabled,
+					Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	/**
+	 * Toggle INPUT chain support on/off
+	 */
+	private void toggleInputEnabled() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		boolean enabled = !prefs.getBoolean(Api.PREF_INPUTENABLED, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_INPUTENABLED, enabled);
+		editor.commit();
+		if (Api.isEnabled(this)) {
+			Api.applySavedIptablesRules(this, true);
+		}
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -290,8 +364,7 @@ public class UserSettings extends PreferenceActivity implements
 	 * Set the activity result to RESULT_OK and terminate this activity.
 	 */
 	private void resultOk() {
-		// final Intent response = new Intent(Api.PREF_PROFILES);
-		// setResult(RESULT_OK, response);
 		finish();
 	}
+
 }

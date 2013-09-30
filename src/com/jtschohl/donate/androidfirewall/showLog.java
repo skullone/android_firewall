@@ -22,6 +22,7 @@
 package com.jtschohl.donate.androidfirewall;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,16 +30,46 @@ import android.widget.TextView;
 
 public class showLog extends Activity {
 
+	protected String dataText;
+
+	protected void setData(String data) {
+		this.dataText = data;
+		TextView text = (TextView) findViewById(R.id.showlogs);
+		text.setText(data);
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.logs_layout);
-		String logs = Api.showLog(getApplicationContext());
-		TextView text = (TextView) findViewById(R.id.showlogs);
-		Log.d(logs, "debugaf");
-		text.setText(logs);
+
+		final String logtarget = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");
+		if (logtarget.equals("LOG")) {
+			String logs = Api.showLog(getApplicationContext());
+			TextView text = (TextView) findViewById(R.id.showlogs);
+			Log.d(logs, "debugaf");
+			text.setText(logs);
+		}
+		if (logtarget.equals("NFLOG")){
+			setData("");
+	        populateData(this);
+		}
 	}
 
+	protected void parseAndSet(Context ctx, String raw){
+		String logstring = Api.parseLog(ctx, raw);
+		if (logstring == null){
+			setData(getString(R.string.log_parse_error));
+		} else {
+			setData(logstring);
+		}
+	}
+	
+	protected void populateData(final Context ctx) {
+			parseAndSet(ctx, NflogService.fetchLogs());
+			return;
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {

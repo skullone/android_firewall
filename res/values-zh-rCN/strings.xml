@@ -26,10 +26,10 @@
     <string name="log_cleared">日志已清除</string>
     <string name="show_log">显示日志</string>
     <string name="clear_log">清除日志</string>
-    <string name="applying_rules">应用iptables规则。</string>
+    <string name="applying_rules">应用 iptables 规则。</string>
     <string name="applyingipv6_rules">应用 ip6tables 规则。</string>
-    <string name="saving_rules">保存iptables规则。</string>
-    <string name="deleting_rules">删除iptables规则。</string>
+    <string name="saving_rules">保存 iptables 规则。</string>
+    <string name="deleting_rules">删除 iptables 规则。</string>
     <string name="rules_applied">规则应用成功</string>
     <string name="rules_saved">规则保存成功</string>
     <string name="rules_deleted">规则删除成功</string>
@@ -55,7 +55,8 @@
     <string name="custom_script_defined">自定义脚本已定义</string>
     <string name="custom_script_removed">自定义脚本已删除</string>
     <string name="custom_script_error">保存自定义脚本时出错</string>
-    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.</string>
+    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
+</string>
     <string name="custom_script2_info">    	\n<b>自定义禁用脚本</b>    	\n在防火墙<b>被禁用</b>时执行的脚本：</string>
     <string name="unsaved_changes">未保存更改</string>
     <string name="unsaved_changes_message">有未保存更改。\n你想保存还是丢弃它们？</string>
@@ -115,8 +116,6 @@
     <string name="tasker_profile_disabled">计划任务已将防火墙关闭！</string>
     <string name="search_name">搜索应用</string>
     <string name="profilenames">编辑配置名</string>
-    <string name="vpn_enabled">已启用 VPN 支持</string>
-    <string name="vpn_disabled">已禁用 VPN 支持</string>
     <string name="vpn_title">VPN 支持</string>
     <string name="vpn">VPN</string>
     <string name="roaming_title">漫游支持</string>
@@ -136,139 +135,190 @@
     <string name="no_storage">打开 Android Firewall 目录出错。请先检查您的SD卡是否已挂载或外部存储是否可以用。</string>
     <string name="file_deleted">文件已被删除。</string>
     <string name="widget_fail">无法禁用防火墙，因为设置了密码保护</string>
+    <string name="error_no_root">Android Firewall 未取得root权限！</string>
+    <string name="languageSupport">语言</string>
     <string name="simplewidget">开关部件</string>
     <string name="statuswidget">菜单部件</string>
-    <string name="sdcard_title">Apps on SDCard Support</string>
-    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
+    <string name="sdcard_title">Apps on SDCard 支持</string>
+    <string name="sdcard_summary">此选项让应用在重启后应用规则之前等待SD卡扫描完成。如果有些应用需要访问数据，并且您已经把它们移动到SD卡上，则该选项是必需的。请注意访选项将增加重启后应用规则的时间。</string>
+    <string name="log_empty">日志为空</string>
+    <string name="log_title">防火墙日志</string>
+    <string name="usage_help">使用方法</string>
+    <string name="rules_help">规则管理</string>
+    <string name="profiles_help">配置帮助</string>
+    <string name="about_help">关于</string>
+    <string name="drawer_open">打开导航抽屉</string>
+    <string name="drawer_close">关闭导航抽屉</string>
     <string name="lan">LAN</string>
-    <string name="lan_summary">This setting enables or disables LAN support.  This allows an app access to your LAN but not the Internet.</string>
-    <string name="lan_title">LAN Support</string>
-    <string name="select_mode">Select mode:</string>
-    <string name="delete_rules_yes">Yes</string>
-    <string name="delete_rules_no">No</string>
-    <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
-    <string name="rules_file_deleted">The file has been deleted.</string>
-    <string name="version_about">Version:</string>
-    <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
-\n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
-\n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
-\nThe rules will be saved and automatically restored when you restart your phone.
-\nIf you want to check all current iptables rules, select <b>Show rules</b> from the Navigation Drawer.
+    <string name="lan_summary">此选项启用或禁用 LAN 支持。允许一个应用程序能访问LAN（局域网）而不能访问互联网。</string>
+    <string name="lan_title">LAN 支持</string>
+    <string name="select_mode">选择模式：</string>
+    <string name="delete_rules_yes">是</string>
+    <string name="delete_rules_no">否</string>
+    <string name="no_rules_files">访问 androidfirewall 文件夹时发生错误。请先导出一个规则文件。</string>
+    <string name="rules_file_deleted">文件已被删除。</string>
+    <string name="version_about">版本：</string>
+    <string name="connectchangerules_summary">启用该选项将在每次数据，WiFi，漫游或LAN连接改变时应用防火墙规则。该选项需要启用LAN支持。在旧设备上启用该选项可能会有性能问题。</string>
+    <string name="connectchangerules_title">自动防火墙规则</string>
+    <string name="system_iptables">系统iptables</string>
+    <string name="included_iptables">自带iptables</string>
+    <string name="iptables_title">iptables二进制文件</string>
+    <string name="ipv6_unavailable">IPv6 支持在您的设备上不可用。</string>
+    <string name="tether_summary">启用该选项将允许您分享互联网连接给其它设备。</string>
+    <string name="tether_title">网络共享支持</string>
+    <string name="log_fetch_error">无法获取日志</string>
+    <string name="log_parse_error">无法解析日志。</string>
+    <string name="LogAppName">程序名称</string>
+    <string name="LogPackBlock">共阻止包</string>
+    <string name="log_failed">更新日志状态出错。</string>
+    <string name="input_off_summary">启用该选项将激活iptables的INPUT链。它允许您阻止发送到您设置上的特定类型通讯包。</string>
+    <string name="input_on_summary">禁用用该选项将禁用iptables的INPUT链。</string>
+    <string name="input_title">INPUT 链</string>
+    <string name="input_options_title">INPUT 链设置</string>
+    <string name="settings_title">程序设置</string>
+    <string name="multiuser_summary">启用该选项将解锁多用户支持。多用户支持<b><i>需要</i></b>让<b><i>所有用户</i></b>使用黑名单。多用户也需要 Android 4.1 或更新版本。手机不支持多用户。</string>
+    <string name="multiuser_title">多用户支持</string>
+    <string name="multiuser_enabled">多用户支持已启用。切换到黑名单。</string>
+    <string name="multiuser_disabled">多用户支持已禁用，您不是主账户。请先在所有账户下启用多用户支持。</string>
+    <string name="input_wifi">INPUT 链</string>
+    <string name="dst_ip">目标IP</string>
+    <string name="src_ip">来源IP</string>
+    <string name="dst_port">目标Port</string>
+    <string name="help_usage"><b>使用 Android Firewall</b>\n<b>1.</b> 点击 <b>模式</b> 在 <i>白名单</i> 和 <i>黑名单</i> 模式间切换。
+\n<b>2.</b> 标记您想要阻止或允许的应用程序（取决于已选择的模式），每个网络接口单独设置。
+\n<b>3.</b> 打开菜单并启用防火墙。如果防火墙已经启用，只需要点击 <b>应用规则</b>。
+\n规则将被保存，并在每次重启设备后自动恢复。
+\n如果您想要检查当前 iptables 的所有规则，请点击导航抽屉中的 <b>显示规则</b>。
 \n
-\n<b>Widgets</b>\nTo quickly enable or disable the firewall with a single touch, add the On/Off Widget to your home screen.
-\nTo quickly change profiles or enable/disable the firewall, add the Menu Widget to your home screen.
+\n<b>小部件</b>\n如果想快速启用或禁用防火墙，那么添加开关小部件到您的主屏幕上。
+\n如果想快速切换配置或启用/禁用防火墙，那么添加菜单小部件到您的主屏幕上。
 \n
-\n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
-\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer.
+\n<b>防火墙日志</b>\n如果您想查看哪些应用程序被 Android Firewall 阻止，打开 <i>设置</i> 菜单并启用日志。
+\nAndroid Firewall 将记录每一条应用阻止日志。您可以在导航抽屉中打开菜单并点击 <b>显示日志</b>。
 \n
-\n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
-\nTo remove the password protection, just reset it to blank.
+\n<b>密码锁定</b>\n您可以使用导航抽屉中的 <b>设置密码</b> 选项来为 Android Firewall 设置密码保护。
+\n要移除密码保护，密码放空即可。
 \n
-\n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
+\n<b>应用搜索</b>\n您可以在下拉列表旁边的搜索框中输入应用程序名称中的几个字母来搜索指定应用。
 \n
-\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
+\n<b>支持的接口</b>\n除了经典的WiFi和数据接口，现在也支持其它接口。有VPN，漫游，和LAN。可在 <i>Settings</i> 中启用。
 \n
-\n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
-\n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
-\n<i>LAN support</i> allows apps to access LAN data but not the Internet.
+\n<i>VPN 支持</i> 允许应用程序仅在连接到VPN时访问网络。
+\n<i>漫游 支持</i> 允许应用程序在漫游时访问网络。
+\n<i>LAN 支持</i> 允许应用程序访问局域网而无法访问互联网。
 \n
-\n<b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
-\nNotifications from Tasker stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
+\n<b>注意：</b><i>自动防火墙规则与LAN支持</i> 需要访问网络权限与访问WiFi状态权限来访问每个接口的子网和LAN地址信息。<b>Android Firewall</b>不会传送数据或访问网络。
 \n
-\n<b>Other settings</b>\n
-\nIPv6 support is available under <i>Settings</i> for those who use IPv6.
-\nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
-\nSDcard support for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n<i>网络共享 支持</i> 允许您共享设备网络连接给便携电脑/平板/手机，而不用禁用防火墙。这是改进的新功能，不再需要允许"apps that run as root"和"kernel"。该设置现在也支持蓝牙网络共享。
 \n
-\n<b>Information</b>\n
-\n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n<b>Tasker/Locale 支持</b>\n<i>Android Firewall</i> 包含 Tasker 和 Locale 插件。该插件允许这两个程序根据变量启用或禁用防火墙，切换配置。更多信息请阅读配置帮助下的Tasker介绍。
+\nTasker 改变防火墙状态时通知默认被禁用。可在 <i>设置</i> 中启用。
 \n
-\n<i>Tethering</i> requires <b>(root) - applications running as root</b> and <b>Kernel</b>.  Please use your profiles to quickly enable/disable those rules.</string>
-    <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
-        \nAll user preferences are stored in the rules file so when you export a rules file you also save your Settings like notification support, log enabled, IPv6 support, and the rest.  These files are used to create your profiles as well.
+\n<b>多用户 支持</b>\n<i>Android Firewall</i>在平板上支持多用户。多用户支持目前需要您使用黑名单并在设置中启用。多用户支持为每个用户使用独立的IPTABLES链，每个用户都能控制网络访问。  
 \n
-\n<b>Export Rules</b> exports your current rules and settings.
-\n<b>Import Rules</b> imports rules and settings from a file.
-\n<b>Manage Rule Files</b> allows you to delete rules files.
+\n<b>INPUT链 支持</b>\n<i>Android Firewall</i> 支持INPUT链。 INPUT链用于阻止外部向内的通讯。<i>Android Firewall</i>中INPUT链与OUTPUT链的工作方式有些不同。INPUT链同时应用到WiFi和数据连接，因为无法应用规则到指定的接口。INPUT链在黑名单和白名单下都能工作，与OUTPUT链相同。因为旧内核的限制，INPUT 链仅支持Android 4.x。
 \n
-\n<i><b>Instructions</b></i>\n
-\n<b>Export Rules</b>	\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Export Rules</i>.
-\n3.  Enter a name for the export files.
-\n4.  Touch OK to save the file.
+\n<b>其它设置</b>\n
+\nIPv6 支持在 <i>设置</i> 中，为 IPv6 用户准备。
+\n用户可以在 <i>设置</i> 中切换应用程序语言为支持的某一种语言。
+\n<i>SDcard 支持</i>为移动应用到SDcard的用户提供 SDcard 支持。请在启用前阅读设置描述。
 \n
-\nThe file is stored on whatever your device considers its external storage in a folder named <i>androidfirewall</i>.  The file name is the user entered name and \'_af.rules\' appended to the end.
+\n<i>x86 支持</i> 可在使用Intel处理器的设备上使用。 
 \n
-\n<b>Import Rules</b>	\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Import Rules</i>.
-\n3.  Touch the rules file you want to import.
+\n<b>信息</b>\n
+\n<i>YouTube</i> 正常使用 <b>需要</b><i>媒体服务器</i>。
+\n</string>
+    <string name="help_rules"><i>规则管理</i> 可以导出，导入和删除规则文件。\n  
+        \n所有用户配置都保存在规则文件中，当您导出规则文件时您同时保存了您的设置，例如通知支持，启用日志，IPv6 支持等。这些文件也能用于创建您的配置。
 \n
-\nAfter you touch the rules file you want to import, the data is imported and firewall settings are changed and rules applied.
+\n<b>导出规则</b> 导出您当前的规则和设置。
+\n<b>导入规则</b> 从文件中导入规则和设置。
+\n<b>管理规则文件</b> 可以删除规则文件。
 \n
-\n<b>Manage Rule Files</b>	\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Manage Rule Files</i>.
-\n3.  Touch the rules file you want to delete.
-\n4.  You will receive a dialog box to confirm the deletion.
-\n5.  Touch \'No\' or \'Yes\'.  
+\n<i><b>说明</b></i>\n
+\n<b>导出规则</b>	\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>导出规则</i>。
+\n3.  输入以导出文件名称。
+\n4.  点击确定保存文件。
 \n
-\nIf you touch \'Yes\' the rules file is deleted.</string>
-    <string name="help_profiles"><i>Profiles</i> are used to quickly change the firewall rules and settings.  This is a very powerful tool as you may want a totally different set of rules depending on where you are or what network you are on.  For example, when at work your rules may be very different compared to when you are home.
+\n该文件保存在您设备的外置存储的 <i>androidfirewall</i> 文件夹中。文件名为 用户输入的名称+\'_af.rules\'。
 \n
-\nProfiles are created from rules files that you have exported so you can swap between them quickly and easily if you ever need more than 5 profiles.\n
-\n<b>Create Profile</b> allows you to choose a rules file and assign those rules and settings to a profile.
-\n<b>Load Profile</b> allows you to apply a profile.
-\n<b>Edit Profile Names</b> allows you to edit the names of the profiles in order to make it easier to remember what profile does what.
+\n<b>导入规则</b>	\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>导入规则</i>。
+\n3.  选择您想要导入的规则文件。
 \n
-\nYou can swap profiles in a variety of different ways:
+\n在导入选择的规则文件后，数据和设置被导入，规则被应用。
 \n
-\n<b>1.</b> Manually load a profile by using Load Profile.
-\n<b>2.</b> Load a profile by using the dropdown spinner on the main app screen.
-\n<b>3.</b> Use an app like Tasker or Locale to automatically change the profile based on time, location, or some other variable you choose.
-\n<b>4.</b> Use the <i>Menu Widget</i> to quickly change profiles from your homescreen.
+\n<b>管理规则文件</b>	\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>管理规则文件</i>。
+\n3.  点击您想要删除的规则文件。
+\n4.  弹出确认窗口询问是否删除。
+\n5.  点击 \'否\' 或 \'是\'。
 \n
-\n<i><b>Instructions</b></i>\n
-\n<b>Create Profile</b>\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Create Profile</i>.
-\n3.  Touch the profile you wish to create.
-\n4.  Touch the rules file you want assigned to that profile.
-\n5.  Touch another profile if you want to assign another rules files otherwise hit the back key.
+\n如果您点击 \'是\'，规则文件将被删除。</string>
+    <string name="help_profiles"><i>配置</i> 可以快速切换防火墙规则和设置。当您想根据所在位置或网络来使用不同的规则时非常有用。例如，工作和在家的规则不同。
 \n
-\n<b>Load Profile</b>\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Load Profile</i>.
-\n3.  Touch the profile you wish to apply.
+\n配置从您导出的规则文件中创建，您可以在它们之间快速切换，也可以支持5个以上配置。\n
+\n<b>创建规则</b> 允许您选择规则文件并分配规则和设置给某个配置。
+\n<b>加载配置</b> 允许您应用配置。
+\n<b>编辑配置名</b> 允许您编辑配置的名称，更容易记住配置的作用。
 \n
-\n<b>Edit Profile Names</b>\n
-\n1.  Swipe left to open the Navigation Drawer.
-\n2.  Touch <i>Edit Profile Names</i>.
-\n3.  Touch the profile you want to rename.
-\n4.  Enter the name for the profile and touch \'OK\'.
-\n5.  Continue modifying the names otherwise hit the back key.
+\n您可以用几种方式切换配置；
 \n
-\n<b>Using the Spinner</b>\n
-\n1.  Touch the spinner and a drop down with all the profiles appears.
-\n2.  Touch the profile you wish to load.
+\n<b>1.</b> 使用 加载配置 手工加载配置。
+\n<b>2.</b> 在应用程序主界面使用下拉列表加载配置。
+\n<b>3.</b> 使用 Tasker 或 Locale 根据时间，位置或其它您选择的变量自动切换配置。
+\n<b>4.</b> 使用 <i>菜单小部件</i> 在主屏幕上快速切换配置。
 \n
-\n<b>Using Tasker</b>\n
-\n1.  Open Tasker.
-\n2.  Touch the \'+\' and select the \'First Context\' for what will cause the profile change.
-\n3.  After you done setting up your context you will be prompted to \'Enter Task\'.
-\n4.  Enter a name for the task if you desire then touch the checkmark.
-\n5.  Touch the \'+\' and a \'Select Action Category\' screen appears.
-\n6.  Touch \'Plugin\'.
-\n7.  Touch <i>Android Firewall</i>.
-\n8.  Touch the \'Edit\' button.
-\n9.  Select which profile you want Tasker to apply.
-\n10.  Hit the back key once. You may now test the Tasker profile by touching the \'Play\' button in the bottom left corner.</string>
-    <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n    <i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
-		It allows you to restrict which applications are permitted to access your data networks.\n
-		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.\n
+\n<i><b>说明</b></i>\n
+\n<b>创建配置</b>\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>创建配置</i>。
+\n3.  点击您想要创建的配置。
+\n4.  点击您想分配到该配置的规则文件。
+\n5.  如果想为其它配置分配规则文件则点击其它的配置或者点击 返回 完成。
+\n
+\n<b>加载配置</b>\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>加载配置</i>。
+\n3.  点击您想要应用的配置。
+\n
+\n<b>编辑配置名</b>\n
+\n1.  从屏幕左边向右滑动打开导航抽屉。
+\n2.  点击 <i>编辑配置名</i>.
+\n3.  点击您想要重命名的配置。
+\n4.  输入配置名称并点击 \'确定\'。
+\n5.  继续修改名称或点击 返回 完成。
+\n
+\n<b>使用下拉列表</b>\n
+\n1.  点击下拉列表，将显示所有配置的下拉菜单。
+\n2.  点击您想要加载的配置。
+\n
+\n<b>使用 Tasker</b>\n
+\n1.  打开 Tasker。
+\n2.  点击 \'+\' 并选择引起配置变化的\'首要条件\'。
+\n3.  在设置完条件后将提示您配置\'进入任务\'。
+\n4.  输入任务名称并点击钩号。
+\n5.  点击 \'+\' 就会出现 \'选择操作类别\'窗口。
+\n6.  点击 \'插件\'。
+\n7.  点击 <i>Android Firewall</i>。
+\n8.  点击 \'编辑\' 按钮。
+\n9.  选择您希望 Tasker 应用的配置。
+\n10.  点击一次返回。您现在就可以点击 左下角的\'播放\' 按钮来测试 Tasker 的配置。</string>
+    <string name="help_dialog_text"><i>作者: Jason Tschohl.  原作者: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
+		\n    <i>Android Firewall</i> 是 <i>DroidWall</i> 的分支，是强大的 <b>iptables</b> Linux 防火墙的前端程序。
+		它允许您限定哪些应用程序可以访问数据网络。\n
+		\n如果您没有不限流量的数据套餐，或您关注隐私，本应用是一个完美的解决方案。\n
 		\n
-		\n  </string>
+		\n<i>Android Firewall</i> 是使用 <b>GPL v3</b> 的开源项目。  
+		\n
+		\n如果您想帮助翻译<i>Android Firewall</i>，请访问Crowdin网站：
+		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
+		\n
+		\n使用的库:
+		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
 
 </resources>

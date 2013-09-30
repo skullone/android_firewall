@@ -2,6 +2,7 @@ This is a fork of the Droidwall application.  The original code is located here:
 
 Changelog:
 
+2.3.1 - INPUT Chain support added.  Multi-user support for tablets added.  Please read the Help section about Multi-user for more information.  Fix for bug where app would sometimes crash on start up.  Fixed crash for some devices due to missing Access Wifi State permission when using LAN support.  Devices that use NFLOG for logging will no longer show empty logs. Thanks to Mr. Cernekee and Mr. Chandran for that fix.  Thanks to Alex for fixing the Select All functionality. Logs now show Source IP, Destination IP, and Destination port.
 2.3.0 - Updated translations for Vietnamese (Thanks alienyd!) and Japanese (Thanks Hiroki Ogawa!).  Logging code updated to use LOG instead of NLFOG if both are available.  This should fix those who had working logs and now do not have working logs. Change how NFLOG/LOG info is pulled as grep was not working correctly on some devices. Fixed issue with new busybox binary not working correctly with some devices.
 2.2.9 - Added even more logic to prevent logging from not adding the reject rule.  My apologies for the inconvenience.
 2.2.8 - Fix for minor UI issue (extra line to right of drawer) with nav drawer. Fix for issue where logs would prevent reject rule from being applied. Fix for issue where LAN support would cause rules to not apply.

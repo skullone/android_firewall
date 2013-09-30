@@ -19,6 +19,7 @@
  * @author Kevin Cernekee
  * 
  * Many thanks to Mr. Cernekee for this
+ * https://github.com/ukanth/afwall/blob/master/srv/dev/ukanth/ufirewall/RootShell.java
  * 
  * @version 1.0
  */
@@ -40,14 +41,18 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 import eu.chainfire.libsuperuser.Shell;
 
-public class RootShell {
+public class RootShell extends Service {
 
-	public static final String TAG = "[Android Firewall]";
+	public static final String TAG = "{AF}";
 
 	/* write command completion times to logcat */
 	private static final boolean enableProfiling = false;
@@ -60,6 +65,8 @@ public class RootShell {
 	private final static int STATE_BUSY = 2;
 	private final static int STATE_FAILED = 3;
 	private static int rootState = STATE_INIT;
+
+	private final static int MAX_RETRIES = 10;
 
 	private static LinkedList<RootCommand> waitQueue = new LinkedList<RootCommand>();
 
@@ -74,10 +81,12 @@ public class RootShell {
 		private int successToast = NO_TOAST;
 		private int failureToast = NO_TOAST;
 		private boolean reopenShell = false;
+		private int retryExitCode = -1;
 
 		private int commandIndex;
 		private boolean ignoreExitCode;
 		private Date startTime;
+		private int retryCount;
 
 		public StringBuilder res;
 		public String lastCommand;
@@ -96,7 +105,8 @@ public class RootShell {
 		/**
 		 * Set callback to run after command completion
 		 * 
-		 * @param cb Callback object, with cbFunc() populated
+		 * @param cb
+		 *            Callback object, with cbFunc() populated
 		 * @return RootCommand builder object
 		 */
 		public RootCommand setCallback(Callback cb) {
@@ -107,7 +117,8 @@ public class RootShell {
 		/**
 		 * Tell RootShell to display a toast message on success
 		 * 
-		 * @param resId Resource ID of the toast string
+		 * @param resId
+		 *            Resource ID of the toast string
 		 * @return RootCommand builder object
 		 */
 		public RootCommand setSuccessToast(int resId) {
@@ -118,7 +129,8 @@ public class RootShell {
 		/**
 		 * Tell RootShell to display a toast message on failure
 		 * 
-		 * @param resId Resource ID of the toast string
+		 * @param resId
+		 *            Resource ID of the toast string
 		 * @return RootCommand builder object
 		 */
 		public RootCommand setFailureToast(int resId) {
@@ -127,11 +139,12 @@ public class RootShell {
 		}
 
 		/**
-		 * Tell RootShell whether or not it should try to open a new root shell if the last attempt
-		 * died.  To avoid "thrashing" it might be best to only try this in response to a user
-		 * request 
+		 * Tell RootShell whether or not it should try to open a new root shell
+		 * if the last attempt died. To avoid "thrashing" it might be best to
+		 * only try this in response to a user request
 		 * 
-		 * @param reopenShell true to attempt reopening a failed shell
+		 * @param reopenShell
+		 *            true to attempt reopening a failed shell
 		 * @return RootCommand builder object
 		 */
 		public RootCommand setReopenShell(boolean reopenShell) {
@@ -142,7 +155,8 @@ public class RootShell {
 		/**
 		 * Capture the command output in this.res
 		 * 
-		 * @param enableLog true to enable logging
+		 * @param enableLog
+		 *            true to enable logging
 		 * @return RootCommand builder object
 		 */
 		public RootCommand setLogging(boolean enableLog) {
@@ -155,11 +169,26 @@ public class RootShell {
 		}
 
 		/**
+		 * Retry a failed command on a specific exit code
+		 * 
+		 * @param retryExitCode
+		 *            code that indicates a transient failure
+		 * @return RootCommand builder object
+		 */
+		public RootCommand setRetryExitCode(int retryExitCode) {
+			this.retryExitCode = retryExitCode;
+			return this;
+		}
+
+		/**
 		 * Run a series of commands as root; call cb.cbFunc() when complete
-		 *
-		 * @param ctx Context object used to create toasts
-		 * @param script List of commands to run as root
-		 * @param state RootCommand object containing callback function
+		 * 
+		 * @param ctx
+		 *            Context object used to create toasts
+		 * @param script
+		 *            List of commands to run as root
+		 * @param state
+		 *            RootCommand object containing callback function
 		 */
 		public final void run(Context ctx, List<String> script) {
 			RootShell.runScriptAsRoot(ctx, script, this);
@@ -167,10 +196,13 @@ public class RootShell {
 
 		/**
 		 * Run a single command as root; call cb.cbFunc() when complete
-		 *
-		 * @param ctx Context object used to create toasts
-		 * @param cmd Command to run as root
-		 * @param state RootCommand object containing callback function
+		 * 
+		 * @param ctx
+		 *            Context object used to create toasts
+		 * @param cmd
+		 *            Command to run as root
+		 * @param state
+		 *            RootCommand object containing callback function
 		 */
 		public final void run(Context ctx, String cmd) {
 			List<String> script = new ArrayList<String>();
@@ -181,8 +213,10 @@ public class RootShell {
 
 	private static void complete(RootCommand state, int exitCode) {
 		if (enableProfiling) {
-			Log.d(TAG, "RootShell: " + state.script.size() + " commands completed in " +
-					(new Date().getTime() - state.startTime.getTime()) + " ms");
+			Log.d(TAG, "RootShell: " + state.script.size()
+					+ " commands completed in "
+					+ (new Date().getTime() - state.startTime.getTime())
+					+ " ms");
 		}
 
 		state.exitCode = exitCode;
@@ -192,9 +226,11 @@ public class RootShell {
 		}
 
 		if (exitCode == 0 && state.successToast != NO_TOAST) {
-			Toast.makeText(mContext, mContext.getString(state.successToast), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getString(state.successToast),
+					Toast.LENGTH_SHORT).show();
 		} else if (exitCode != 0 && state.failureToast != NO_TOAST) {
-			Toast.makeText(mContext, mContext.getString(state.failureToast), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getString(state.failureToast),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -243,6 +279,7 @@ public class RootShell {
 			@Override
 			public void onCommandResult(int commandCode, int exitCode,
 					List<String> output) {
+
 				ListIterator<String> iter = output.listIterator();
 				while (iter.hasNext()) {
 					String line = iter.next();
@@ -254,17 +291,32 @@ public class RootShell {
 					}
 				}
 
+				if (exitCode >= 0 && exitCode == state.retryExitCode
+						&& state.retryCount < MAX_RETRIES) {
+					state.retryCount++;
+					Log.d(TAG, "command '" + state.lastCommand
+							+ "' exited with status " + exitCode
+							+ ", retrying (attempt " + state.retryCount + "/"
+							+ MAX_RETRIES + ")");
+					submitNextCommand(state);
+					return;
+				}
+
 				state.commandIndex++;
+				state.retryCount = 0;
+
 				boolean errorExit = exitCode != 0 && !state.ignoreExitCode;
 				if (state.commandIndex >= state.script.size() || errorExit) {
 					complete(state, exitCode);
 					if (exitCode < 0) {
 						rootState = STATE_FAILED;
-						Log.e(TAG, "libsuperuser error " + exitCode + " on command '" + state.lastCommand + "'");
+						Log.e(TAG, "libsuperuser error " + exitCode
+								+ " on command '" + state.lastCommand + "'");
 					} else {
 						if (errorExit) {
-							Log.i(TAG, "command '" + state.lastCommand + "' exited with status " + exitCode +
-									"\nOutput:\n" + state.lastCommandResult);
+							Log.i(TAG, "command '" + state.lastCommand
+									+ "' exited with status " + exitCode
+									+ "\nOutput:\n" + state.lastCommandResult);
 						}
 						rootState = STATE_READY;
 					}
@@ -278,15 +330,14 @@ public class RootShell {
 
 	private static void startShellInBackground() {
 		Log.d(TAG, "Starting root shell...");
-		rootSession = new Shell.Builder().
-				useSU().
-				setWantSTDERR(true).
-				setWatchdogTimeout(0).
-				setMinimalLogging(true).
-				open(new Shell.OnCommandResultListener() {
-					public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+		rootSession = new Shell.Builder().useSU().setWantSTDERR(true)
+				.setWatchdogTimeout(5).setMinimalLogging(true)
+				.open(new Shell.OnCommandResultListener() {
+					public void onCommandResult(int commandCode, int exitCode,
+							List<String> output) {
 						if (exitCode < 0) {
-							Log.e(TAG, "Can't open root shell: exitCode " + exitCode);
+							Log.e(TAG, "Can't open root shell: exitCode "
+									+ exitCode);
 							rootState = STATE_FAILED;
 						} else {
 							Log.d(TAG, "Root shell is open");
@@ -297,21 +348,30 @@ public class RootShell {
 				});
 	}
 
-	private static void runScriptAsRoot(Context ctx, List<String> script, RootCommand state) {
+	private static void runScriptAsRoot(Context ctx, List<String> script,
+			RootCommand state) {
 		state.script = script;
 		state.commandIndex = 0;
+		state.retryCount = 0;
 
 		if (mContext == null) {
 			mContext = ctx.getApplicationContext();
 		}
 
 		waitQueue.add(state);
-		if (rootState == STATE_INIT ||
-			(rootState == STATE_FAILED && state.reopenShell)) {
+		if (rootState == STATE_INIT
+				|| (rootState == STATE_FAILED && state.reopenShell)) {
 			rootState = STATE_BUSY;
 			startShellInBackground();
 		} else if (rootState != STATE_BUSY) {
 			runNextSubmission();
 		}
+	}
+
+	private final IBinder mBinder = new Binder();
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return mBinder;
 	}
 }

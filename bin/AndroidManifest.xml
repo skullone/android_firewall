@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.donate.androidfirewall"
     android:installLocation="internalOnly"
-    android:versionCode="230"
-    android:versionName="2.3.0" >
+    android:versionCode="231"
+    android:versionName="2.3.1" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -23,9 +23,9 @@
     <!-- Announces access to Superuser for added security in Koush's (ChainsDD and Chainfire to do the same) Superuser -->
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" >
     </uses-permission>
-    <!-- The following permission is needed for the new LAN support in order to access the subnets and get the address ranges -->
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <!-- The following permissions are needed for the new LAN support in order to access the subnets and get the address ranges -->
+    <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
 
     <supports-screens
         android:anyDensity="true"
@@ -71,8 +71,9 @@
 
         <service android:name="com.jtschohl.donate.androidfirewall.setRulesOnBootService" >
         </service>
-        <service android:name="com.jtschohl.donate.androidfirewall.InterfaceIntent" >
-        </service>
+        <service android:name="com.jtschohl.donate.androidfirewall.InterfaceIntent"></service>
+        <service android:name="com.jtschohl.donate.androidfirewall.RootShell"></service>
+        <service android:name="com.jtschohl.donate.androidfirewall.NflogService"></service>
 
         <receiver
             android:name="BootBroadcast"
@@ -91,7 +92,7 @@
                 </data>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.jtschohl.donate.androidfirewall.CheckForChangeToRoaming" >
+        <receiver android:name="com.jtschohl.donate.androidfirewall.CheckForIfaceChange" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

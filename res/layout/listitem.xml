@@ -50,6 +50,14 @@
         android:padding="0px"
         android:visibility="gone" >
     </CheckBox>
+    
+    <CheckBox
+        android:id="@+id/itemcheck_input_wifi"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:padding="0px"
+        android:visibility="gone" >
+    </CheckBox>
 
     <TextView
         android:id="@+id/itemtext"

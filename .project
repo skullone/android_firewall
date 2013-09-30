@@ -3,6 +3,7 @@
 	<name>com.jtschohl.donate.androidfirewall</name>
 	<comment></comment>
 	<projects>
+		<project>actionbarsherlock</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
