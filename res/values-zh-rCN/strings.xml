@@ -216,7 +216,7 @@
 \n
 \n<b>多用户 支持</b>\n<i>Android Firewall</i>在平板上支持多用户。多用户支持目前需要您使用黑名单并在设置中启用。多用户支持为每个用户使用独立的IPTABLES链，每个用户都能控制网络访问。  
 \n
-\n<b>INPUT链 支持</b>\n<i>Android Firewall</i> 支持INPUT链。 INPUT链用于阻止外部向内的通讯。<i>Android Firewall</i>中INPUT链与OUTPUT链的工作方式有些不同。INPUT链同时应用到WiFi和数据连接，因为无法应用规则到指定的接口。INPUT链在黑名单和白名单下都能工作，与OUTPUT链相同。  
+\n<b>INPUT链 支持</b>\n<i>Android Firewall</i> 支持INPUT链。 INPUT链用于阻止外部向内的通讯。<i>Android Firewall</i>中INPUT链与OUTPUT链的工作方式有些不同。INPUT链同时应用到WiFi和数据连接，因为无法应用规则到指定的接口。INPUT链在黑名单和白名单下都能工作，与OUTPUT链相同。因为旧内核的限制，INPUT 链仅支持Android 4.x。
 \n
 \n<b>其它设置</b>\n
 \nIPv6 支持在 <i>设置</i> 中，为 IPv6 用户准备。
