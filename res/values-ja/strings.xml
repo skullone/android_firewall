@@ -151,22 +151,22 @@
 \n
 \n<b>アプリ検索</b>\nアプリの名前やキーワードを入力することで, 検索バーから特定のアプリを検索することができます.
 \n
-\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
+\n<b>サポートインターフェース</b>\n以前から使用できたWiFi接続とData接続に加えて, VPN接続, Roaming接続, LAN接続を制御できるようになりました.  These are enabled under <i>Settings</i>.
 \n
-\n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
-\n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
-\n<i>LAN support</i> allows apps to access LAN data but not the Internet.
+\n<i>VPNサポート</i> VPN接続時の通信を制御します.
+\n<i>Roamingサポート</i> ローミング接続時の通信を制御します.
+\n<i>LAN support</i> LAN接続時の通信を制御します.
 \n
-\n<b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
-\nNotifications from Tasker stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
+\n<b>Tasker/Localeサポート</b>\n<i>Android Firewall</i>はTaskerとLocaleのプラグインを組み込んでいます. プラグイン使用によってファイアウォールの有効/無効を制御でき、制御プロファイルの変更も状況に合わせて可能になります. 詳細はプロファイルヘルプ中のTaskerについての記述を参考にしてください.
+\nTaskerによるステータス変更の通知はデフォルトでは無効になっています. Tasker通知は, <i>設定</i>の中の項目から変更できます.
 \n
-\n<b>Other settings</b>\n
-\nIPv6 support is available under <i>Settings</i> for those who use IPv6.
-\nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
-\nSDcard support for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n<b>その他の設定</b>\n
+\nIPv6をサポートしています. <i>設定</i>の項目から変更できます.
+\nマルチランゲージ対応しています. <i>設定</i>の項目から変更できます.
+\nSDcardへ移動させてアプリのサポートをしています. 設定を有効にする前に説明を読んでください.
 \n
 \n<b>Information</b>\n
-\n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n<i>Media server</i> is <b>required</b> for <i>YouTube</i> to function.
 \n
 \n<i>Tethering</i> requires <b>(root) - applications running as root</b> and <b>Kernel</b>.  Please use your profiles to quickly enable/disable those rules.</string>
     <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
