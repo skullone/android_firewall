@@ -58,9 +58,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
-
-import com.jtschohl.androidfirewall.RootShell.RootCommand;
-
 import eu.chainfire.libsuperuser.Shell;
 
 /**
@@ -68,6 +65,10 @@ import eu.chainfire.libsuperuser.Shell;
  * handled by this class.
  */
 public final class Api {
+	
+	/** tag for logcat */
+	public static final String TAG = "{AF}";
+	
 	/** special application UID used to indicate "Any application" */
 	public static final int SPECIAL_UID_ANY = -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -173,13 +174,13 @@ public final class Api {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			myiptables = ipv4;
-			Log.d("Android Firewall",
+			Log.d(TAG,
 					"Using system iptables because Android is 4.x " + version
 							+ " " + arch);
 		}
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			myiptables = app_iptables;
-			Log.d("Android Firewall",
+			Log.d(TAG,
 					"Using included iptables because Android is 3.x or lower "
 							+ version + " " + arch);
 		}
@@ -315,7 +316,7 @@ public final class Api {
 		final String chainName = prefs2.getString("chainName", "");
 
 		final StringBuilder script = new StringBuilder();
-		Log.d("{AF}", chainName);
+		Log.d(TAG, chainName);
 		try {
 			int code;
 			script.append(scriptHeader(ctx));
@@ -438,7 +439,7 @@ public final class Api {
 								+ "# Create the input drop rule (log disabled)\n"
 								+ "$IPTABLES -A " + chainName
 								+ "-input-drop -j REJECT || exit 30\n" + "");
-						Log.d("[AF]", "LOG code " + logtarget);
+						Log.d(TAG, "LOG code " + logtarget);
 					}
 				} else if (logtarget.equals("NFLOG")) {
 					script.append(""
@@ -458,7 +459,7 @@ public final class Api {
 								+ "$IPTABLES -A " + chainName
 								+ "-input-drop -j REJECT || exit 30\n" + "");
 					}
-					Log.d("[AF]", "NFLOG code " + logtarget);
+					Log.d(TAG, "NFLOG code " + logtarget);
 				} else {
 					script.append("" + "$IPTABLES -A " + chainName
 							+ "-reject -j REJECT || exit 30\n" + "");
@@ -1496,7 +1497,7 @@ public final class Api {
 			code = runScriptAsRoot(ctx, script.toString(), res);
 			if (showErrors && code != 0) {
 				String msg = res.toString();
-				Log.e("AndroidFirewall", msg);
+				Log.e(TAG, msg);
 				// Remove unnecessary help message from output
 				if (msg.indexOf("\nTry `iptables -h' or 'iptables --help' for more information.") != -1) {
 					msg = msg
@@ -1530,7 +1531,7 @@ public final class Api {
 			}
 		} catch (Exception e) {
 			if (showErrors)
-				Log.d("Android Firewall - error applying rules", e.getMessage());
+				Log.d("{AF} - error applying rules", e.getMessage());
 			alert(ctx, "error refreshing iptables: " + e);
 		}
 		return false;
@@ -1569,7 +1570,7 @@ public final class Api {
 					try {
 						uids_wifi.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with WiFi UIDs",
+						Log.d("{AF} - error with WiFi UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1585,7 +1586,7 @@ public final class Api {
 					try {
 						uids_3g.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with Data UIDs",
+						Log.d("{AF} - error with Data UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1602,7 +1603,7 @@ public final class Api {
 					try {
 						uids_roaming.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with Roaming UIDs",
+						Log.d("{AF} - error with Roaming UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1618,7 +1619,7 @@ public final class Api {
 					try {
 						uids_vpn.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with VPN UIDs",
+						Log.d("{AF} - error with VPN UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1634,7 +1635,7 @@ public final class Api {
 					try {
 						uids_lan.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with LAN UIDs",
+						Log.d("{AF} - error with LAN UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1651,7 +1652,7 @@ public final class Api {
 					try {
 						uids_input_wifi.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error with Input Wifi UIDs",
+						Log.d("{AF} - error with Input Wifi UIDs",
 								ex.getMessage());
 					}
 				}
@@ -1912,7 +1913,7 @@ public final class Api {
 				return res.toString();
 			}
 		} catch (Exception e) {
-			Log.d("Android Firewall - error showing rules", e.getMessage());
+			Log.d("{AF} - error showing rules", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 		return "";
@@ -1942,7 +1943,7 @@ public final class Api {
 				}
 				return true;
 			} catch (Exception e) {
-				Log.d("Android Firewall - error clearing the logs",
+				Log.d("{AF} - error clearing the logs",
 						e.getMessage());
 				alert(ctx, "error: " + e);
 			}
@@ -1963,22 +1964,16 @@ public final class Api {
 		String busybox = "busybox ";
 		if (arch.equals("i686")) {
 			busybox = dir + "/busybox_x86 ";
-			Log.d("Android Firewall", "Using x86 Busybox. " + arch);
+			Log.d(TAG, "Using x86 Busybox. " + arch);
 		} else {
 			busybox = dir + "/busybox_g1 ";
-			Log.d("Android Firewall", "Using G1 Busybox. " + arch);
+			Log.d(TAG, "Using G1 Busybox. " + arch);
 		}
 		return busybox;
 	}
 
 	static String getNflogPath(Context ctx) {
 		return ctx.getDir("bin", 0).getAbsolutePath() + "/nflogv2 ";
-	}
-
-	public static void getTargets(Context ctx, RootCommand callback) {
-		List<String> out = new ArrayList<String>();
-		out.add("cat /proc/net/ip_tables_targets");
-		callback.run(ctx, out);
 	}
 
 	public static String showLog(Context ctx) {
@@ -2104,7 +2099,7 @@ public final class Api {
 				res.append("\n\t---------\n");
 			}
 		} catch (Exception e) {
-			Log.d("Android Firewall - error showing the logs", e.getMessage());
+			Log.d("{AF} - error showing the logs", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 		if (res.length() == 0) {
@@ -2223,7 +2218,7 @@ public final class Api {
 				res.append("\n\t---------\n");
 			}
 		} catch (Exception e) {
-			Log.d("{AF}", "NFLOG is null");
+			Log.d(TAG, "NFLOG is null");
 			return null;
 
 		}
@@ -2496,7 +2491,7 @@ public final class Api {
 			}
 			return applications;
 		} catch (Exception e) {
-			Log.d("Android Firewall - error generating list of apps",
+			Log.d("{AF} - error generating list of apps",
 					e.getMessage());
 			alert(ctx, "error: " + e);
 		}
@@ -2600,7 +2595,7 @@ public final class Api {
 		try {
 			returncode = new applyIptableRules().execute(script, res).get();
 		} catch (Exception e) {
-			Log.d("Android Firewall - error applying iptables in runScript",
+			Log.d("{AF} - error applying iptables in runScript",
 					e.getMessage());
 			Toast.makeText(ctx, R.string.toast_error_enabling,
 					Toast.LENGTH_LONG).show();
@@ -2756,7 +2751,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the wi-fi list (package removed)!");
 					changed = true;
 				} else {
@@ -2776,7 +2771,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the 3G list (package removed)!");
 					changed = true;
 				} else {
@@ -2797,7 +2792,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the Roaming list (package removed)!");
 					changed = true;
 				} else {
@@ -2817,7 +2812,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the VPN list (package removed)!");
 					changed = true;
 				} else {
@@ -2837,7 +2832,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the LAN list (package removed)!");
 					changed = true;
 				} else {
@@ -2858,7 +2853,7 @@ public final class Api {
 			while (tok.hasMoreTokens()) {
 				final String token = tok.nextToken();
 				if (uid_str.equals(token)) {
-					Log.d("Android Firewall", "Removing UID " + token
+					Log.d(TAG, "Removing UID " + token
 							+ " from the Input Wifi list (package removed)!");
 					changed = true;
 				} else {

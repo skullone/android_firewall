@@ -116,6 +116,9 @@ public class MainActivity extends SherlockActivity implements
 	 */
 	int userid;
 
+	/** tag for logcat */
+	public static final String TAG = "{AF}";
+
 	/**
 	 * Variables for spinner
 	 */
@@ -207,14 +210,14 @@ public class MainActivity extends SherlockActivity implements
 			SharedPreferences prefs2 = PreferenceManager
 					.getDefaultSharedPreferences(getApplicationContext());
 			final String chainName = prefs2.getString("chainName", "");
-			Log.d("{AF}", "Executed isCurrentUserOwner " + chainName);
+			Log.d(TAG, "Executed isCurrentUserOwner " + chainName);
 		} else {
 			final SharedPreferences prefs2 = getSharedPreferences(
 					Api.PREFS_NAME, 0);
 			final Editor editor = prefs2.edit();
 			editor.putString("chainName", "droidwall");
 			editor.commit();
-			Log.d("{AF}",
+			Log.d(TAG,
 					"Skipping isCurrentUserOwner "
 							+ prefs2.getString("chainName", ""));
 		}
@@ -542,7 +545,6 @@ public class MainActivity extends SherlockActivity implements
 	 */
 	private void setPassword(String pwd) {
 		final Resources res = getResources();
-		// final Editor editor = getSharedPreferences(Api.PREFS_NAME, 0).edit();
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		SharedPreferences.Editor editor = prefs.edit();
@@ -693,7 +695,7 @@ public class MainActivity extends SherlockActivity implements
 			editor.commit();
 		}
 	}
-	
+
 	private void toggleUserSettings(Context ctx) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
@@ -805,7 +807,7 @@ public class MainActivity extends SherlockActivity implements
 		} else {
 			editor.putBoolean("inputenabled", false);
 			editor.commit();
-		}		
+		}
 	}
 
 	/**
@@ -832,7 +834,7 @@ public class MainActivity extends SherlockActivity implements
 					try {
 						progress.dismiss();
 					} catch (Exception ex) {
-						Log.d("Android Firewall - error in showorloadapplications",
+						Log.d("{AF} - error in showorloadapplications",
 								ex.getMessage());
 					}
 					createListView(search);
@@ -908,7 +910,8 @@ public class MainActivity extends SherlockActivity implements
 			boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 			boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
 			boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
-			boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
+			boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED,
+					false);
 
 			@Override
 			public View getView(final int position, View convertView,
@@ -918,7 +921,7 @@ public class MainActivity extends SherlockActivity implements
 					// Inflate a new view
 					convertView = inflater.inflate(R.layout.listitem, parent,
 							false);
-					Log.d("Android Firewall", ">> inflate(" + convertView + ")");
+					Log.d(TAG, ">> inflate(" + convertView + ")");
 					entry = new ListEntry();
 					entry.box_wifi = (CheckBox) convertView
 							.findViewById(R.id.itemcheck_wifi);
@@ -955,7 +958,8 @@ public class MainActivity extends SherlockActivity implements
 							.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_vpn.setOnCheckedChangeListener(MainActivity.this);
 					entry.box_lan.setOnCheckedChangeListener(MainActivity.this);
-					entry.box_input_wifi.setOnCheckedChangeListener(MainActivity.this);
+					entry.box_input_wifi
+							.setOnCheckedChangeListener(MainActivity.this);
 					convertView.setTag(entry);
 				} else {
 					// Convert an existing view
@@ -1087,7 +1091,7 @@ public class MainActivity extends SherlockActivity implements
 	 */
 	private void disableOrEnable() {
 		final boolean enabled = !Api.isEnabled(this);
-		Log.d("Android Firewall", "Changing enabled status to: " + enabled);
+		Log.d(TAG, "Changing enabled status to: " + enabled);
 		Api.setEnabled(this, enabled);
 		if (enabled) {
 			applyOrSaveRules();
@@ -1450,7 +1454,7 @@ public class MainActivity extends SherlockActivity implements
 				} catch (Exception ex) {
 				}
 				if (enabled) {
-					Log.d("Android Firewall", "Applying rules.");
+					Log.d(TAG, "Applying rules.");
 					if (Api.hasRootAccess(MainActivity.this, true)
 							&& Api.applyIptablesRules(MainActivity.this, true)) {
 						Toast.makeText(MainActivity.this,
@@ -1484,8 +1488,7 @@ public class MainActivity extends SherlockActivity implements
 							saveProfile5();
 						}
 					} else {
-						Log.d("Android Firewall",
-								"Failed - Disabling firewall.");
+						Log.d(TAG, "Failed - Disabling firewall.");
 						Api.setEnabled(MainActivity.this, false);
 						if (abs_menu != null) {
 							final MenuItem item_onoff = abs_menu
@@ -1500,7 +1503,7 @@ public class MainActivity extends SherlockActivity implements
 				}
 
 				else {
-					Log.d("Android Firewall", "Saving rules.");
+					Log.d(TAG, "Saving rules.");
 					Api.saveRules(MainActivity.this);
 					Toast.makeText(MainActivity.this, R.string.rules_saved,
 							Toast.LENGTH_SHORT).show();
@@ -1687,7 +1690,8 @@ public class MainActivity extends SherlockActivity implements
 		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean roamenabled = prefs.getBoolean(Api.PREF_ROAMENABLED, false);
 		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
-		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
+		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED,
+				false);
 		BaseAdapter adapter = (BaseAdapter) listview.getAdapter();
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
@@ -1717,7 +1721,8 @@ public class MainActivity extends SherlockActivity implements
 				Context.MODE_PRIVATE);
 		boolean vpnenabled = prefs.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
-		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED, false);
+		boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED,
+				false);
 		int count = adapter.getCount();
 		for (int item = 0; item < count; item++) {
 			DroidApp app = (DroidApp) adapter.getItem(item);
@@ -1769,7 +1774,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 		adapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		// Handle the back button when dirty
@@ -1822,7 +1827,7 @@ public class MainActivity extends SherlockActivity implements
 				// "app"
 				return viewToUpdate;
 			} catch (Exception e) {
-				Log.e("Android Firewall", "Error loading icon", e);
+				Log.e(TAG, "Error loading icon", e);
 				return null;
 			}
 		}
@@ -1837,7 +1842,7 @@ public class MainActivity extends SherlockActivity implements
 				entryToUpdate.icon
 						.setImageDrawable(entryToUpdate.app.cached_icon);
 			} catch (Exception e) {
-				Log.e("Android Firewall", "Error showing icon", e);
+				Log.e(TAG, "Error showing icon", e);
 			}
 		};
 	}
@@ -2326,78 +2331,65 @@ public class MainActivity extends SherlockActivity implements
 		return super.onKeyUp(keyCode, event);
 	}
 
+	/** many thanks to Mr. Cernekee for this GPLv3 code
+	 * Original code located here:
+	 * 
+	 * https://github.com/ukanth/afwall/blob/master/src/dev/ukanth/ufirewall/Api.java
+	 * 
+	 */
+	
 	private void toggleLogtarget() {
-
 		final Context ctx = getApplicationContext();
 
-		new AsyncTask<Void, Void, Boolean>() {
-			final SharedPreferences prefs = getSharedPreferences(
-					Api.PREFS_NAME, 0);
-			final Editor editor = prefs.edit();
-			boolean nflog = false;
-			boolean log = false;
+		LogProbeCallback cb = new LogProbeCallback();
+		cb.ctx = ctx;
 
-			@Override
-			public Boolean doInBackground(Void... args) {
-				Api.getTargets(
-						ctx,
-						new RootCommand().setReopenShell(true)
-								.setFailureToast(R.string.log_failed)
-								.setCallback(new RootCommand.Callback() {
-									@Override
-									public void cbFunc(RootCommand state) {
-										if (state.exitCode == 0) {
-											for (String str : state.lastCommandResult
-													.toString().split("\n")) {
-												if ("NFLOG".equals(str)) {
-													nflog = true;
-													Log.d("[AndroidFirewall]",
-															"NFLOG fetch "
-																	+ Api.PREF_LOGTARGET);
-												} else if ("LOG".equals(str)) {
-													Log.d("[AndroidFirewall]",
-															"LOG fetch "
-																	+ Api.PREF_LOGTARGET);
-													log = true;
-												}
-												if (nflog == true
-														&& log == true) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"LOG");
-													editor.commit();
-												}
-												if (log == true
-														&& nflog == false) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"LOG");
-													editor.commit();
-												}
-												if (log == false
-														&& nflog == true) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"NFLOG");
-													editor.commit();
-												}
-												if (log == false
-														&& nflog == false) {
-													editor.putString(
-															Api.PREF_LOGTARGET,
-															"");
-													editor.commit();
-													Log.d("[AndroidFirewall]",
-															"Empty fetch "
-																	+ Api.PREF_LOGTARGET);
-												}
-											}
-										}
-									}
-								}));
-				return true;
+		new RootCommand().setReopenShell(true)
+				.setFailureToast(R.string.log_failed).setCallback(cb)
+				.setLogging(true).run(ctx, "cat /proc/net/ip_tables_targets");
+	}
+
+	private class LogProbeCallback extends RootCommand.Callback {
+		public Context ctx;
+
+		SharedPreferences prefs = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0);
+		final Editor editor = prefs.edit();
+		boolean nflog = false;
+		boolean log = false;
+
+		public void cbFunc(RootCommand state) {
+			if (state.exitCode != 0) {
+				return;
 			}
-		}.execute();
+
+			for (String str : state.lastCommandResult.toString().split("\n")) {
+				if ("NFLOG".equals(str)) {
+					nflog = true;
+					Log.d(TAG, "NFLOG fetch " + Api.PREF_LOGTARGET);
+				} else if ("LOG".equals(str)) {
+					Log.d(TAG, "LOG fetch " + Api.PREF_LOGTARGET);
+					log = true;
+				}
+				if (nflog == true && log == true) {
+					editor.putString(Api.PREF_LOGTARGET, "LOG");
+					editor.commit();
+				}
+				if (log == true && nflog == false) {
+					editor.putString(Api.PREF_LOGTARGET, "LOG");
+					editor.commit();
+				}
+				if (log == false && nflog == true) {
+					editor.putString(Api.PREF_LOGTARGET, "NFLOG");
+					editor.commit();
+				}
+				if (log == false && nflog == false) {
+					editor.putString(Api.PREF_LOGTARGET, "");
+					editor.commit();
+					Log.d(TAG, "Empty fetch " + Api.PREF_LOGTARGET);
+				}
+			}
+		}
 	}
 
 	@SuppressLint("NewApi")
@@ -2408,16 +2400,14 @@ public class MainActivity extends SherlockActivity implements
 						.getMethod("getUserHandle");
 				int userHandle = (Integer) getUserHandle.invoke(context
 						.getSystemService(Context.USER_SERVICE));
-				Log.d("{AF}",
-						String.format("Found user value = %d", userHandle));
+				Log.d(TAG, String.format("Found user value = %d", userHandle));
 				SharedPreferences prefs = PreferenceManager
 						.getDefaultSharedPreferences(getApplicationContext());
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putLong("userID", userHandle);
 				editor.commit();
 			} catch (Exception e) {
-				Log.d("{AF}",
-						"Exception on isCurrentUserOwner " + e.getMessage());
+				Log.d(TAG, "Exception on isCurrentUserOwner " + e.getMessage());
 			}
 		}
 	}
@@ -2430,18 +2420,18 @@ public class MainActivity extends SherlockActivity implements
 				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
 						Api.PREF_MULTIUSER, false);
 		if (prefs.getLong("userID", 0) == 0) {
-			Log.d("{AF}", "userHandle is 0");
+			Log.d(TAG, "userHandle is 0");
 			editor.putString("chainName", "droidwall");
 			editor.commit();
-			Log.d("{AF}", "User = " + prefs.getLong("userID", 0)
+			Log.d(TAG, "User = " + prefs.getLong("userID", 0)
 					+ " and CHAINNAME = " + prefs.getString("chainName", ""));
 		} else {
-			Log.d("{AF}", "userHandle greater than 0");
+			Log.d(TAG, "userHandle greater than 0");
 			if (multiuserenabled) {
 				editor.putString("chainName", prefs.getLong("userID", 0)
 						+ "droidwall");
 				editor.commit();
-				Log.d("{AF}",
+				Log.d(TAG,
 						"User = " + prefs.getLong("userID", 0)
 								+ " and CHAINNAME = "
 								+ prefs.getString("chainName", ""));
