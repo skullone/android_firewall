@@ -1,6 +1,10 @@
 /**
  * Dialog displayed when the "Help" menu option is selected
  * 
+ * Copyright (C) 2011-2012 Dominik Schürmann <dominik@dominikschuermann.de>
+ * This Help file code came from the wonderful AdAway application
+ * https://github.com/dschuermann/ad-away/blob/master/AdAway/src/main/java/org/adaway/ui/HelpFragmentHtml.java
+ * 
  * Copyright (C) 2012-2014	Jason Tschohl
  *
  * This program is free sftware: you can redistribute it and/or modify
@@ -16,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
+ * @author Dominik Schürmann
  * @author Jason Tschohl
  * @version 1.0
  */
