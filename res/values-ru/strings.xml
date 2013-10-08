@@ -1,147 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Translation of RU version (21.07.2013): Igor Nedoboy (k9russian<AT>gmail<DOT>com) -->
 <resources>
 
-    <string name="app_name">Брандмауэр</string>
-    <string name="title_enabled">Брандмауэр включён</string>
-    <string name="title_disabled">Брандмауэр отключён</string>
-    <string name="showrules">Правила</string>
-    <string name="applyrules">Применить правила</string>
-    <string name="saverules">Сохранить правила</string>
-    <string name="applyrules2">Применить правила IPv6</string>
-    <string name="purgerules">Очистить правила</string>
-    <string name="setpwd">Пароль</string>
-    <string name="help">Справка</string>
-    <string name="close">Закрыть</string>
-    <string name="exit">Выход</string>
-    <string name="fw_enabled">Включить</string>
-    <string name="fw_disabled">Отключить</string>
-    <string name="ipv6_enabled">IPv6 включён</string>
-    <string name="ipv6_disabled">IPv6 отключён</string>
-    <string name="ipv6_was_enabled">IPv6 включён</string>
-    <string name="ipv6_was_disabled">IPv6 отключён</string>
-    <string name="log_enabled">Журнал включён</string>
-    <string name="log_disabled">Журнал отключён</string>
-    <string name="log_was_enabled">Журнал включён</string>
-    <string name="log_was_disabled">Журнал отключён</string>
-    <string name="log_cleared">Журнал очищен</string>
-    <string name="show_log">Журнал</string>
-    <string name="clear_log">Очистить журнал</string>
-    <string name="applying_rules">Применение правил iptables</string>
-    <string name="saving_rules">Сохранение правил iptables</string>
-    <string name="deleting_rules">Удаление правил iptables</string>
-    <string name="rules_applied">Правила применены</string>
-    <string name="rules_saved">Правила сохранены</string>
-    <string name="rules_deleted">Правила удалены</string>
-    <string name="pass_titleset">Установка пароля</string>
-    <string name="pass_titleget">Вход заблокирован</string>
-    <string name="enterpass">Введите пароль:</string>
-    <string name="enternewpass">(оставьте пустым для удаления)</string>
-    <string name="passdefined">Пароль установлен</string>
-    <string name="passremoved">Пароль отключён</string>
-    <string name="passerror">Сбой смены пароля</string>
-    <string name="working">Обработка…</string>
-    <string name="reading_apps">Чтение установленных приложений</string>
-    <string name="please_wait">Подождите…</string>
-    <string name="mode_header">Список: %s</string>
-    <string name="mode_whitelist">белый (выбранные разрешены)</string>
-    <string name="mode_blacklist">чёрный (выбранные запрещены)</string>
-    <string name="toast_bin_installed">Исполняемые файлы брандмауэра установлены!</string>
-    <string name="toast_enabled">Брандмауэр включён!</string>
-    <string name="toast_error_enabling">Сбой включения брандмауэра!</string>
-    <string name="toast_disabled">Брандмауэр отключён!</string>
-    <string name="toast_error_disabling">Сбой отключения брандмауэра!</string>
-    <string name="set_custom_script">Скрипты</string>
-    <string name="custom_script_defined">Скрипт сохранён</string>
-    <string name="custom_script_removed">Скрипт удалён</string>
-    <string name="custom_script_error">Сбой сохранения скрипта</string>
-    <string name="custom_script_info"><b>Скрипт при включении:</b>\n<i>(<a href="http://code.google.com/p/droidwall/wiki/CustomScripts">подробнее</a>, оставьте пустым для удаления)</i></string>
-    <string name="custom_script2_info"><b>Скрипт при отключении:</b>\n<i>(выполняется при отключении брандмауэра)</i></string>
-    <string name="unsaved_changes">Несохранённые изменения</string>
-    <string name="unsaved_changes_message">Сохранить или отменить изменения?</string>
-    <string name="apply">Сохранить</string>
-    <string name="discard">Отмена</string>
-    <string name="overwrite_rules">Существующие правила будут перезаписаны. Продолжить?</string>
-    <string name="importsuccess">Импорт выполнен!</string>
-    <string name="importfailed">Сбой импорта!</string>
-    <string name="exportfailed">Сбой экспорта!</string>
-    <string name="exportsuccess">Экспорт выполнен!</string>
-    <string name="enterfilename">Введите имя файла</string>
-    <string name="new_app_installed">Приложение требует доступ к сети</string>
-    <string name="notify_enabled">Уведомления включены</string>
-    <string name="notify_disabled">Уведомления отключены</string>
-    <string name="notify_was_enabled">Уведомления включены</string>
-    <string name="notify_was_disabled">Уведомления отключены</string>
-    <string name="importrules">Импорт</string>
-    <string name="exportrules">Экспорт</string>
-    <string name="managerulefiles">Удалить</string>
-    <string name="options">Опции</string>
+    <string name="app_name">Android Firewall</string>
+    <string name="title_enabled">Android Firewall (Enabled)</string>
+    <string name="title_disabled">Android Firewall (Disabled)</string>
+    <string name="showrules">Show rules</string>
+    <string name="applyrules">Apply rules</string>
+    <string name="saverules">Save rules</string>
+    <string name="applyrules2">Apply IPv6 rules</string>
+    <string name="purgerules">Purge rules</string>
+    <string name="setpwd">Set password</string>
+    <string name="help">Help</string>
+    <string name="close">Close</string>
+    <string name="exit">Exit</string>
+    <string name="fw_enabled">Enable Firewall</string>
+    <string name="fw_disabled">Disable Firewall</string>
+    <string name="ipv6_enabled">IPv6 enabled</string>
+    <string name="ipv6_disabled">IPv6 disabled</string>
+    <string name="ipv6_was_enabled">IPv6 has been enabled</string>
+    <string name="ipv6_was_disabled">IPv6 has been disabled</string>
+    <string name="log_enabled">Log enabled</string>
+    <string name="log_disabled">Log disabled</string>
+    <string name="log_was_enabled">Log has been enabled</string>
+    <string name="log_was_disabled">Log has been disabled</string>
+    <string name="log_cleared">Log cleared</string>
+    <string name="show_log">Show log</string>
+    <string name="clear_log">Clear log</string>
+    <string name="applying_rules">Applying iptables rules.</string>
+    <string name="applyingipv6_rules">Applying ip6tables rules.</string>
+    <string name="saving_rules">Saving iptables rules.</string>
+    <string name="deleting_rules">Deleting iptables rules.</string>
+    <string name="rules_applied">Rules applied with success</string>
+    <string name="rules_saved">Rules saved with success</string>
+    <string name="rules_deleted">Rules deleted with success</string>
+    <string name="pass_titleset">Set password lock</string>
+    <string name="pass_titleget">Password required</string>
+    <string name="enterpass">Enter the password:</string>
+    <string name="enternewpass">Enter the new password (leave blank to remove):</string>
+    <string name="passdefined">Password lock defined</string>
+    <string name="passremoved">Password lock removed</string>
+    <string name="passerror">Error changing password lock</string>
+    <string name="working">Working...</string>
+    <string name="reading_apps">Reading installed applications</string>
+    <string name="please_wait">Please wait</string>
+    <string name="mode_header">Mode: %s</string>
+    <string name="mode_whitelist">White list (allow selected)</string>
+    <string name="mode_blacklist">Black list (block selected)</string>
+    <string name="toast_bin_installed">Android Firewall: Binary files installed!</string>
+    <string name="toast_enabled">Android Firewall: Firewall enabled!</string>
+    <string name="toast_error_enabling">Android Firewall: Error enabling firewall!</string>
+    <string name="toast_disabled">Android Firewall: Firewall disabled!</string>
+    <string name="toast_error_disabling">Android Firewall: Error disabling firewall!</string>
+    <string name="set_custom_script">Set custom script</string>
+    <string name="custom_script_defined">Custom script defined</string>
+    <string name="custom_script_removed">Custom script removed</string>
+    <string name="custom_script_error">Error saving custom script</string>
+    <string name="custom_script_info"><b>Enter your custom script bellow.</b>		\n<i>(Leave it blank to remove)</i>		\nFor information about custom scripts, click <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">here</a>.</string>
+    <string name="custom_script2_info">    	\n<b>Custom shutdown script</b>    	\nYou can also define a custom script to be executed when the firewall is <b>disabled</b>:</string>
+    <string name="unsaved_changes">Unsaved changes</string>
+    <string name="unsaved_changes_message">You have unsaved changes.\nDo you want to apply or discard them?</string>
+    <string name="apply">Apply</string>
+    <string name="discard">Discard</string>
+    <string name="overwrite_rules">You are about to overwrite the current rules. Do you want to continue?</string>
+    <string name="importsuccess">Import successful!</string>
+    <string name="importfailed">Import failed!</string>
+    <string name="exportfailed">Export failed!</string>
+    <string name="exportsuccess">Export successful!</string>
+    <string name="enterfilename">Please enter the filename</string>
+    <string name="new_app_installed">New app requesting data access installed.</string>
+    <string name="notify_enabled">Notifications enabled</string>
+    <string name="notify_disabled">Notifications disabled</string>
+    <string name="notify_was_enabled">Notifications have been enabled</string>
+    <string name="notify_was_disabled">Notifications have been disabled</string>
+    <string name="importrules">Import Rules</string>
+    <string name="exportrules">Export Rules</string>
+    <string name="managerulefiles">Manage Rule Files</string>
+    <string name="options">Options</string>
     <string name="wifi">WiFi</string>
     <string name="data">Data</string>
     <string name="roaming">Roam</string>
-    <string name="clear">Очистить</string>
-    <string name="password_not_same">Пароли не совпадают!</string>
-    <string name="password_enter_again">Введите пароль ещё раз</string>
-    <string name="profile_header">Профиль: %s</string>
-    <string name="defaultprofile">Основной</string>
-    <string name="profile1">Профиль 1</string>
-    <string name="profile2">Профиль 2</string>
-    <string name="profile3">Профиль 3</string>
-    <string name="profile4">Профиль 4</string>
-    <string name="profile5">Профиль 5</string>
-    <string name="pleasechoose">Выберите профиль для изменения</string>
-    <string name="saveprofile">Изменить</string>
-    <string name="defaultsaved">Основной профиль сохранён</string>
-    <string name="profile1saved">Профиль 1 сохранён</string>
-    <string name="profile2saved">Профиль 2 сохранён</string>
-    <string name="profile3saved">Профиль 3 сохранён</string>
-    <string name="profile4saved">Профиль 4 сохранён</string>
-    <string name="profile5saved">Профиль 5 сохранён</string>
-    <string name="profileselect">Выберите профиль для применения</string>
-    <string name="profileapplied">Профиль применён</string>
-    <string name="loadprofile">Применить</string>
-    <string name="rulesoptions">Управление правилами</string>
-    <string name="profilesoptions">Управление профилями</string>
-    <string name="ipv6_title">Поддержка IPv6</string>
-    <string name="notifications_title">Запрос доступа</string>
-    <string name="enableLog_title">Журнал событий</string>
-    <string name="invert">Инверсия</string>
+    <string name="clear">Clear</string>
+    <string name="password_not_same">Passwords are not the same!  Please try again.</string>
+    <string name="password_enter_again">Please enter the password again.</string>
+    <string name="profile_header">Profile: %s</string>
+    <string name="defaultprofile">Default</string>
+    <string name="profile1">Profile 1</string>
+    <string name="profile2">Profile 2</string>
+    <string name="profile3">Profile 3</string>
+    <string name="profile4">Profile 4</string>
+    <string name="profile5">Profile 5</string>
+    <string name="pleasechoose">Please choose the profile you want to create or modify</string>
+    <string name="saveprofile">Create Profile</string>
+    <string name="defaultsaved">The Default profile was saved successfully!</string>
+    <string name="profile1saved">Profile 1 was saved successfully</string>
+    <string name="profile2saved">Profile 2 was saved successfully</string>
+    <string name="profile3saved">Profile 3 was saved successfully</string>
+    <string name="profile4saved">Profile 4 was saved successfully</string>
+    <string name="profile5saved">Profile 5 was saved successfully</string>
+    <string name="profileselect">Please choose which profile you want to apply</string>
+    <string name="profileapplied">The profile was successfully applied</string>
+    <string name="loadprofile">Load Profile</string>
+    <string name="rulesoptions">Rules Management</string>
+    <string name="profilesoptions">Profile Management</string>
+    <string name="ipv6_title">IPv6 Support</string>
+    <string name="notifications_title">Notification Support</string>
+    <string name="enableLog_title">Enable Firewall Log</string>
+    <string name="invert">Invert</string>
     <string name="twofortyfouram_locale_breadcrumb_format">%1$s%2$s%3$s</string>
     <string name="twofortyfouram_locale_breadcrumb_separator">" | "</string>
-    <string name="twofortyfouram_locale_menu_dontsave">Отмена</string>
-    <string name="twofortyfouram_locale_menu_help">Справка</string>
-    <string name="twofortyfouram_locale_menu_save">Готово</string>
-    <string name="tasker_name">Брандмауэр — Tasker</string>
-    <string name="tasker_profile_disabled">Tasker отключил правила Брандмауэра!</string>
-    <string name="search_name">приложение</string>
-    <string name="profilenames">Имя</string>
-    <string name="vpn_title">Поддержка VPN</string>
+    <string name="twofortyfouram_locale_menu_dontsave">Cancel</string>
+    <string name="twofortyfouram_locale_menu_help">Help</string>
+    <string name="twofortyfouram_locale_menu_save">Done</string>
+    <string name="tasker_name">Android Firewall - Tasker</string>
+    <string name="tasker_profile_disabled">Android Firewall profiles changed by Tasker. Firewall disabled!</string>
+    <string name="search_name">App Search</string>
+    <string name="profilenames">Edit Profile Names</string>
+    <string name="vpn_title">VPN Support</string>
     <string name="vpn">VPN</string>
-    <string name="roaming_title">Поддержка роуминга</string>
-    <string name="usersettings">Настройки</string>
-    <string name="taskertoast_title">Срабатывание Tasker</string>
-    <string name="ipv6_summary">Поддержка сетей IPv6</string>
-    <string name="vpn_summary">Поддержка сетей VPN</string>
-    <string name="roaming_summary">Поддержка роуминговых сетей</string>
-    <string name="taskertoast_summary">Уведомление о переключении правил программой Tasker</string>
-    <string name="log_summary">Журналирование событий брандмауэра</string>
-    <string name="notification_summary">Уведомление о новых приложениях, требующих доступ к сети</string>
-    <string name="tasker_profile">Tasker изменил профиль Брандмауэра</string>
-    <string name="apply_setting_changes">Применение правил из-за изменения настроек</string>
-    <string name="rules_export_successfully">Экспорт правил выполнен</string>
-    <string name="rules_import_successfully">Импорт правил выполнен</string>
-    <string name="no_rules_file">Не найден файл правил Android Firewall. Сначала выполните экспорт правил</string>
-    <string name="no_storage">Не найдена карта памяти. Убедитесь, что устройство не подключено к ПК в режиме накопителя</string>
-    <string name="file_deleted">Файл удалён</string>
-    <string name="widget_fail">Брандмауэр защищён паролем!</string>
-    <string name="error_no_root">Android Firewall не предоставлены права root!</string>
-    <string name="languageSupport">Язык приложения</string>
-    <string name="simplewidget">Брандмауэр — вкл/откл</string>
-    <string name="statuswidget">Брандмауэр — меню</string>
-    <string name="sdcard_title">Приложения на SD</string>
-    <string name="sdcard_summary">Применять правила для приложений, требующих доступ к сети, после монтирования карты памяти</string>
-    <string name="log_empty">Нет записей</string>
-    <string name="log_title">Журнал брандмауэра</string>
+    <string name="roaming_title">Roaming Support</string>
+    <string name="usersettings">Settings</string>
+    <string name="taskertoast_title">Tasker Notifications</string>
+    <string name="ipv6_summary">This setting enables or disables IPv6 support</string>
+    <string name="vpn_summary">This setting enables or disables VPN support</string>
+    <string name="roaming_summary">This setting enables or disables Roaming network support</string>
+    <string name="taskertoast_summary">This setting enables or disables Tasker Notification Pop-ups when profiles are changed</string>
+    <string name="log_summary">This setting enables or disables the Firewall Logs</string>
+    <string name="notification_summary">This setting enables or disables notifications for newly installed applications that need Internet access</string>
+    <string name="tasker_profile">Tasker has changed the profile being used by Android Firewall</string>
+    <string name="apply_setting_changes">Applying rules for setting change</string>
+    <string name="rules_export_successfully">The rules have been exported successfully</string>
+    <string name="rules_import_successfully">The rules have been imported successfully</string>
+    <string name="no_rules_file">There is an error accessing the androidfirewall directory. Please export a rules file first</string>
+    <string name="no_storage">There is an error accessing the androidfirewall directory. Please check that your SDcard is mounted or external storage is accessible.</string>
+    <string name="file_deleted">The file has been deleted.</string>
+    <string name="widget_fail">Cannot disable the firewall. It is password protected.</string>
+    <string name="error_no_root">Android Firewall has not been granted root access!</string>
+    <string name="languageSupport">Languages</string>
+    <string name="simplewidget">On/Off Widget</string>
+    <string name="statuswidget">Menu Widget</string>
+    <string name="sdcard_title">Apps on SDCard Support</string>
+    <string name="sdcard_summary">This setting makes the app wait for the SDCard scan to be finished before applying rules after reboot.  This is needed if you have apps that require data access and you moved them to the SDCard.  Please note that this increases the time it takes for the rules to be applied after a reboot.</string>
+    <string name="log_empty">Log is empty</string>
+    <string name="log_title">Firewall logs</string>
+    <string name="usage_help">Usage</string>
+    <string name="rules_help">Rules Management</string>
+    <string name="profiles_help">Profiles Help</string>
+    <string name="about_help">About</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="lan">LAN</string>
     <string name="lan_summary">This setting enables or disables LAN support.  This allows an app access to your LAN but not the Internet.</string>
     <string name="lan_title">LAN Support</string>
@@ -151,6 +157,32 @@
     <string name="no_rules_files">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
     <string name="rules_file_deleted">The file has been deleted.</string>
     <string name="version_about">Version:</string>
+    <string name="connectchangerules_summary">Enabling this will apply the firewall rules on every connectivity change when on Data, WiFi, Roaming, or LAN.  This is required for LAN support.  Older devices may see performance issues with this enabled.</string>
+    <string name="connectchangerules_title">Automatic Firewall Rules</string>
+    <string name="system_iptables">System IPtables</string>
+    <string name="included_iptables">Included IPtables</string>
+    <string name="iptables_title">IPtables Binary</string>
+    <string name="ipv6_unavailable">IPv6 support is not available on your device.</string>
+    <string name="tether_summary">Enabling this will allow you to tether other devices to your Internet connection.</string>
+    <string name="tether_title">Tethering Support</string>
+    <string name="log_fetch_error">Cannot fetch the logs.</string>
+    <string name="log_parse_error">Cannot parse the logs.</string>
+    <string name="LogAppName">Application Name</string>
+    <string name="LogPackBlock">Total Packets Blocked</string>
+    <string name="log_failed">Error updating log status.</string>
+    <string name="input_off_summary">Enabling this will activate the INPUT chains for iptables. This will allow you to block certain types of communication headed TO your device.</string>
+    <string name="input_on_summary">Disabling this will deactivate the INPUT chains for iptables.</string>
+    <string name="input_title">INPUT Chains</string>
+    <string name="input_options_title">INPUT Chain Settings</string>
+    <string name="settings_title">Application Settings</string>
+    <string name="multiuser_summary">Enabling this option will unlock multi-user support.  Multi-user support <b><i>REQUIRES</i></b> that you use Blacklist for <b><i>ALL USERS</i></b>.  Multi-user also requires Android 4.1 or greater.  Multi-user is not supported on phones.</string>
+    <string name="multiuser_title">Multi-user Support</string>
+    <string name="multiuser_enabled">Multi-user support enabled. Switching to Blacklist.</string>
+    <string name="multiuser_disabled">Multi-user support is disabled and you are not the main account.  Please enable multi-user support on all accounts before proceeding.</string>
+    <string name="input_wifi">INPUT Chain</string>
+    <string name="dst_ip">Destination IP</string>
+    <string name="src_ip">Source IP</string>
+    <string name="dst_port">Destination Port</string>
     <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
 \n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
 \n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
@@ -161,31 +193,44 @@
 \nTo quickly change profiles or enable/disable the firewall, add the Menu Widget to your home screen.
 \n
 \n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
-\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer.
+\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer. 
+\nSome newer devices, most notably the Nexus devices, use NFLOG instead of LOG.  Android Firewall now supports both. Devices that use NFLOG now have a pair of services that run in order to catch the data.  These services only run when logging is enabled.  
 \n
 \n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
 \nTo remove the password protection, just reset it to blank.
-\n
 \n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
 \n
-\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are avaiable.  These are enabled under <i>Settings</i>.
+\n<b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are available.  These are enabled under <i>Settings</i>.
 \n
 \n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
+\n
 \n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
-\n<i>LAN support</i> allows apps to access LAN data but not the Internet.
+\n
+\n<i>LAN support</i> allows apps to access LAN data but not the Internet.  LAN support requries the new <i>Automatic Firewall Rules</i> option in <i>Settings</i> to be enabled.  Please refer to the description for more information.
+\n
+\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission and Access WiFi State permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
+\n
+\n<i>Tethering support</i> allows you to tether a laptop/tablet/phone to your device without having to disable the firewall.  This is new and improved and no longer requires allowing "apps that run as root" and "kernel".  Bluetooth tethering interfaces are now supported by this setting.
 \n
 \n<b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
 \nNotifications from Tasker stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
 \n
+\n<b>Multi-user Support</b>\n<i>Android Firewall</i> supports multiple users on tablets.  Multi-user support requires you to use Blacklist at this time and must be enabled under Settings.  Multi-user support uses unique IPTABLES chains for each individual user so each user has control over what can access the data stream.  
+\n
+\n<b>INPUT Chain Support</b>\n<i>Android Firewall</i> supports INPUT chains.  INPUT chains are used to prevent communication from outside sources.  INPUT chains works a little bit differently than the OUTPUT chains in <i>Android Firewall</i>.  INPUT chains applies to both WiFi and cellular data connections at the same time since there is no way to apply the rules to a specific interface.  INPUT chains works with both Blacklist and Whitelist just like current OUTPUT chains.  This feature is designed so that if you deny an app access to Data and INPUT but still want it to work on WiFi it will.  For example if you deny a web browser access the Data and INPUT but give it access to WiFi the browser will still function correctly when on WiFi.  INPUT chains only work on Android 4.x due to limitations in the older kernels.    
+\n
 \n<b>Other settings</b>\n
-\nIPv6 support is available under <i>Settings</i> for those who use IPv6.
+\n<i>IPv6 support</i> is available under <i>Settings</i> for those who use IPv6.
+\n
 \nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
-\nSDcard support for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n
+\n<i>SDcard support</i> for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n
+\n<i>x86 Support</i> for devices running Intel processors.  
 \n
 \n<b>Information</b>\n
 \n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
-\n
-\n<i>Tethering</i> requires <b>(root) - applications running as root</b> and <b>Kernel</b>.  Please use your profiles to quickly enable/disable those rules.</string>
+\n</string>
     <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
         \nAll user preferences are stored in the rules file so when you export a rules file you also save your Settings like notification support, log enabled, IPv6 support, and the rest.  These files are used to create your profiles as well.
 \n
@@ -266,11 +311,18 @@
 \n8.  Touch the \'Edit\' button.
 \n9.  Select which profile you want Tasker to apply.
 \n10.  Hit the back key once. You may now test the Tasker profile by touching the \'Play\' button in the bottom left corner.</string>
-    <string name="help_dialog_text"><i>Author: Jason Tschohl.  Original Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n    <i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
+    <string name="help_dialog_text"><i>Author: Jason Tschohl.  
+        \nOriginal Author: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
+		\n<i>Android Firewall</i> is a fork of     <i>DroidWall</i> which is a front-end application for the powerful     <b>iptables</b> Linux firewall.
 		It allows you to restrict which applications are permitted to access your data networks.\n
-		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.\n
+		\nThis is the perfect solution if you don\'t have an unlimited data plan or care about your privacy.
 		\n
-		\n  </string>
+		\n<i>Android Firewall</i> is an open source application under <b>GPL v3</b>.  
+		\n
+		\nIf you would like to help translate <i>Android Firewall</i> please visit the Crowdin website:
+		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
+		\n
+		\nIncluded libraries:
+		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
 
 </resources>
