@@ -12,13 +12,13 @@
 
 package com.twofortyfouram.locale;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 /**
  * A simple utility class to find a package that is compatible with hosting the Locale Developer Platform.

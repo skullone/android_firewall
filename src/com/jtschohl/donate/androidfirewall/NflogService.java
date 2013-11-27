@@ -28,13 +28,13 @@ package com.jtschohl.donate.androidfirewall;
 import java.util.LinkedList;
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
-import eu.chainfire.libsuperuser.StreamGobbler;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import eu.chainfire.libsuperuser.Shell;
+import eu.chainfire.libsuperuser.StreamGobbler;
 
 public class NflogService extends Service {
 

@@ -35,6 +35,7 @@ import android.util.Log;
 
 public class InterfaceIntent extends IntentService {
 
+	final static String TAG = "{AF}";
 	public static final String ACTION_CONNECTIVITY_CHANGED = "connectivity_changed";
 
 	private static Context ctx = null;
@@ -55,7 +56,7 @@ public class InterfaceIntent extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		if (InterfaceTracker.checkForNewCfg(ctx)) {
 			if (applyRules(ctx, false) == false) {
-				Log.e("Android Firewall", "Unable to apply firewall rules");
+				Log.e(TAG, "Unable to apply firewall rules");
 				Api.setEnabled(ctx, false);
 			}
 		}
@@ -71,12 +72,12 @@ public class InterfaceIntent extends IntentService {
 		boolean msg = false;
 		if (ctx != null) {
 			if (!Api.isEnabled(ctx)) {
-				Log.d("Android Firewall",
+				Log.d(TAG,
 						"Cannot apply rules.  Firewall is disabled.");
 				return true;
 			}
 			msg = Api.applySavedIptablesRules(ctx, showErrors);
-			Log.d("Android Firewall", "applyRules: "
+			Log.d(TAG, "applyRules: "
 					+ (msg ? "success" : "failed"));
 		}
 		return msg;

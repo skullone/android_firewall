@@ -131,6 +131,7 @@
   <string name="rules_export_successfully">Le regole sono state esportate con successo</string>
   <string name="rules_import_successfully">Le regole sono state importate con successo</string>
   <string name="no_rules_file">Si è verificato un errore accedendo alla cartella androidfirewall. Esportare un file di regole, prima</string>
+  <string name="no_storage">Si è verificato un errore accedendo alla cartella androidfirewall. Per favore, controlla che la tua SDcard sia montata o che l\'archiviazione esterna sia accessibile.</string>
   <string name="file_deleted">File eliminato.</string>
   <string name="widget_fail">Impossibile disabilitare il firewall. È protetto da password.</string>
   <string name="error_no_root">Ad Android Firewall non sono stati garantiti i permessi di root!</string>

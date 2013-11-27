@@ -23,6 +23,7 @@
 package com.jtschohl.donate.androidfirewall;
 
 import java.util.Map.Entry;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,8 @@ public class LoadProfile extends Activity implements OnClickListener {
 	private Button profile4;
 	private Button profile5;
 
+	final static String TAG = "{AF}";
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,22 +58,22 @@ public class LoadProfile extends Activity implements OnClickListener {
 
 		String defaultProfile = prefs.getString("default",
 				getString(R.string.defaultprofile));
-		Log.d("Android Firewall", "defaultProfile value is " + defaultProfile);
+		Log.d(TAG, "defaultProfile value is " + defaultProfile);
 		String Profile1 = prefs.getString("profile1",
 				getString(R.string.profile1));
-		Log.d("Android Firewall", "Profile1 value is " + Profile1);
+		Log.d(TAG, "Profile1 value is " + Profile1);
 		String Profile2 = prefs.getString("profile2",
 				getString(R.string.profile2));
-		Log.d("Android Firewall", "Profile2 value is " + Profile2);
+		Log.d(TAG, "Profile2 value is " + Profile2);
 		String Profile3 = prefs.getString("profile3",
 				getString(R.string.profile3));
-		Log.d("Android Firewall", "Profile3 value is " + Profile3);
+		Log.d(TAG, "Profile3 value is " + Profile3);
 		String Profile4 = prefs.getString("profile4",
 				getString(R.string.profile4));
-		Log.d("Android Firewall", "Profile4 value is " + Profile4);
+		Log.d(TAG, "Profile4 value is " + Profile4);
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
-		Log.d("Android Firewall", "Profile5 value is " + Profile5);
+		Log.d(TAG, "Profile5 value is " + Profile5);
 
 		this.defaultprofile = (Button) this.findViewById(R.id.defaultprofile);
 		this.defaultprofile.setText(defaultProfile);

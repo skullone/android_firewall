@@ -38,7 +38,7 @@ public final class PluginBundleManager {
 	 * <p>
 	 * String message to display in a Toast message.
 	 */
-	public static final String BUNDLE_EXTRA_STRING_MESSAGE = "com.jtschohl.androidfirewall.extra.CHANGE_PROFILE"; //$NON-NLS-1$
+	public static final String BUNDLE_EXTRA_STRING_MESSAGE = "com.jtschohl.donate.androidfirewall.extra.CHANGE_PROFILE"; //$NON-NLS-1$
 	
 	/**
 	 * Method to verify the content of the bundle are correct.

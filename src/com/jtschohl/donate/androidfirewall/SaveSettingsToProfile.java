@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +47,8 @@ public class SaveSettingsToProfile extends ListActivity {
 	private static final String filetype = ".rules";
 
 	/**
-	 * opens the ListView of the saved rules files and allows users to select which one to assign to the
-	 * profile.
+	 * opens the ListView of the saved rules files and allows users to select
+	 * which one to assign to the profile.
 	 */
 	public void onCreate(Bundle ruleslist) {
 		super.onCreate(ruleslist);
@@ -72,7 +73,8 @@ public class SaveSettingsToProfile extends ListActivity {
 	}
 
 	/**
-	 * Takes the ListItem click and matches it up with the profile chosen from previous screen
+	 * Takes the ListItem click and matches it up with the profile chosen from
+	 * previous screen
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -111,15 +113,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 
@@ -163,15 +161,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 
@@ -215,15 +209,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 
@@ -267,15 +257,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 
@@ -319,15 +305,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 
@@ -371,15 +353,11 @@ public class SaveSettingsToProfile extends ListActivity {
 				return;
 			} catch (IOException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"The selected rules file is corrupt or missing.  Please export a new rules files",
+				Toast.makeText(this, R.string.rules_file_missing,
 						Toast.LENGTH_SHORT).show();
 			} catch (ClassNotFoundException error) {
 				error.printStackTrace();
-				Toast.makeText(
-						this,
-						"There is an error accessing the class information. Please contact the developer",
+				Toast.makeText(this, R.string.error_accessing_class,
 						Toast.LENGTH_SHORT).show();
 			} finally {
 

@@ -47,6 +47,11 @@
             android:summaryOn="@string/log_summary"
             android:title="@string/enableLog_title" />
         <CheckBoxPreference
+            android:key="logacceptenabled"
+            android:summaryOff="@string/log_accept_summary"
+            android:summaryOn="@string/log_accept_summary"
+            android:title="@string/enableLog_accept_title" />
+        <CheckBoxPreference
             android:key="taskertoastenabled"
             android:summaryOff="@string/taskertoast_summary"
             android:summaryOn="@string/taskertoast_summary"

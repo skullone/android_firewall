@@ -52,6 +52,7 @@
         <item>@string/loadprofile</item>
         <item>@string/profilenames</item>
         <item>@string/show_log</item>
+        <item>@string/show_accept_log</item>
         <item>@string/clear_log</item>
         <item>@string/showrules</item>
         <item>@string/setpwd</item>

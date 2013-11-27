@@ -36,11 +36,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import com.jtschohl.donate.androidfirewall.Api;
-import com.jtschohl.donate.androidfirewall.R;
 
 public class WidgetActivity extends Activity implements OnClickListener {
 
+	final static String TAG = "{AF}";
 	private Button enableFirewall;
 	private Button disableFirewall;
 	private Button defaultprofile;
@@ -60,22 +59,22 @@ public class WidgetActivity extends Activity implements OnClickListener {
 
 		String defaultProfile = prefs.getString("default",
 				getString(R.string.defaultprofile));
-		Log.d("Android Firewall", "defaultProfile value is " + defaultProfile);
+		Log.d(TAG, "defaultProfile value is " + defaultProfile);
 		String Profile1 = prefs.getString("profile1",
 				getString(R.string.profile1));
-		Log.d("Android Firewall", "Profile1 value is " + Profile1);
+		Log.d(TAG, "Profile1 value is " + Profile1);
 		String Profile2 = prefs.getString("profile2",
 				getString(R.string.profile2));
-		Log.d("Android Firewall", "Profile2 value is " + Profile2);
+		Log.d(TAG, "Profile2 value is " + Profile2);
 		String Profile3 = prefs.getString("profile3",
 				getString(R.string.profile3));
-		Log.d("Android Firewall", "Profile3 value is " + Profile3);
+		Log.d(TAG, "Profile3 value is " + Profile3);
 		String Profile4 = prefs.getString("profile4",
 				getString(R.string.profile4));
-		Log.d("Android Firewall", "Profile4 value is " + Profile4);
+		Log.d(TAG, "Profile4 value is " + Profile4);
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
-		Log.d("Android Firewall", "Profile5 value is " + Profile5);
+		Log.d(TAG, "Profile5 value is " + Profile5);
 
 		enableFirewall = (Button) this.findViewById(R.id.enableFirewall);
 		enableFirewall.setOnClickListener(this);
@@ -436,6 +435,8 @@ public class WidgetActivity extends Activity implements OnClickListener {
 				.getBoolean(Api.PREF_IP6TABLES, false);
 		boolean logsupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean logacceptenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGACCEPTENABLED, false);
 		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -539,7 +540,14 @@ public class WidgetActivity extends Activity implements OnClickListener {
 		} else {
 			editor.putBoolean("inputenabled", false);
 			editor.commit();
-		}		
+		}	
+		if (logacceptenabled) {
+			editor.putBoolean("logacceptenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("logacceptenabled", false);
+			editor.commit();
+		}	
 	}
 
 	@Override
