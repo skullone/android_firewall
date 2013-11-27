@@ -2734,7 +2734,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jtschohl@gmail.com"});
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"androidfirewall.developer@gmail.com"});
 		intent.putExtra(Intent.EXTRA_SUBJECT, "Android Firewall Error Report for version " + af_version);
 		intent.putExtra(Intent.EXTRA_TEXT, "");
 		if(!file.exists() || !file.canRead()){

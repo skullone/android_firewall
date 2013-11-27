@@ -219,6 +219,8 @@
 \nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer. 
 \nSome newer devices, most notably the Nexus devices, use NFLOG instead of LOG.  Android Firewall now supports both. Devices that use NFLOG now have a pair of services that run in order to catch the data.  These services only run when logging is enabled.  
 \n
+\nAndroid Firewall supports logging of ACCEPTED packets as well.  By logging those packets you can see where apps are sending your data.  You can then use that information to block access to certain IPs via the Custom Script option or your HOSTS file.
+\n
 \n<b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
 \nTo remove the password protection, just reset it to blank.
 \n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
@@ -251,8 +253,14 @@
 \n
 \n<i>x86 Support</i> for devices running Intel processors.  
 \n
+\n<i>Application Shortcuts</i> are available for quick access to enabling or disabling the firewall and all of your profiles.  These shortcuts can also be used by apps like Llama and Macrodroid for situation based application.
+\n
 \n<b>Information</b>\n
 \n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n
+\n<i>Android Firewall</i> can generate error reports in order to gather the information needed to correct issues seen by users.  This ability generates 3 files containing device information, but NO personal information, which is then written to your external storage so you can see what is data is being collected.\n 
+\nThey are kept in a folder called af_error_reports.  The files are zipped and the user given the option to e-mail the files to the developer. Please include a detailed description of what you were doing when the issue happened.
+\n
 \n</string>
     <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
         \nAll user preferences are stored in the rules file so when you export a rules file you also save your Settings like notification support, log enabled, IPv6 support, and the rest.  These files are used to create your profiles as well.
