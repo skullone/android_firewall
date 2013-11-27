@@ -22,8 +22,6 @@
 
 package com.jtschohl.androidfirewall.plugin;
 
-import com.jtschohl.androidfirewall.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,8 +32,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.jtschohl.androidfirewall.R;
+
 public class EditActivity extends Activity implements OnClickListener {
 
+	final static String TAG = "{AF}";
 	private Button defaultprofile;
 	private Button profile1;
 	private Button profile2;
@@ -60,22 +61,22 @@ public class EditActivity extends Activity implements OnClickListener {
 
 		String defaultProfile = prefs.getString("default",
 				getString(R.string.defaultprofile));
-		Log.d("Android Firewall", "defaultProfile value is " + defaultProfile);
+		Log.d(TAG, "defaultProfile value is " + defaultProfile);
 		String Profile1 = prefs.getString("profile1",
 				getString(R.string.profile1));
-		Log.d("Android Firewall", "Profile1 value is " + Profile1);
+		Log.d(TAG, "Profile1 value is " + Profile1);
 		String Profile2 = prefs.getString("profile2",
 				getString(R.string.profile2));
-		Log.d("Android Firewall", "Profile2 value is " + Profile2);
+		Log.d(TAG, "Profile2 value is " + Profile2);
 		String Profile3 = prefs.getString("profile3",
 				getString(R.string.profile3));
-		Log.d("Android Firewall", "Profile3 value is " + Profile3);
+		Log.d(TAG, "Profile3 value is " + Profile3);
 		String Profile4 = prefs.getString("profile4",
 				getString(R.string.profile4));
-		Log.d("Android Firewall", "Profile4 value is " + Profile4);
+		Log.d(TAG, "Profile4 value is " + Profile4);
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
-		Log.d("Android Firewall", "Profile5 value is " + Profile5);
+		Log.d(TAG, "Profile5 value is " + Profile5);
 
 		this.defaultprofile = (Button) this.findViewById(R.id.defaultprofile);
 		this.defaultprofile.setText(defaultProfile);
@@ -109,22 +110,22 @@ public class EditActivity extends Activity implements OnClickListener {
 
 		String defaultProfile = prefs.getString("default",
 				getString(R.string.defaultprofile));
-		Log.d("Android Firewall", "defaultProfile value is " + defaultProfile);
+		Log.d(TAG, "defaultProfile value is " + defaultProfile);
 		String Profile1 = prefs.getString("profile1",
 				getString(R.string.profile1));
-		Log.d("Android Firewall", "Profile1 value is " + Profile1);
+		Log.d(TAG, "Profile1 value is " + Profile1);
 		String Profile2 = prefs.getString("profile2",
 				getString(R.string.profile2));
-		Log.d("Android Firewall", "Profile2 value is " + Profile2);
+		Log.d(TAG, "Profile2 value is " + Profile2);
 		String Profile3 = prefs.getString("profile3",
 				getString(R.string.profile3));
-		Log.d("Android Firewall", "Profile3 value is " + Profile3);
+		Log.d(TAG, "Profile3 value is " + Profile3);
 		String Profile4 = prefs.getString("profile4",
 				getString(R.string.profile4));
-		Log.d("Android Firewall", "Profile4 value is " + Profile4);
+		Log.d(TAG, "Profile4 value is " + Profile4);
 		String Profile5 = prefs.getString("profile5",
 				getString(R.string.profile5));
-		Log.d("Android Firewall", "Profile5 value is " + Profile5);
+		Log.d(TAG, "Profile5 value is " + Profile5);
 
 		if (v.getId() == R.id.defaultprofile) {
 			i = 0;
@@ -158,16 +159,20 @@ public class EditActivity extends Activity implements OnClickListener {
 			i = 7;
 			profile = getString(R.string.fw_disabled);
 		}
-		Log.d(getClass().getName(), "value for EditActivity = " + i);
+		Log.d(TAG, "value for EditActivity = " + i);
 		finish();
 	}
 
 	public void finish() {
 		Intent intent = new Intent();
-		intent.putExtra("storeposition", i);
+		intent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, PluginBundleManager.generateBundle(getApplicationContext(), i + ""));
 		intent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB,
-				profile);
+				i + "");
+		Log.d(TAG, "Value for storeposition is: " + i);
+		Log.d(TAG, "putExtra1 = " + i + "");
+		Log.d(TAG, "putExtra2 = " + profile);
 		setResult(RESULT_OK, intent);
 		super.finish();
 	}
+	
 }

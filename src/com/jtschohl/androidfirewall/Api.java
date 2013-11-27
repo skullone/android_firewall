@@ -65,10 +65,10 @@ import eu.chainfire.libsuperuser.Shell;
  * handled by this class.
  */
 public final class Api {
-	
+
 	/** tag for logcat */
 	public static final String TAG = "{AF}";
-	
+
 	/** special application UID used to indicate "Any application" */
 	public static final int SPECIAL_UID_ANY = -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -111,6 +111,7 @@ public final class Api {
 	public static String PREF_LOGTARGET = "";
 	public static final String PREF_MULTIUSER = "MultiuserEnabled";
 	public static final String PREF_INPUTENABLED = "InputEnabled";
+	public static final String PREF_LOGACCEPTENABLED = "LogAcceptEnabled";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -138,6 +139,11 @@ public final class Api {
 	private static final String ITFS_3G[] = InterfaceTracker.ITFS_3G;
 	private static final String ITFS_VPN[] = InterfaceTracker.ITFS_VPN;
 	private static final String ITFS_TETHER[] = InterfaceTracker.ITFS_TETHER;
+
+	public static String dmesgCommand = "";
+	public static String nflogCommand = "";
+	public static String logstring = "";
+	public static boolean rejectlog;
 
 	// Cached applications
 	public static List<DroidApp> applications = null;
@@ -174,9 +180,8 @@ public final class Api {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			myiptables = ipv4;
-			Log.d(TAG,
-					"Using system iptables because Android is 4.x " + version
-							+ " " + arch);
+			Log.d(TAG, "Using system iptables because Android is 4.x "
+					+ version + " " + arch);
 		}
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			myiptables = app_iptables;
@@ -309,6 +314,9 @@ public final class Api {
 				.getString(PREF_LOGTARGET, "");
 		boolean inputenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_INPUTENABLED, false);
+		final boolean logacceptenabled = ctx
+				.getSharedPreferences(PREFS_NAME, 0).getBoolean(
+						PREF_LOGACCEPTENABLED, false);
 		final String customScript = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getString(Api.PREF_CUSTOMSCRIPT, "");
 		SharedPreferences prefs2 = PreferenceManager
@@ -343,6 +351,16 @@ public final class Api {
 					+ "-reject >/dev/null 2>/dev/null || $IPTABLES --new "
 					+ chainName
 					+ "-reject || exit 6\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-accept >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-accept || exit 6\n"
+					+ "$IPTABLES -L "
+					+ chainName
+					+ "-input-accept >/dev/null 2>/dev/null || $IPTABLES --new "
+					+ chainName
+					+ "-input-accept || exit 6\n"
 					+ "$IPTABLES -L "
 					+ chainName
 					+ "-input-drop >/dev/null 2>/dev/null || $IPTABLES --new "
@@ -400,6 +418,12 @@ public final class Api {
 					+ "$IPTABLES -F "
 					+ chainName
 					+ "-input-drop || exit 503\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-accept || exit 503\n"
+					+ "$IPTABLES -F "
+					+ chainName
+					+ "-input-accept || exit 503\n"
 					+ "# Create reject rule and fix for WiFi slow DNS lookups\n"
 					+ "$IPTABLES -A "
 					+ chainName
@@ -479,6 +503,41 @@ public final class Api {
 							+ "# Create the input drop rule (log disabled)\n"
 							+ "$IPTABLES -A " + chainName
 							+ "-input-drop -j REJECT || exit 30\n" + "");
+				}
+			}
+			if (logacceptenabled) {
+				if (logtarget.equals("LOG")) {
+					script.append(""
+							+ "$IPTABLES -A "
+							+ chainName
+							+ "-accept -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewallAccept]\" --log-level 4 --log-uid || exit 299\n"
+							+ "$IPTABLES -A " + chainName
+							+ "-accept -j RETURN || exit 29\n" + "");
+					if (inputenabled) {
+						script.append(""
+								+ "$IPTABLES -A "
+								+ chainName
+								+ "-input-accept -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewallAccept]\" --log-level 4 --log-uid || exit 510\n"
+								+ "$IPTABLES -A " + chainName
+								+ "-input-accept -j RETURN || exit 29\n" + "");
+						Log.d(TAG, "LOG code " + logtarget);
+					}
+				} else if (logtarget.equals("NFLOG")) {
+					script.append(""
+							+ "$IPTABLES -A "
+							+ chainName
+							+ " -j NFLOG --nflog-prefix \"[AndroidFirewallAccept]\" --nflog-group 0 || exit 2999\n"
+							+ "$IPTABLES -A " + chainName
+							+ "-accept -j RETURN || exit 29\n" + "");
+					if (inputenabled) {
+						script.append(""
+								+ "$IPTABLES -A "
+								+ chainName
+								+ "-input -j NFLOG --nflog-prefix \"[AndroidFirewallAccept]\" --nflog-group 0 || exit 510\n"
+								+ "$IPTABLES -A " + chainName
+								+ "-input-accept -j RETURN || exit 29\n" + "");
+					}
+					Log.d(TAG, "NFLOG code " + logtarget);
 				}
 			}
 			if (tetherenabled) {
@@ -665,23 +724,39 @@ public final class Api {
 				if (!any_3g) {
 					if (uids3g.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 						script.append("# hack to allow kernel packets on white-list\n");
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName
+									+ " -m owner --uid-owner 0:999999999 -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 						script.append("$IPTABLES -A " + chainName
 								+ "-3g -m owner --uid-owner 0:999999999 -j "
 								+ chainName + "-reject || exit 48\n");
 					} else {
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName + " -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 						script.append("$IPTABLES -A " + chainName + "-3g -j "
 								+ chainName + "-reject || exit 50\n");
-
 					}
 				}
 				if (!any_wifi) {
 					if (uidsWifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 						script.append("# hack to allow kernel packets on white-list\n");
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName
+									+ " -m owner --uid-owner 0:999999999 -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 						script.append("$IPTABLES -A " + chainName
 								+ "-wifi -m owner --uid-owner 0:999999999 -j "
 								+ chainName + "-reject || exit 52\n");
-
 					} else {
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName + " -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 						script.append("$IPTABLES -A " + chainName + "-wifi -j "
 								+ chainName + "-reject || exit 54\n");
 					}
@@ -692,6 +767,10 @@ public final class Api {
 					script.append("$IPTABLES -A "
 							+ chainName
 							+ "-3g -m owner --uid-owner 0:999999999 -j RETURN || exit 56\n");
+					if (logacceptenabled) {
+						script.append("$IPTABLES -A " + chainName + " -j "
+								+ chainName + "-accept || exit 54\n");
+					}
 					script.append("$IPTABLES -A " + chainName + "-3g -j "
 							+ chainName + "-reject || exit 57\n");
 				}
@@ -700,6 +779,10 @@ public final class Api {
 					script.append("$IPTABLES -A "
 							+ chainName
 							+ "-wifi -m owner --uid-owner 0:999999999 -j RETURN || exit 60\n");
+					if (logacceptenabled) {
+						script.append("$IPTABLES -A " + chainName + " -j "
+								+ chainName + "-accept || exit 54\n");
+					}
 					script.append("$IPTABLES -A " + chainName + "-wifi -j "
 							+ chainName + "-reject || exit 61\n");
 				}
@@ -748,7 +831,6 @@ public final class Api {
 							script.append("$IPTABLES -A " + chainName
 									+ "-vpn -j " + chainName
 									+ "-reject || exit 50\n");
-
 						}
 					} else {
 						script.append("$IPTABLES -A " + chainName + "-vpn -j "
@@ -809,7 +891,6 @@ public final class Api {
 							script.append("$IPTABLES -A " + chainName
 									+ "-lan -j " + chainName
 									+ "-reject || exit 50\n");
-
 						}
 					} else {
 						script.append("$IPTABLES -A " + chainName + "-lan -j "
@@ -868,16 +949,32 @@ public final class Api {
 									+ chainName
 									+ "-input -m owner --uid-owner 0:999999999 -j "
 									+ chainName + "-input-drop || exit 48\n");
+							if (logacceptenabled) {
+								script.append("$IPTABLES -A "
+										+ chainName
+										+ "-input -m owner --uid-owner 0:999999999 -j "
+										+ chainName
+										+ "-input-accept || exit 54\n");
+							}
 						} else {
 							script.append("$IPTABLES -A " + chainName
 									+ "-input -j " + chainName
 									+ "-input-drop || exit 50\n");
-
+							if (logacceptenabled) {
+								script.append("$IPTABLES -A " + chainName
+										+ "-input -j " + chainName
+										+ "-input-accept || exit 54\n");
+							}
 						}
 					} else {
 						script.append("$IPTABLES -A " + chainName
 								+ "-input-wifi -j " + chainName
 								+ "-input-drop || exit 54\n");
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName
+									+ "-input -j " + chainName
+									+ "-input-accept || exit 54\n");
+						}
 					}
 				} else {
 					if (uidsinputwifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
@@ -888,6 +985,11 @@ public final class Api {
 						script.append("$IPTABLES -A " + chainName
 								+ "-input -j " + chainName
 								+ "-input-drop || exit 57\n");
+						if (logacceptenabled) {
+							script.append("$IPTABLES -A " + chainName
+									+ "-input -j " + chainName
+									+ "-input-accept || exit 54\n");
+						}
 					}
 				}
 				script.append("$IPTABLES -I "
@@ -912,6 +1014,16 @@ public final class Api {
 							+ "-input >/dev/null 2>/dev/null || $IP6TABLES --new "
 							+ chainName
 							+ "-input || exit 500\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-input-accept >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-input-accept || exit 500\n"
+							+ "$IP6TABLES -L "
+							+ chainName
+							+ "-accept >/dev/null 2>/dev/null || $IP6TABLES --new "
+							+ chainName
+							+ "-accept || exit 500\n"
 							+ "$IP6TABLES -L "
 							+ chainName
 							+ "-3g >/dev/null 2>/dev/null || $IP6TABLES --new "
@@ -979,6 +1091,12 @@ public final class Api {
 							+ "$IP6TABLES -F "
 							+ chainName
 							+ "-input || exit 502\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-input-accept || exit 20\n"
+							+ "$IP6TABLES -F "
+							+ chainName
+							+ "-accept || exit 20\n"
 							+ "# Create reject rule and fix for WiFi slow DNS lookups"
 							+ "$IP6TABLES -A "
 							+ chainName
@@ -1065,6 +1183,45 @@ public final class Api {
 									+ "# Create the input drop rule (log disabled)\n"
 									+ "$IP6TABLES -A " + chainName
 									+ "-input-drop -j REJECT || exit 30\n" + "");
+						}
+					}
+					if (logacceptenabled && ipv6enabled) {
+						if (logtarget.equals("LOG")) {
+							script.append(""
+									+ "$IP6TABLES -A "
+									+ chainName
+									+ "-accept -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewallAccept]\" --log-level 4 --log-uid || exit 299\n"
+									+ "$IP6TABLES -A " + chainName
+									+ "-accept -j RETURN || exit 29\n" + "");
+							if (inputenabled) {
+								script.append(""
+										+ "$IP6TABLES -A "
+										+ chainName
+										+ "-input-accept -m limit --limit 1000/min -j LOG --log-prefix \"[AndroidFirewallAccept]\" --log-level 4 --log-uid || exit 510\n"
+										+ "$IP6TABLES -A "
+										+ chainName
+										+ "-input-accept -j RETURN || exit 29\n"
+										+ "");
+								Log.d(TAG, "LOG code " + logtarget);
+							}
+						} else if (logtarget.equals("NFLOG")) {
+							script.append(""
+									+ "$IP6TABLES -A "
+									+ chainName
+									+ "-accept -j NFLOG --nflog-prefix \"[AndroidFirewallAccept]\" --nflog-group 0 || exit 2999\n"
+									+ "$IP6TABLES -A " + chainName
+									+ "-accept -j RETURN || exit 29\n" + "");
+							if (inputenabled) {
+								script.append(""
+										+ "$IP6TABLES -A "
+										+ chainName
+										+ "-input-accept -j NFLOG --nflog-prefix \"[AndroidFirewallAccept]\" --nflog-group 0 || exit 510\n"
+										+ "$IP6TABLES -A "
+										+ chainName
+										+ "-input-accept -j RETURN || exit 29\n"
+										+ "");
+							}
+							Log.d(TAG, "NFLOG code " + logtarget);
 						}
 					}
 					if (tetherenabled) {
@@ -1249,10 +1406,21 @@ public final class Api {
 									+ chainName
 									+ "-3g -m owner --uid-owner 0:999999999 -j "
 									+ chainName + "-reject || exit 87\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A "
+										+ chainName
+										+ " -m owner --uid-owner 0:999999999 -j "
+										+ chainName + "-accept || exit 54\n");
+							}
 						} else {
 							script.append("$IP6TABLES -A " + chainName
 									+ "-3g -j " + chainName
 									+ "-reject || exit 88\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A " + chainName
+										+ " -j " + chainName
+										+ "-accept || exit 54\n");
+							}
 						}
 					}
 					if (!any_wifi && ipv6enabled) {
@@ -1262,10 +1430,21 @@ public final class Api {
 									+ chainName
 									+ "-wifi -m owner --uid-owner 0:999999999 -j "
 									+ chainName + "-reject || exit 89\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A "
+										+ chainName
+										+ " -m owner --uid-owner 0:999999999 -j "
+										+ chainName + "-accept || exit 54\n");
+							}
 						} else {
 							script.append("$IP6TABLES -A " + chainName
 									+ "-wifi -j " + chainName
 									+ "-reject || exit 90\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A " + chainName
+										+ " -j " + chainName
+										+ "-accept || exit 54\n");
+							}
 						}
 					}
 				} else {
@@ -1276,6 +1455,10 @@ public final class Api {
 								+ "-3g -m owner --uid-owner 0:999999999 -j RETURN || exit 91\n");
 						script.append("$IP6TABLES -A " + chainName + "-3g -j "
 								+ chainName + "-reject || exit 92\n");
+						if (logacceptenabled) {
+							script.append("$IP6TABLES -A " + chainName + " -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 					}
 					if (uidsWifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
 						script.append("# hack to BLOCK kernel packets on black-list\n");
@@ -1285,6 +1468,10 @@ public final class Api {
 						script.append("$IP6TABLES -A " + chainName
 								+ "-wifi -j " + chainName
 								+ "-reject || exit 94\n");
+						if (logacceptenabled) {
+							script.append("$IP6TABLES -A " + chainName + " -j "
+									+ chainName + "-accept || exit 54\n");
+						}
 					}
 				}
 				if (vpnenabled && ipv6enabled) {
@@ -1463,16 +1650,32 @@ public final class Api {
 										+ "-input -m owner --uid-owner 0:999999999 -j "
 										+ chainName
 										+ "-input-drop || exit 48\n");
+								if (logacceptenabled) {
+									script.append("$IP6TABLES -A "
+											+ chainName
+											+ "-input -m owner --uid-owner 0:999999999 -j "
+											+ chainName
+											+ "-input-accept || exit 54\n");
+								}
 							} else {
 								script.append("$IP6TABLES -A " + chainName
 										+ "-input -j " + chainName
 										+ "-input-drop || exit 50\n");
-
+								if (logacceptenabled) {
+									script.append("$IP6TABLES -A " + chainName
+											+ "-input -j " + chainName
+											+ "-input-accept || exit 54\n");
+								}
 							}
 						} else {
 							script.append("$IP6TABLES -A " + chainName
 									+ "-input-wifi -j " + chainName
 									+ "-input-drop || exit 54\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A " + chainName
+										+ "-input -j " + chainName
+										+ "-input-accept || exit 54\n");
+							}
 						}
 					} else {
 						if (uidsinputwifi.indexOf(SPECIAL_UID_KERNEL) >= 0) {
@@ -1483,6 +1686,11 @@ public final class Api {
 							script.append("$IP6TABLES -A " + chainName
 									+ "-input -j " + chainName
 									+ "-input-drop || exit 57\n");
+							if (logacceptenabled) {
+								script.append("$IP6TABLES -A " + chainName
+										+ "-input -j " + chainName
+										+ "-input-accept || exit 54\n");
+							}
 						}
 					}
 					script.append("$IP6TABLES -I "
@@ -1570,8 +1778,7 @@ public final class Api {
 					try {
 						uids_wifi.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("{AF} - error with WiFi UIDs",
-								ex.getMessage());
+						Log.d("{AF} - error with WiFi UIDs", ex.getMessage());
 					}
 				}
 			}
@@ -1586,8 +1793,7 @@ public final class Api {
 					try {
 						uids_3g.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("{AF} - error with Data UIDs",
-								ex.getMessage());
+						Log.d("{AF} - error with Data UIDs", ex.getMessage());
 					}
 				}
 			}
@@ -1603,8 +1809,7 @@ public final class Api {
 					try {
 						uids_roaming.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("{AF} - error with Roaming UIDs",
-								ex.getMessage());
+						Log.d("{AF} - error with Roaming UIDs", ex.getMessage());
 					}
 				}
 			}
@@ -1619,8 +1824,7 @@ public final class Api {
 					try {
 						uids_vpn.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("{AF} - error with VPN UIDs",
-								ex.getMessage());
+						Log.d("{AF} - error with VPN UIDs", ex.getMessage());
 					}
 				}
 			}
@@ -1635,8 +1839,7 @@ public final class Api {
 					try {
 						uids_lan.add(Integer.parseInt(uid));
 					} catch (Exception ex) {
-						Log.d("{AF} - error with LAN UIDs",
-								ex.getMessage());
+						Log.d("{AF} - error with LAN UIDs", ex.getMessage());
 					}
 				}
 			}
@@ -1826,14 +2029,14 @@ public final class Api {
 			int code = runScriptAsRoot(ctx, script.toString(), res);
 			if (code == -1) {
 				if (showErrors)
-					alert(ctx, "Error purging iptables. exit code: " + code
+					alert(ctx, R.string.error_purging_code + " " + code
 							+ "\n" + res);
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
 			if (showErrors)
-				alert(ctx, "Error purging iptables: " + e);
+				alert(ctx, R.string.error_purging + " " + e);
 			return false;
 		}
 	}
@@ -1868,14 +2071,14 @@ public final class Api {
 			int code = runScriptAsRoot(ctx, script.toString(), res);
 			if (code == -1) {
 				if (showErrors)
-					alert(ctx, "Error purging ip6tables. exit code: " + code
+					alert(ctx, R.string.error_purgingipv6_code + " " + code
 							+ "\n" + res);
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
 			if (showErrors)
-				alert(ctx, "Error purging ip6tables: " + e);
+				alert(ctx, R.string.error_purgingipv6 + " " + e);
 			return false;
 		}
 	}
@@ -1914,7 +2117,7 @@ public final class Api {
 			}
 		} catch (Exception e) {
 			Log.d("{AF} - error showing rules", e.getMessage());
-			alert(ctx, "error: " + e);
+			alert(ctx, R.string.error_showing_rules + " " + e);
 		}
 		return "";
 	}
@@ -1943,9 +2146,8 @@ public final class Api {
 				}
 				return true;
 			} catch (Exception e) {
-				Log.d("{AF} - error clearing the logs",
-						e.getMessage());
-				alert(ctx, "error: " + e);
+				Log.d("{AF} - error clearing the logs", e.getMessage());
+				alert(ctx, R.string.error_clearing_rules + " " + e);
 			}
 			return false;
 		}
@@ -1982,8 +2184,7 @@ public final class Api {
 		StringBuilder output = new StringBuilder();
 		int code = 0;
 		try {
-			code = runScriptAsRoot(ctx, scriptHeader(ctx)
-					+ "dmesg | $GREP \\[AndroidFirewall\\]\n", res);
+			code = runScriptAsRoot(ctx, scriptHeader(ctx) + dmesgCommand, res);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -2005,7 +2206,7 @@ public final class Api {
 
 		try {
 			while ((line = r.readLine()) != null) {
-				if (line.indexOf("[AndroidFirewall]") == -1)
+				if (line.indexOf(logstring) == -1)
 					continue;
 				appid = unknownUID;
 				if (((start = line.indexOf("UID=")) != -1)
@@ -2091,10 +2292,20 @@ public final class Api {
 						address.append("\n");
 					}
 				}
-				res.append("AppID :\t" + appId + "\n"
-						+ ctx.getString(R.string.LogAppName) + ":\t" + appName
-						+ "\n" + ctx.getString(R.string.LogPackBlock) + ":\t"
-						+ totalBlocked + "\n");
+				if (rejectlog == true) {
+					res.append("AppID :\t" + appId + "\n"
+							+ ctx.getString(R.string.LogAppName) + ":\t"
+							+ appName + "\n"
+							+ ctx.getString(R.string.LogPackBlock) + ":\t"
+							+ totalBlocked + "\n");
+				}
+				if (rejectlog == false) {
+					res.append("AppID :\t" + appId + "\n"
+							+ ctx.getString(R.string.LogAppName) + ":\t"
+							+ appName + "\n"
+							+ ctx.getString(R.string.LogPackAllowed) + ":\t"
+							+ totalBlocked + "\n");
+				}
 				res.append(address.toString());
 				res.append("\n\t---------\n");
 			}
@@ -2124,7 +2335,7 @@ public final class Api {
 
 		try {
 			while ((line = r.readLine()) != null) {
-				if (line.indexOf("[AndroidFirewall]") == -1)
+				if (line.indexOf(nflogCommand) == -1)
 					continue;
 				appid = unknownUID;
 				if (((start = line.indexOf("UID=")) != -1)
@@ -2210,10 +2421,20 @@ public final class Api {
 						address.append("\n");
 					}
 				}
-				res.append("AppID :\t" + appId + "\n"
-						+ ctx.getString(R.string.LogAppName) + ":\t" + appName
-						+ "\n" + ctx.getString(R.string.LogPackBlock) + ":\t"
-						+ totalBlocked + "\n");
+				if (rejectlog == true) {
+					res.append("AppID :\t" + appId + "\n"
+							+ ctx.getString(R.string.LogAppName) + ":\t"
+							+ appName + "\n"
+							+ ctx.getString(R.string.LogPackBlock) + ":\t"
+							+ totalBlocked + "\n");
+				}
+				if (rejectlog == false) {
+					res.append("AppID :\t" + appId + "\n"
+							+ ctx.getString(R.string.LogAppName) + ":\t"
+							+ appName + "\n"
+							+ ctx.getString(R.string.LogPackAllowed) + ":\t"
+							+ totalBlocked + "\n");
+				}
 				res.append(address.toString());
 				res.append("\n\t---------\n");
 			}
@@ -2491,8 +2712,7 @@ public final class Api {
 			}
 			return applications;
 		} catch (Exception e) {
-			Log.d("{AF} - error generating list of apps",
-					e.getMessage());
+			Log.d("{AF} - error generating list of apps", e.getMessage());
 			alert(ctx, "error: " + e);
 		}
 		return null;
@@ -2528,7 +2748,7 @@ public final class Api {
 					}
 				}
 			} catch (Exception e) {
-				alert(ctx, "Error trying to access root: " + e);
+				alert(ctx, R.string.error_accessing_root + " " + e);
 			}
 		}
 		return rootaccess;
@@ -2595,8 +2815,7 @@ public final class Api {
 		try {
 			returncode = new applyIptableRules().execute(script, res).get();
 		} catch (Exception e) {
-			Log.d("{AF} - error applying iptables in runScript",
-					e.getMessage());
+			Log.d("{AF} - error applying iptables in runScript", e.getMessage());
 			Toast.makeText(ctx, R.string.toast_error_enabling,
 					Toast.LENGTH_LONG).show();
 		}
@@ -2614,6 +2833,7 @@ public final class Api {
 	 */
 	public static boolean assertBinaries(Context ctx, boolean showErrors) {
 		boolean changed = false;
+		String arch = System.getProperty("os.arch");
 		try {
 			// Check iptables_armv5
 			File file = new File(ctx.getDir("bin", 0), "iptables_armv5");
@@ -2621,17 +2841,20 @@ public final class Api {
 				copyRawFile(ctx, R.raw.iptables_armv5, file, "755");
 				changed = true;
 			}
-			// Check busybox for ARM
-			file = new File(ctx.getDir("bin", 0), "busybox_g1");
-			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.busybox_g1, file, "755");
-				changed = true;
-			}
-			// Check busybox for x86
-			file = new File(ctx.getDir("bin", 0), "busybox_x86");
-			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.busybox_x86, file, "755");
-				changed = true;
+			if (arch.equals("i686")) {
+				// Check busybox for x86
+				file = new File(ctx.getDir("bin", 0), "busybox_x86");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.busybox_x86, file, "755");
+					changed = true;
+				}
+			} else {
+				// Check busybox for ARM
+				file = new File(ctx.getDir("bin", 0), "busybox_g1");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.busybox_g1, file, "755");
+					changed = true;
+				}
 			}
 			// check nflog
 			file = new File(ctx.getDir("bin", 0), "nflogv2");
@@ -2645,7 +2868,7 @@ public final class Api {
 			}
 		} catch (Exception e) {
 			if (showErrors)
-				alert(ctx, "Error installing binary files: " + e);
+				alert(ctx, R.string.error_installing_binaries + " " + e);
 			return false;
 		}
 		return true;

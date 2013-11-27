@@ -137,7 +137,7 @@
     <string name="widget_fail">Файрвол защищён паролем!</string>
     <string name="error_no_root">Не предоставлены права root!</string>
     <string name="languageSupport">Язык</string>
-    <string name="simplewidget">Файрвол — вкл/откл<</string>
+    <string name="simplewidget">Файрвол — вкл/откл</string>
     <string name="statuswidget">Файрвол — меню</string>
     <string name="sdcard_title">Приложения на SD</string>
     <string name="sdcard_summary">Применять правила для приложений, требующих доступ к сети, после монтирования карты памяти</string>

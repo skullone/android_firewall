@@ -40,6 +40,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class HelpAboutFragment extends SherlockFragment {
 
+	final static String TAG = "{AF}";
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class HelpAboutFragment extends SherlockFragment {
 			PackageInfo info = manager.getPackageInfo(getActivity().getPackageName(), 0);
 			result = String.format("%s", info.versionName, info.versionCode);
 		} catch (NameNotFoundException e){
-			Log.w("Android Firewall", "Unable to get application version: " + e.getMessage());
+			Log.w(TAG, "Unable to get application version: " + e.getMessage());
 			result = "Unable to get application version.";
 		}
 		

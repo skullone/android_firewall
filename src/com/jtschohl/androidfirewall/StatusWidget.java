@@ -34,8 +34,6 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.jtschohl.androidfirewall.R;
-
 public class StatusWidget extends AppWidgetProvider {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {

@@ -49,6 +49,7 @@ import android.util.Log;
 
 public final class InterfaceTracker {
 
+	final static String TAG = "{AF}";
 	private static InterfaceInfo currentConfig = null;
 
 	public static final String ITFS_WIFI[] = { "tiwlan+", "wlan+", "eth+",
@@ -57,7 +58,7 @@ public final class InterfaceTracker {
 			"wimax+", "vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
 			"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
 			"rmnet0+", "cdma_rmnet+", "rmnet_usb0+", "rmnet_usb+", "bond1+",
-			"ppp0+" };
+			"ppp0+", "clat4+" };
 	public static final String ITFS_VPN[] = { "tun+", "tun0+" };
 	public static final String ITFS_TETHER[] = { "bnep0+", "bt-pan+", "rndis0+" };
 
@@ -132,7 +133,7 @@ public final class InterfaceTracker {
 					}
 				}
 			} catch (SocketException e) {
-				Log.e("Android Firewall",
+				Log.e(TAG,
 						"Error fetching network interface list");
 			}
 		}
@@ -185,21 +186,21 @@ public final class InterfaceTracker {
 		currentConfig = newCfg;
 
 		if (!newCfg.netEnabled) {
-			Log.i("Android Firewall",
+			Log.i(TAG,
 					"Now assuming NO connection (all interfaces down)");
 		} else {
 			if (newCfg.netType == ConnectivityManager.TYPE_WIFI) {
-				Log.i("Android Firewall", "Now assuming wifi connection");
+				Log.i(TAG, "Now assuming wifi connection");
 			} else if (newCfg.netType == ConnectivityManager.TYPE_MOBILE) {
-				Log.i("Android Firewall", "Now assuming 3G connection");
+				Log.i(TAG, "Now assuming 3G connection");
 			}
 
 			if (!newCfg.lanipv4.equals("")) {
-				Log.i("Android Firewall", "IPv4 LAN netmask on "
+				Log.i(TAG, "IPv4 LAN netmask on "
 						+ newCfg.wifiName + ": " + newCfg.lanipv4);
 			}
 			if (!newCfg.lanipv6.equals("")) {
-				Log.i("Android Firewall", "IPv6 LAN netmask on "
+				Log.i(TAG, "IPv6 LAN netmask on "
 						+ newCfg.wifiName + ": " + newCfg.lanipv6);
 			}
 		}

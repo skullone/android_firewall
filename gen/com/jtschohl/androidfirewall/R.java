@@ -981,7 +981,7 @@ containing a value of this type.
         public static final int edit_query=0x7f060026;
         public static final int enableFirewall=0x7f060069;
         public static final int enableipv4=0x7f060072;
-        public static final int exit=0x7f060076;
+        public static final int exit=0x7f060077;
         public static final int exportrules=0x7f060038;
         public static final int exportrules_cancel=0x7f060039;
         public static final int exportrules_ok=0x7f06003a;
@@ -1019,12 +1019,12 @@ containing a value of this type.
         public static final int pass_input=0x7f06005e;
         public static final int pass_message=0x7f06005d;
         public static final int pass_ok=0x7f060060;
-        public static final int popup_default=0x7f060077;
-        public static final int popup_profile1=0x7f060078;
-        public static final int popup_profile2=0x7f060079;
-        public static final int popup_profile3=0x7f06007a;
-        public static final int popup_profile4=0x7f06007b;
-        public static final int popup_profile5=0x7f06007c;
+        public static final int popup_default=0x7f060078;
+        public static final int popup_profile1=0x7f060079;
+        public static final int popup_profile2=0x7f06007a;
+        public static final int popup_profile3=0x7f06007b;
+        public static final int popup_profile4=0x7f06007c;
+        public static final int popup_profile5=0x7f06007d;
         public static final int profile1=0x7f060047;
         public static final int profile2=0x7f060048;
         public static final int profile3=0x7f060049;
@@ -1032,6 +1032,7 @@ containing a value of this type.
         public static final int profile5=0x7f06004b;
         public static final int saveprofile_link=0x7f060063;
         public static final int search=0x7f060050;
+        public static final int sendreport=0x7f060076;
         public static final int showCustom=0x7f060008;
         public static final int showHome=0x7f060005;
         public static final int showTitle=0x7f060007;
@@ -1109,6 +1110,7 @@ containing a value of this type.
     }
     public static final class string {
         public static final int LogAppName=0x7f0b00b3;
+        public static final int LogPackAllowed=0x7f0b00b5;
         public static final int LogPackBlock=0x7f0b00b4;
         public static final int about_help=0x7f0b009d;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1160,6 +1162,7 @@ containing a value of this type.
         public static final int clear=0x7f0b005b;
         public static final int clear_log=0x7f0b0025;
         public static final int close=0x7f0b0017;
+        public static final int confirm_delete=0x7f0b00ce;
         public static final int connectchangerules_summary=0x7f0b00a9;
         public static final int connectchangerules_title=0x7f0b00aa;
         public static final int custom_script2_info=0x7f0b0044;
@@ -1176,13 +1179,24 @@ containing a value of this type.
         public static final int discard=0x7f0b0048;
         public static final int drawer_close=0x7f0b009f;
         public static final int drawer_open=0x7f0b009e;
-        public static final int dst_ip=0x7f0b00c0;
-        public static final int dst_port=0x7f0b00c2;
+        public static final int dst_ip=0x7f0b00c1;
+        public static final int dst_port=0x7f0b00c3;
+        public static final int enableLog_accept_title=0x7f0b00c5;
         public static final int enableLog_title=0x7f0b0074;
         public static final int enterfilename=0x7f0b004e;
         public static final int enternewpass=0x7f0b0030;
         public static final int enterpass=0x7f0b002f;
+        public static final int error_accessing_class=0x7f0b00d8;
+        public static final int error_accessing_root=0x7f0b00d5;
+        public static final int error_af_folder=0x7f0b00d9;
+        public static final int error_clearing_rules=0x7f0b00d4;
+        public static final int error_installing_binaries=0x7f0b00d6;
         public static final int error_no_root=0x7f0b0092;
+        public static final int error_purging=0x7f0b00cf;
+        public static final int error_purging_code=0x7f0b00d0;
+        public static final int error_purgingipv6=0x7f0b00d1;
+        public static final int error_purgingipv6_code=0x7f0b00d2;
+        public static final int error_showing_rules=0x7f0b00d3;
         public static final int exit=0x7f0b0018;
         public static final int exportfailed=0x7f0b004c;
         public static final int exportrules=0x7f0b0055;
@@ -1190,20 +1204,23 @@ containing a value of this type.
         public static final int file_deleted=0x7f0b0090;
         public static final int fw_disabled=0x7f0b001a;
         public static final int fw_enabled=0x7f0b0019;
+        public static final int generate_reports=0x7f0b00ca;
+        public static final int generate_zip=0x7f0b00cb;
         public static final int help=0x7f0b0016;
-        public static final int help_dialog_text=0x7f0b00c6;
-        public static final int help_profiles=0x7f0b00c5;
-        public static final int help_rules=0x7f0b00c4;
-        public static final int help_usage=0x7f0b00c3;
+        public static final int help_dialog_text=0x7f0b00dd;
+        public static final int help_profiles=0x7f0b00dc;
+        public static final int help_rules=0x7f0b00db;
+        public static final int help_usage=0x7f0b00da;
         public static final int importfailed=0x7f0b004b;
         public static final int importrules=0x7f0b0054;
         public static final int importsuccess=0x7f0b004a;
         public static final int included_iptables=0x7f0b00ac;
-        public static final int input_off_summary=0x7f0b00b6;
-        public static final int input_on_summary=0x7f0b00b7;
-        public static final int input_options_title=0x7f0b00b9;
-        public static final int input_title=0x7f0b00b8;
-        public static final int input_wifi=0x7f0b00bf;
+        public static final int input_off_summary=0x7f0b00b7;
+        public static final int input_on_summary=0x7f0b00b8;
+        public static final int input_options_title=0x7f0b00ba;
+        public static final int input_title=0x7f0b00b9;
+        public static final int input_wifi=0x7f0b00c0;
+        public static final int interface_fail=0x7f0b00c9;
         public static final int invert=0x7f0b0075;
         public static final int iptables_title=0x7f0b00ad;
         public static final int ipv6_disabled=0x7f0b001c;
@@ -1218,11 +1235,12 @@ containing a value of this type.
         public static final int lan_title=0x7f0b00a2;
         public static final int languageSupport=0x7f0b0093;
         public static final int loadprofile=0x7f0b006f;
+        public static final int log_accept_summary=0x7f0b00c4;
         public static final int log_cleared=0x7f0b0023;
         public static final int log_disabled=0x7f0b0020;
         public static final int log_empty=0x7f0b0098;
         public static final int log_enabled=0x7f0b001f;
-        public static final int log_failed=0x7f0b00b5;
+        public static final int log_failed=0x7f0b00b6;
         public static final int log_fetch_error=0x7f0b00b1;
         public static final int log_parse_error=0x7f0b00b2;
         public static final int log_summary=0x7f0b0088;
@@ -1233,14 +1251,15 @@ containing a value of this type.
         public static final int mode_blacklist=0x7f0b0039;
         public static final int mode_header=0x7f0b0037;
         public static final int mode_whitelist=0x7f0b0038;
-        public static final int multiuser_disabled=0x7f0b00be;
-        public static final int multiuser_enabled=0x7f0b00bd;
-        public static final int multiuser_summary=0x7f0b00bb;
-        public static final int multiuser_title=0x7f0b00bc;
+        public static final int multiuser_disabled=0x7f0b00bf;
+        public static final int multiuser_enabled=0x7f0b00be;
+        public static final int multiuser_summary=0x7f0b00bc;
+        public static final int multiuser_title=0x7f0b00bd;
         public static final int new_app_installed=0x7f0b004f;
         public static final int no_rules_file=0x7f0b008e;
         public static final int no_rules_files=0x7f0b00a6;
         public static final int no_storage=0x7f0b008f;
+        public static final int no_zip=0x7f0b00cc;
         public static final int notification_summary=0x7f0b0089;
         public static final int notifications_title=0x7f0b0073;
         public static final int notify_disabled=0x7f0b0051;
@@ -1276,6 +1295,7 @@ containing a value of this type.
         public static final int profilesoptions=0x7f0b0071;
         public static final int purgerules=0x7f0b0014;
         public static final int reading_apps=0x7f0b0035;
+        public static final int report_fail=0x7f0b00c8;
         public static final int roaming=0x7f0b005a;
         public static final int roaming_summary=0x7f0b0086;
         public static final int roaming_title=0x7f0b0081;
@@ -1283,6 +1303,7 @@ containing a value of this type.
         public static final int rules_deleted=0x7f0b002c;
         public static final int rules_export_successfully=0x7f0b008c;
         public static final int rules_file_deleted=0x7f0b00a7;
+        public static final int rules_file_missing=0x7f0b00d7;
         public static final int rules_help=0x7f0b009b;
         public static final int rules_import_successfully=0x7f0b008d;
         public static final int rules_saved=0x7f0b002b;
@@ -1294,13 +1315,16 @@ containing a value of this type.
         public static final int sdcard_title=0x7f0b0096;
         public static final int search_name=0x7f0b007d;
         public static final int select_mode=0x7f0b00a3;
+        public static final int send_email=0x7f0b00cd;
+        public static final int sendreport=0x7f0b00c7;
         public static final int set_custom_script=0x7f0b003f;
         public static final int setpwd=0x7f0b0015;
-        public static final int settings_title=0x7f0b00ba;
+        public static final int settings_title=0x7f0b00bb;
+        public static final int show_accept_log=0x7f0b00c6;
         public static final int show_log=0x7f0b0024;
         public static final int showrules=0x7f0b0010;
         public static final int simplewidget=0x7f0b0094;
-        public static final int src_ip=0x7f0b00c1;
+        public static final int src_ip=0x7f0b00c2;
         public static final int statuswidget=0x7f0b0095;
         public static final int system_iptables=0x7f0b00ab;
         public static final int tasker_name=0x7f0b007b;
@@ -1328,8 +1352,8 @@ containing a value of this type.
         public static final int usersettings=0x7f0b0082;
         public static final int version_about=0x7f0b00a8;
         public static final int vpn=0x7f0b0080;
-        public static final int vpn_disabled=0x7f0b00c8;
-        public static final int vpn_enabled=0x7f0b00c7;
+        public static final int vpn_disabled=0x7f0b00df;
+        public static final int vpn_enabled=0x7f0b00de;
         public static final int vpn_summary=0x7f0b0085;
         public static final int vpn_title=0x7f0b007f;
         public static final int widget_fail=0x7f0b0091;
@@ -2481,7 +2505,7 @@ containing a value of this type.
          */
         public static final int[] SherlockSpinner = {
             0x010100af, 0x01010175, 0x01010176, 0x0101017b,
-            0x01010262, 0x010102ac, 0x010102ad, 0x0101041f
+            0x01010262, 0x010102ac, 0x010102ad, 0x0101043a
         };
         /**
           <p>

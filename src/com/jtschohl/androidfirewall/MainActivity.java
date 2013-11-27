@@ -25,7 +25,13 @@
 
 package com.jtschohl.androidfirewall;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,6 +42,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,8 +54,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -382,15 +392,18 @@ public class MainActivity extends SherlockActivity implements
 			showLog();
 			break;
 		case 7:
-			clearLog();
+			showAcceptLog();
 			break;
 		case 8:
-			showRules();
+			clearLog();
 			break;
 		case 9:
-			setPassword();
+			showRules();
 			break;
 		case 10:
+			setPassword();
+			break;
+		case 11:
 			setCustomScript();
 			break;
 		}
@@ -704,6 +717,8 @@ public class MainActivity extends SherlockActivity implements
 				.getBoolean(Api.PREF_IP6TABLES, false);
 		boolean logsupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean logacceptenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGACCEPTENABLED, false);
 		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -806,6 +821,13 @@ public class MainActivity extends SherlockActivity implements
 			editor.commit();
 		} else {
 			editor.putBoolean("inputenabled", false);
+			editor.commit();
+		}
+		if (logacceptenabled) {
+			editor.putBoolean("logacceptenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("logacceptenabled", false);
 			editor.commit();
 		}
 	}
@@ -1064,6 +1086,9 @@ public class MainActivity extends SherlockActivity implements
 			return true;
 		case R.id.usersettings:
 			userSettings();
+			return true;
+		case R.id.sendreport:
+			getReports();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -1394,6 +1419,23 @@ public class MainActivity extends SherlockActivity implements
 	 * Show logs on a dialog
 	 */
 	private void showLog() {
+		Api.dmesgCommand = "dmesg | $GREP \\[AndroidFirewall\\]\n";
+		Api.nflogCommand = "[AndroidFirewall]";
+		Api.logstring = "[AndroidFirewall]";
+		Api.rejectlog = true;
+		Intent intent = new Intent();
+		intent.setClass(this, showLog.class);
+		startActivityForResult(intent, 0);
+	}
+
+	/**
+	 * Show logs on a dialog
+	 */
+	private void showAcceptLog() {
+		Api.dmesgCommand = "dmesg | $GREP \\[AndroidFirewallAccept\\]\n";
+		Api.nflogCommand = "[AndroidFirewallAccept]";
+		Api.logstring = "[AndroidFirewallAccept]";
+		Api.rejectlog = false;
 		Intent intent = new Intent();
 		intent.setClass(this, showLog.class);
 		startActivityForResult(intent, 0);
@@ -2331,13 +2373,15 @@ public class MainActivity extends SherlockActivity implements
 		return super.onKeyUp(keyCode, event);
 	}
 
-	/** many thanks to Mr. Cernekee for this GPLv3 code
-	 * Original code located here:
+	/**
+	 * many thanks to Mr. Cernekee for this GPLv3 code Original code located
+	 * here:
 	 * 
-	 * https://github.com/ukanth/afwall/blob/master/src/dev/ukanth/ufirewall/Api.java
+	 * https://github.com/ukanth/afwall/blob/master/src/dev/ukanth/ufirewall/Api
+	 * .java
 	 * 
 	 */
-	
+
 	private void toggleLogtarget() {
 		final Context ctx = getApplicationContext();
 
@@ -2452,5 +2496,256 @@ public class MainActivity extends SherlockActivity implements
 				msg.setGravity(Gravity.CENTER);
 			}
 		}
+	}
+
+	/**
+	 * get error reports
+	 */
+	
+	private void getReports() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			// We can read and write the media
+			Toast.makeText(MainActivity.this, R.string.generate_reports,
+					Toast.LENGTH_SHORT).show();
+			getInterfaceInfo();
+			Log.d(TAG, "Able to read/write to external storage while running reports");
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			// We can only read the media
+			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
+			Log.d(TAG, "Read only access to external storage while trying to run reports");
+		} else {
+			// Something else is wrong. It may be one of many other states, but
+			// all we need
+			// to know is we can neither read nor write
+			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
+			Log.d(TAG, "Something is wrong with access to external storage while trying to run reports");
+		}
+	}
+
+	/**
+	 * get Interface Information
+	 */
+	
+	private void getInterfaceInfo() {
+		final Context ctx = getApplicationContext();
+
+		InterfaceCallback cb = new InterfaceCallback();
+		cb.ctx = ctx;
+
+		new RootCommand().setReopenShell(true)
+				.setFailureToast(R.string.interface_fail).setCallback(cb)
+				.setLogging(true).run(ctx, "ls /sys/class/net");
+	}
+
+	private class InterfaceCallback extends RootCommand.Callback {
+		public Context ctx;
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "interfaces.txt";
+		File file = new File(dir, filename);
+		FileOutputStream fout = null;
+		OutputStreamWriter output = null;
+
+		public void cbFunc(RootCommand state) {
+			if (state.exitCode != 0) {
+				return;
+			}
+			dir.mkdirs();
+
+			try {
+				for (String str : state.lastCommandResult.toString().split("\r\n")) {
+					Log.d(TAG, str);
+					fout = new FileOutputStream(file);
+					output = new OutputStreamWriter(fout);
+					output.write(str, 0, str.length());
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "File write failed: " + e.toString());
+			} finally {
+				try {
+					if (output != null) {
+						output.close();
+						Log.d(TAG, "OUTPUT Closed");
+					}
+					if (fout != null) {
+						fout.close();
+						Log.d(TAG, "FOUT Closed");
+						getIptablesInfo();
+					}
+				} catch (IOException e) {
+					Log.e(TAG, String.format("File close failed: %s",
+							e.toString()));
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get iptables information
+	 */
+	
+	private void getIptablesInfo() {
+		final Context ctx = getApplicationContext();
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "iptables.txt";
+		File file = new File(dir, filename);
+		FileOutputStream fout = null;
+		OutputStreamWriter output = null;
+		String iptables = Api.showIptablesRules(ctx);
+		
+		try {
+			for (String str : iptables.split("\r\n")) {
+				fout = new FileOutputStream(file);
+				output = new OutputStreamWriter(fout);
+				output.write(str, 0, str.length());
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "File write failed: " + e.toString());
+		} finally {
+			try {
+				if (output != null) {
+					output.close();
+					Log.d(TAG, "OUTPUT Closed");
+				}
+				if (fout != null) {
+					fout.close();
+					Log.d(TAG, "FOUT Closed");
+					getLogcatInfo();
+				}
+			} catch (IOException e) {
+				Log.e(TAG, String.format("File close failed: %s",
+						e.toString()));
+			}
+		}
+	}
+	
+	/**
+	 * get Logcat Information
+	 */
+	
+	private void getLogcatInfo() {
+		final Context ctx = getApplicationContext();
+
+		LogcatCallback cb = new LogcatCallback();
+		cb.ctx = ctx;
+
+		new RootCommand().setReopenShell(true)
+				.setFailureToast(R.string.interface_fail).setCallback(cb)
+				.setLogging(true).run(ctx, "logcat -d");
+	}
+
+	private class LogcatCallback extends RootCommand.Callback {
+		public Context ctx;
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "logcat.txt";
+		File file = new File(dir, filename);
+		FileOutputStream fout = null;
+		OutputStreamWriter output = null;
+
+		public void cbFunc(RootCommand state) {
+			if (state.exitCode != 0) {
+				return;
+			}
+			dir.mkdirs();
+
+			try {
+				for (String str : state.lastCommandResult.toString().split("\r\n")) {
+					fout = new FileOutputStream(file);
+					output = new OutputStreamWriter(fout);
+					output.write(str, 0, str.length());
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "File write failed: " + e.toString());
+			} finally {
+				try {
+					if (output != null) {
+						output.close();
+						Log.d(TAG, "OUTPUT Closed");
+					}
+					if (fout != null) {
+						fout.close();
+						Log.d(TAG, "FOUT Closed");
+						zipFiles();
+					}
+				} catch (IOException e) {
+					Log.e(TAG, String.format("File close failed: %s",
+							e.toString()));
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Zip error reports
+	 */
+	
+	public void zipFiles(){
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "af_error_reports.zip";
+		String[] reports = {dir + "/iptables.txt", dir + "/logcat.txt", dir + "/interfaces.txt" };
+		File file = new File(dir, filename);
+		
+		try {
+			BufferedInputStream origin = null;
+			FileOutputStream dest = new FileOutputStream(file);
+			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+			byte data[] = new byte[2048];
+			
+			for (int i =0; i < reports.length; i++){
+				Log.v(TAG, "Compressing folder: " + reports[i]);
+				FileInputStream fi = new FileInputStream(reports[i]);
+				origin = new BufferedInputStream(fi, 2048);
+				ZipEntry entry = new ZipEntry(reports[i].substring(reports[i].lastIndexOf("/") + 1));
+				out.putNextEntry(entry);
+				int count;
+				while ((count = origin.read(data, 0, 2048)) != -1){
+					out.write(data, 0, count);
+				}
+				origin.close();
+			}
+			out.close();
+			Toast.makeText(MainActivity.this, R.string.generate_zip,
+					Toast.LENGTH_SHORT).show();
+			emailErrorReports();
+		} catch (Exception e){
+			Log.e(TAG, "Error zipping folder");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Email error reports
+	 */
+	
+	private void emailErrorReports(){
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "af_error_reports.zip";
+		File file = new File(dir, filename);
+		String af_version;
+		try {
+			af_version = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e){
+			af_version = "Unknown";
+		}
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jtschohl@gmail.com"});
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Android Firewall Error Report for version " + af_version);
+		intent.putExtra(Intent.EXTRA_TEXT, "");
+		if(!file.exists() || !file.canRead()){
+			Toast.makeText(this, R.string.no_zip, Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "No zip file is available");
+			finish();
+			return;
+		}
+		Uri uri = Uri.fromFile(file);
+		intent.putExtra(Intent.EXTRA_STREAM,  uri);
+		startActivity(Intent.createChooser(intent, getString(R.string.send_email)));
+		return;
 	}
 }

@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -37,7 +38,6 @@ import android.widget.Toast;
 
 import com.jtschohl.androidfirewall.Api;
 import com.jtschohl.androidfirewall.R;
-import com.jtschohl.androidfirewall.plugin.BundleScrubber;
 
 /**
  * Many thanks to the Tasker and Locale Development teams for great products and
@@ -48,6 +48,8 @@ import com.jtschohl.androidfirewall.plugin.BundleScrubber;
 
 public final class FireReceiver extends BroadcastReceiver {
 
+	final static String TAG = "{AF}";
+	
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		/*
@@ -72,8 +74,10 @@ public final class FireReceiver extends BroadcastReceiver {
 		BundleScrubber.scrub(intent);
 		BundleScrubber.scrub(intent
 				.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE));
-		int i = intent.getIntExtra("storeposition", 0);
-		Log.d(getClass().getName(), "value for FireReceiver = " + i);
+		Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+		String storeposition = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE);
+		int i = Integer.parseInt(storeposition);
+		Log.d(TAG, "value for FireReceiver = " + i);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
@@ -411,10 +415,28 @@ public final class FireReceiver extends BroadcastReceiver {
 				.getBoolean(Api.PREF_IP6TABLES, false);
 		boolean logsupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_LOGENABLED, false);
+		boolean logacceptenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGACCEPTENABLED, false);
 		boolean notifysupport = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
+		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false);
+		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_VPNENABLED, false);
+		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ROAMENABLED, false);
+		boolean lanenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LANENABLED, false);
+		boolean autorules = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_AUTORULES, false);
+		boolean tetherenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TETHER, false);
+		boolean multiuserenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_MULTIUSER, false);
+		boolean inputenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_INPUTENABLED, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -441,6 +463,69 @@ public final class FireReceiver extends BroadcastReceiver {
 			editor.commit();
 		} else {
 			editor.putBoolean("taskertoastenabled", false);
+			editor.commit();
+		}
+		if (sdcard) {
+			editor.putBoolean("sdcard", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("sdcard", false);
+			editor.commit();
+		}
+		if (vpnenabled) {
+			editor.putBoolean("vpnsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("vpnsupport", false);
+			editor.commit();
+		}
+		if (roamenabled) {
+			editor.putBoolean("roamingsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("roamingsupport", false);
+			editor.commit();
+		}
+		if (lanenabled) {
+			editor.putBoolean("lansupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("lansupport", false);
+			editor.commit();
+		}
+		if (autorules) {
+			editor.putBoolean("connectchangerules", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("connectchangerules", false);
+			editor.commit();
+		}
+		if (tetherenabled) {
+			editor.putBoolean("tetheringsupport", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("tetheringsupport", false);
+			editor.commit();
+		}
+		if (multiuserenabled) {
+			editor.putBoolean("multiuser", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("multiuser", false);
+			editor.commit();
+		}
+		if (inputenabled) {
+			editor.putBoolean("inputenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("inputenabled", false);
+			editor.commit();
+		}
+		if (logacceptenabled) {
+			editor.putBoolean("logacceptenabled", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("logacceptenabled", false);
 			editor.commit();
 		}
 	}

@@ -145,6 +145,9 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		if (key.equals("inputenabled")) {
 			toggleInputEnabled();
 		}
+		if (key.equals("logacceptenabled")) {
+			toggleAcceptLogenabled();
+		}
 	}
 
 	private void purgeIp6Rules() {
@@ -195,6 +198,38 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		boolean enabled = !prefs.getBoolean(Api.PREF_LOGENABLED, false);
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_LOGENABLED, enabled);
+		editor.commit();
+		final String logtarget = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");
+		if (enabled && logtarget.equals("NFLOG")) {
+			Intent intent = new Intent(getApplicationContext(),
+					NflogService.class);
+			getApplicationContext().startService(intent);
+			Intent intent2 = new Intent(getApplicationContext(),
+					RootShell.class);
+			getApplicationContext().startService(intent2);
+		}
+		if (!enabled && logtarget.equals("NFLOG")) {
+			Intent intent = new Intent(getApplicationContext(),
+					NflogService.class);
+			getApplicationContext().stopService(intent);
+			Intent intent2 = new Intent(getApplicationContext(),
+					RootShell.class);
+			getApplicationContext().stopService(intent2);
+		}
+		if (Api.isEnabled(this)) {
+			Api.applySavedIptablesRules(this, true);
+		}
+	}
+	
+	/**
+	 * Toggle log accept on/off
+	 */
+	private void toggleAcceptLogenabled() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		boolean enabled = !prefs.getBoolean(Api.PREF_LOGACCEPTENABLED, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_LOGACCEPTENABLED, enabled);
 		editor.commit();
 		final String logtarget = getApplicationContext().getSharedPreferences(
 				Api.PREFS_NAME, 0).getString(Api.PREF_LOGTARGET, "");

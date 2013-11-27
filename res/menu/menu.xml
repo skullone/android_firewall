@@ -24,6 +24,10 @@
                 android:showAsAction="ifRoom"
                 android:title="@string/help"/>
             <item
+                android:id="@+id/sendreport"
+                android:showAsAction="ifRoom"
+                android:title="@string/sendreport"/>
+            <item
                 android:id="@+id/exit"
                 android:showAsAction="ifRoom"
                 android:title="@string/exit"/>

@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
     android:installLocation="internalOnly"
-    android:versionCode="232"
-    android:versionName="2.3.2" >
+    android:versionCode="233"
+    android:versionName="2.3.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
     <!--
     Boot completed permission is for applying iptables/ip6tables after a reboot.  iptables/ip6tables is not persistent so a reboot
     wipes it out
@@ -24,8 +24,10 @@
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" >
     </uses-permission>
     <!-- The following permissions are needed for the new LAN support in order to access the subnets and get the address ranges -->
-    <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
 
     <supports-screens
         android:anyDensity="true"
@@ -68,12 +70,119 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.DisableFirewallShortcut"
+            android:label="@string/fw_disabled" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.DisableFirewall"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.EnableFirewallShortcut"
+            android:label="@string/fw_enabled" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.EnableFirewall"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.DefaultProfileShortcut"
+            android:label="@string/defaultprofile" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.DefaultProfile"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile1Shortcut"
+            android:label="@string/profile1" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile1"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile2Shortcut"
+            android:label="@string/profile2" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile2"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile3Shortcut"
+            android:label="@string/profile3" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile3"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile4Shortcut"
+            android:label="@string/profile4" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile4"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile5Shortcut"
+            android:label="@string/profile5" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.jtschohl.androidfirewall.shortcuts.Profile5"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
         </service>
-        <service android:name="com.jtschohl.androidfirewall.InterfaceIntent"></service>
-        <service android:name="com.jtschohl.androidfirewall.RootShell"></service>
-        <service android:name="com.jtschohl.androidfirewall.NflogService"></service>
+        <service android:name="com.jtschohl.androidfirewall.InterfaceIntent" >
+        </service>
+        <service android:name="com.jtschohl.androidfirewall.RootShell" >
+        </service>
+        <service android:name="com.jtschohl.androidfirewall.NflogService" >
+        </service>
 
         <receiver
             android:name="BootBroadcast"

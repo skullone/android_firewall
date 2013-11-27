@@ -49,8 +49,4 @@ public class isMediaScanning extends BroadcastReceiver {
 			}
 		}
 	}
-
-	// Intent pushIntent = new Intent(context, setRulesOnBootService.class);
-	// context.startService(pushIntent);
-
 }

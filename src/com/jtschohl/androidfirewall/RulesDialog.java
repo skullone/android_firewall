@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -101,15 +102,11 @@ public class RulesDialog extends ListActivity {
 			return;
 		} catch (IOException error) {
 			error.printStackTrace();
-			Toast.makeText(
-					this,
-					"The selected rules file is corrupt or missing.  Please export a new rules files",
+			Toast.makeText(this, R.string.rules_file_missing,
 					Toast.LENGTH_SHORT).show();
 		} catch (ClassNotFoundException error) {
 			error.printStackTrace();
-			Toast.makeText(
-					this,
-					"There is an error accessing the RulesDialog class information. Please contact the developer",
+			Toast.makeText(this, R.string.error_accessing_class,
 					Toast.LENGTH_SHORT).show();
 		} finally {
 

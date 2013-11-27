@@ -24,6 +24,7 @@ package com.jtschohl.androidfirewall;
 
 import java.io.File;
 import java.io.FilenameFilter;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -66,7 +67,7 @@ public class DeleteRulesDialog extends ListActivity {
 		final File file = new File(filepath + "/"
 				+ getListAdapter().getItem(position));
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Do you want to delete the file " + file)
+		builder.setMessage(R.string.confirm_delete + " " + file)
 				.setCancelable(false)
 				.setPositiveButton(R.string.delete_rules_yes,
 						new DialogInterface.OnClickListener() {

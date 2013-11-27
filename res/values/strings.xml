@@ -24,7 +24,7 @@
     <string name="log_was_enabled">Log has been enabled</string>
     <string name="log_was_disabled">Log has been disabled</string>
     <string name="log_cleared">Log cleared</string>
-    <string name="show_log">Show log</string>
+    <string name="show_log">Show REJECT log</string>
     <string name="clear_log">Clear log</string>
     <string name="applying_rules">Applying iptables rules.</string>
     <string name="applyingipv6_rules">Applying ip6tables rules.</string>
@@ -55,7 +55,7 @@
     <string name="custom_script_defined">Custom script defined</string>
     <string name="custom_script_removed">Custom script removed</string>
     <string name="custom_script_error">Error saving custom script</string>
-    <string name="custom_script_info"><b>Enter your custom script bellow.</b>		\n<i>(Leave it blank to remove)</i>		\nFor information about custom scripts, click <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">here</a>.</string>
+    <string name="custom_script_info"><b>Enter your custom script below.</b>		\n<i>(Leave it blank to remove)</i>		\nFor information about custom scripts, click <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">here</a>.</string>
     <string name="custom_script2_info">    	\n<b>Custom shutdown script</b>    	\nYou can also define a custom script to be executed when the firewall is <b>disabled</b>:</string>
     <string name="unsaved_changes">Unsaved changes</string>
     <string name="unsaved_changes_message">You have unsaved changes.\nDo you want to apply or discard them?</string>
@@ -169,6 +169,7 @@
     <string name="log_parse_error">Cannot parse the logs.</string>
     <string name="LogAppName">Application Name</string>
     <string name="LogPackBlock">Total Packets Blocked</string>
+    <string name="LogPackAllowed">Total Packets Allowed</string>
     <string name="log_failed">Error updating log status.</string>
     <string name="input_off_summary">Enabling this will activate the INPUT chains for iptables. This will allow you to block certain types of communication headed TO your device.</string>
     <string name="input_on_summary">Disabling this will deactivate the INPUT chains for iptables.</string>
@@ -183,6 +184,28 @@
     <string name="dst_ip">Destination IP</string>
     <string name="src_ip">Source IP</string>
     <string name="dst_port">Destination Port</string>
+    <string name="log_accept_summary">Enabling this will log all <i>accepted</i> data flowing in and out of your device.  This will allow you see where an application sends data to and where it receives data from.</string>
+    <string name="enableLog_accept_title">Enable Firewall Logs for accepted data.</string>
+    <string name="show_accept_log">Show ACCEPT log</string>
+    <string name="sendreport">Send Error Report</string>
+    <string name="report_fail">Failed to get Error Reports</string>
+    <string name="interface_fail">Failed to get Interface Information</string>
+    <string name="generate_reports">Generating Error Reports</string>
+    <string name="generate_zip">Creating Zip File</string>
+    <string name="no_zip">The Error Reports zip file cannot be found.</string>
+    <string name="send_email">Send Email</string>
+    <string name="confirm_delete">Do you want to delete the file</string>
+    <string name="error_purging">Error purging iptables:</string>
+    <string name="error_purging_code">Error purging iptables exit code:</string>
+    <string name="error_purgingipv6">Error purging ip6tables:</string>
+    <string name="error_purgingipv6_code">Error purging ip6tables exit code:</string>
+    <string name="error_showing_rules">Error showing rules:</string>
+    <string name="error_clearing_rules">Error clearing rules:</string>
+    <string name="error_accessing_root">Unable to access root</string>
+    <string name="error_installing_binaries">Error while installing binary files</string>
+    <string name="rules_file_missing">The selected rules file is corrupt or missing.  Please export a new rules file.</string>
+    <string name="error_accessing_class">There is an error accessing the class information. Please contact the developer.</string>
+    <string name="error_af_folder">There is an error accessing the androidfirewall directory. Please export a rules file first.</string>
     <string name="help_usage"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
 \n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
 \n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.

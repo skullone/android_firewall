@@ -22,17 +22,17 @@
  */
 package com.jtschohl.androidfirewall;
 
-import com.jtschohl.androidfirewall.Api;
-
 import android.app.Service;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
-import android.content.Intent;
 
 public class setRulesOnBootService extends Service {
 
+	final static String TAG = "{AF}";
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -61,15 +61,15 @@ public class setRulesOnBootService extends Service {
 					final boolean enabled = Api
 							.isEnabled(getApplicationContext());
 					if (enabled) {
-						Log.d("Android Firewall", "Applying rules.");
+						Log.d(TAG, "Applying rules.");
 						if (Api.hasRootAccess(getApplicationContext(), true)
 								&& Api.applyIptablesRules(
 										getApplicationContext(), true)) {
-							Log.d("Android Firewall",
+							Log.d(TAG,
 									"Enabled - Firewall successfully enabled on boot.");
 						}
 					} else {
-						Log.d("Android Firewall",
+						Log.d(TAG,
 								"Failed - Disabling firewall.");
 						Api.setEnabled(getApplicationContext(), false);
 					}

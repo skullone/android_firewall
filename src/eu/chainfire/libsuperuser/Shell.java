@@ -86,14 +86,12 @@ public class Shell {
 	public static List<String> run(String shell, String[] commands, String[] environment, boolean wantSTDERR) {
 		String shellUpper = shell.toUpperCase(Locale.ENGLISH);
 		
-		if (Debug.sanityChecksEnabled()) {
+		if (Debug.getSanityChecksEnabledEffective() && Debug.onMainThread()) {
 			// check if we're running in the main thread, and if so, crash if we're in debug mode,
 			// to let the developer know attention is needed here.
-			
-			if ((Looper.myLooper() != null) && (Looper.myLooper() == Looper.getMainLooper())) {
-				Debug.log(ShellOnMainThreadException.EXCEPTION_COMMAND);
-				throw new ShellOnMainThreadException(ShellOnMainThreadException.EXCEPTION_COMMAND);
-			}
+
+			Debug.log(ShellOnMainThreadException.EXCEPTION_COMMAND);
+			throw new ShellOnMainThreadException(ShellOnMainThreadException.EXCEPTION_COMMAND);
 		}
 		Debug.logCommand(String.format("[%s%%] START", shellUpper));
 		
@@ -554,8 +552,7 @@ public class Shell {
 		 * @return This Builder object for method chaining
 		 */
 		public Builder setMinimalLogging(boolean useMinimal) {
-			Debug.setDisableCommandLogging(useMinimal);
-			Debug.setDisableOutputLogging(useMinimal);
+			Debug.setLogTypeEnabled(Debug.LOG_COMMAND | Debug.LOG_OUTPUT, !useMinimal);
 			return this;
 		}
 
@@ -706,7 +703,7 @@ public class Shell {
 				
 		@Override
 		protected void finalize() throws Throwable {			
-			if (!closed && Debug.sanityChecksEnabled()) {
+			if (!closed && Debug.getSanityChecksEnabledEffective()) {
 				// waste of resources
 				Debug.log(ShellNotClosedException.EXCEPTION_NOT_CLOSED);
 				throw new ShellNotClosedException();												
@@ -787,7 +784,8 @@ public class Shell {
 			final int exitCode;
 
 			if (watchdog == null) return;
-
+			if (watchdogTimeout == 0) return;
+			
 			if (!isRunning()) {
 				exitCode = OnCommandResultListener.SHELL_DIED;
 				Debug.log(String.format("[%s%%] SHELL_DIED", shell.toUpperCase(Locale.ENGLISH)));
@@ -907,8 +905,7 @@ public class Shell {
 		 * Processes a STDOUT/STDERR line containing an end/exitCode marker
 		 */
 		private synchronized void processMarker() {
-			if (lastMarkerSTDOUT != null && command.marker.equals(lastMarkerSTDOUT) &&
-				lastMarkerSTDERR != null && command.marker.equals(lastMarkerSTDERR)) {
+			if (command.marker.equals(lastMarkerSTDOUT) && (command.marker.equals(lastMarkerSTDERR))) {				
 				if (command.onCommandResultListener != null) {
 					if (buffer != null) {
 						if (handler != null) {
@@ -1101,7 +1098,7 @@ public class Shell {
 
 			// This method should not be called from the main thread unless the shell is idle
 			// and can be cleaned up with (minimal) waiting. Only throw in debug mode.
-			if (!_idle && Debug.sanityChecksEnabled() && (Looper.myLooper() != null) && (Looper.myLooper() == Looper.getMainLooper())) {
+			if (!_idle && Debug.getSanityChecksEnabledEffective() && Debug.onMainThread()) {
 				Debug.log(ShellOnMainThreadException.EXCEPTION_NOT_IDLE);
 				throw new ShellOnMainThreadException(ShellOnMainThreadException.EXCEPTION_NOT_IDLE);
 			}
@@ -1141,7 +1138,7 @@ public class Shell {
 		 * Hopefully the StreamGobblers will croak on their own when the other side of
 		 * the pipe is closed.
 		 */
-		private synchronized void kill() {
+		public synchronized void kill() {
 			running = false;
 			closed = true;
 
@@ -1149,7 +1146,10 @@ public class Shell {
 				STDIN.close();
 			} catch (IOException e) {
 			}
-			process.destroy();
+			try {
+				process.destroy();
+			} catch (Exception e) {				
+			}
 		}
 
 		/**
@@ -1204,7 +1204,7 @@ public class Shell {
 		 * @return True if wait complete, false if wait interrupted
 		 */
 		public boolean waitForIdle() {
-			if (Debug.sanityChecksEnabled() && (Looper.myLooper() != null) && (Looper.myLooper() == Looper.getMainLooper())) {
+			if (Debug.getSanityChecksEnabledEffective() && Debug.onMainThread()) {
 				Debug.log(ShellOnMainThreadException.EXCEPTION_WAIT_IDLE);
 				throw new ShellOnMainThreadException(ShellOnMainThreadException.EXCEPTION_WAIT_IDLE);
 			}
