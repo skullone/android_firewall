@@ -25,6 +25,7 @@
         <item>Simplified Chinese</item>
         <item>Vietnamese</item>
         <item>Polish</item>
+        <item>Greek</item>
     </string-array>
     
     <string-array name="language_codes">
@@ -42,6 +43,7 @@
         <item>zh-CN</item>
         <item>vi</item>
         <item>pl</item>
+        <item>el</item>
     </string-array>
     
     <string-array name="drawer_menu">
