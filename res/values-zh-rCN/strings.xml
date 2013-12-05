@@ -15,16 +15,16 @@
     <string name="exit">退出</string>
     <string name="fw_enabled">防火墙已启用</string>
     <string name="fw_disabled">防火墙已禁用</string>
-    <string name="log_enabled">日志已启用</string>
-    <string name="log_disabled">日志已禁用</string>
-    <string name="log_was_enabled">日志已被启用</string>
-    <string name="log_was_disabled">日志已被禁用</string>
     <string name="ipv6_enabled">IPv6 已启用</string>
     <string name="ipv6_disabled">IPv6 未启用</string>
     <string name="ipv6_was_enabled">IPv6 已被启用</string>
     <string name="ipv6_was_disabled">IPv6 已被禁用</string>
+    <string name="log_enabled">日志已启用</string>
+    <string name="log_disabled">日志已禁用</string>
+    <string name="log_was_enabled">日志已被启用</string>
+    <string name="log_was_disabled">日志已被禁用</string>
     <string name="log_cleared">日志已清除</string>
-    <string name="show_log">显示日志</string>
+    <string name="show_log">显示REJECT日志</string>
     <string name="clear_log">清除日志</string>
     <string name="applying_rules">应用 iptables 规则。</string>
     <string name="applyingipv6_rules">应用 ip6tables 规则。</string>
@@ -40,7 +40,7 @@
     <string name="passdefined">密码锁定已设置</string>
     <string name="passremoved">密码锁定已移除</string>
     <string name="passerror">改变密码锁定出错</string>
-    <string name="working">工作中……</string>
+    <string name="working">正在工作……</string>
     <string name="reading_apps">正在读取安装的程序</string>
     <string name="please_wait">请稍等</string>
     <string name="mode_header">模式：%s</string>
@@ -55,8 +55,7 @@
     <string name="custom_script_defined">自定义脚本已定义</string>
     <string name="custom_script_removed">自定义脚本已删除</string>
     <string name="custom_script_error">保存自定义脚本时出错</string>
-    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.
-</string>
+    <string name="custom_script_info"><b>在这里输入你的自定义脚本。</b>		\n<i>（放空则删除）</i>		\n查看自定义脚本的更多信息，点击 <a href="http://code.google.com/p/droidwall/wiki/CustomScripts"></a>.</string>
     <string name="custom_script2_info">    	\n<b>自定义禁用脚本</b>    	\n在防火墙<b>被禁用</b>时执行的脚本：</string>
     <string name="unsaved_changes">未保存更改</string>
     <string name="unsaved_changes_message">有未保存更改。\n你想保存还是丢弃它们？</string>
@@ -170,6 +169,7 @@
     <string name="log_parse_error">无法解析日志。</string>
     <string name="LogAppName">程序名称</string>
     <string name="LogPackBlock">共阻止包</string>
+    <string name="LogPackAllowed">共允许包</string>
     <string name="log_failed">更新日志状态出错。</string>
     <string name="input_off_summary">启用该选项将激活iptables的INPUT链。它允许您阻止发送到您设置上的特定类型通讯包。</string>
     <string name="input_on_summary">禁用用该选项将禁用iptables的INPUT链。</string>
@@ -184,6 +184,28 @@
     <string name="dst_ip">目标IP</string>
     <string name="src_ip">来源IP</string>
     <string name="dst_port">目标Port</string>
+    <string name="log_accept_summary">启用该功能将记录您设备上所有<i>被接受</i>的进出数据流。允许您查看程序发送数据到哪或从哪接收数据。</string>
+    <string name="enableLog_accept_title">启用记录防火墙接收信息日志。</string>
+    <string name="show_accept_log">显示ACCEPT日志</string>
+    <string name="sendreport">发送错误报告</string>
+    <string name="report_fail">获取错误报告出错</string>
+    <string name="interface_fail">获取接口信息失败</string>
+    <string name="generate_reports">正在生成错误报告</string>
+    <string name="generate_zip">正在创建Zip文件</string>
+    <string name="no_zip">无法找到错误报告Zip文件。</string>
+    <string name="send_email">发送邮件</string>
+    <string name="confirm_delete">您确定要删除文件</string>
+    <string name="error_purging">清除iptables出错：</string>
+    <string name="error_purging_code">清除iptables出错，退出代码：</string>
+    <string name="error_purgingipv6">清除ip6tables出错：</string>
+    <string name="error_purgingipv6_code">清除ip6tables出错，退出代码：</string>
+    <string name="error_showing_rules">显示规则时出错：</string>
+    <string name="error_clearing_rules">清除规则时出错：</string>
+    <string name="error_accessing_root">无法获取root权限</string>
+    <string name="error_installing_binaries">安装二进制文件时出错</string>
+    <string name="rules_file_missing">选择的规则文件无效或丢失。请导出新规则文件。</string>
+    <string name="error_accessing_class">访问class信息时出错，有联系开发人员。</string>
+    <string name="error_af_folder">访问androidfirewall文件夹出错。请先导出规则文件。</string>
     <string name="help_usage"><b>使用 Android Firewall</b>\n<b>1.</b> 点击 <b>模式</b> 在 <i>白名单</i> 和 <i>黑名单</i> 模式间切换。
 \n<b>2.</b> 标记您想要阻止或允许的应用程序（取决于已选择的模式），每个网络接口单独设置。
 \n<b>3.</b> 打开菜单并启用防火墙。如果防火墙已经启用，只需要点击 <b>应用规则</b>。
