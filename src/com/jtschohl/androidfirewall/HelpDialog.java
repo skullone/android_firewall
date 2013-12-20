@@ -82,6 +82,9 @@ public class HelpDialog extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(
 				bar.newTab().setText(getString(R.string.profiles_help)),
 				HelpProfilesFragment.class);
+		mTabsAdapter.addTab(
+				bar.newTab().setText(getString(R.string.changelog_help)),
+				HelpChangelogFragment.class);
 		mTabsAdapter.addTab(bar.newTab()
 				.setText(getString(R.string.about_help)),
 				HelpAboutFragment.class);

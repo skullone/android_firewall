@@ -9,25 +9,23 @@
         <item>@string/profile4</item>
         <item>@string/profile5</item>
     </string-array>
-    
     <string-array name="language_support">
-        <item>System Language</item>
-        <item>English</item>
-        <item>Arabic</item>
-        <item>Czech</item>
-        <item>German</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>Italian</item>
-        <item>Japanese</item>
-        <item>Portuguese, Brazil</item>
-        <item>Russian</item>
-        <item>Simplified Chinese</item>
-        <item>Vietnamese</item>
-        <item>Polish</item>
-        <item>Greek</item>
+        <item>@string/system_language</item>
+        <item>@string/english</item>
+        <item>@string/arabic</item>
+        <item>@string/czech</item>
+        <item>@string/german</item>
+        <item>@string/spanish</item>
+        <item>@string/french</item>
+        <item>@string/italian</item>
+        <item>@string/japanese</item>
+        <item>@string/port_brazil</item>
+        <item>@string/russian</item>
+        <item>@string/simple_chinese</item>
+        <item>@string/vietnamese</item>
+        <item>@string/polish</item>
+        <item>@string/greek</item>
     </string-array>
-    
     <string-array name="language_codes">
         <item></item>
         <item>en</item>
@@ -45,7 +43,6 @@
         <item>pl</item>
         <item>el</item>
     </string-array>
-    
     <string-array name="drawer_menu">
         <item>@string/exportrules</item>
         <item>@string/importrules</item>
@@ -60,5 +57,5 @@
         <item>@string/setpwd</item>
         <item>@string/set_custom_script</item>
     </string-array>
-    
+
 </resources>

@@ -24,7 +24,7 @@
   <string name="log_was_enabled">Nhật ký đã được bật</string>
   <string name="log_was_disabled">Nhật ký đã được tắt</string>
   <string name="log_cleared">Đã xoá nhật ký</string>
-  <string name="show_log">Hiện nhật ký</string>
+  <string name="show_log">Hiện lịch sử TỪ CHỐI</string>
   <string name="clear_log">Xoá nhật ký</string>
   <string name="applying_rules">Đang áp dụng các quy tắc bảng IP.</string>
   <string name="applyingipv6_rules">Đang áp dụng các quy tắc bảng IP6.</string>
@@ -55,7 +55,7 @@
   <string name="custom_script_defined">Đã đặt kịch bản riêng</string>
   <string name="custom_script_removed">Đã xoá kịch bản riêng</string>
   <string name="custom_script_error">Lỗi khi lưu kịch bản riêng</string>
-  <string name="custom_script_info"><b>Nhập kịch bản riêng của bạn dưới đây.</b>		\n<i>(Leave it blank to remove)</i>		\nĐể biết thêm về kịch bản riêng, hãy truy cập  <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">here</a>.</string>
+  <string name="custom_script_info"><b>Nhập đoạn mã của bạn dưới đây.</b>		\n<i>(Để trống để bỏ)</i>		\nĐể biết thêm về các đoạn mã, vui lòng xem ở <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">đây</a>.</string>
   <string name="custom_script2_info">    	\n<b>Kịch bản tắt riêng</b>    	\nBạn cũng có thể thiết lập kịch bản riêng được thực hiện khi tưởng lửa <b>tắt</b>:</string>
   <string name="unsaved_changes">Các thay đổi chưa lưu</string>
   <string name="unsaved_changes_message">Bạn có các thay đổi chưa lưu.\nBạn muốn áp dụng hay loại bỏ chúng?</string>
@@ -169,6 +169,7 @@
   <string name="log_parse_error">Không đọc được bản ghi.</string>
   <string name="LogAppName">Tên ứng dụng</string>
   <string name="LogPackBlock">Tổng số gói dữ liệu đã chặn</string>
+  <string name="LogPackAllowed">Tổng gói tin cho phép</string>
   <string name="log_failed">Lỗi khi cập nhật trạng thái nhật ký.</string>
   <string name="input_off_summary">Bật tính năng này cho phép kích hoạt chuỗi ĐẦU VÀO của bảng IP. Việc này cho phép bạn chặn một số loại giao tiếp đến thiết bị của bạn.</string>
   <string name="input_on_summary">Tắt tính năng này sẽ vô hiệu hoá chuỗi ĐẦU VÀO cho bảng IP.</string>
@@ -183,53 +184,95 @@
   <string name="dst_ip">IP đích</string>
   <string name="src_ip">IP nguồn</string>
   <string name="dst_port">Cổng đích</string>
-  <string name="help_usage"><b>Sử dụng Tường lửa Android</b>\n<b>1.</b> Chạm vào <b>Chế độ</b> để chuyển giữa chế độ <i>Danh sách Trắng</i> và <i>Danh sách Đen</i>.
-\n<b>2.</b> Đánh dấu những ứng dụng bạn muốn chặn hoặc cho phép vào mạng (tuỳ theo chế độ đã chọn) trên giao diện.
-\n<b>3.</b> Mở menu và bật tường lửa. Nếu tường lửa đã bật sẵn, bạn chỉ cần chọn <b>Áp dụng quy tắc</b>.
+  <string name="log_accept_summary">Bật tính năng này sẽ ghi lại toàn bộ dữ liệu đã <i>cho phép</i> truyền ra và vào thiết bị của bạn. Nó cho phép bạn xem một ứng dụng gửi dữ liệu đi đâu và nhận từ đâu.</string>
+  <string name="enableLog_accept_title">Bật Nhật ký Tường lửa cho dữ liệu nhận.</string>
+  <string name="show_accept_log">Hiện lịch sử CHO PHÉP</string>
+  <string name="sendreport">Gửi Báo cáo lỗi</string>
+  <string name="report_fail">Không lấy được Báo cáo lỗi</string>
+  <string name="interface_fail">Không lấy được thông tin giao diện</string>
+  <string name="generate_reports">Tạo Báo cáo lỗi</string>
+  <string name="generate_zip">Tạo tập tin Zip</string>
+  <string name="no_zip">Không tìm thấy tập tin zip Báo cáo lỗi.</string>
+  <string name="send_email">Gửi Email</string>
+  <string name="confirm_delete">Bạn muốn xoá tập tin này?</string>
+  <string name="error_purging">Lỗi khi làm sạch bảng IP:</string>
+  <string name="error_purging_code">Lỗi làm sạch bảng IP mang mã:</string>
+  <string name="error_purgingipv6">Lỗi khi làm sạch bảng IP6:</string>
+  <string name="error_purgingipv6_code">Lỗi làm sạch bảng IP6 mang mã:</string>
+  <string name="error_showing_rules">Lỗi khi hiển thị quy tắc:</string>
+  <string name="error_clearing_rules">Lỗi khi xoá quy tắc:</string>
+  <string name="error_accessing_root">Không thể lấy quyền root</string>
+  <string name="error_installing_binaries">Lỗi khi cài đặt các tập tin nhị phân</string>
+  <string name="rules_file_missing">Các quy tắc đã chọn bị hỏng hoặc không tồn tại. Vui lòng xuất một tập tin quy tắc mới.</string>
+  <string name="error_accessing_class">Lỗi xảy ra khi truy cập thông tin lớp. Vui lòng liên hệ với tác giả.</string>
+  <string name="error_af_folder">Lỗi xảy ra khi truy cập vào thư mục Androidfirewall. Trước hết, xin vui lòng xuất một tập tin quy tắc.</string>
+  <string name="system_language">Ngôn ngữ hệ thống</string>
+  <string name="english">Tiếng Anh</string>
+  <string name="arabic">Tiếng Ả Rập</string>
+  <string name="czech">Tiếng Séc</string>
+  <string name="german">Tiếng Đức</string>
+  <string name="spanish">Tiếng Tây Ban Nha</string>
+  <string name="french">Tiếng Pháp</string>
+  <string name="italian">Tiếng Ý</string>
+  <string name="japanese">Tiếng Nhật</string>
+  <string name="port_brazil">Tiếng Bồ Đào Nha, Brazil</string>
+  <string name="russian">Tiếng Nga</string>
+  <string name="simple_chinese">Tiếng Trung giản thể</string>
+  <string name="vietnamese">Tiếng Việt</string>
+  <string name="polish">Tiếng Ba Lan</string>
+  <string name="greek">Tiếng Hy Lạp</string>
+  <string name="help_usage_description"><b>Sử dụng Tường lửa Android</b>\n<b>1.</b> Bấm <b>Chế độ</b> để chuyển giữa chế độ <i>Danh sách Trắng</i> và <i>Danh sách Đen</i>.
+\n<b>2.</b> Đánh dấu các ứng dụng bạn muốn chặn hoặc cho phép (tuỳ theo chế độ đã chọn), trong từng chế độ.
+\n<b>3.</b> Mở menu và bật tường lửa. Nếu tường lửa đã bật, chỉ cần chọn <b>Áp dụng quy tắc</b>.
 \nCác quy tắc sẽ được lưu lại và tự động khôi phục khi bạn khởi động lại thiết bị.
-\nNếu bạn muốn kiểm tra các quy tắc bảng IP hiện thời, hãy chọn <b>Hiện quy tắc</b> trong Thanh Điều hướng.
+\nNếu muốn xem các bảng IP, hãy chọn <b>Hiện quy tắc</b> trong Thanh Điều hướng.</string>
+  <string name="help_usage_widgets">\n<b>Widgets</b>\nĐể nhanh chóng bật hoặc tắt tường lửa chỉ với một thao tác, hãy đặt On/Off Widget lên màn hình chủ.
+\nĐể nhanh chóng chuyển bộ thiết lập hoặc bật/tắt tường lửa, hãy đặt Menu Widget lên màn hình chủ.</string>
+  <string name="help_usage_logs">\n<b>Nhật ký tường lửa</b>\nNếu bạn muốn xem ứng dụng nào đã bị chặn bởi Tường lứa Android, hãy mở menu <i>Thiết lập</i> và bật nhật ký.
+\nTưởng lửa Android sẽ ghi chép lại mỗi khi chặn ứng dụng. Bạn có thể xem các bản ghi bằng cách mở menu và chọn <b>Hiện nhật ký</b> trong thanh Điều hướng.
+\nMột số thiết bị mới, nhất là các thiết bị Nexus, dùng NFLOG thay cho LOG.  Tường lửa Android hiện đã hỗ trợ cả hai. Trên các thiết bị sử dụng NFLOG sẽ có hai tác vụ chạy ngầm để ghi chép dữ liệu. Các tác vụ này chỉ chạy khi bật tính năng nhật ký.
 \n
-\n<b>Widget</b>\nĐể nhanh chóng bật hoặc tắt tường lửa bằng một thao tác, hãy thêm Widget Bật/Tắt lên màn hình chủ.
-\nĐể nhanh chóng đổi Bộ thiết lập hoặc bật/tắt tường lửa, hãy thêm Widget Menu lên màn hình chủ.
-\n
-\n<b>Nhật ký tường lửa</b>\nNếu bạn muốn xem ứng dụng nào đã bị chặn bởi Tường lửa Android, hãy mở menu <i>Thiết lập</i> và bật chức năng Nhật ký.
-\nTưởng lửa Android sẽ ghi lại mỗi ứng dụng bị chặn. Bạn có thể xem lại các bản ghi bằng cách mở menu và chọn <b>Hiện nhật ký</b> trong Thanh Điều hướng.
-\nMột số thiết bị mới, nhất là các thiết bị dòng Nexus, sử dụng NFLOG thay cho LOG. Tưởng lửa Android hiện đã hỗ trợ cả hai định dạng này. Các thiết bị sử dụng NFLOG sẽ có một cặp tác vụ chạy ngầm để bắt dữ liệu. Các tác vụ này chỉ chạy nếu bật chức năng nhật ký. 
-\n
-\n<b>Khoá mật khẩu</b>\nBạn có thể đặt khoá bằng mật khẩu cho Tường lửa Android bằng tuỳ chọn <b>Đặt mật khẩu</b> trong Thanh Điều hướng.
+\nTường lửa Android cũng hỗ trợ ghi lại các gói dữ liệu NHẬN. Bằng cách ghi lại các gói dữ liệu này, bạn có thể xem các ứng dụng gửi dữ liệu đi đâu, từ đó có thể chặn truy cập đến các IP nhất định bằng tuỳ chọn Đoạn mã riêng hoặc tập tin HOSTS.
+\n</string>
+  <string name="help_usage_pwdsearch"><b>Khoá mật khẩu</b>\nBạn có thể đặt khoá bằng mật khẩu cho Tường lửa Android bằng tuỳ chọn <b>Đặt mật khẩu</b> trong Thanh Điều hướng.
 \nĐể bỏ bảo vệ bằng mật khẩu, chỉ cần để trống mật khẩu.
 \n<b>Tìm kiếm ứng dụng</b>\nBạn có thể tìm một ứng dụng nhất định bằng cách gõ vài ký tự đầu tiên trong tên của ứng dụng đó vào thanh tìm kiếm bên cạnh menu thả.
-\n
-\n<b>Cấc giao thức được hỗ trợ</b>\nBên cạnh giao thức Wifi và Mạng di động truyền thống, ứng dụng hiện hỗ trợ thêm ba giao thwucs mới là VPN, Chuyển vùng quốc tế, và LAN. Tính năng này có trong phần <i>Thiết lập</i>.
+\n</string>
+  <string name="help_usage_interfaces"><b>Các giao thức được hỗ trợ</b>\nBên cạnh giao thức Wifi và Mạng di động truyền thống, ứng dụng hiện hỗ trợ thêm ba giao thức mới là VPN, Chuyển vùng quốc tế, và LAN. Tính năng này có trong phần <i>Thiết lập</i>.
 \n
 \n<i>VPN</i> chỉ cho phép các ứng dụng vào mạng kết nối qua VPN.
 \n
 \n<i>Chuyển vùng quốc tế</i> cho phép các ứng dụng vào mạng khi đang chuyển vùng.
 \n
-\n<i>LAN</i> cho phép các ứng dụng vào mạng LAN nhưng không được vào Internet. Giao thức này yêu cầu bật tuỳ chọn <i>Quy tắc tường lửa tự động</i> trong <i>Thiết lập</i>.  Hãy xem phần miêu tả để biết thêm chi tiết.
+\n<i>LAN</i> cho phép các ứng dụng vào mạng LAN nhưng không được vào Internet. Giao thức này yêu cầu bật tuỳ chọn <i>Quy tắc tường lửa tự động</i> trong <i>Thiết lập</i>.  Vui lòng xem phần miêu tả để biết thêm chi tiết.
 \n
 \n<b>LƯU Ý:</b><i>Quy tắc tường lửa tự động và giao thức LAN</i> yêu cầu quyền truy cập mạng Internet và Trạng thái Wifi để lấy thông tin địa chỉ Subnet và LAN. <b>Tường lửa Android</b> không bao giờ truyền dữ liệu hoặc truy cập vào Internet.
-\n
-\n<i>Chia sẻ mạng</i> cho phép bạn chia sẻ mạng từ laptop/máy tính bảng/điện thoại với thiết bị của bạn mà không phải tắt tường lửa. Tính năng mới này đã được cải tiến để không còn yêu cầu quyền root hoặc \"kernel\".  Tính năng này hiện cũng hỗ trợ chia sẻ qua Bluetooth.
-\n
-\n<b>Tasker/Locale</b>\n<i>Tường lửa Android</i> chứa một phần mở rộng cho Tasker và Locale.  Phần mở rộng này cho phép các ứng dụng trên Bật hoặc Tắt tường lửa và thay đổi bộ thiết lập dựa trên các điều kiện đã định. Để biết thêm thông tin, hãy xem phần hướng dẫn Tasker trong mục Trợ giúp Bộ thiết lập.
+\n</string>
+  <string name="help_usage_tether"><i>Chia sẻ mạng</i> cho phép bạn chia sẻ mạng từ laptop/máy tính bảng/điện thoại với thiết bị của bạn mà không phải tắt tường lửa. Tính năng mới này đã được cải tiến để không còn yêu cầu quyền root hoặc \"kernel\".  Tính năng này hiện cũng hỗ trợ chia sẻ qua Bluetooth.
+\n</string>
+  <string name="help_usage_tasker"><b>Tasker/Locale</b>\n<i>Tường lửa Android</i> chứa một phần mở rộng cho Tasker và Locale.  Phần mở rộng này cho phép các ứng dụng trên Bật hoặc Tắt tường lửa và thay đổi bộ thiết lập dựa trên các điều kiện đã định. Để biết thêm thông tin, hãy xem phần hướng dẫn Tasker trong mục Trợ giúp Bộ thiết lập.
 \nTheo mặc định, các thông báo về thay đổi thiết lập từ Tasker đều bị tắt. Bạn có thể bật chúng trong <i>Thiết lập</i>.
-\n
-\n<b>Nhiều người dùng</b>\n<i>Tường lửa Android</i> hỗ trợ nhiều người dùng trên máy tính bảng.  Tính năng này đòi hỏi chế độ Danh sách Đen, bạn có thể bật trong mục Thiết lập. Tính năng nhiều người dùng sử dụng các chuỗi bảng IP riêng cho mỗi người dùng, nhờ đó mỗi người dùng đều có thể có thiết lập riêng.
-\n
-\n<b>Chuỗi INPUT</b>\n<i>Tường lửa Android</i> hỗ trợ chuỗi INPUT. Các chuỗi này được dùng để ngăn liên lạc từ các nguồn bên ngoài. Chuỗi INPUT hoạt động hơi khác với chuỗi OUTPUT trong <i>Tường lửa Android</i>.  Chuỗi INPUT áp dụng đồng thời cho cả Wifi và mạng di động bởi không có cách nào để áp dụng riêng lẻ cho từng giao thức. Chuỗi INPUT hoạt động với cả Danh sách Đen và Danh sách Trắng như chuỗi RA. Tính năng này được thiết kế để ứng dụng không thể truy cập Mạng di động và dữ liệu INPUT, nhưng vẫn hoạt động được trên Wifi. Ví dụ, bạn có thể không cho trình duyệt truy cập Mạng di động và dữ liệu INPUT, nhưng cho phép nó hoạt động trên Wifi.
-\n
-\n<b>Các thiết lập khác</b>\n
+\n</string>
+  <string name="help_usage_multiuser"><b>Nhiều người dùng</b>\n<i>Tường lửa Android</i> hỗ trợ nhiều người dùng trên máy tính bảng.  Tính năng này đòi hỏi chế độ Danh sách Đen, bạn có thể bật trong mục Thiết lập. Tính năng nhiều người dùng sử dụng các chuỗi bảng IP riêng cho mỗi người dùng, nhờ đó mỗi người dùng đều có thể có thiết lập riêng.
+\n</string>
+  <string name="help_usage_input"><b>Chuỗi INPUT</b>\n<i>Tường lửa Android</i> hỗ trợ chuỗi INPUT. Các chuỗi này được dùng để ngăn liên lạc từ các nguồn bên ngoài. Chuỗi INPUT hoạt động hơi khác với chuỗi OUTPUT trong <i>Tường lửa Android</i>.  Chuỗi INPUT áp dụng đồng thời cho cả Wifi và mạng di động bởi không có cách nào để áp dụng riêng lẻ cho từng giao thức. Chuỗi INPUT hoạt động với cả Danh sách Đen và Danh sách Trắng như chuỗi RA. Tính năng này được thiết kế để ứng dụng không thể truy cập Mạng di động và dữ liệu INPUT, nhưng vẫn hoạt động được trên Wifi. Ví dụ, bạn có thể không cho trình duyệt truy cập Mạng di động và dữ liệu INPUT, nhưng cho phép nó hoạt động trên Wifi. Chuỗi INPUT chỉ hoạt động trên Android 4.x do hạn chế của các kernels cũ.
+\n</string>
+  <string name="help_usage_ipv6lang"><b>Các thiết lập khác</b>\n
 \n<i>IPv6</i> có trong <i>Thiết lập</i> cho những ai dùng IPv6.
 \n
 \nNgười dùng có thể thay đổi ngôn ngữ ứng dụng trong <i>Thiết lập</i>.
-\n
-\n<i>Thẻ SD</i> cho người ai chuyển ứng dụng sang thẻ SD. Hãy xem phần miêu tả tính năng trước khi bật.
+\n</string>
+  <string name="help_usage_sdx86"><i>Thẻ SD</i> cho người ai chuyển ứng dụng sang thẻ SD. Hãy xem phần miêu tả tính năng trước khi bật.
 \n
 \n<i>x86</i> hỗ trợ các thiết bị chạy bằng bộ xử lý Intel.  
-\n
-\n<b>Thông tin</b>\n
-\n<i>YouTube</i> cần <i>Media Server</i> để hoạt động.
+\n</string>
+  <string name="help_usage_shortcuts"><i>Shortcut</i> có thể dùng để nhanh chóng bật hoặc tắt tường lửa và các bộ thiết lập của bạn. Các shortcut này cũng có thể được dùng bởi các ứng dụng như Llama và Macrodroid để thực hiện các lệnh dựa trên tình huống.
+\n</string>
+  <string name="help_usage_media"><b>Thông tin</b>\n
+\n<i>YouTube</i> <b>cần</b> <i>Media Server</i> để hoạt động.
+\n</string>
+  <string name="help_usage_reports"><i>Tường lửa Android</i> có thể tạo các báo cáo lỗi để thu thập thông tin cần thiết để sửa các lỗi mà người dùng gặp phải. Tính năng này tạo ra 3 tập tin chứa thông tin về thiết bị, nhưng KHÔNG chứa bất kỳ thông tin cá nhân nào, và được lưu vào bộ nhớ ngoài, để bạn có thể xem ứng dụng thu thập những dữ liệu nào.\n
+\nCác tập tin được lưu trong thư mục af_error_reports. Chúng được nén lại và bạn có thể gửi chúng qua email cho tác giả. Xin vui lòng miêu tả chi tiết những gì bạn đang làm lúc lỗi xảy ra.
 \n</string>
   <string name="help_rules"><i>Quản lý quy tắc</i> cho phép xuất, nhập và xoá các tập tin quy tắc.\n  
         \nToàn bộ thiết lập của người dùng đều được lưu trong tập tin quy tắc nên khi bạn xuất một tập tin quy tắc , bạn cũng đồng thời lưu các thiết lập như hỗ trợ thông báo, nhật ký, IPv6.... Những tập tin này cũng được dùng để tạo bộ thiết lập của bạn.
@@ -312,16 +355,13 @@
 \n9.  Chọn bộ thiết lập bạn muốn Tasker sử dụng.
 \n10.  Bấm phím quay lại. Bạn có thể chạy thử bằng cách bấm nút \'Play\' ở góc bên trái phía dưới.</string>
   <string name="help_dialog_text"><i>Tác giả: Jason Tschohl.  
-        \nTác giả gốc: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
-		\n<i>Tường lửa Android</i> là một phân nhánh của      <i>DroidWall</i>, một ứng dụng đầu vào cho tính năng    <b>bảng IP</b> mạnh mẽ của tường lửa Linux.
-		Ứng dụng cho phép bạn cho phép ứng dụng nào truy cập mạng.\n
-		\nĐây là giải pháp hoàn hảo nếu bạn không có gói cước mạng không giới hạn hoặc bạn quan tâm đến khía cạnh bảo mật.
-		\n
-		\n<i>Tưởng lửa Android</i> là một ứng dụng mã mở theo giấy phép <b>GPL v3</b>.  
-		\n
-		\nNếu bạn muốn tham gia dịch <i>Tường lửa Android</i>, hãy vào trang web của Crowdin:
-		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
-		\n
-		\nBao gồm các thư viện:
-		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
+\nTác giả gốc: Rodrigo Zechin Rosauro</i> \n <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i> \n
+\n<i>Tường lửa Android</i> là một phân nhánh của <i>DroidWall</i>, một ứng dụng đầu vào cho tính năng <b>bảng IP</b> mạnh mẽ của tường lửa Linux. Ứng dụng cho phép bạn cho phép ứng dụng nào truy cập mạng.\n
+\nĐây là giải pháp hoàn hảo nếu bạn không có gói cước mạng không giới hạn hoặc bạn quan tâm đến khía cạnh bảo mật.\n
+\n<i>Tưởng lửa Android</i> là một ứng dụng mã mở theo giấy phép <b>GPL v3</b>.  
+\n
+\nNếu bạn muốn tham gia dịch <i>Tường lửa Android</i>, hãy vào trang web của Crowdin:
+\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>\n
+\nBao gồm các thư viện:
+\n<i>ActionBarSherlock - Apache License 2.0</i> \n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>                \n<i>Libsuperuser - Apache License 2.0</i> \n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i> \n</string>
 </resources>

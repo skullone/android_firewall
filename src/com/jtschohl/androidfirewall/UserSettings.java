@@ -401,5 +401,4 @@ public class UserSettings extends SherlockPreferenceActivity implements
 	private void resultOk() {
 		finish();
 	}
-
 }

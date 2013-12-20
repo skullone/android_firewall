@@ -51,8 +51,9 @@
             <EditText
                 android:id="@+id/search"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_weight="1"
+                android:background="@drawable/borders"
                 android:hint="@string/search_name" >
             </EditText>
         </LinearLayout>
@@ -74,7 +75,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/wifi"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal" />
 
@@ -85,7 +86,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/data"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal" />
 
@@ -96,7 +97,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/roaming"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal"
                 android:visibility="gone" />
@@ -108,7 +109,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/vpn"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal"
                 android:visibility="gone" />
@@ -120,7 +121,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/lan"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal"
                 android:visibility="gone" />
@@ -132,7 +133,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/input_wifi"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal"
                 android:visibility="gone" />
@@ -144,7 +145,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/clear"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal" />
 
@@ -155,7 +156,7 @@
                 android:background="@color/black"
                 android:clickable="true"
                 android:text="@string/invert"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:typeface="normal" />
 
@@ -178,7 +179,7 @@
         android:layout_gravity="start"
         android:background="#111"
         android:choiceMode="singleChoice"
-        android:divider="@color/blue"
+        android:divider="@color/white"
         android:dividerHeight="1dp" />
 
 </android.support.v4.widget.DrawerLayout>
