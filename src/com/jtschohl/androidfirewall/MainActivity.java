@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -58,6 +57,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -476,6 +476,7 @@ public class MainActivity extends SherlockActivity implements
 	public void searchapps() {
 		final EditText filterText = (EditText) findViewById(R.id.search);
 		filterText.addTextChangedListener(filterTextWatcher);
+		filterText.setTextColor(Color.WHITE);
 		filterText.post(new Runnable() {
 			@Override
 			public void run() {
