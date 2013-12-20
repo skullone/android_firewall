@@ -69,6 +69,8 @@ public class SaveSettingsToProfile extends ListActivity {
 	private void resultOk() {
 		final Intent response = new Intent(Api.PREF_PROFILES);
 		setResult(RESULT_OK, response);
+		Toast.makeText(this, R.string.profile_created,
+				Toast.LENGTH_SHORT).show();
 		finish();
 	}
 

@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -144,7 +145,8 @@ public class MainActivity extends SherlockActivity implements
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private String[] mMenuTitles;
+	private ArrayList<String> mMenuTitles;
+	private ArrayList<Integer> mIcons;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -159,18 +161,42 @@ public class MainActivity extends SherlockActivity implements
 		} catch (Exception e) {
 		}
 		checkPreferences();
+
 		setContentView(R.layout.main);
 
-		// set Nav drawer
+		// set language
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		// use "" as default
+		String language = prefs.getString("locale", "");
+		Api.changeLanguage(getApplicationContext(), language);
 
+		// set Nav drawer
 		mTitle = mDrawerTitle = getTitle();
-		mMenuTitles = getResources().getStringArray(R.array.drawer_menu);
+		mMenuTitles = new ArrayList<String>();
+		Resources res = getResources();
+		Collections
+				.addAll(mMenuTitles, res.getStringArray(R.array.drawer_menu));
+		mIcons = new ArrayList<Integer>();
+		mIcons.add(R.drawable.ic_export);
+		mIcons.add(R.drawable.ic_import);
+		mIcons.add(R.drawable.ic_filemgmt);
+		mIcons.add(R.drawable.ic_create);
+		mIcons.add(R.drawable.ic_load);
+		mIcons.add(R.drawable.ic_editnames);
+		mIcons.add(R.drawable.ic_logs);
+		mIcons.add(R.drawable.ic_logs);
+		mIcons.add(R.drawable.ic_clearlogs);
+		mIcons.add(R.drawable.ic_logs);
+		mIcons.add(R.drawable.ic_pwd);
+		mIcons.add(R.drawable.ic_custom);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_list, mMenuTitles));
+		// mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+		// R.layout.drawer_list, mMenuTitles));
+		mDrawerList.setAdapter(new DrawerAdapter(this, mMenuTitles, mIcons));
 
 		// Capture button clicks on side menu
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -233,12 +259,6 @@ public class MainActivity extends SherlockActivity implements
 		}
 
 		toggleUser();
-
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		// use "" as default
-		String language = prefs.getString("locale", "");
-		Api.changeLanguage(getApplicationContext(), language);
 
 		// create the spinner
 		spinner = (IcsSpinner) findViewById(R.id.spinner);
@@ -416,6 +436,23 @@ public class MainActivity extends SherlockActivity implements
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getSupportActionBar().setTitle(mTitle);
+	}
+
+	public static class DrawerFragment extends android.support.v4.app.Fragment {
+		public static final String item_number = "item_number";
+
+		public DrawerFragment() {
+			// empty but required for fragment subclass
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View view = inflater.inflate(R.layout.drawer_fragment, container,
+					false);
+			int i = getArguments().getInt(item_number);
+			return view;
+		}
 	}
 
 	@Override
@@ -1058,6 +1095,7 @@ public class MainActivity extends SherlockActivity implements
 		super.onCreateOptionsMenu(menu);
 		getSupportMenuInflater().inflate(R.menu.menu, menu);
 		abs_menu = menu;
+		toggleMenu();
 		return true;
 	}
 
@@ -1474,6 +1512,36 @@ public class MainActivity extends SherlockActivity implements
 			}
 		};
 		handler.sendEmptyMessageDelayed(0, 100);
+	}
+
+	/**
+	 * Sets the menu correctly after a modification by the
+	 * Tasker/Locale/Shortcuts
+	 */
+
+	private void toggleMenu() {
+		final boolean enabled = getApplicationContext().getSharedPreferences(
+				Api.PREFS_NAME, 0).getBoolean(Api.PREF_ENABLED, false);
+		Log.d(TAG, "toggleMenu has been run");
+		if (enabled) {
+			Log.d(TAG, "Firewall is enabled");
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.applyrules);
+				item_onoff.setChecked(true);
+				Log.d(TAG, "toggleMenu has set menu to ENABLED");
+			}
+		} else {
+			Log.d(TAG, "Firewall is disabled");
+			if (abs_menu != null) {
+				final MenuItem item_onoff = abs_menu.findItem(R.id.enableipv4);
+				final MenuItem item_apply = abs_menu.findItem(R.id.applyrules);
+				item_apply.setTitle(R.string.saverules);
+				item_onoff.setChecked(false);
+				Log.d(TAG, "toggleMenu has set menu to DISABLED");
+			}
+		}
 	}
 
 	/**
@@ -2501,7 +2569,7 @@ public class MainActivity extends SherlockActivity implements
 	/**
 	 * get error reports
 	 */
-	
+
 	private void getReports() {
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -2509,24 +2577,27 @@ public class MainActivity extends SherlockActivity implements
 			Toast.makeText(MainActivity.this, R.string.generate_reports,
 					Toast.LENGTH_SHORT).show();
 			getInterfaceInfo();
-			Log.d(TAG, "Able to read/write to external storage while running reports");
+			Log.d(TAG,
+					"Able to read/write to external storage while running reports");
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 			// We can only read the media
 			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
-			Log.d(TAG, "Read only access to external storage while trying to run reports");
+			Log.d(TAG,
+					"Read only access to external storage while trying to run reports");
 		} else {
 			// Something else is wrong. It may be one of many other states, but
 			// all we need
 			// to know is we can neither read nor write
 			Toast.makeText(this, R.string.no_storage, Toast.LENGTH_LONG).show();
-			Log.d(TAG, "Something is wrong with access to external storage while trying to run reports");
+			Log.d(TAG,
+					"Something is wrong with access to external storage while trying to run reports");
 		}
 	}
 
 	/**
 	 * get Interface Information
 	 */
-	
+
 	private void getInterfaceInfo() {
 		final Context ctx = getApplicationContext();
 
@@ -2554,7 +2625,8 @@ public class MainActivity extends SherlockActivity implements
 			dir.mkdirs();
 
 			try {
-				for (String str : state.lastCommandResult.toString().split("\r\n")) {
+				for (String str : state.lastCommandResult.toString().split(
+						"\r\n")) {
 					Log.d(TAG, str);
 					fout = new FileOutputStream(file);
 					output = new OutputStreamWriter(fout);
@@ -2580,11 +2652,11 @@ public class MainActivity extends SherlockActivity implements
 			}
 		}
 	}
-	
+
 	/**
 	 * Get iptables information
 	 */
-	
+
 	private void getIptablesInfo() {
 		final Context ctx = getApplicationContext();
 		File sdCard = Environment.getExternalStorageDirectory();
@@ -2594,7 +2666,7 @@ public class MainActivity extends SherlockActivity implements
 		FileOutputStream fout = null;
 		OutputStreamWriter output = null;
 		String iptables = Api.showIptablesRules(ctx);
-		
+
 		try {
 			for (String str : iptables.split("\r\n")) {
 				fout = new FileOutputStream(file);
@@ -2612,19 +2684,77 @@ public class MainActivity extends SherlockActivity implements
 				if (fout != null) {
 					fout.close();
 					Log.d(TAG, "FOUT Closed");
-					getLogcatInfo();
+					getIfconfigInfo();
 				}
 			} catch (IOException e) {
-				Log.e(TAG, String.format("File close failed: %s",
-						e.toString()));
+				Log.e(TAG, String.format("File close failed: %s", e.toString()));
 			}
 		}
 	}
-	
+
+	/**
+	 * get ifconfig Information
+	 */
+
+	private void getIfconfigInfo() {
+		final Context ctx = getApplicationContext();
+
+		IfconfigCallback cb = new IfconfigCallback();
+		cb.ctx = ctx;
+
+		new RootCommand().setReopenShell(true)
+				.setFailureToast(R.string.ifconfig_fail).setCallback(cb)
+				.setLogging(true).run(ctx, "busybox ifconfig");
+	}
+
+	private class IfconfigCallback extends RootCommand.Callback {
+		public Context ctx;
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "ifconfig.txt";
+		File file = new File(dir, filename);
+		FileOutputStream fout = null;
+		OutputStreamWriter output = null;
+
+		public void cbFunc(RootCommand state) {
+			if (state.exitCode != 0) {
+				return;
+			}
+			dir.mkdirs();
+
+			try {
+				for (String str : state.lastCommandResult.toString().split(
+						"\r\n")) {
+					Log.d(TAG, str);
+					fout = new FileOutputStream(file);
+					output = new OutputStreamWriter(fout);
+					output.write(str, 0, str.length());
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "File write failed: " + e.toString());
+			} finally {
+				try {
+					if (output != null) {
+						output.close();
+						Log.d(TAG, "OUTPUT Closed");
+					}
+					if (fout != null) {
+						fout.close();
+						Log.d(TAG, "FOUT Closed");
+						getLogcatInfo();
+					}
+				} catch (IOException e) {
+					Log.e(TAG, String.format("File close failed: %s",
+							e.toString()));
+				}
+			}
+		}
+	}
+
 	/**
 	 * get Logcat Information
 	 */
-	
+
 	private void getLogcatInfo() {
 		final Context ctx = getApplicationContext();
 
@@ -2652,7 +2782,8 @@ public class MainActivity extends SherlockActivity implements
 			dir.mkdirs();
 
 			try {
-				for (String str : state.lastCommandResult.toString().split("\r\n")) {
+				for (String str : state.lastCommandResult.toString().split(
+						"\r\n")) {
 					fout = new FileOutputStream(file);
 					output = new OutputStreamWriter(fout);
 					output.write(str, 0, str.length());
@@ -2668,7 +2799,7 @@ public class MainActivity extends SherlockActivity implements
 					if (fout != null) {
 						fout.close();
 						Log.d(TAG, "FOUT Closed");
-						zipFiles();
+						getDeviceInfo();
 					}
 				} catch (IOException e) {
 					Log.e(TAG, String.format("File close failed: %s",
@@ -2677,32 +2808,71 @@ public class MainActivity extends SherlockActivity implements
 			}
 		}
 	}
+
+	/**
+	 * get device information
+	 */
 	
+	public void getDeviceInfo() {
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
+		String filename = "deviceinfo.txt";
+		File file = new File(dir, filename);
+		OutputStreamWriter output = null;
+
+		try {
+			output = new OutputStreamWriter(new FileOutputStream(file));
+			output.append("Android version: "
+					+ android.os.Build.VERSION.RELEASE + "\n");
+			output.append("OEM: " + android.os.Build.MANUFACTURER + "\n");
+			output.append("Device Model: " + android.os.Build.MODEL + "\n");
+			output.append("Device Build: " + android.os.Build.DISPLAY + "\n");
+		} catch (IOException error) {
+			error.printStackTrace();
+			Log.e(TAG, "IOException while creating deviceinfo.txt " + error);
+		} finally {
+			try {
+				if (output != null) {
+					output.flush();
+					output.close();
+				}
+			} catch (IOException errors) {
+				errors.printStackTrace();
+				Log.e(TAG, "IOException closing deviceinfo.txt " + errors);
+			}
+		}
+		zipFiles();
+	}
+
 	/**
 	 * Zip error reports
 	 */
-	
-	public void zipFiles(){
+
+	public void zipFiles() {
 		File sdCard = Environment.getExternalStorageDirectory();
 		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
 		String filename = "af_error_reports.zip";
-		String[] reports = {dir + "/iptables.txt", dir + "/logcat.txt", dir + "/interfaces.txt" };
+		String[] reports = { dir + "/iptables.txt", dir + "/logcat.txt",
+				dir + "/interfaces.txt", dir + "/ifconfig.txt",
+				dir + "/deviceinfo.txt" };
 		File file = new File(dir, filename);
-		
+
 		try {
 			BufferedInputStream origin = null;
 			FileOutputStream dest = new FileOutputStream(file);
-			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
+					dest));
 			byte data[] = new byte[2048];
-			
-			for (int i =0; i < reports.length; i++){
+
+			for (int i = 0; i < reports.length; i++) {
 				Log.v(TAG, "Compressing folder: " + reports[i]);
 				FileInputStream fi = new FileInputStream(reports[i]);
 				origin = new BufferedInputStream(fi, 2048);
-				ZipEntry entry = new ZipEntry(reports[i].substring(reports[i].lastIndexOf("/") + 1));
+				ZipEntry entry = new ZipEntry(reports[i].substring(reports[i]
+						.lastIndexOf("/") + 1));
 				out.putNextEntry(entry);
 				int count;
-				while ((count = origin.read(data, 0, 2048)) != -1){
+				while ((count = origin.read(data, 0, 2048)) != -1) {
 					out.write(data, 0, count);
 				}
 				origin.close();
@@ -2711,41 +2881,103 @@ public class MainActivity extends SherlockActivity implements
 			Toast.makeText(MainActivity.this, R.string.generate_zip,
 					Toast.LENGTH_SHORT).show();
 			emailErrorReports();
-		} catch (Exception e){
+		} catch (Exception e) {
 			Log.e(TAG, "Error zipping folder");
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Email error reports
 	 */
-	
-	private void emailErrorReports(){
+
+	private void emailErrorReports() {
 		File sdCard = Environment.getExternalStorageDirectory();
 		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
 		String filename = "af_error_reports.zip";
 		File file = new File(dir, filename);
 		String af_version;
 		try {
-			af_version = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
-		} catch (NameNotFoundException e){
+			af_version = getApplicationContext()
+					.getPackageManager()
+					.getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
 			af_version = "Unknown";
 		}
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"androidfirewall.developer@gmail.com"});
-		intent.putExtra(Intent.EXTRA_SUBJECT, "Android Firewall Error Report for version " + af_version);
+		intent.putExtra(Intent.EXTRA_EMAIL,
+				new String[] { "androidfirewall.developer@gmail.com" });
+		intent.putExtra(Intent.EXTRA_SUBJECT,
+				"Android Firewall Error Report for version " + af_version);
 		intent.putExtra(Intent.EXTRA_TEXT, "");
-		if(!file.exists() || !file.canRead()){
+		if (!file.exists() || !file.canRead()) {
 			Toast.makeText(this, R.string.no_zip, Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "No zip file is available");
 			finish();
 			return;
 		}
 		Uri uri = Uri.fromFile(file);
-		intent.putExtra(Intent.EXTRA_STREAM,  uri);
-		startActivity(Intent.createChooser(intent, getString(R.string.send_email)));
+		intent.putExtra(Intent.EXTRA_STREAM, uri);
+		startActivity(Intent.createChooser(intent,
+				getString(R.string.send_email)));
 		return;
+	}
+
+	private class DrawerAdapter extends BaseAdapter {
+		private ArrayList<String> itemlist;
+		private Context context;
+		private ArrayList<Integer> iconlist;
+
+		public DrawerAdapter(Context ctx, ArrayList<String> list,
+				ArrayList<Integer> list2) {
+			this.context = ctx;
+			this.itemlist = list;
+			this.iconlist = list2;
+		}
+
+		@Override
+		public int getCount() {
+			return itemlist.size();
+		}
+
+		@Override
+		public String getItem(int i) {
+			return itemlist.get(i);
+		}
+
+		@Override
+		public long getItemId(int i) {
+			return i;
+		}
+
+		@Override
+		public View getView(int i, View view, ViewGroup viewGroup) {
+			ViewHolder holder;
+
+			if (null == view) {
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				view = inflater.inflate(R.layout.drawer_layout, viewGroup,
+						false);
+				holder = new ViewHolder();
+				holder.description = (TextView) view
+						.findViewById(R.id.description);
+				holder.imageView = (ImageView) view
+						.findViewById(R.id.imageView);
+				view.setTag(holder);
+			} else {
+				holder = (ViewHolder) view.getTag();
+			}
+
+			holder.description.setText(itemlist.get(i));
+			holder.imageView.setImageResource(mIcons.get(i));
+			return view;
+		}
+	}
+
+	private class ViewHolder {
+		public TextView description;
+		public ImageView imageView;
 	}
 }

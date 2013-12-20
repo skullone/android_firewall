@@ -3224,4 +3224,18 @@ public final class Api {
 			return exitcode;
 		}
 	}
+	
+	/**
+	 * Remove cache file when file uninstalled so apps appear at top of list if they are reinstalled.
+	 */
+	public static void updateCacheLabel(String pkgname, Context ctx){
+		String cachelabel = "cache.label." + pkgname;
+		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		String appname = prefs.getString(cachelabel, "");
+		if (appname.length() > 0){
+			prefs.edit().remove(cachelabel).commit();
+		}
+	}
+	
+	
 }
