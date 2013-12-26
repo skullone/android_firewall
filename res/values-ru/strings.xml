@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Translation of RU version (2013): Igor Nedoboy (k9russian<AT>gmail<DOT>com) -->
+<!-- Translation of RU version (2013): Igor Nedoboy (i.nedoboy<AT>gmail<DOT>com) -->
 <resources>
 
     <string name="app_name">Файрвол</string>
@@ -24,9 +24,9 @@
     <string name="log_disabled">Журнал отключён</string>
     <string name="log_was_enabled">Журналирование включено</string>
     <string name="log_was_disabled">Журналирование отключено</string>
-    <string name="log_cleared">Журнал очищен</string>
-    <string name="show_log">Открыть журнал</string>
-    <string name="clear_log">Очистить журнал</string>
+    <string name="log_cleared">Журналы очищены</string>
+    <string name="show_log">Журнал REJECT</string>
+    <string name="clear_log">Очистить журналы</string>
     <string name="applying_rules">Применение правил IPTABLES</string>
     <string name="applyingipv6_rules">Применение правил IP6TABLES</string>
     <string name="saving_rules">Сохранение правил IPTABLES</string>
@@ -62,7 +62,7 @@
     <string name="unsaved_changes_message">Сохранить или отменить изменения?</string>
     <string name="apply">Сохранить</string>
     <string name="discard">Отменить</string>
-    <string name="overwrite_rules">Существующие правила будут перезаписаны. Продолжить?</string>
+    <string name="overwrite_rules">Действительно перезаписать существующие правила?</string>
     <string name="importsuccess">Импорт выполнен!</string>
     <string name="importfailed">Сбой импорта!</string>
     <string name="exportfailed">Сбой экспорта!</string>
@@ -113,21 +113,21 @@
     <string name="twofortyfouram_locale_menu_help">Справка</string>
     <string name="twofortyfouram_locale_menu_save">Готово</string>
     <string name="tasker_name">Файрвол</string>
-    <string name="tasker_profile_disabled">Tasker отключил правила файрвола!</string>
+    <string name="tasker_profile_disabled">Файрвол отключён ярлыком или приложением!</string>
     <string name="search_name">приложение</string>
     <string name="profilenames">Имя</string>
     <string name="vpn_title">Поддержка VPN</string>
     <string name="vpn">VPN</string>
     <string name="roaming_title">Поддержка роуминга</string>
     <string name="usersettings">Настройки</string>
-    <string name="taskertoast_title">Срабатывание Tasker</string>
+    <string name="taskertoast_title">Уведомить о переключении</string>
     <string name="ipv6_summary">Поддержка сетей IPv6</string>
     <string name="vpn_summary">Поддержка сетей VPN</string>
     <string name="roaming_summary">Поддержка роуминговых сетей</string>
-    <string name="taskertoast_summary">Уведомление о переключении профиля приложением Tasker</string>
+    <string name="taskertoast_summary">Уведомлять о переключении профиля ярлыками, Tasker, Locale, Llama, Macrodroid</string>
     <string name="log_summary">Журналирование событий файрвола</string>
-    <string name="notification_summary">Уведомление о новых приложениях, требующих доступ к сети</string>
-    <string name="tasker_profile">Tasker переключил профиль файрвола</string>
+    <string name="notification_summary">Уведомлять о новых приложениях, требующих доступ к сети</string>
+    <string name="tasker_profile">Профиль файрвола переключен ярлыком или приложением!</string>
     <string name="apply_setting_changes">Применение изменённых правил</string>
     <string name="rules_export_successfully">Правила экспортированы</string>
     <string name="rules_import_successfully">Правила импортированы</string>
@@ -170,6 +170,7 @@
     <string name="log_parse_error">Сбой обработки журнала</string>
     <string name="LogAppName">Приложение</string>
     <string name="LogPackBlock">Блокировано пакетов, всего</string>
+    <string name="LogPackAllowed">Разрешено пакетов, всего</string>
     <string name="log_failed">Сбой обновления состояния журнала</string>
     <string name="input_off_summary">INPUT цепочки IPTABLES позволяют блокировать сторонние подключения к этому устройству</string>
     <string name="input_on_summary">Отключите для деактивации INPUT цепочек IPTABLES</string>
@@ -184,24 +185,64 @@
     <string name="dst_ip">IP получателя</string>
     <string name="src_ip">IP отправителя</string>
     <string name="dst_port">Порт получателя</string>
-    <string name="help_usage"><b>Использование Android Firewall</b>\n<b>1.</b> Нажмите строку <b>Список:…</b> для переключения между <i>Белым</i> и <i>Чёрным</i> списками.
+    <string name="log_accept_summary">Журналирование всех <i>разрешённых</i> входящих и исходящих данных для просмотра, куда приложения отправляют и откуда принимают данные</string>
+    <string name="enableLog_accept_title">Журнал ACCEPT</string>
+    <string name="show_accept_log">Журнал ACCEPT</string>
+    <string name="sendreport">Отчёт об ошибках</string>
+    <string name="report_fail">Сбой формирования отчёта об ошибках</string>
+    <string name="interface_fail">Сбой получения сведений об интерфейсе</string>
+    <string name="generate_reports">Формирование отчёта об ошибках</string>
+    <string name="generate_zip">Создание Zip-архива</string>
+    <string name="no_zip">Не найден Zip-архив с отчётом об ошибках</string>
+    <string name="send_email">Отправка письма</string>
+    <string name="confirm_delete">Действительно удалить файл</string>
+    <string name="error_purging">Сбой очистки iptables:</string>
+    <string name="error_purging_code">Сбой очистки iptables, код завершения:</string>
+    <string name="error_purgingipv6">Сбой очистки iptables:</string>
+    <string name="error_purgingipv6_code">Сбой очистки iptables, код завершения:</string>
+    <string name="error_showing_rules">Сбой отображения правил:</string>
+    <string name="error_clearing_rules">Сбой очистки правил:</string>
+    <string name="error_accessing_root">Отсутствуют права root</string>
+    <string name="error_installing_binaries">Сбой при установке исполняемых файлы файрвола</string>
+    <string name="rules_file_missing">Выбранный файл правил отсутствует или повреждён. Повторите экспорт правил в файл</string>
+    <string name="error_accessing_class">Сбой получения данных класса. Пожалуйста, свяжитесь с разработчиком</string>
+    <string name="error_af_folder">Нет доступа к папке файрвола. Сначала выполните экспорт правил</string>
+    <string name="system_language">Язык системы</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="czech">Czech</string>
+    <string name="german">German</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="italian">Italian</string>
+    <string name="japanese">Japanese</string>
+    <string name="port_brazil">Portuguese, Brazil</string>
+    <string name="russian">РУССКИЙ</string>
+    <string name="simple_chinese">Simplified Chinese</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="polish">Polish</string>
+    <string name="greek">Greek</string>
+    <string name="ifconfig_fail">Сбой получения сведений ifconfig</string>
+    <string name="changelog_help">Изменения</string>
+    <string name="profile_created">Профиль успешно создан</string>
+    <string name="help_usage_description"><b>Использование Android Firewall</b>\n<b>1.</b> Нажмите строку <b>Список:…</b> для переключения между <i>Белым</i> и <i>Чёрным</i> списками.
 \n<b>2.</b> Выберите приложения, которые необходимо заблокировать или разрешить (в зависимости от типа списка), для каждого интерфейса.
 \n<b>3.</b> Нажмите Меню и включите файрвол. Если файрвол уже включён, просто нажмите <b>Применить правила</b>.
 \nПравила будут сохранены и автоматически восстановлены после перезагрузки устройства.
-\nДля просмотра всех текущих правил IPTABLES, нажмите <b>Текущие правила</b> в Боковой панели.
-\n
-\n<b>Виджеты</b>\nДля быстрого включения и отключения файрвола одним нажатием, добавьте виджет Файрвол — вкл/откл на домашний экран.
-\nДля быстрого переключения профиля или включения/отключения файрвола, добавьте виджет Файрвол — меню на домашний экран.
-\n
-\n<b>Журнал</b>\nДля возможности просмотра событий блокировки приложений, откройте раздел <i>Настройки</i> и включите Журнал событий.
-\nAndroid Firewall будет записывать каждое событие блокировки приложений. Для просмотра журнала откройте Боковую панель и нажмите <b>Открыть журнал</b>. 
+\nДля просмотра всех текущих правил IPTABLES, нажмите <b>Текущие правила</b> в Боковой панели.</string>
+    <string name="help_usage_widgets">\n<b>Виджеты</b>\nДля быстрого включения и отключения файрвола одним нажатием, добавьте виджет Файрвол — вкл/откл на домашний экран.
+\nДля быстрого переключения профиля или включения/отключения файрвола, добавьте виджет Файрвол — меню на домашний экран.</string>
+    <string name="help_usage_logs">\n<b>Журнал REJECT</b>\nДля возможности просмотра событий блокировки приложений, откройте раздел <i>Настройки</i> и включите Журнал REJECT.
+\nAndroid Firewall будет записывать каждое событие блокировки приложений. Для просмотра журнала откройте Боковую панель и нажмите <b>Журнал REJECT</b>. 
 \nНекоторые недавно выпущенные устройства, в первую очередь из линейки Nexus, используют NFLOG вместо LOG. Android Firewall поддерживает оба. Устройства, использующие NFLOG, запускают две службы для записи данных. Эти службы запускаются только в случае включения журналирования.  
 \n
-\n<b>Пароль</b>\nДля защиты файрвола паролем выберите в Боковой панели команду <b>Сменить пароль</b>.
+\nAndroid Firewall также поддерживает журналирование принятых (ACCEPTED) данных. С помощью этих сведений можно заблокировать определённые IP-адреса пользовательским скриптом или через файл HOSTS.
+\n</string>
+    <string name="help_usage_pwdsearch"><b>Пароль</b>\nДля защиты файрвола паролем выберите в Боковой панели команду <b>Сменить пароль</b>.
 \nДля удаления пароля оставьте поле ввода пустым.
 \n<b>Поиск приложения</b>\nВы можете найти приложение по нескольким буквам его названия, вводя символы в поле с подсказкой \"приложение\".
-\n
-\n<b>Поддерживаемые интерфейсы</b>\nПомимо традиционных интерфейсов — WiFi и передачи данных в сотовой сети, поддерживаются три новых интерфейса. Это соединения VPN, роуминговые и локальные сети. Включение производится в разделе <i>Настройки</i>.
+\n</string>
+    <string name="help_usage_interfaces"><b>Поддерживаемые интерфейсы</b>\nПомимо традиционных интерфейсов — WiFi и передачи данных в сотовой сети, поддерживаются три новых интерфейса. Это соединения VPN, роуминговые и локальные сети. Включение производится в разделе <i>Настройки</i>.
 \n
 \n<i>Поддержка VPN</i> позволяет разрешить доступ приложениям только к VPN-подключению.
 \n
@@ -210,27 +251,32 @@
 \n<i>Поддержка LAN</i> позволяет разрешить доступ приложениям только к локальной сети.  Поддержка LAN требует включения функции <i>Автоприменение правил</i> в разделе <i>Настройки</i>". Подробности изложены в описании функций.
 \n
 \n<b>ПРИМЕЧАНИЕ:</b><i>Автоприменение правил и Поддержка LAN</i> требуют использования разрешений доступа в Интернет и просмотра состояния WiFi для получения сведений о локальном IP-адресе и подсети для каждого из интерфейсов.  <b>Android Firewall</b> не отправляет никаких данных и не использует доступ в Интернет.
-\n
-\n<i>Поддержка тетеринга</i> позволяет подключить ноутбук/планшет/телефон к этому устройству без отключения файрвола.  Функция переработана и теперь не требует включения доступа для "apps that run as root" и "kernel".  Интерфейс Bluetooth-тетеринга теперь поддерживается этой настройкой.
-\n
-\n<b>Поддержка Tasker/Locale</b>\n<i>Android Firewall</i> содержит плагин для приложений Tasker и Locale. Плагин позволяет этим приложениям включать и отключать файрвол, а также переключать профиль файрвола по событию.  Подробнее об этом можно узнать во вкладке \"Профили\", в разделе \"Использование Tasker\".
+\n</string>
+    <string name="help_usage_tether"><i>Поддержка тетеринга</i> позволяет подключить ноутбук/планшет/телефон к этому устройству без отключения файрвола.  Функция переработана и теперь не требует включения доступа для "apps that run as root" и "kernel".  Интерфейс Bluetooth-тетеринга теперь поддерживается этой настройкой.
+\n</string>
+    <string name="help_usage_tasker"><b>Поддержка Tasker/Locale</b>\n<i>Android Firewall</i> содержит плагин для приложений Tasker и Locale. Плагин позволяет этим приложениям включать и отключать файрвол, а также переключать профиль файрвола по событию.  Подробнее об этом можно узнать во вкладке \"Профили\", в разделе \"Использование Tasker\".
 \nУведомления о переключении профиля приложением Tasker по умолчанию отключены. Их можно включить в разделе <i>Настройки</i>.
-\n
-\n<b>Многопользовательский режим</b>\n<i>Android Firewall</i> поддерживает многопользовательский режим на планшетах.  Этот режим требует использования Чёрного списка и включается в разделе Настройки.  Для каждого пользователя используются свои цепочки правил IPTABLES, что позволяет устанавливать индивидуальные ограничения для приложений.
-\n
-\n<b>Поддержка INPUT цепочек</b>\n<i>Android Firewall</i> поддерживает INPUT цепочки правил. INPUT цепочки применяются для блокировки сторонних внешних подключений. INPUT цепочки работают несколько иначе, чем OUTPUT цепочки <i>Android Firewall</i>. INPUT цепочки применяются одновременно как к WiFi, так и к подключению к сотовой сети, так как нет возможности применять правила для этих интерфейсов по отдельности. INPUT цепочки поддерживают как Чёрный, так и Белый списки, аналогично OUTPUT цепочкам. Эта возможность предусмотрена для случая, когда необходимо запретить доступ приложения к сотовой сети и к INPUT, но необходимо разрешить доступ к WiFi. Например, если запретить браузеру доступ к сотовой сети и к INPUT, но разрешить доступ к WiFi, браузер сможет нормально работать с WiFi-подключением. INPUT цепочки работают только в Android 4.x из-за ограничений предыдущих версий ядра.
-\n
-\n<b>Прочие настройки</b>\n
+\n</string>
+    <string name="help_usage_multiuser"><b>Многопользовательский режим</b>\n<i>Android Firewall</i> поддерживает многопользовательский режим на планшетах.  Этот режим требует использования Чёрного списка и включается в разделе Настройки.  Для каждого пользователя используются свои цепочки правил IPTABLES, что позволяет устанавливать индивидуальные ограничения для приложений.
+\n</string>
+    <string name="help_usage_input"><b>Поддержка INPUT цепочек</b>\n<i>Android Firewall</i> поддерживает INPUT цепочки правил. INPUT цепочки применяются для блокировки сторонних внешних подключений. INPUT цепочки работают несколько иначе, чем OUTPUT цепочки <i>Android Firewall</i>. INPUT цепочки применяются одновременно как к WiFi, так и к подключению к сотовой сети, так как нет возможности применять правила для этих интерфейсов по отдельности. INPUT цепочки поддерживают как Чёрный, так и Белый списки, аналогично OUTPUT цепочкам. Эта возможность предусмотрена для случая, когда необходимо запретить доступ приложения к сотовой сети и к INPUT, но необходимо разрешить доступ к WiFi. Например, если запретить браузеру доступ к сотовой сети и к INPUT, но разрешить доступ к WiFi, браузер сможет нормально работать с WiFi-подключением. INPUT цепочки работают только в Android 4.x из-за ограничений предыдущих версий ядра.
+\n</string>
+    <string name="help_usage_ipv6lang"><b>Прочие настройки</b>\n
 \n<i>Поддержка IPv6</i> доступна в разделе <i>Настройки</i> для использующих IPv6.
 \n
 \nМожно изменить язык приложения на один из поддерживаемых в разделе <i>Настройки</i>.
+\n</string>
+    <string name="help_usage_sdx86"><i>Поддержка SD</i> адресована пользователям, переместившим приложения на карту памяти. Прочитайте описание перед включением.
 \n
-\n<i>Поддержка SD</i> адресована пользователям, переместившим приложения на карту памяти. Прочитайте описание перед включением.
-\n
-\n<i>Поддержка x86</i> предназначена для устройств, основанных на процессорах Intel.  
-\n
-\n<b>Информация</b>\n
+\n<i>Поддержка x86</i> предназначена для устройств, основанных на процессорах Intel.
+\n</string>
+    <string name="help_usage_shortcuts"><i>Ярлыки</i> позволяют быстро включать и выключать файрвол, а также переключать профили. Эти ярлыки доступны и для использования в других приложениях наподобие Llama и Macrodroid.
+\n</string>
+    <string name="help_usage_media"><b>Информация</b>\n
 \n<i>Media Server</i> <b>необходим</b> для работы <i>YouTube</i>.
+\n</string>
+    <string name="help_usage_reports"><i>Android Firewall</i> может формировать отчёты об ошибках, собирая сведения, необходимые для устранения ошибок, найденных пользователями. Эта функция формирует 3 файла, содержащих сведения об устройстве, но никакие персональные данные при этом не собираются. Указанные файлы записываются на внешний накопитель, поэтому вы легко можете просмотреть собранные сведения.\n
+\nФайлы отчётов сохраняются в папке с названием af_error_reports. Файлы упаковываются в архив, и пользователю предоставляется возможность их отправки разработчику. Пожалуйста, подробно опишите ваши действия, после которых произошёл сбой в работе приложения.
 \n</string>
     <string name="help_rules"><i>Правила</i> можно экспортировать в файл, импортировать из файла и удалять эти файлы прямо в файрволе.\n  
         \nВсе пользовательские настройки хранятся в файлах правил. При экспорте также сохраняются текущие настройки, например Запрос доступа, Журнал событий, Поддержка IPv6 и прочие. Файлы правил также используются для создания профилей.
@@ -312,7 +358,7 @@
 \n8.  Нажмите кнопку \'Edit\'.
 \n9.  Выберите профиль файрвола, который хотите включать с помощью Tasker.
 \n10.  Однократно нажмите кнопку Назад. Теперь можно проверить переключение профиля с помощью Tasker, нажав кнопку \'Play\' в левом нижнем углу.</string>
-    <string name="help_dialog_text"><i>Автор: Jason Tschohl.  
+    <string name="help_dialog_text"><i>Автор: Jason Tschohl
         \nАвтор оригинала: Rodrigo Zechin Rosauro</i>		\n    <i><a href="http://github.com/skullone/android_firewall">http://github.com/skullone/android_firewall</a></i>		\n
 		\n<i>Android Firewall</i> является ответвлением и дальнейшим развитием <i>DroidWall</i>, графического интерфейса для управления Linux-файрволом <b>IPTABLES</b>.
 		IPTABLES позволяет управлять доступом приложений к различным сетям передачи данных.\n
@@ -321,9 +367,18 @@
 		\n<i>Android Firewall</i> является приложением с открытым исходным кодом, распространяется свободно под лицензией <b>GPL v3</b>.  
 		\n
 		\nДля участия в переводе <i>Android Firewall</i> посетите сайт Crowdin:
-		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>
-		\n
+		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>    \n
 		\nИспользуемые библиотеки:
 		\n<i>ActionBarSherlock — под лицензией Apache 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser — под лицензией Apache 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
-
+<string name="help_changelog_234">Версия 2.3.4\n
+    \n
+    1. Fixed bug where Nav drawer would default back to English if language was manually changed.\n
+    2. Updated Help file information for easier translation.\n
+    3. Added more information to Error Reports to help with troubleshooting. All data is still available for users to look at so they know what is being transmitted.\n
+    4. Added interfaces for new devices.\n
+    5. UI cleanup.\n
+    6. Improved support for XXHDPI devices.\n
+    7. Apps that are uninstalled will now show up at the top of the app list if reinstalled. This only applies to apps uninstalled after this update is installed.\n
+    8. Menu options are now correct after the plugin or a shortcut makes a change to firewall.\n
+    9. Notification icon updated so it looks far better.</string>
 </resources>
