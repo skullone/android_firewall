@@ -24,9 +24,9 @@
     <string name="log_disabled">Журнал отключён</string>
     <string name="log_was_enabled">Журналирование включено</string>
     <string name="log_was_disabled">Журналирование отключено</string>
-    <string name="log_cleared">Журнал очищен</string>
+    <string name="log_cleared">Журналы очищены</string>
     <string name="show_log">Журнал REJECT</string>
-    <string name="clear_log">Очистить журнал</string>
+    <string name="clear_log">Очистить журналы</string>
     <string name="applying_rules">Применение правил IPTABLES</string>
     <string name="applyingipv6_rules">Применение правил IP6TABLES</string>
     <string name="saving_rules">Сохранение правил IPTABLES</string>
