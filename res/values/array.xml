@@ -25,6 +25,8 @@
         <item>@string/vietnamese</item>
         <item>@string/polish</item>
         <item>@string/greek</item>
+        <item>@string/hungarian</item>
+        <item>@string/slovak</item>
     </string-array>
     <string-array name="language_codes">
         <item></item>
@@ -42,6 +44,8 @@
         <item>vi</item>
         <item>pl</item>
         <item>el</item>
+        <item>hu</item>
+        <item>sk</item>
     </string-array>
     <string-array name="drawer_menu">
         <item>@string/exportrules</item>

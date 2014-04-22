@@ -104,7 +104,7 @@ public final class Api {
 	public static final String PREF_EXPORTNAME = "ExportName";
 	public static final String PREF_NOTIFY = "NotifyEnabled";
 	public static final String PREF_TASKERNOTIFY = "TaskerNotifyEnabled";
-	public static final String PREF_SDCARD = "SDCard";
+//	public static final String PREF_SDCARD = "SDCard";
 	public static final String PREF_LANENABLED = "LanEnabled";
 	public static final String PREF_AUTORULES = "AutoRulesEnabled";
 	public static final String PREF_TETHER = "TetheringEnabled";
@@ -112,6 +112,7 @@ public final class Api {
 	public static final String PREF_MULTIUSER = "MultiuserEnabled";
 	public static final String PREF_INPUTENABLED = "InputEnabled";
 	public static final String PREF_LOGACCEPTENABLED = "LogAcceptEnabled";
+	public static final String PREF_APPCOLOR = "AppColor";
 
 	// Modes
 	public static final String MODE_WHITELIST = "whitelist";
@@ -312,7 +313,7 @@ public final class Api {
 				.getBoolean(PREF_TETHER, false);
 		final String logtarget = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getString(PREF_LOGTARGET, "");
-		boolean inputenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
+		final boolean inputenabled = ctx.getSharedPreferences(PREFS_NAME, 0)
 				.getBoolean(PREF_INPUTENABLED, false);
 		final boolean logacceptenabled = ctx
 				.getSharedPreferences(PREFS_NAME, 0).getBoolean(
@@ -617,6 +618,14 @@ public final class Api {
 					script.append("$IPTABLES -A " + chainName + " -o ")
 							.append(itf)
 							.append(" -j " + chainName + "-vpn || exit 34\n");
+				}
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+					script.append("$IPTABLES -A " + chainName
+							+ " -m mark --mark 0x3c/0xfffc -g " + chainName
+							+ "-vpn || exit 4060\n");
+					script.append("$IPTABLES -A " + chainName
+							+ " -m mark --mark 0x40/0xfff8 -g " + chainName
+							+ "-vpn || exit 4061\n");
 				}
 			}
 			if (tetherenabled) {
@@ -1224,7 +1233,7 @@ public final class Api {
 							Log.d(TAG, "NFLOG code " + logtarget);
 						}
 					}
-					if (tetherenabled) {
+					if (tetherenabled && ipv6enabled) {
 						script.append("" + "# Create the tethering rules\n"
 								+ "$IP6TABLES -A "
 								+ chainName
@@ -1304,7 +1313,14 @@ public final class Api {
 								.append(itf)
 								.append(" -j " + chainName
 										+ "-vpn || exit 79\n");
-
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+							script.append("$IP6TABLES -A " + chainName
+									+ " -m mark --mark 0x3c/0xfffc -g "
+									+ chainName + "-vpn || exit 4060\n");
+							script.append("$IP6TABLES -A " + chainName
+									+ " -m mark --mark 0x40/0xfff8 -g "
+									+ chainName + "-vpn || exit 4061\n");
+						}
 					}
 					int uid = android.os.Process.getUidForName("dhcp");
 					if (uid != -1) {
@@ -2029,8 +2045,8 @@ public final class Api {
 			int code = runScriptAsRoot(ctx, script.toString(), res);
 			if (code == -1) {
 				if (showErrors)
-					alert(ctx, R.string.error_purging_code + " " + code
-							+ "\n" + res);
+					alert(ctx, R.string.error_purging_code + " " + code + "\n"
+							+ res);
 				return false;
 			}
 			return true;
@@ -2163,9 +2179,9 @@ public final class Api {
 	static String getBusyBoxPath(Context ctx) {
 		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
 		String arch = System.getProperty("os.arch");
-		String busybox = "busybox ";
+		String busybox;
 		if (arch.equals("i686")) {
-			busybox = dir + "/busybox_x86 ";
+			busybox = dir + "/busybox_x86v2 ";
 			Log.d(TAG, "Using x86 Busybox. " + arch);
 		} else {
 			busybox = dir + "/busybox_g1 ";
@@ -2174,8 +2190,32 @@ public final class Api {
 		return busybox;
 	}
 
+	static String getIfconfigPath(Context ctx) {
+		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
+		String arch = System.getProperty("os.arch");
+		String ifconfig;
+		if (arch.equals("i686")) {
+			ifconfig = dir + "/busybox_x86v2 ifconfig -a";
+			Log.d(TAG, "Using x86 Busybox for ifconfig. " + arch);
+		} else {
+			ifconfig = dir + "/ifconfig -a";
+			Log.d(TAG, "Using ifconfig binary. " + arch);
+		}
+		return ifconfig;
+	}
+
 	static String getNflogPath(Context ctx) {
-		return ctx.getDir("bin", 0).getAbsolutePath() + "/nflogv2 ";
+		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
+		String arch = System.getProperty("os.arch");
+		String nflog;
+		if (arch.equals("i686")) {
+			nflog = dir + "/nflog_x86 ";
+			Log.d(TAG, "Using x86 nflog. " + arch);
+		} else {
+			nflog = dir + "/nflogv2 ";
+			Log.d(TAG, "Using ARM nflog. " + arch);
+		}
+		return nflog;
 	}
 
 	public static String showLog(Context ctx) {
@@ -2229,6 +2269,16 @@ public final class Api {
 						loginfo.dstBlocked.put(dst, 1);
 					}
 				}
+				if (((start = line.indexOf("PROTO=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					String proto = line.substring(start + 6, end);
+					if (loginfo.protoBlocked.containsKey(proto)) {
+						loginfo.protoBlocked.put(proto,
+								loginfo.protoBlocked.get(proto) + 1);
+					} else {
+						loginfo.protoBlocked.put(proto, 1);
+					}
+				}
 				if (((start = line.indexOf("SRC=")) != -1)
 						&& ((end = line.indexOf(" ", start)) != -1)) {
 					String src = line.substring(start + 4, end);
@@ -2275,6 +2325,13 @@ public final class Api {
 					for (String dst : loginfo.dstBlocked.keySet()) {
 						address.append("Destination IP: " + dst + "("
 								+ loginfo.dstBlocked.get(dst) + ")");
+						address.append("\n");
+					}
+				}
+				if (loginfo.protoBlocked.size() > 0) {
+					for (String proto : loginfo.protoBlocked.keySet()) {
+						address.append("Protocol used: " + proto + "("
+								+ loginfo.protoBlocked.get(proto) + ")");
 						address.append("\n");
 					}
 				}
@@ -2358,6 +2415,16 @@ public final class Api {
 						loginfo.dstBlocked.put(dst, 1);
 					}
 				}
+				if (((start = line.indexOf("PROTO=")) != -1)
+						&& ((end = line.indexOf(" ", start)) != -1)) {
+					String proto = line.substring(start + 6, end);
+					if (loginfo.protoBlocked.containsKey(proto)) {
+						loginfo.protoBlocked.put(proto,
+								loginfo.protoBlocked.get(proto) + 1);
+					} else {
+						loginfo.protoBlocked.put(proto, 1);
+					}
+				}
 				if (((start = line.indexOf("SRC=")) != -1)
 						&& ((end = line.indexOf(" ", start)) != -1)) {
 					String src = line.substring(start + 4, end);
@@ -2404,6 +2471,13 @@ public final class Api {
 					for (String dst : loginfo.dstBlocked.keySet()) {
 						address.append("Destination IP: " + dst + "("
 								+ loginfo.dstBlocked.get(dst) + ")");
+						address.append("\n");
+					}
+				}
+				if (loginfo.protoBlocked.size() > 0) {
+					for (String proto : loginfo.protoBlocked.keySet()) {
+						address.append("Protocol used: " + proto + "("
+								+ loginfo.protoBlocked.get(proto) + ")");
 						address.append("\n");
 					}
 				}
@@ -2597,9 +2671,14 @@ public final class Api {
 			String name = null;
 			String cachekey = null;
 			DroidApp app = null;
+			ApplicationInfo appStatus;
+			boolean as;
 
 			for (final ApplicationInfo apinfo : installed) {
 
+				appStatus = pkgmanager
+						.getApplicationInfo(apinfo.packageName, 0);
+				as = appStatus.enabled;
 				boolean firstseen = false;
 				app = syncMap.get(apinfo.uid);
 				// filter applications which are not allowed to access the
@@ -2608,6 +2687,9 @@ public final class Api {
 						&& PackageManager.PERMISSION_GRANTED != pkgmanager
 								.checkPermission(Manifest.permission.INTERNET,
 										apinfo.packageName)) {
+					continue;
+				}
+				if (app == null && as == false) {
 					continue;
 				}
 				// try to get the application label from our cache -
@@ -2843,9 +2925,9 @@ public final class Api {
 			}
 			if (arch.equals("i686")) {
 				// Check busybox for x86
-				file = new File(ctx.getDir("bin", 0), "busybox_x86");
+				file = new File(ctx.getDir("bin", 0), "busybox_x86v2");
 				if (!file.exists()) {
-					copyRawFile(ctx, R.raw.busybox_x86, file, "755");
+					copyRawFile(ctx, R.raw.busybox_x86v2, file, "755");
 					changed = true;
 				}
 			} else {
@@ -2855,12 +2937,25 @@ public final class Api {
 					copyRawFile(ctx, R.raw.busybox_g1, file, "755");
 					changed = true;
 				}
+				file = new File(ctx.getDir("bin", 0), "ifconfig");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.ifconfig, file, "755");
+					changed = true;
+				}
 			}
 			// check nflog
-			file = new File(ctx.getDir("bin", 0), "nflogv2");
-			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.nflogv2, file, "755");
-				changed = true;
+			if (arch.equals("i686")) {
+				file = new File(ctx.getDir("bin", 0), "nflog_x86");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.nflog_x86, file, "755");
+					changed = true;
+				}
+			} else {
+				file = new File(ctx.getDir("bin", 0), "nflogv2");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.nflogv2, file, "755");
+					changed = true;
+				}
 			}
 			if (changed) {
 				Toast.makeText(ctx, R.string.toast_bin_installed,
@@ -3181,11 +3276,13 @@ public final class Api {
 														// address
 		private HashMap<String, Integer> srcBlocked;
 		private HashMap<String, Integer> dptBlocked;
+		private HashMap<String, Integer> protoBlocked;
 
 		private LogInfo() {
 			this.dstBlocked = new HashMap<String, Integer>();
 			this.srcBlocked = new HashMap<String, Integer>();
 			this.dptBlocked = new HashMap<String, Integer>();
+			this.protoBlocked = new HashMap<String, Integer>();
 		}
 	}
 
@@ -3224,18 +3321,19 @@ public final class Api {
 			return exitcode;
 		}
 	}
-	
+
 	/**
-	 * Remove cache file when file uninstalled so apps appear at top of list if they are reinstalled.
+	 * Remove cache file when file uninstalled so apps appear at top of list if
+	 * they are reinstalled.
 	 */
-	public static void updateCacheLabel(String pkgname, Context ctx){
+	public static void updateCacheLabel(String pkgname, Context ctx) {
 		String cachelabel = "cache.label." + pkgname;
-		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME,
+				Context.MODE_PRIVATE);
 		String appname = prefs.getString(cachelabel, "");
-		if (appname.length() > 0){
+		if (appname.length() > 0) {
 			prefs.edit().remove(cachelabel).commit();
 		}
 	}
-	
-	
+
 }

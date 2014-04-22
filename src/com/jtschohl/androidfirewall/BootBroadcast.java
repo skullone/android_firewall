@@ -27,6 +27,7 @@ package com.jtschohl.androidfirewall;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Broadcast receiver that set iptables rules on system startup. This is
@@ -34,18 +35,12 @@ import android.content.Intent;
  */
 public class BootBroadcast extends BroadcastReceiver {
 
+	final static String TAG = "{AF}";
+
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-			boolean sdcard = context.getSharedPreferences(Api.PREFS_NAME, 0)
-					.getBoolean(Api.PREF_SDCARD, false);
-			if (sdcard) {
-				// do nothing
-			} else {
-				Intent pushIntent = new Intent(context,
-						setRulesOnBootService.class);
-				context.startService(pushIntent);
-			}
-		}
+		String action = intent.getAction();
+		Log.d (TAG, "BootBroadcast action is " + action);
+		ApplyRulesOnBoot.applyRules(context);
 	}
 }

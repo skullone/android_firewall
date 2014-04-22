@@ -56,11 +56,11 @@
             android:summaryOff="@string/taskertoast_summary"
             android:summaryOn="@string/taskertoast_summary"
             android:title="@string/taskertoast_title" />
-        <CheckBoxPreference
+     <!--    <CheckBoxPreference
             android:key="sdcard"
             android:summaryOff="@string/sdcard_summary"
             android:summaryOn="@string/sdcard_summary"
-            android:title="@string/sdcard_title" />
+            android:title="@string/sdcard_title" /> --> 
         <CheckBoxPreference
             android:key="multiuser"
             android:summaryOff="@string/multiuser_summary"
@@ -71,6 +71,11 @@
             android:summaryOff="@string/input_off_summary"
             android:summaryOn="@string/input_on_summary"
             android:title="@string/input_title" />
+        <CheckBoxPreference
+            android:key="appcolor"
+            android:summaryOff="@string/color_off_summary"
+            android:summaryOn="@string/color_on_summary"
+            android:title="@string/color_title" />
     </PreferenceCategory>
 
     <ListPreference

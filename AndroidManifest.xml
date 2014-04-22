@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtschohl.androidfirewall"
     android:installLocation="internalOnly"
-    android:versionCode="234"
-    android:versionName="2.3.4" >
+    android:versionCode="235"
+    android:versionName="2.3.5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -175,8 +175,6 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <service android:name="com.jtschohl.androidfirewall.setRulesOnBootService" >
-        </service>
         <service android:name="com.jtschohl.androidfirewall.InterfaceIntent" >
         </service>
         <service android:name="com.jtschohl.androidfirewall.RootShell" >
@@ -188,17 +186,11 @@
             android:name="BootBroadcast"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" >
-                </action>
-            </intent-filter>
-        </receiver>
-        <receiver android:name="isMediaScanning" >
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" >
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
 
-                <data android:scheme="file" >
-                </data>
+                <data android:scheme="file" />
+
+                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" />
             </intent-filter>
         </receiver>
         <receiver android:name="com.jtschohl.androidfirewall.CheckForIfaceChange" >
