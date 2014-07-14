@@ -221,9 +221,16 @@
     <string name="vietnamese">Vietnamese</string>
     <string name="polish">Polish</string>
     <string name="greek">Greek</string>
+    <string name="hungarian">Hungarian</string>
+    <string name="slovak">Slovak</string>
+    <string name="dutch">Dutch</string>
+    <string name="finnish">Finnish</string>
     <string name="ifconfig_fail">Failed to get ifconfig information.</string>
     <string name="changelog_help">Changelog</string>
     <string name="profile_created">Profile has been created successfully.</string>
+    <string name="color_off_summary">Enabling this will change the color of system apps to red.</string>
+    <string name="color_on_summary">Disabling this will change the color of system apps to white.</string>
+    <string name="color_title">System App Color</string>
     <string name="help_usage_description"><b>Using Android Firewall</b>\n<b>1.</b> Click on <b>Mode</b> to switch between <i>White List</i> and <i>Black List</i> modes.
 \n<b>2.</b> Mark the applications that you want to block or allow (depending on the selected mode), for each interface.
 \n<b>3.</b> Open the menu and enable the firewall. If the firewall is already enabled, just select <b>Apply rules</b>.
@@ -265,7 +272,7 @@
 \n
 \nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
 \n</string>
-    <string name="help_usage_sdx86"><i>SDcard support</i> for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+    <string name="help_usage_sdx86"><i>SDcard support</i> for users who have moved apps to their SDcard.  This setting is now automatic.  There is no need to enable or disable it.
 \n
 \n<i>x86 Support</i> for devices running Intel processors.  
 \n</string>
@@ -369,8 +376,7 @@
 		\n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>		\n
 		\nIncluded libraries:
 		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
-<string name="help_changelog_234">Version 2.3.4\n
-    \n
+    <string name="help_changelog_234">Version 2.3.4\n
     1. Fixed bug where Nav drawer would default back to English if language was manually changed.\n
     2. Updated Help file information for easier translation.\n
     3. Added more information to Error Reports to help with troubleshooting. All data is still available for users to look at so they know what is being transmitted.\n
@@ -380,4 +386,29 @@
     7. Apps that are uninstalled will now show up at the top of the app list if reinstalled. This only applies to apps uninstalled after this update is installed.\n
     8. Menu options are now correct after the plugin or a shortcut makes a change to firewall.\n
     9. Notification icon updated so it looks far better.</string>
+    <string name="help_changelog_235">Version 2.3.5\n
+         1. Fix for VPN issue on Android 4.4.\n
+         2. Better SDcard Support. You no longer have to enable or disable SDcard support. Users with a lot of apps installed on the sdcard should no longer have apps missing after a reboot. Many thanks to mauro and Carlos for all the help in testing.\n
+         3. FAQ section added.\n
+         4. Ability to change color of system apps added.\n
+         5. Disabled apps no longer appear in the app list.\n
+         6. Added AF settings to error reports that are sent.\n
+         7. Added protocol type (TCP/UDP) to logs.\n
+         8. Fixed issue where some devices could not send the error report.\n
+         9. New binaries for x86 devices. These are smaller binaries so the APK size is now smaller.\n
+         10. New languages added - Hungarian, Slovak, Dutch, and Finnish.\n
+         11. Fix for bug where NFLOG service would not restart after a reboot.\n
+         12. Fixed bug in Android L where logs could not be generated.\n</string>
+    <string name="faq_help">FAQ</string>
+    <string name="help_faq_one"><b>YouTube/Streaming Music is not working. How do I fix it?</b>\n<i>Please allow "Media Server" access to the Internet</i>\n</string>
+    <string name="help_faq_two"><b>Why are logs not showing up?</b>\n<i>Logs depend on a service from AF that collects the data or dmesg to collect the data. Neither option can hold the data forever. So the logs are getting overritten quickly or your kernel does not have the proper modules enabled.</i>\n</string>
+    <string name="help_faq_three"><b>Why do you not block SMS/MMS or Phone calls?</b>\n<i>Iptables cannot block low-level traffic like that.</i>\n</string>
+    <string name="help_faq_four"><b>Why is some app not showing up in the list?</b>\n<i>The app either does not require internet permission or the app has been disabled.</i>\n</string>
+    <string name="help_faq_five"><b>Why does the app request full permissions to all device features and storage?</b>\n<i>This permission is the app simply announcing that it requires root access. Here is more information on the permission: <a href="https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1">https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1</a>	\n
+	    Giving an app root access means you give it full permissions to all device features and storage.  If you do not understand that you need to read this:  <a href="http://en.wikipedia.org/wiki/Android_rooting">http://en.wikipedia.org/wiki/Android_rooting</a></i>  	\n</string>
+    <string name="help_faq_six"><b>Why does a firewall app require access to the Internet?</b>\n<i>AF does not require access to the Inernet. However, AF does need that permission in order to properly pull the ip address range for the LAN Support functionality.  AF makes no calls to the Internet.</i>\n</string>
+    <string name="help_faq_seven"><b>How do I report a bug in the app?</b>\n<i>Send an Error Report from within the app (Menu -> Send Error Report) or e-mail me at androidfirewall.developer@gmail.com.  Please include the reason why you are sending the report.  For example:  "The firewall is preventing me from tethering my device" or "The firewall isn't blocking any apps."  You may also open up a bug report on Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
+    <string name="help_faq_eight"><b>Can you make it so this app does not need root access?</b>\n<i>No. Accessing iptables requires root access at this time.</i>\n</string>
+    <string name="help_faq_nine"><b>Can you add this super duper functionality to make the apps power level over 9000?</b>\n<i>Maybe.  Please e-mail me at androidfirewall.developer@gmail.com or submit a bug report via Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
+
 </resources>

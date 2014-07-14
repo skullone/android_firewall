@@ -340,7 +340,7 @@ public class RootShell extends Service {
 									+ exitCode);
 							rootState = STATE_FAILED;
 						} else {
-							Log.d(TAG, "Root shell is open");
+							Log.d(TAG, "Root shell is open & output = " + output);
 							rootState = STATE_READY;
 						}
 						runNextSubmission();
@@ -353,7 +353,7 @@ public class RootShell extends Service {
 		state.script = script;
 		state.commandIndex = 0;
 		state.retryCount = 0;
-
+		Log.d(TAG, "Script is " + script);
 		if (mContext == null) {
 			mContext = ctx.getApplicationContext();
 		}

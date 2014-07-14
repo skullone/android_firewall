@@ -693,12 +693,13 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f080005;
         public static final int abs__bright_foreground_holo_dark=0x7f080002;
         public static final int abs__bright_foreground_holo_light=0x7f080003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f080009;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f08000a;
-        public static final int abs__primary_text_holo_dark=0x7f08000b;
-        public static final int abs__primary_text_holo_light=0x7f08000c;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f08000a;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f08000b;
+        public static final int abs__primary_text_holo_dark=0x7f08000c;
+        public static final int abs__primary_text_holo_light=0x7f08000d;
         public static final int black=0x7f080006;
         public static final int blue=0x7f080007;
+        public static final int red=0x7f080009;
         public static final int white=0x7f080008;
     }
     public static final class dimen {
@@ -1099,24 +1100,25 @@ containing a value of this type.
         public static final int help_about_fragment=0x7f03001a;
         public static final int help_changelog_fragment=0x7f03001b;
         public static final int help_dialog=0x7f03001c;
-        public static final int help_profiles_fragment=0x7f03001d;
-        public static final int help_rules_fragment=0x7f03001e;
-        public static final int help_usage_fragment=0x7f03001f;
-        public static final int listitem=0x7f030020;
-        public static final int load_profile_buttons=0x7f030021;
-        public static final int logs_layout=0x7f030022;
-        public static final int main=0x7f030023;
-        public static final int onoff_widget=0x7f030024;
-        public static final int pass_dialog=0x7f030025;
-        public static final int prefs=0x7f030026;
-        public static final int rules_dialog=0x7f030027;
-        public static final int rules_layout=0x7f030028;
-        public static final int save_profile_buttons=0x7f030029;
-        public static final int sherlock_spinner_dropdown_item=0x7f03002a;
-        public static final int sherlock_spinner_item=0x7f03002b;
-        public static final int simple_widget=0x7f03002c;
-        public static final int tasker_profile_buttons=0x7f03002d;
-        public static final int widget_menu=0x7f03002e;
+        public static final int help_faq_fragment=0x7f03001d;
+        public static final int help_profiles_fragment=0x7f03001e;
+        public static final int help_rules_fragment=0x7f03001f;
+        public static final int help_usage_fragment=0x7f030020;
+        public static final int listitem=0x7f030021;
+        public static final int load_profile_buttons=0x7f030022;
+        public static final int logs_layout=0x7f030023;
+        public static final int main=0x7f030024;
+        public static final int onoff_widget=0x7f030025;
+        public static final int pass_dialog=0x7f030026;
+        public static final int prefs=0x7f030027;
+        public static final int rules_dialog=0x7f030028;
+        public static final int rules_layout=0x7f030029;
+        public static final int save_profile_buttons=0x7f03002a;
+        public static final int sherlock_spinner_dropdown_item=0x7f03002b;
+        public static final int sherlock_spinner_item=0x7f03002c;
+        public static final int simple_widget=0x7f03002d;
+        public static final int tasker_profile_buttons=0x7f03002e;
+        public static final int widget_menu=0x7f03002f;
     }
     public static final class menu {
         public static final int menu=0x7f0e0000;
@@ -1124,9 +1126,10 @@ containing a value of this type.
     }
     public static final class raw {
         public static final int busybox_g1=0x7f050000;
-        public static final int busybox_x86=0x7f050001;
+        public static final int busybox_x86v2=0x7f050001;
         public static final int iptables_armv5=0x7f050002;
-        public static final int nflogv2=0x7f050003;
+        public static final int nflog_x86=0x7f050003;
+        public static final int nflogv2=0x7f050004;
     }
     public static final class string {
         public static final int LogAppName=0x7f0b00b3;
@@ -1180,10 +1183,13 @@ containing a value of this type.
         public static final int applyrules=0x7f0b0011;
         public static final int applyrules2=0x7f0b0013;
         public static final int arabic=0x7f0b00dc;
-        public static final int changelog_help=0x7f0b00ea;
+        public static final int changelog_help=0x7f0b00ee;
         public static final int clear=0x7f0b005b;
         public static final int clear_log=0x7f0b0025;
         public static final int close=0x7f0b0017;
+        public static final int color_off_summary=0x7f0b00f0;
+        public static final int color_on_summary=0x7f0b00f1;
+        public static final int color_title=0x7f0b00f2;
         public static final int confirm_delete=0x7f0b00ce;
         public static final int connectchangerules_summary=0x7f0b00a9;
         public static final int connectchangerules_title=0x7f0b00aa;
@@ -1204,6 +1210,7 @@ containing a value of this type.
         public static final int drawer_open=0x7f0b009e;
         public static final int dst_ip=0x7f0b00c1;
         public static final int dst_port=0x7f0b00c3;
+        public static final int dutch=0x7f0b00eb;
         public static final int enableLog_accept_title=0x7f0b00c5;
         public static final int enableLog_title=0x7f0b0074;
         public static final int english=0x7f0b00db;
@@ -1225,7 +1232,9 @@ containing a value of this type.
         public static final int exportfailed=0x7f0b004c;
         public static final int exportrules=0x7f0b0055;
         public static final int exportsuccess=0x7f0b004d;
+        public static final int faq_help=0x7f0b0106;
         public static final int file_deleted=0x7f0b0090;
+        public static final int finnish=0x7f0b00ec;
         public static final int french=0x7f0b00e0;
         public static final int fw_disabled=0x7f0b001a;
         public static final int fw_enabled=0x7f0b0019;
@@ -1234,26 +1243,37 @@ containing a value of this type.
         public static final int german=0x7f0b00de;
         public static final int greek=0x7f0b00e8;
         public static final int help=0x7f0b0016;
-        public static final int help_changelog_234=0x7f0b00fd;
-        public static final int help_dialog_text=0x7f0b00fc;
-        public static final int help_profiles=0x7f0b00fb;
-        public static final int help_rules=0x7f0b00fa;
-        public static final int help_usage=0x7f0b0100;
-        public static final int help_usage_description=0x7f0b00ec;
-        public static final int help_usage_input=0x7f0b00f4;
-        public static final int help_usage_interfaces=0x7f0b00f0;
-        public static final int help_usage_ipv6lang=0x7f0b00f5;
-        public static final int help_usage_logs=0x7f0b00ee;
-        public static final int help_usage_media=0x7f0b00f8;
-        public static final int help_usage_multiuser=0x7f0b00f3;
-        public static final int help_usage_pwdsearch=0x7f0b00ef;
-        public static final int help_usage_reports=0x7f0b00f9;
-        public static final int help_usage_sdx86=0x7f0b00f6;
-        public static final int help_usage_shortcuts=0x7f0b00f7;
-        public static final int help_usage_tasker=0x7f0b00f2;
-        public static final int help_usage_tether=0x7f0b00f1;
-        public static final int help_usage_widgets=0x7f0b00ed;
-        public static final int ifconfig_fail=0x7f0b00e9;
+        public static final int help_changelog_234=0x7f0b0104;
+        public static final int help_changelog_235=0x7f0b0105;
+        public static final int help_dialog_text=0x7f0b0103;
+        public static final int help_faq_eight=0x7f0b010e;
+        public static final int help_faq_five=0x7f0b010b;
+        public static final int help_faq_four=0x7f0b010a;
+        public static final int help_faq_nine=0x7f0b010f;
+        public static final int help_faq_one=0x7f0b0107;
+        public static final int help_faq_seven=0x7f0b010d;
+        public static final int help_faq_six=0x7f0b010c;
+        public static final int help_faq_three=0x7f0b0109;
+        public static final int help_faq_two=0x7f0b0108;
+        public static final int help_profiles=0x7f0b0102;
+        public static final int help_rules=0x7f0b0101;
+        public static final int help_usage=0x7f0b0112;
+        public static final int help_usage_description=0x7f0b00f3;
+        public static final int help_usage_input=0x7f0b00fb;
+        public static final int help_usage_interfaces=0x7f0b00f7;
+        public static final int help_usage_ipv6lang=0x7f0b00fc;
+        public static final int help_usage_logs=0x7f0b00f5;
+        public static final int help_usage_media=0x7f0b00ff;
+        public static final int help_usage_multiuser=0x7f0b00fa;
+        public static final int help_usage_pwdsearch=0x7f0b00f6;
+        public static final int help_usage_reports=0x7f0b0100;
+        public static final int help_usage_sdx86=0x7f0b00fd;
+        public static final int help_usage_shortcuts=0x7f0b00fe;
+        public static final int help_usage_tasker=0x7f0b00f9;
+        public static final int help_usage_tether=0x7f0b00f8;
+        public static final int help_usage_widgets=0x7f0b00f4;
+        public static final int hungarian=0x7f0b00e9;
+        public static final int ifconfig_fail=0x7f0b00ed;
         public static final int importfailed=0x7f0b004b;
         public static final int importrules=0x7f0b0054;
         public static final int importsuccess=0x7f0b004a;
@@ -1334,7 +1354,7 @@ containing a value of this type.
         public static final int profile4saved=0x7f0b006b;
         public static final int profile5=0x7f0b0064;
         public static final int profile5saved=0x7f0b006c;
-        public static final int profile_created=0x7f0b00eb;
+        public static final int profile_created=0x7f0b00ef;
         public static final int profile_header=0x7f0b005e;
         public static final int profileapplied=0x7f0b006e;
         public static final int profilenames=0x7f0b007e;
@@ -1374,6 +1394,7 @@ containing a value of this type.
         public static final int showrules=0x7f0b0010;
         public static final int simple_chinese=0x7f0b00e5;
         public static final int simplewidget=0x7f0b0094;
+        public static final int slovak=0x7f0b00ea;
         public static final int spanish=0x7f0b00df;
         public static final int src_ip=0x7f0b00c2;
         public static final int statuswidget=0x7f0b0095;
@@ -1405,8 +1426,8 @@ containing a value of this type.
         public static final int version_about=0x7f0b00a8;
         public static final int vietnamese=0x7f0b00e6;
         public static final int vpn=0x7f0b0080;
-        public static final int vpn_disabled=0x7f0b00ff;
-        public static final int vpn_enabled=0x7f0b00fe;
+        public static final int vpn_disabled=0x7f0b0111;
+        public static final int vpn_enabled=0x7f0b0110;
         public static final int vpn_summary=0x7f0b0085;
         public static final int vpn_title=0x7f0b007f;
         public static final int widget_fail=0x7f0b0091;
@@ -2558,7 +2579,7 @@ containing a value of this type.
          */
         public static final int[] SherlockSpinner = {
             0x010100af, 0x01010175, 0x01010176, 0x0101017b,
-            0x01010262, 0x010102ac, 0x010102ad, 0x0101043a
+            0x01010262, 0x010102ac, 0x010102ad, 0x0101043d
         };
         /**
           <p>
