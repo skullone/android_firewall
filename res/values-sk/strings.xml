@@ -163,16 +163,28 @@
   <string name="included_iptables">Obsahuje IP tabuľky</string>
   <string name="iptables_title">Binárna IP tabuľka</string>
   <string name="ipv6_unavailable">Podpora IPv6 nie je dostupná na vašom zariadení.</string>
+<<<<<<< HEAD
   <string name="tether_summary">Povolí pripojenie ostatných zariadení na internet, pri použití Wifi tetheringu.</string>
   <string name="tether_title">Podpora Tethering</string>
   <string name="log_fetch_error">Nemožno načítať záznamy.</string>
   <string name="log_parse_error">Nie je možné analyzovať deník.</string>
+=======
+  <string name="tether_summary">Enabling this will allow you to tether other devices to your Internet connection.</string>
+  <string name="tether_title">Podpora Tethering</string>
+  <string name="log_fetch_error">Nemožno načítať záznamy.</string>
+  <string name="log_parse_error">Cannot parse the logs.</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="LogAppName">Názov aplikácie</string>
   <string name="LogPackBlock">Všetky pakety blokované</string>
   <string name="LogPackAllowed">Všetky pakety povolené</string>
   <string name="log_failed">Chyba aktualizácie stavu záznamu.</string>
+<<<<<<< HEAD
   <string name="input_off_summary">Zapnutie aktivuje Vstupné pripojenia pre iptabuľky. To vám umožní blokovať určité typy prichádzajúcej komunikácie vášho prístroja.</string>
   <string name="input_on_summary">Vypnutie, deaktivuje reťaze Vstupného pripojenia pre ip-tabuľky.</string>
+=======
+  <string name="input_off_summary">Enabling this will activate the INPUT chains for iptables. This will allow you to block certain types of communication headed TO your device.</string>
+  <string name="input_on_summary">Disabling this will deactivate the INPUT chains for iptables.</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="input_title">Vstupné reťazce</string>
   <string name="input_options_title">Nastavenie vstupných reťazcov</string>
   <string name="settings_title">Nastavenie aplikácie</string>
@@ -189,7 +201,11 @@
   <string name="show_accept_log">Zobraziť POVOLENÝ záznam</string>
   <string name="sendreport">Odoslať hlásenie o chybe</string>
   <string name="report_fail">Nepodarilo sa získať správy o chybách</string>
+<<<<<<< HEAD
   <string name="interface_fail">Nepodarilo sa získať informácie o rozhraní</string>
+=======
+  <string name="interface_fail">Failed to get Interface Information</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="generate_reports">Generovanie správ o chybách</string>
   <string name="generate_zip">Vytváranie Zip súboru</string>
   <string name="no_zip">Chyba zip súbor sa nenašiel.</string>
@@ -198,7 +214,11 @@
   <string name="error_purging">Chyba pri prečistovani Ip tabuliek:</string>
   <string name="error_purging_code">Chyba čistenia IP tabuliek výstupných kódov:</string>
   <string name="error_purgingipv6">Chyba pri prečisťovaní IP6 tabuliek:</string>
+<<<<<<< HEAD
   <string name="error_purgingipv6_code">Chyba čistenia IP tabuliek výstupných kódov:</string>
+=======
+  <string name="error_purgingipv6_code">Error purging ip6tables exit code:</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="error_showing_rules">Chyba pri zobrazení pravidiel:</string>
   <string name="error_clearing_rules">Chyba pri vymazávaní pravidiel</string>
   <string name="error_accessing_root">Nemôže získať prístup k root</string>
@@ -236,7 +256,20 @@
 \nAndroid Firewall supports logging of ACCEPTED packets as well.  By logging those packets you can see where apps are sending your data.  You can then use that information to block access to certain IPs via the Custom Script option or your HOSTS file.
 \n</string>
   <string name="help_usage_pwdsearch"><b>Zamknuté heslom</b> \nHeslo môžete nastaviť pre Android Firewall pomocou možnosti <b>nastaviť heslo</b> v záložke navigácia. \nPre odstánenie hesla nevypnňujte. \n <b>app Hľadať</b> \nMôžete vyhľadať konkrétnu aplikáciu zadaním niekoľko prvých písmen názvu aplikácie. \n</string>
+<<<<<<< HEAD
   <string name="help_usage_interfaces"><b>Podporované rozhrania</b> \nWiFi , Dátové pripojenie (mobilný internet) a ostatné rozhrania. Pridaná podpora VPN, Roaming a LAN sietí.  Podporu týchto sietí, je treba povoliť v časti <i>nastavenia</i>. \n \n <i>podporu VPN</i> umožňuje aplikácia len prístup k prúdu údajov pri pripojení k sieti VPN. \n \n <i>Roaming podpora</i> umožňuje aplikáciam prístup k prenosu údajov pri roamingu. \n \n <i>LAN podporu</i> umožňuje aplikáciam prístup na LAN sieť, ale nie na internete. <i>Automatické pravidlá Firewallu</i> možnosť v <i>nastavenia</i> povoliť.  Popis pre viac informácií nájdete v. \n \n <b>Poznámka:</b> <i>Automatické pravidlá firewallu a LAN podporované</i> vyžadujú prístup na internet a povolenú WiFi na prístup k podsiete a LAN a Internetové povolenie informácie o adrese pre každé rozhranie.  <b>Android Firewall</b> Neprenáša ani neodosiela údaje na internet. \n</string>
+=======
+  <string name="help_usage_interfaces"><b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are available.  These are enabled under <i>Settings</i>.
+\n
+\n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
+\n
+\n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
+\n
+\n<i>LAN support</i> allows apps to access LAN data but not the Internet.  LAN support requries the new <i>Automatic Firewall Rules</i> option in <i>Settings</i> to be enabled.  Please refer to the description for more information.
+\n
+\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission and Access WiFi State permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
+\n</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="help_usage_tether"><i>Podpora Tethering </i> vám umožní vysielať alebo pripojiť sa k notebooku/tabletu/telefónu bez nutnosti vypnúť firewall.  Toto je nová funkcia a už vyžaduje \"aplikácie, ktoré bežia ako root\" a \"jadro\".  Vysielanie alebo pripojenie cez rozhranie Bluetooth sú podporované týmto nastavením. \n</string>
   <string name="help_usage_tasker"><b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
 \nNotifications from Tasker, Locale, and the shortcuts stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
@@ -245,6 +278,7 @@
 \n</string>
   <string name="help_usage_input"><b>INPUT Chain Support</b>\n<i>Android Firewall</i> supports INPUT chains.  INPUT chains are used to prevent communication from outside sources.  INPUT chains works a little bit differently than the OUTPUT chains in <i>Android Firewall</i>.  INPUT chains applies to both WiFi and cellular data connections at the same time since there is no way to apply the rules to a specific interface.  INPUT chains works with both Blacklist and Whitelist just like current OUTPUT chains.  This feature is designed so that if you deny an app access to Data and INPUT but still want it to work on WiFi it will.  For example if you deny a web browser access the Data and INPUT but give it access to WiFi the browser will still function correctly when on WiFi.  INPUT chains only work on Android 4.x due to limitations in the older kernels.    
 \n</string>
+<<<<<<< HEAD
   <string name="help_usage_ipv6lang"><b>Ostatné nastavenie</b>\n
 \n<i>IPv6 podporovaná</i> je k dispozícii v <i>Nastavenia</i> pre tých ktorý používajú IPv6.
 \n
@@ -260,6 +294,25 @@
 \n<i>Media Server</i> is <b>vyžaduje</b> pre <i>YouTube</i> fungovanie.
 \n</string>
   <string name="help_usage_reports"><i>Android Firewall</i> môže generovať chybové správy, s cieľom zhromaždiť informácie potrebné na odstránenie problémov.  Táto možnosť vytvára 3 súbory obsahujúce informácie o zariadení, ale žiadne osobné údaje, ktoré sú zobrazené takže môžete vidieť, aké údaje sú zhromažďované. \n \nUdaje sú uložené v priečinku s názvom af_error_reports.  Súbory sú v zip formáte a užívateľ má možnosť poslať e-mailom súbory pre vývojárov. Uveďte podrobný opis čo ste robili, keď sa chyba stala. \n</string>
+=======
+  <string name="help_usage_ipv6lang"><b>Other settings</b>\n
+\n<i>IPv6 support</i> is available under <i>Settings</i> for those who use IPv6.
+\n
+\nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
+\n</string>
+  <string name="help_usage_sdx86"><i>SDcard support</i> for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n
+\n<i>x86 Support</i> for devices running Intel processors.  
+\n</string>
+  <string name="help_usage_shortcuts"><i>Application Shortcuts</i> are available for quick access to enabling or disabling the firewall and all of your profiles.  These shortcuts can also be used by apps like Llama and Macrodroid for situation based application.
+\n</string>
+  <string name="help_usage_media"><b>Information</b>\n
+\n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n</string>
+  <string name="help_usage_reports"><i>Android Firewall</i> can generate error reports in order to gather the information needed to correct issues seen by users.  This ability generates 3 files containing device information, but NO personal information, which is then written to your external storage so you can see what is data is being collected.\n 
+\nThey are kept in a folder called af_error_reports.  The files are zipped and the user given the option to e-mail the files to the developer. Please include a detailed description of what you were doing when the issue happened.
+\n</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="help_rules"><i>Rules Management</i> is the ability to export, import, and delete rules files.\n  
         \nAll user preferences are stored in the rules file so when you export a rules file you also save your Settings like notification support, log enabled, IPv6 support, and the rest.  These files are used to create your profiles as well.
 \n
@@ -354,7 +407,11 @@
 		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
   <string name="help_changelog_234">Verzia 2.3.4\n \n 1. Opravená chyba ak sa jazyk prepol do angličtiny, ak bol manuálne zmenený. \n 2. Aktualizované infnformácie a pomocník. \n 3. Pridané ďalšie informácie k chybovým hláseniam. Všetky dáta sú stále k dispozícii pre používateľov, prehlad odosielaných štatistík. \n 4. Pridané rozhrania pre nové zariadenia. \n 5. Prostredie zjednodušené. \n 6. Vylepšená podpora pre XXHDPI prístroje. \n 7. Aplikácie, ktoré boli aktualizované sa teraz objavia v hornej časti zoznamu . Toto platí iba pre aplikácie ktoré boli odinštalované pred inštaláciou aktualizácii. \n 8. Možnosti ponuky sú teraz správne po plugin alebo odkaz zmení na firewall. \n 9. Ikona v stavovom riadku bola zmenená, takže to vyzerá oveľa lepšie.</string>
   <string name="help_changelog_235">Verzia 2.3.5\n \n 1. Opravené VPN problémy na KitKat.\n 2. Vylepšená SDcard podpora. \n 3.Pridaná sekcia FAQ. \n 4. Možnosť meniť farbu systémových aplikacií.\n 5. Vypnutie aplikácií v zozname aplikácií. \n 6 Pridané nastavenie chybových hlásení, ktoré sa odosielajú.</string>
+<<<<<<< HEAD
   <string name="faq_help">FAQ časté otázky</string>
+=======
+  <string name="faq_help">FAQ</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="help_faq_one"><b>YouTube/Streaming Music is not working. How do I fix it?</b>\n<i>Please allow "Media Server" access to the Internet</i>\n</string>
   <string name="help_faq_two"><b>Why are logs not showing up?</b>\n<i>Logs depend on a service from AF that collects the data or dmesg to collect the data. Neither option can hold the data forever. So the logs are getting overritten quickly or your kernel does not have the proper modules enabled.</i>\n</string>
   <string name="help_faq_three"><b>Why do you not block SMS/MMS or Phone calls?</b>\n<i>Iptables cannot block low-level traffic like that.</i>\n</string>
@@ -364,5 +421,9 @@
   <string name="help_faq_six"><b>Why does a firewall app require access to the Internet?</b>\n<i>AF does not require access to the Inernet. However, AF does need that permission in order to properly pull the ip address range for the LAN Support functionality.  AF makes no calls to the Internet.</i>\n</string>
   <string name="help_faq_seven"><b>How do I report a bug in the app?</b>\n<i>Send an Error Report from within the app (Menu -&gt; Send Error Report) or e-mail me at androidfirewall.developer@gmail.com.  Please include the reason why you are sending the report.  For example:  "The firewall is preventing me from tethering my device" or "The firewall isn\'t blocking any apps."  You may also open up a bug report on Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
   <string name="help_faq_eight"><b>Can you make it so this app does not need root access?</b>\n<i>No. Accessing iptables requires root access at this time.</i>\n</string>
+<<<<<<< HEAD
   <string name="help_faq_nine"><b>Chcete pridať ďalšie super funkcie aplikácie?</b>\n <i>Možnosť.  Prosím, pošlite mi e-mail na androidfirewall.developer@gmail.com alebo správu cez Github. <a href="https://github.com/skullone/android_firewall/issues"> https://github.com/skullone/android_firewall/issues</a></i>   \n</string>
+=======
+  <string name="help_faq_nine"><b>Can you add this super duper functionality to make the apps power level over 9000?</b>\n<i>Maybe.  Please e-mail me at androidfirewall.developer@gmail.com or submit a bug report via Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
 </resources>

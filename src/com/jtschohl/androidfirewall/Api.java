@@ -2190,7 +2190,11 @@ public final class Api {
 		return busybox;
 	}
 
+<<<<<<< HEAD
 	/*static String getIfconfigPath(Context ctx) {
+=======
+	static String getIfconfigPath(Context ctx) {
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
 		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
 		String arch = System.getProperty("os.arch");
 		String ifconfig;
@@ -2202,7 +2206,11 @@ public final class Api {
 			Log.d(TAG, "Using ifconfig binary. " + arch);
 		}
 		return ifconfig;
+<<<<<<< HEAD
 	}*/
+=======
+	}
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
 
 	static String getNflogPath(Context ctx) {
 		final String dir = ctx.getDir("bin", 0).getAbsolutePath();
@@ -2937,11 +2945,19 @@ public final class Api {
 					copyRawFile(ctx, R.raw.busybox_g1, file, "755");
 					changed = true;
 				}
+<<<<<<< HEAD
 			/*	file = new File(ctx.getDir("bin", 0), "ifconfig");
 				if (!file.exists()) {
 					copyRawFile(ctx, R.raw.ifconfig, file, "755");
 					changed = true;
 				}*/
+=======
+				file = new File(ctx.getDir("bin", 0), "ifconfig");
+				if (!file.exists()) {
+					copyRawFile(ctx, R.raw.ifconfig, file, "755");
+					changed = true;
+				}
+>>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
 			}
 			// check nflog
 			if (arch.equals("i686")) {
