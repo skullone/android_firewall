@@ -144,11 +144,7 @@
   <string name="log_title">Log firewallu</string>
   <string name="usage_help">Využití</string>
   <string name="rules_help">Správa pravidel</string>
-<<<<<<< HEAD
-  <string name="profiles_help">Pomoc s profily</string>
-=======
   <string name="profiles_help">Nápověda pro profily</string>
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="about_help">O aplikaci</string>
   <string name="drawer_open">Otevřít navigation drawer</string>
   <string name="drawer_close">Zavřít navigation drawer</string>

@@ -223,11 +223,8 @@
     <string name="greek">Greek</string>
     <string name="hungarian">Hungarian</string>
     <string name="slovak">Slovak</string>
-<<<<<<< HEAD
     <string name="dutch">Dutch</string>
     <string name="finnish">Finnish</string>
-=======
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
     <string name="ifconfig_fail">Failed to get ifconfig information.</string>
     <string name="changelog_help">Changelog</string>
     <string name="profile_created">Profile has been created successfully.</string>
@@ -390,11 +387,7 @@
     8. Menu options are now correct after the plugin or a shortcut makes a change to firewall.\n
     9. Notification icon updated so it looks far better.</string>
     <string name="help_changelog_235">Version 2.3.5\n
-<<<<<<< HEAD
          1. Fix for VPN issue on Android 4.4.\n
-=======
-         1. Fix for VPN issue on KitKat.\n
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
          2. Better SDcard Support. You no longer have to enable or disable SDcard support. Users with a lot of apps installed on the sdcard should no longer have apps missing after a reboot. Many thanks to mauro and Carlos for all the help in testing.\n
          3. FAQ section added.\n
          4. Ability to change color of system apps added.\n
@@ -403,14 +396,9 @@
          7. Added protocol type (TCP/UDP) to logs.\n
          8. Fixed issue where some devices could not send the error report.\n
          9. New binaries for x86 devices. These are smaller binaries so the APK size is now smaller.\n
-<<<<<<< HEAD
          10. New languages added - Hungarian, Slovak, Dutch, and Finnish.\n
          11. Fix for bug where NFLOG service would not restart after a reboot.\n
          12. Fixed bug in Android L where logs could not be generated.\n</string>
-=======
-         10. New languages added - Hungarian and Slovak.\n
-         11. Fix for bug where NFLOG service would not restart after a reboot.\n</string>
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
     <string name="faq_help">FAQ</string>
     <string name="help_faq_one"><b>YouTube/Streaming Music is not working. How do I fix it?</b>\n<i>Please allow "Media Server" access to the Internet</i>\n</string>
     <string name="help_faq_two"><b>Why are logs not showing up?</b>\n<i>Logs depend on a service from AF that collects the data or dmesg to collect the data. Neither option can hold the data forever. So the logs are getting overritten quickly or your kernel does not have the proper modules enabled.</i>\n</string>

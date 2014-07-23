@@ -392,21 +392,13 @@
          5. Deaktivierte Apps erscheinen nicht mehr in der App-Liste.\n
          6. AF-Einstellungen zu den Fehlerberichten, die versandt werden, hinzugefügt.</string>
   <string name="faq_help">F&amp;A</string>
-<<<<<<< HEAD
-  <string name="help_faq_one"><b>YouTube/Streaming-Musik funktioniert nicht. Wie kann ich es reparieren?</b>\n<i>Bitte »Media Server«-Zugriff auf das Internet erlauben</i>\n</string>
-=======
   <string name="help_faq_one"><b>YouTube/Streaming Musik funktioniert nicht. Wie repariere ich es?</b>\n<i>Bitte »Media Server« Zugriff auf das Internet erlauben</i>\n</string>
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="help_faq_two"><b>Why are logs not showing up?</b>\n<i>Logs depend on a service from AF that collects the data or dmesg to collect the data. Neither option can hold the data forever. So the logs are getting overritten quickly or your kernel does not have the proper modules enabled.</i>\n</string>
   <string name="help_faq_three"><b>Warum werden nicht SMS/MMS oder Telefonanrufe blockiert?</b>\n<i>Die iptables kann solchen niedrigen Datenverkehr nicht blockieren.</i>\n</string>
   <string name="help_faq_four"><b>Warum werden einige Apps nicht in der Liste angezeigt?</b>\n<i>Die App benötigt entweder keinen Internetzugriff oder wurde deaktiviert.</i>\n</string>
   <string name="help_faq_five"><b>Why does the app request full permissions to all device features and storage?</b>\n<i>This permission is the app simply announcing that it requires root access. Here is more information on the permission: <a href="https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1">https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1</a>	\n
 	    Giving an app root access means you give it full permissions to all device features and storage.  If you do not understand that you need to read this:  <a href="http://en.wikipedia.org/wiki/Android_rooting">http://en.wikipedia.org/wiki/Android_rooting</a></i>  	\n</string>
-<<<<<<< HEAD
-  <string name="help_faq_six"><b>Warum benötigt eine Firewall den Zugriff auf das Internet?</b>\n<i>AF benötigt keinen Zugriff auf das Internet. Aber, AF benötigt die Zugriffsrechte, um den IP-Adressbereich, für die Funktionalität der LAN-Unterstützung, durchzuschleifen. AF tätigt keine Verbindungen in das Internet.</i>\n</string>
-=======
   <string name="help_faq_six"><b>Why does a firewall app require access to the Internet?</b>\n<i>AF does not require access to the Inernet. However, AF does need that permission in order to properly pull the ip address range for the LAN Support functionality.  AF makes no calls to the Internet.</i>\n</string>
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
   <string name="help_faq_seven"><b>How do I report a bug in the app?</b>\n<i>Send an Error Report from within the app (Menu -&gt; Send Error Report) or e-mail me at androidfirewall.developer@gmail.com.  Please include the reason why you are sending the report.  For example:  "The firewall is preventing me from tethering my device" or "The firewall isn\'t blocking any apps."  You may also open up a bug report on Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
   <string name="help_faq_eight"><b>Können Sie es so machen, dass die App keinen Root-Zugriff benötigt?</b>\n<i>Nein. Es wird ein Root-Zugang benötigt, um auf die iptables zugreifen zu können.</i>\n</string>
   <string name="help_faq_nine"><b>Können Sie diese Super-Tolle-Funktionalität hinzufügen, um das Leistungspegel der App über 9000 zu machen?</b>\n<i>Vielleicht. Bitte schreiben Sie mir eine E-Mail an androidfirewall.developer@gmail.com oder senden Sie einen Fehlerbericht über Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i>\n</string>

@@ -27,11 +27,8 @@
         <item>@string/greek</item>
         <item>@string/hungarian</item>
         <item>@string/slovak</item>
-<<<<<<< HEAD
         <item>@string/dutch</item>
         <item>@string/finnish</item>
-=======
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
     </string-array>
     <string-array name="language_codes">
         <item></item>
@@ -51,11 +48,8 @@
         <item>el</item>
         <item>hu</item>
         <item>sk</item>
-<<<<<<< HEAD
         <item>nl</item>
         <item>fi</item>
-=======
->>>>>>> 62c241e8b2e5a1909f41e48ed91969d0b231aa1c
     </string-array>
     <string-array name="drawer_menu">
         <item>@string/exportrules</item>
