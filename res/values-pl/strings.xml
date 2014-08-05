@@ -24,7 +24,7 @@
   <string name="log_was_enabled">Logi zostały aktywowane</string>
   <string name="log_was_disabled">Logi zostały dezaktywowane</string>
   <string name="log_cleared">Logi wyczyszczone</string>
-  <string name="show_log">Pokaż logi</string>
+  <string name="show_log">Pokaż Dziennik Odrzuceń</string>
   <string name="clear_log">Wyczyść logi</string>
   <string name="applying_rules">Stosowanie reguł iptables.</string>
   <string name="applyingipv6_rules">Stosowanie reguł ip6tables.</string>
@@ -55,7 +55,7 @@
   <string name="custom_script_defined">Zdefiniowano niestandardowy skrypt</string>
   <string name="custom_script_removed">Usunięto niestandardowy skrypt</string>
   <string name="custom_script_error">Błąd przy zapisie niestandardowego skryptu</string>
-  <string name="custom_script_info"><b>Wprowadź tutaj swój niestandardowy skrypt.</b>		\n<i>(Pozostaw to pole puste aby usunąć)</i>		\nJeśli potrzebujesz informacji na temat skryptów kliknij <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">tutaj</a>.</string>
+  <string name="custom_script_info"><b>Wprowadź swój niestandardowy skrypt tutaj.</b>\n<i>(Pozostaw to pole puste aby usunąć)</i>\nJeśli potrzebujesz informacji na temat skryptów kliknij <a href="http://code.google.com/p/droidwall/wiki/CustomScripts">tutaj</a>.</string>
   <string name="custom_script2_info">     \n<b>Niestandardowy skrypt zamykania</b> \nMożesz zdefiniować niestandardowy skrypt, który zostanie wykonany gdy Android Firewall zostanie <b>wyłączony</b>:</string>
   <string name="unsaved_changes">Niezapisane zmiany</string>
   <string name="unsaved_changes_message">Nie zapisano zmian.\nCzy chcesz je zastosować?</string>
@@ -111,22 +111,22 @@
   <string name="twofortyfouram_locale_menu_dontsave">Anuluj</string>
   <string name="twofortyfouram_locale_menu_help">Pomoc</string>
   <string name="twofortyfouram_locale_menu_save">Wykonano</string>
-  <string name="tasker_name">Android Firewall - Tasker</string>
-  <string name="tasker_profile_disabled">Profile zapory zmienione przez Taskera. Android Firewall wyłączony!</string>
+  <string name="tasker_name">Android Firewall - Plugin</string>
+  <string name="tasker_profile_disabled">Profile Android Firewall zostały zmienione przez plugin/skrót. Firewall wyłączony!</string>
   <string name="search_name">Znajdź aplikację</string>
   <string name="profilenames">Edytuj nazwy profili</string>
   <string name="vpn_title">Obsługa VPN</string>
   <string name="vpn">VPN</string>
   <string name="roaming_title">Obsługa roamingu</string>
   <string name="usersettings">Ustawienia</string>
-  <string name="taskertoast_title">Powiadomienia Taskera</string>
+  <string name="taskertoast_title">Tasker/Locale/Shortcut Notifications</string>
   <string name="ipv6_summary">To ustawienie włącza lub wyłącza obsługę protokołu IPv6</string>
   <string name="vpn_summary">To ustawienie włącza lub wyłącza obsługę sieci VPN</string>
   <string name="roaming_summary">To ustawienie włącza lub wyłącza obsługę roamingu</string>
-  <string name="taskertoast_summary">To ustawienie włącza lub wyłącza powiadomienia Taskera o zmianie profilu</string>
+  <string name="taskertoast_summary">To ustawienie włącza lub wyłącza wyskakujące powiadomienia, gdy Firewall jest modyfikowany przez Tasker, Locale, Llamę, Macrodroid lub skróty.</string>
   <string name="log_summary">To ustawienie włącza lub wyłącza logi zapory</string>
   <string name="notification_summary">To ustawienie włącza lub wyłącza powiadomienia dla nowo zainstalowanych aplikacji, które wymagają dostępu do Internetu</string>
-  <string name="tasker_profile">Tasker zmienił profil używany przez Android Firewall</string>
+  <string name="tasker_profile">Pluginy lub skróty zmieniły profil używany przez Android Firewall</string>
   <string name="apply_setting_changes">Stosowanie reguł do zmiany ustawień</string>
   <string name="rules_export_successfully">Reguły zostały wyeksportowane pomyślnie</string>
   <string name="rules_import_successfully">Reguły zostały zaimportowane pomyślnie</string>
@@ -169,6 +169,7 @@
   <string name="log_parse_error">Nie można analizować logów.</string>
   <string name="LogAppName">Nazwa Aplikacji</string>
   <string name="LogPackBlock">Wszystkie zablokowane pakiety</string>
+  <string name="LogPackAllowed">Całkowite pakiety dozwolone</string>
   <string name="log_failed">Błąd aktualizacji statusu logów.</string>
   <string name="input_off_summary">Włączenie tej opcji aktywuje kontrolę pakietów przychodzących w iptables. Umożliwia to blokowanie różnych typów danych przychodzących do twojego urządzenia.</string>
   <string name="input_on_summary">Wyłączenie tej opcji dezaktywuje kontrolę pakietów przychodzących w iptables.</string>
@@ -183,66 +184,98 @@
   <string name="dst_ip">Docelowe IP</string>
   <string name="src_ip">Źródłowe IP</string>
   <string name="dst_port">Docelowy port</string>
-  <string name="help_usage"><b>Obsługa Android Firewall</b>\n
-<b>1.</b> Kliknij na <b>Tryb</b> aby wybrać tryb <i>białej listy</i> lub <i>czarnej listy</i>. \n
-<b>2.</b> Zaznacz aplikację, której chcesz zablokować lub zezwolić (zależnie od wybranego trybu) na dostęp do każdego połączenia oddzielnie. \n
-<b>3.</b> Otwórz menu i aktywuj zaporę. Jeśli zapora jest już włączona to po prostu wybierz <b>Zastosuj reguły</b>. \n
-Reguły zostaną zapisane i zostaną automatycznie przywrócone po restarcie telefonu. \n
-Jeśli chcesz sprawdzić wszystkie reguły iptables, wybierz <b>Pokaż reguły</b> z wysuwanego menu po lewej. \n
- \n
-<b>Widżety</b>\n
-Aby szybko włączyć lub wyłączyć zaporę jednym dotknięciem, dodaj Włącz/Wyłącz Widżet do twojego ekranu domowego. \n
-Aby szybko zmieniać profile lub włączać/wyłączać zaporę, dodaj Widżet Menu do twojego ekranu domowego. \n
- \n
-<b>Logi zapory</b>\n
-Jeśli chcesz zobaczyć, które aplikacje zostały zablokowane przez Android Firewall, otwórz <i>Ustawienia</i> i włącz logi. \n
-Android Firewall będzie zapisywał w logu każdą zablokowaną aplikację. Możesz sprawdzić logi otwierając menu i wybierając <b>Pokaż log</b> z wysuwanego menu po lewej. \n
-Niektóre nowsze urządzenia, zwłaszcza Nexus, używają NFLOG zamaist LOG. Android Firewall obsługuje oba. \n
- \n
-<b>Hasło blokady</b>\n
-Możesz ustawić hasło blokady dla Android Firewall używając opcji <b>Ustaw hasło</b> w wysuwanym menu po lewej. \n
-Aby wyłączyć ochronę hasłem ustaw po prostu puste hasło. \n
- \n
-<b>Szukanie aplikacji</b>\n
-Możesz wyszukać konkretną aplikację wpisując kilka pierwszych liter nazwy aplikacji w pasku wyszukiwania obok rozwijanego menu. \n
- \n
-<b>Obsługiwane interfejsy</b>\n
-Oprócz tradycyjnych interfejsów takich jak WiFi i Dane pakietowe, obsługiwane są także trzy inne. Dostępne są VPN-y, Roaming i sieci LAN. Można uruchomić ich obsługę w <i>Ustawieniach</i>. \n
- \n
-<i>Obsługa VPN</i> zezwala aplikacjom na dostęp do danych tylko po połączeniu z VPN. \n
- \n
-<i>Obsługa roamingu</i> zezwala aplikacjom na dostęp do danych tylko po połączeniu w roamingu. \n
- \n
-<i>Obsługa LAN</i> zezwala na dostęp do sieci LAN ale nie do Internetu. Obsługa LAN wymagania uruchomienia nowej opcji <i>Automatyczne reguły zapory</i> w <i>Ustawieniach</i>. Zapoznaj się z opisem aby uzyskać więcej informacji. \n
- \n
-<b>UWAGA:</b> <i>Automatyczne reguły zapory i Obsługa LAN</i> wymagają uprawnień dostępu do sieci oraz statusu sieci WiFi w celu uzyskania danych  adresowych podsieci i sieci LAN dla każdego interfejsu. <b>Android Firewall</b> aktualnie nie ma możliwości wysyłania danych ani nie ma dostępu do Internetu. \n
- \n
-<i>Obsługa Tetheringu</i> pozwala na tethering z laptopem/tabletem/telefonem z twoim urządzeniem bez konieczności wyłączania zapory. Nowa i ulepszona opcja, nie wymaga już zezwalania na uruchomienie z uprawieniami użytkownika root i \"kernel\". Interfejs tetheringu poprzez Bluetooth jest obsługiwany. \n
- \n
-<b>Obsługa Tasker/Locale</b>\n
-<i>Android Firewall</i> zawiera wtyczkę dla aplikacji Tasker oraz Locale. Wtyczka pozwala tym aplikacjom włączać lub wyłączać zaporę i zmieniać profile bazujące na różnych zmiennych. Aby uzyskać więcej informacji przeczytaj instrukcję dla Taskera, którą znajdziesz w zakładce Profile Pomoc. \n
-Powiadomienia Taskera zostały zostały domyślnie wyłączone w ustawieniach zapory. Mogą zostać włączone w <i>Ustawieniach</i>. \n
- \n
- <b>Obsługa wielu użytkowników</b>\n<i>Android Firewall</i> obsługuje wielu użytkowników na tabletach. Obsługa wielu użytkowników wymaga korzystania z Czarnej listy (musi być wybrany taki tryb w Ustawieniach). Obsługa wielu użytkowników korzysta z unikalnych IPTABLES chains dla każdego użytkownika oddzielnie więc każdy ma kontrolę nad tym co ma dostęp do sieci.
+  <string name="log_accept_summary">Włączona opcja będzie rejestrować wszystkie <i>zaakceptowane</i> dane przepływające przez urządzenie.  Pozwoli to wywnioskować, gdzie aplikacja wysyła dane i skąd je odbiera.</string>
+  <string name="enableLog_accept_title">Włączanie dzienników zapory dla przyjętych danych.</string>
+  <string name="show_accept_log">Pokaż ACCEPT dziennika</string>
+  <string name="sendreport">Wyślij raport o błędach</string>
+  <string name="report_fail">Nie udało się uzyskać raportu o błędach</string>
+  <string name="interface_fail">Nie można uzyskać informacji o interfejsie</string>
+  <string name="generate_reports">Generowanie raportów o błędach</string>
+  <string name="generate_zip">Tworzenie pliku Zip</string>
+  <string name="no_zip">Nie można odnaleźć pliku zip raportów o błędach.</string>
+  <string name="send_email">Wyślij e-mail</string>
+  <string name="confirm_delete">Czy chcesz usunąć ten plik</string>
+  <string name="error_purging">Błąd usuwania iptables:</string>
+  <string name="error_purging_code">Błąd usuwania iptables kod wyjścia:</string>
+  <string name="error_purgingipv6">Błąd usuwania ip6tables:</string>
+  <string name="error_purgingipv6_code">Błąd usuwania ip6tables kod wyjścia:</string>
+  <string name="error_showing_rules">Error showing rules:</string>
+  <string name="error_clearing_rules">Error clearing rules:</string>
+  <string name="error_accessing_root">Brak dostępu root</string>
+  <string name="error_installing_binaries">Wystąpił błąd podczas instalacji plików binarnych</string>
+  <string name="rules_file_missing">Wybrany plik zasad jest uszkodzony lub brakujący. Proszę wyeksportuj nowy plik reguł.</string>
+  <string name="error_accessing_class">Błąd dostępu do informacji o klasie. Proszę o kontakt z developerem.</string>
+  <string name="error_af_folder">Błąd dostępu do katalogu androidfirewall. Proszę najpierw wyeksportować plik reguł.</string>
+  <string name="system_language">Język systemu</string>
+  <string name="english">Angielski</string>
+  <string name="arabic">Arabski</string>
+  <string name="czech">Czeski</string>
+  <string name="german">Niemiecki</string>
+  <string name="spanish">Hiszpański</string>
+  <string name="french">Francuski</string>
+  <string name="italian">Włoski</string>
+  <string name="japanese">Japoński</string>
+  <string name="port_brazil">Portugalski, Brazylia</string>
+  <string name="russian">Rosyjski</string>
+  <string name="simple_chinese">Chiński uproszczony</string>
+  <string name="vietnamese">Wietnamski</string>
+  <string name="polish">Polski</string>
+  <string name="greek">Grecki</string>
+  <string name="ifconfig_fail">Nie udało się uzyskać informacji ifconfig.</string>
+  <string name="changelog_help">Zmiany w tej wersji</string>
+  <string name="profile_created">Profil został utworzony pomyślnie.</string>
+  <string name="color_off_summary">Włączenie tej funkcji zmieni kolor systemowych aplikacji na czerwony.</string>
+  <string name="color_on_summary">Wyłączenie tej opcji zmieni kolor aplikacji systemowych na biały.</string>
+  <string name="color_title">Kolor Aplikacji Systemowych</string>
+  <string name="help_usage_description"><b>Przy pomocy Android Firewall</b> \n <b>1.</b> Kliknij na <b>Tryb</b> do przełączania między  <i>Białą Listą</i> i <i>Czarną Listą</i>. \n <b>2.</b> Zaznacz aplikacje, które chcesz zablokować lub umożliwić (w zależności od wybranego trybu), dla każdego interfejsu. \n <b>3.</b> Otwórz menu i włączyć zaporę. Jeśli Zapora jest już włączona, wystarczy wybrać <b>Zastosuj reguły</b>. \nZasady zostaną zapisane i automatycznie przywrócone po ponownym uruchomieniu telefonu. \nJeśli chcesz sprawdzić wszystkie aktualne reguły iptables, wybierz <b>Pokaż zasady</b> z szuflady nawigacji.</string>
+  <string name="help_usage_widgets">\n<b> Widgety</b>\nW szybko włączyć lub wyłączyć zaporę za pomocą jednego przycisku, dodaj On / Off Widget do ekranu głównego. 
+\nW szybko zmienić profile lub włączyć/wyłączyć zaporę, dodać menu widget do ekranu głównego.</string>
+  <string name="help_usage_logs">\n<b>Firewall logs</b>\nIf you want to see which applications have been blocked by Android Firewall, open the <i>Settings</i> menu and enable the Log.
+\nAndroid Firewall will then log each application blocked. You can check the log by opening the menu and selecting <b>Show log</b> from the Navigation Drawer. 
+\nSome newer devices, most notably the Nexus devices, use NFLOG instead of LOG.  Android Firewall now supports both. Devices that use NFLOG now have a pair of services that run in order to catch the data.  These services only run when logging is enabled.  
 \n
-\n<b>Obsługa pakietów przychodzących</b>\n<i>Android Firewall</i> obsługuje INPUT chains. INPUT chains są wykorzystywane do zapobiegania komunikacji z zewnętrznych źródeł. INPUT chains działają trochę inaczej niż  OUTPUT chains w <i>Android Firewall</i>. INPUT chains stosuje reguły dla połączeń: WiFi i danych telefonicznych w tym samym czasie odkąd nie ma możliwości zastosowania reguł dla każdego połączenia oddzielnie. INPUT chains działa z trybem Czarnej listy oraz Białej listy tak jak aktualny OUTPUT chains.
+\nAndroid Firewall supports logging of ACCEPTED packets as well.  By logging those packets you can see where apps are sending your data.  You can then use that information to block access to certain IPs via the Custom Script option or your HOSTS file.
+\n</string>
+  <string name="help_usage_pwdsearch"><b>Password lock</b>\nYou can set a password lock for Android Firewall by using the <b>Set password</b> option in the Navigation Drawer.
+\nTo remove the password protection, just reset it to blank.
+\n<b>App search</b>\nYou can search for a specific app by typing the first few letters of the apps name in the search bar next to the spinner.
+\n</string>
+  <string name="help_usage_interfaces"><b>Supported Interfaces</b>\nAlong side the traditional WiFi and Data interfaces, three other interfaces are now supported.  Support for VPNs, Roaming, and LANs are available.  These are enabled under <i>Settings</i>.
 \n
+\n<i>VPN support</i> allows apps to only access the data stream when connected to a VPN.
 \n
-<b>Inne ustawienia</b>\n
- \n
-<i>Obsługa IPv6</i> jest dostępna w <i>Ustawieniach</i> dla osób, które korzystają z protokołu IPv6. \n
- \n
-Użytkownicy mogą zmieniać język aplikacji na jeden z obsługiwanych w <i>Ustawieniach</i>. \n
- \n
-<i>Obsługa karty SD</i> dla użytkowników, którzy przenieśli aplikacje na kartę SD. Przeczytaj opis tej opcji zanim ją aktywujesz. \n
- \n
-Użytkownicy mogą wybrać, z których plików binarnych chcą korzystać. Możesz używać pliku binarnego dostarczonego razem z Android Firewall lub możesz używać systemowego pliku binarnego. Opcja dostępna w <i>Ustawieniach</i>.
+\n<i>Roaming support</i> allows apps to access the data stream when you are roaming.
 \n
-\n<i>Obsługa x86</i> dla urządzeń z procesorami Intela.
+\n<i>LAN support</i> allows apps to access LAN data but not the Internet.  LAN support requries the new <i>Automatic Firewall Rules</i> option in <i>Settings</i> to be enabled.  Please refer to the description for more information.
 \n
-\n<b>Informacje</b>\n
- \n
-Zezwolenie dla <i>Media Server</i> jest <b>wymagane</b> do poprawnej obsługi serwisu <i>YouTube</i>. \n</string>
+\n<b>NOTE:</b><i>Automatic Firewall Rules and LAN support</i> require the Internet permission and Access WiFi State permission in order to access the Subnet and LAN address information for each interface.  <b>Android Firewall</b> in no way actually transmits data or accesses the Internet.
+\n</string>
+  <string name="help_usage_tether"><i>Tethering support</i> allows you to tether a laptop/tablet/phone to your device without having to disable the firewall.  This is new and improved and no longer requires allowing \"apps that run as root\" and \"kernel\".  Bluetooth tethering interfaces are now supported by this setting.
+\n</string>
+  <string name="help_usage_tasker"><b>Tasker/Locale Support</b>\n<i>Android Firewall</i> contains a plugin for Tasker and Locale.  The plugin allows those apps to Enable or Disable the firewall and change profiles based on different variables.  For more information please read the Tasker instructions under the Profiles Help tab.
+\nNotifications from Tasker, Locale, and the shortcuts stating changes have been made to the firewall are disabled by default.  They can be enabled under <i>Settings</i>.
+\n</string>
+  <string name="help_usage_multiuser"><b>Multi-user Support</b>\n<i>Android Firewall</i> supports multiple users on tablets.  Multi-user support requires you to use Blacklist at this time and must be enabled under Settings.  Multi-user support uses unique IPTABLES chains for each individual user so each user has control over what can access the data stream.  
+\n</string>
+  <string name="help_usage_input"><b>INPUT Chain Support</b>\n<i>Android Firewall</i> supports INPUT chains.  INPUT chains are used to prevent communication from outside sources.  INPUT chains works a little bit differently than the OUTPUT chains in <i>Android Firewall</i>.  INPUT chains applies to both WiFi and cellular data connections at the same time since there is no way to apply the rules to a specific interface.  INPUT chains works with both Blacklist and Whitelist just like current OUTPUT chains.  This feature is designed so that if you deny an app access to Data and INPUT but still want it to work on WiFi it will.  For example if you deny a web browser access the Data and INPUT but give it access to WiFi the browser will still function correctly when on WiFi.  INPUT chains only work on Android 4.x due to limitations in the older kernels.    
+\n</string>
+  <string name="help_usage_ipv6lang"><b>Other settings</b>\n
+\n<i>IPv6 support</i> is available under <i>Settings</i> for those who use IPv6.
+\n
+\nUsers can change the apps language to one of the supported languages under <i>Settings</i>.
+\n</string>
+  <string name="help_usage_sdx86"><i>SDcard support</i> for users who have moved apps to their SDcard.  Please read the setting description before enabling.
+\n
+\n<i>x86 Support</i> for devices running Intel processors.  
+\n</string>
+  <string name="help_usage_shortcuts"><i>Application Shortcuts</i> are available for quick access to enabling or disabling the firewall and all of your profiles.  These shortcuts can also be used by apps like Llama and Macrodroid for situation based application.
+\n</string>
+  <string name="help_usage_media"><b>Information</b>\n
+\n<i>Media Server</i> is <b>required</b> for <i>YouTube</i> to function.
+\n</string>
+  <string name="help_usage_reports"><i>Android Firewall</i> can generate error reports in order to gather the information needed to correct issues seen by users.  This ability generates 3 files containing device information, but NO personal information, which is then written to your external storage so you can see what is data is being collected.\n 
+\nThey are kept in a folder called af_error_reports.  The files are zipped and the user given the option to e-mail the files to the developer. Please include a detailed description of what you were doing when the issue happened.
+\n</string>
   <string name="help_rules"><i>Zarządzanie regułami</i> umożliwia eksport, import i usuwanie plików reguł.\n  
         \nWszystkie ustawienia użytkownika są przechowywane w plikach reguł wiec gdy eksportujesz plik reguł zapisywane są także Ustawienia takie jak: obsługa powiadomień, logowanie, obsługa IPv6 i reszta.  Pliki te są używane do tworzenia profili.
 \n
@@ -336,4 +369,34 @@ Zezwolenie dla <i>Media Server</i> jest <b>wymagane</b> do poprawnej obsługi se
 		\n
 		\nZawarte bilbioteki:
 		\n<i>ActionBarSherlock - Apache License 2.0</i>		\n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>		\n<i>Libsuperuser - Apache License 2.0</i>		\n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i>		\n</string>
+  <string name="help_changelog_234">Wersja 2.3.4\n
+\n
+1. Naprawiono błąd, gdzie Nav drawer zostanie z domyślnego języka ręcznie zmieniony  z powrotem na język angielski zmieniony.\n
+2. Zaktualizowane informacje o pliku Pomoc dla łatwiejszego tłumaczenia.\n
+3.  Dodano więcej informacji do błędu Reports, aby pomóc w rozwiązywaniu problemów. Wszystkie dane są nadal dostępne dla użytkowników, spojrzeć na to żeby wiedzieć, co jest przekazywane.\n
+4. Dodano interfejsy dla nowych urządzeń.\n
+5. Czyszczenia interfejsu użytkownika.\n
+6. Ulepszone wsparcie dla urządzeń HDPI.\n
+7. Aplikacje, które są odinstalowane będą teraz wyświetlane na górze listy app zainstalowane ponownie. Dotyczy to tylko aplikacje odinstalowane po zainstalowaniu tej aktualizacji.\n
+8. Opcje menu nie są poprawne po wtyczki lub skrótu sprawia, że ​​zmiany do zapory.\n
+9. Ikona powiadomienia aktualizowaniu teraz wygląda o wiele lepiej.</string>
+  <string name="help_changelog_235">Wersja 2.3.5\n
+\n
+1. Poprawka dla wydania VPN na KitKat.\n
+2. Lepsze wsparcie dla SDcard.\n
+3. FAQ punkt dodany.\n
+4. Możliwość zmiany koloru aplikacje systemowych.\n
+5. Aplikacje dla osób niepełnosprawych nie pojawiają się na liście.\n
+6. Dodano ustawienia AF do błędu raporty, które są wysyłane.</string>
+  <string name="faq_help">FAQ</string>
+  <string name="help_faq_one"><b>YouTube/Streaming Music is not working. How do I fix it?</b>\n<i>Please allow "Media Server" access to the Internet</i>\n</string>
+  <string name="help_faq_two"><b>Why are logs not showing up?</b>\n<i>Logs depend on a service from AF that collects the data or dmesg to collect the data. Neither option can hold the data forever. So the logs are getting overritten quickly or your kernel does not have the proper modules enabled.</i>\n</string>
+  <string name="help_faq_three"><b>Why do you not block SMS/MMS or Phone calls?</b>\n<i>Iptables cannot block low-level traffic like that.</i>\n</string>
+  <string name="help_faq_four"><b>Why is some app not showing up in the list?</b>\n<i>The app either does not require internet permission or the app has been disabled.</i>\n</string>
+  <string name="help_faq_five"><b>Why does the app request full permissions to all device features and storage?</b>\n<i>This permission is the app simply announcing that it requires root access. Here is more information on the permission: <a href="https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1">https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1</a>	\n
+	    Giving an app root access means you give it full permissions to all device features and storage.  If you do not understand that you need to read this:  <a href="http://en.wikipedia.org/wiki/Android_rooting">http://en.wikipedia.org/wiki/Android_rooting</a></i>  	\n</string>
+  <string name="help_faq_six"><b>Dlaczego aplikacja zapory wymagają dostępu do Internetu?</b>\n<i>AF nie wymaga dostępu do Internetu. Jednak, AF potrzebuje takiego zezwolenia w celu prawidłowego wyciągnągnięcia zakres adresów IP dla sieci LAN wsparcie funkcjonalności. AF sprawia, że nie ma połączenia z internetem.</i>\n</string>
+  <string name="help_faq_seven"><b>How do I report a bug in the app?</b>\n<i>Send an Error Report from within the app (Menu -&gt; Send Error Report) or e-mail me at androidfirewall.developer@gmail.com.  Please include the reason why you are sending the report.  For example:  "The firewall is preventing me from tethering my device" or "The firewall isn\'t blocking any apps."  You may also open up a bug report on Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
+  <string name="help_faq_eight"><b>Can you make it so this app does not need root access?</b>\n<i>No. Accessing iptables requires root access at this time.</i>\n</string>
+  <string name="help_faq_nine"><b>Możesz dodać ten Super duper funkcjonalność, aby poziom mocy aplikacje na 9000?</b>\n<i>Maybe. Proszę napisz do mnie na adres androidfirewall.developer@gmail.com lub zgłosić błąd poprzez Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i>\n</string>
 </resources>

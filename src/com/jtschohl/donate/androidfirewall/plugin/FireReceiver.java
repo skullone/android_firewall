@@ -421,8 +421,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
-		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
-				.getBoolean(Api.PREF_SDCARD, false);
+	/*	boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false); */
 		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -437,6 +437,8 @@ public final class FireReceiver extends BroadcastReceiver {
 				.getBoolean(Api.PREF_MULTIUSER, false);
 		boolean inputenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_INPUTENABLED, false);
+		boolean colorenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_APPCOLOR, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -465,13 +467,13 @@ public final class FireReceiver extends BroadcastReceiver {
 			editor.putBoolean("taskertoastenabled", false);
 			editor.commit();
 		}
-		if (sdcard) {
+	/*	if (sdcard) {
 			editor.putBoolean("sdcard", true);
 			editor.commit();
 		} else {
 			editor.putBoolean("sdcard", false);
 			editor.commit();
-		}
+		} */
 		if (vpnenabled) {
 			editor.putBoolean("vpnsupport", true);
 			editor.commit();
@@ -526,6 +528,13 @@ public final class FireReceiver extends BroadcastReceiver {
 			editor.commit();
 		} else {
 			editor.putBoolean("logacceptenabled", false);
+			editor.commit();
+		}
+		if (colorenabled) {
+			editor.putBoolean("appcolor", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("appcolor", false);
 			editor.commit();
 		}
 	}

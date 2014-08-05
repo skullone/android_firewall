@@ -111,22 +111,22 @@
   <string name="twofortyfouram_locale_menu_dontsave">Bỏ</string>
   <string name="twofortyfouram_locale_menu_help">Trợ giúp</string>
   <string name="twofortyfouram_locale_menu_save">Xong</string>
-  <string name="tasker_name">Tường lửa Android - Tasker</string>
-  <string name="tasker_profile_disabled">Tasker đã thay đổi bộ thiết lập Tường lửa Android. Đã tắt tường lửa!</string>
+  <string name="tasker_name">Tường lửa Android - Phần mở rộng</string>
+  <string name="tasker_profile_disabled">Một shortcut/phần mở rộng đã thay đổi bộ thiết lập Tường lừa Android. Tường lửa đã tắt!</string>
   <string name="search_name">Tìm kiếm ứng dụng</string>
   <string name="profilenames">Đổi tên Bộ thiết lập</string>
   <string name="vpn_title">VPN</string>
   <string name="vpn">VPN</string>
   <string name="roaming_title">Chuyển vùng</string>
   <string name="usersettings">Thiết lập</string>
-  <string name="taskertoast_title">Thông báo Tasker</string>
+  <string name="taskertoast_title">Thông báo từ Tasker/Locale/Shortcut</string>
   <string name="ipv6_summary">Thiết lập này bật hoặc tắt hỗ trợ IPv6</string>
   <string name="vpn_summary">Thiết lập này bật hoặc tắt hỗ trợ VPN</string>
   <string name="roaming_summary">Thiết lập này bật hoặc tắt hỗ trợ chuyển vùng quốc tế</string>
-  <string name="taskertoast_summary">Thiết lập này bật hoặc tắt hỗ trợ Thông báo Tasker khi Bộ thiết lập bị thay đổi</string>
+  <string name="taskertoast_summary">Tuỳ chọn này bật hoặc tắt Thông báo bung ra khi tường lửa bị thay đổi bởi Tasker, Locale, Llama, Macrodroid hoặc các shortcut.</string>
   <string name="log_summary">Thiết lập này bật hoặc tắt hỗ trợ Nhật ký tường lửa</string>
   <string name="notification_summary">Thiết lập này bật hoặc tắt thông báo có ứng dụng cần internet</string>
-  <string name="tasker_profile">Tasker đã thay đổi bộ thiết lập của Tường lửa Android</string>
+  <string name="tasker_profile">Phần mở rộng hoặc shortcut đã thay đổi bộ thiết lập trong Tường lừa Android</string>
   <string name="apply_setting_changes">Đang áp dụng quy tắc do thay đổi thiết lập</string>
   <string name="rules_export_successfully">Đã xuất thành công các quy tắc</string>
   <string name="rules_import_successfully">Đã nhập thành công các quy tắc</string>
@@ -221,6 +221,12 @@
   <string name="vietnamese">Tiếng Việt</string>
   <string name="polish">Tiếng Ba Lan</string>
   <string name="greek">Tiếng Hy Lạp</string>
+  <string name="ifconfig_fail">Không thể lấy thông tin ifconfig.</string>
+  <string name="changelog_help">Nhật ký thay đổi</string>
+  <string name="profile_created">Bộ thiết lập đã được tạo thành công.</string>
+  <string name="color_off_summary">Bật tính năng này để hiển thị các ứng dụng hệ thống bằng màu đỏ.</string>
+  <string name="color_on_summary">Tắt tính năng này để hiển thị các ứng dụng hệ thống bằng màu trắng.</string>
+  <string name="color_title">Màu Ứng dụng hệ thống</string>
   <string name="help_usage_description"><b>Sử dụng Tường lửa Android</b>\n<b>1.</b> Bấm <b>Chế độ</b> để chuyển giữa chế độ <i>Danh sách Trắng</i> và <i>Danh sách Đen</i>.
 \n<b>2.</b> Đánh dấu các ứng dụng bạn muốn chặn hoặc cho phép (tuỳ theo chế độ đã chọn), trong từng chế độ.
 \n<b>3.</b> Mở menu và bật tường lửa. Nếu tường lửa đã bật, chỉ cần chọn <b>Áp dụng quy tắc</b>.
@@ -250,8 +256,8 @@
 \n</string>
   <string name="help_usage_tether"><i>Chia sẻ mạng</i> cho phép bạn chia sẻ mạng từ laptop/máy tính bảng/điện thoại với thiết bị của bạn mà không phải tắt tường lửa. Tính năng mới này đã được cải tiến để không còn yêu cầu quyền root hoặc \"kernel\".  Tính năng này hiện cũng hỗ trợ chia sẻ qua Bluetooth.
 \n</string>
-  <string name="help_usage_tasker"><b>Tasker/Locale</b>\n<i>Tường lửa Android</i> chứa một phần mở rộng cho Tasker và Locale.  Phần mở rộng này cho phép các ứng dụng trên Bật hoặc Tắt tường lửa và thay đổi bộ thiết lập dựa trên các điều kiện đã định. Để biết thêm thông tin, hãy xem phần hướng dẫn Tasker trong mục Trợ giúp Bộ thiết lập.
-\nTheo mặc định, các thông báo về thay đổi thiết lập từ Tasker đều bị tắt. Bạn có thể bật chúng trong <i>Thiết lập</i>.
+  <string name="help_usage_tasker"><b>Hỗ trợ Tasker/Locale</b>\n<i>Tường lửa Android</i> chứa phần mở rộng cho Tasker và Locale.  Phần mở rộng này cho phép các ứng dụng trên Bật hoặc Tắt tường lửa và thay đổi các bộ thiết lập tuỳ theo nhiều yếu tố. Để biết thêm thông tin, vui lòng xem phần hướng dẫn Tasker trong mục Trợ giúp Bộ thiết lập.
+\nTheo mặc định, các thông báo từ Tasker, Locale, và các shortcut về các thay đổi của tường lửa được tắt. Bạn có thể bật các thông báo này trong phần <i>Thiết lập</i>.
 \n</string>
   <string name="help_usage_multiuser"><b>Nhiều người dùng</b>\n<i>Tường lửa Android</i> hỗ trợ nhiều người dùng trên máy tính bảng.  Tính năng này đòi hỏi chế độ Danh sách Đen, bạn có thể bật trong mục Thiết lập. Tính năng nhiều người dùng sử dụng các chuỗi bảng IP riêng cho mỗi người dùng, nhờ đó mỗi người dùng đều có thể có thiết lập riêng.
 \n</string>
@@ -364,4 +370,34 @@
 \n<i><a href="http://www.crowdin.net/project/android-firewall">http://www.crowdin.net/project/android-firewall</a></i>\n
 \nBao gồm các thư viện:
 \n<i>ActionBarSherlock - Apache License 2.0</i> \n<i><a href="http://actionbarsherlock.com">http://actionbarsherlock.com</a></i>                \n<i>Libsuperuser - Apache License 2.0</i> \n<i><a href="http://github.com/Chainfire/libsuperuser">http://github.com/Chainfire/libsuperuser</a></i> \n</string>
+  <string name="help_changelog_234">Bản 2.3.4\n
+    \n
+    1. Sửa lỗi menu Điều hướng nhảy về tiếng Anh nếu người dùng đặt ngôn ngữ khác.\n
+    2. Cập nhật thông tin phần Trợ giúp để tối ưu cho việc dịch.\n
+    3. Thêm thông tin cho phần Báo cáo Lỗi nhằm cải thiện việc sửa lỗi. Người dùng vẫn có thể xem toàn bộ dữ liệu để biết những dữ liệu nào được gửi đi.\n
+    4. Thêm giao diện cho các thiết bị mới.\n
+    5. Cải tiến giao diện.\n
+    6. Cải thiện hỗ các thiết bị XXHDPI.\n
+    7. Các ứng dụng đã xoá sẽ được hiển thị ở đầu danh sách khi được cài lại. Việc này chỉ áp dụng với các ứng dụng bị xoá sau khi cập nhật Tường lửa Android lên bản này.\n
+    8. Tuỳ chọn trong menu sẽ hiển thị đúng sau khi phần mở rộng hoặc shortcut thay đổi thiết lập của tường lửa.\n
+    9. Thay đổi biểu tượng thông báo - đẹp hơn nhiều.</string>
+  <string name="help_changelog_235">Bản 2.3.5\n
+         \n
+         1. Sửa lỗi với VPN trên KitKat.\n
+         2. Cải tiến hỗ trợ thẻ SD.\n
+         3. Thêm mục Câu hỏi thường gặp.\n
+         4. Khả năng đổi màu hiển thị của ứng dụng hệ thống.\n
+         5. Các ứng dụng bị tắt sẽ không xuất hiện trong danh sách ứng dụng.\n
+         6. Thêm tuỳ chọn cho phần gửi báo cáo lỗi.</string>
+  <string name="faq_help">Câu hỏi thường gặp</string>
+  <string name="help_faq_one"><b>YouTube/Stream nhạc không hoạt động. Làm sao để sửa?</b>\n<i>Vui lòng cho phép "Media Server" truy cập Internet</i>\n</string>
+  <string name="help_faq_two"><b>Tại sao không xuất hiện nhật ký ?</b>\n<i>Các bản ghi nhật ký phụ thuộc vào một tác vụ có nhiệm vụ thu thập và xử lý dữ liệu của Tường lửa Android. Cả hay tuỳ chọn đều không thể lưu dữ liệu mãi mãi. Vì vậy có thể các bản ghi được ghi đè lên quá nhanh hoặc lõi hệ thống của bạn không bật module cần thiết.</i>\n</string>
+  <string name="help_faq_three"><b>Tại sao không thể chặn SMS/MMS hoặc các cuộc gọi?</b>\n<i>Bảng IP không thể chặn các truy cập cấp thấp loại này.</i>\n</string>
+  <string name="help_faq_four"><b>Tại sao một số ứng dụng không xuất hiện trong danh sách?</b>\n<i>Có thể các ứng dụng đó không yêu cầu truy cập internet hoặc đã bị khoá.</i>\n</string>
+  <string name="help_faq_five"><b>Tại sao ứng dụng lại yêu cầu quyền truy câp toàn bộ các tính năng và vùng lưu trữ của thiết bị??</b>\n<i>Quyền truy cập này thật ra chỉ là quyền root. Vui lòng xem thông tin chi tiết về quyền truy cập này ở đây: <a href="https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1">https://plus.google.com/103583939320326217147/posts/T9xnMJEnzf1</a>	\n
+	    Trao quyền root cho một ứng dụng nghĩa là bạn cho phép ứng dụng đó toàn quyền truy cập vào các tính năng và vùng lưu trữ của thiết bị. Nếu chưa rõ, bạn có thể đọc ở đây:  <a href="http://en.wikipedia.org/wiki/Android_rooting">http://en.wikipedia.org/wiki/Android_rooting</a></i>  	\n</string>
+  <string name="help_faq_six"><b>Tại sao một ứng dụng tường lửa lại cần truy cập Internet?</b>\n<i>Tường lửa Android không cần truy cập vào Internet. Tuy nhiên, ứng dụng cần quyền truy cập này để lấy các chuỗi địa chỉ IP cho tính năng LAN. Tường lửa Android không hề truy cập vào Internet.</i>\n</string>
+  <string name="help_faq_seven"><b>Làm sao để báo cáo lỗi của ứng dụng?</b>\n<i>Gửi một Báo cáo Lỗi ngay từ trong ứng dụng (Menu -&gt; Gửi Báo cáo Lỗi) hoặc gửi email cho tôi qua địa chỉ androidfirewall.developer@gmail.com.  Vui lòng cho biết lý do bạn gửi báo cáo lỗi. Ví dụ: "Tường lửa ngăn không cho tôi chia sẻ mạng cho thiết bị khác" hoặc "Tường lửa không chặn ứng dụng nào." Bạn cũng có thể mở một báo cáo lỗi trên Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
+  <string name="help_faq_eight"><b>Có thể làm sao để ứng dụng này không cần quyền root được không?</b>\n<i>Không. Hiện tại việc truy cập vào các bảng IP đòi hỏi quyền root.</i>\n</string>
+  <string name="help_faq_nine"><b>Bạn có thể thêm chức năng đỉnh cao này vào để nâng chỉ số sức mạnh của ứng dụng lên trên 9000 được không?</b>\n<i>Có thể. Vui lòng gửi email cho tôi qua địa chỉ androidfirewall.developer@gmail.com hoặc gửi một báo cáo lỗi qua Github. <a href="https://github.com/skullone/android_firewall/issues">https://github.com/skullone/android_firewall/issues</a></i> 	 \n</string>
 </resources>

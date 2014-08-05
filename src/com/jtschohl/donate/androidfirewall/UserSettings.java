@@ -106,9 +106,9 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		if (key.equals("logenabled")) {
 			toggleLogenabled();
 		}
-		if (key.equals("sdcard")) {
+	/*	if (key.equals("sdcard")) {
 			sdcardSupport();
-		}
+		}*/
 		if (key.equals("vpnsupport")) {
 			toggleVPNenabled();
 			Api.applications = null;
@@ -147,6 +147,10 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		}
 		if (key.equals("logacceptenabled")) {
 			toggleAcceptLogenabled();
+		}
+		if (key.equals("appcolor")){
+			toggleAppColor();
+			Api.applications = null;
 		}
 	}
 
@@ -323,13 +327,13 @@ public class UserSettings extends SherlockPreferenceActivity implements
 	/**
 	 * Toggle apps on SDCard support on/off
 	 */
-	private void sdcardSupport() {
+/*	private void sdcardSupport() {
 		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
 		final boolean enabled = !prefs.getBoolean(Api.PREF_SDCARD, false);
 		final Editor editor = prefs.edit();
 		editor.putBoolean(Api.PREF_SDCARD, enabled);
 		editor.commit();
-	}
+	}*/
 
 	/**
 	 * Toggle Tasker Notification support on/off
@@ -385,6 +389,17 @@ public class UserSettings extends SherlockPreferenceActivity implements
 		if (Api.isEnabled(this)) {
 			Api.applySavedIptablesRules(this, true);
 		}
+	}
+	
+	/**
+	 * Toggle app color on/off
+	 */
+	private void toggleAppColor() {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+		boolean colorenabled = !prefs.getBoolean(Api.PREF_APPCOLOR, false);
+		final Editor editor = prefs.edit();
+		editor.putBoolean(Api.PREF_APPCOLOR, colorenabled);
+		editor.commit();
 	}
 
 	@Override

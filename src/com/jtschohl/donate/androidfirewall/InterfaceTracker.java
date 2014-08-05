@@ -53,14 +53,14 @@ public final class InterfaceTracker {
 	private static InterfaceInfo currentConfig = null;
 
 	public static final String ITFS_WIFI[] = { "tiwlan+", "wlan+", "eth+",
-			"ra+", "wlan0+", "eth0+" };
+			"ra+" };
 	public static final String ITFS_3G[] = { "rmnet+", "pdp+", "ppp+", "uwbr+",
-			"wimax+", "vsnet+", "ccmni+", "usb+", "rmnet1+", "rmnet_sdio+",
-			"rmnet_sdio0+", "rmnet_sdio1+", "qmi+", "wwan0+", "svnet0+",
-			"rmnet0+", "cdma_rmnet+", "rmnet_usb0+", "rmnet_usb+", "bond1+",
-			"ppp0+", "clat4+", "cc2mni0+" };
+			"wimax+", "vsnet+", "ccmni+", "usb+", "rmnet_sdio+", "qmi+",
+			"wwan+", "svnet+", "cdma_rmnet+", "rmnet_usb+", "bond+", "clat+",
+			"cc2mni+" };
 	public static final String ITFS_VPN[] = { "tun+", "tun0+" };
-	public static final String ITFS_TETHER[] = { "bnep0+", "bt-pan+", "rndis0+" };
+	public static final String ITFS_TETHER[] = { "bnep0+", "bt-pan+",
+			"rndis0+", "ap0+" };
 
 	private static class OldInterfaceScanner {
 
@@ -133,8 +133,7 @@ public final class InterfaceTracker {
 					}
 				}
 			} catch (SocketException e) {
-				Log.e(TAG,
-						"Error fetching network interface list");
+				Log.e(TAG, "Error fetching network interface list");
 			}
 		}
 	}
@@ -186,8 +185,7 @@ public final class InterfaceTracker {
 		currentConfig = newCfg;
 
 		if (!newCfg.netEnabled) {
-			Log.i(TAG,
-					"Now assuming NO connection (all interfaces down)");
+			Log.i(TAG, "Now assuming NO connection (all interfaces down)");
 		} else {
 			if (newCfg.netType == ConnectivityManager.TYPE_WIFI) {
 				Log.i(TAG, "Now assuming wifi connection");
@@ -196,12 +194,12 @@ public final class InterfaceTracker {
 			}
 
 			if (!newCfg.lanipv4.equals("")) {
-				Log.i(TAG, "IPv4 LAN netmask on "
-						+ newCfg.wifiName + ": " + newCfg.lanipv4);
+				Log.i(TAG, "IPv4 LAN netmask on " + newCfg.wifiName + ": "
+						+ newCfg.lanipv4);
 			}
 			if (!newCfg.lanipv6.equals("")) {
-				Log.i(TAG, "IPv6 LAN netmask on "
-						+ newCfg.wifiName + ": " + newCfg.lanipv6);
+				Log.i(TAG, "IPv6 LAN netmask on " + newCfg.wifiName + ": "
+						+ newCfg.lanipv6);
 			}
 		}
 		return true;

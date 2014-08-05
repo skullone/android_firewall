@@ -53,6 +53,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -761,8 +762,8 @@ public class MainActivity extends SherlockActivity implements
 				.getBoolean(Api.PREF_NOTIFY, false);
 		boolean taskerenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_TASKERNOTIFY, false);
-		boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
-				.getBoolean(Api.PREF_SDCARD, false);
+	/*	boolean sdcard = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false);*/
 		boolean vpnenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_VPNENABLED, false);
 		boolean roamenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
@@ -777,6 +778,8 @@ public class MainActivity extends SherlockActivity implements
 				.getBoolean(Api.PREF_MULTIUSER, false);
 		boolean inputenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
 				.getBoolean(Api.PREF_INPUTENABLED, false);
+		boolean colorenabled = ctx.getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_APPCOLOR, false);
 		if (ipv6support) {
 			editor.putBoolean("ipv6enabled", true);
 			editor.commit();
@@ -805,13 +808,13 @@ public class MainActivity extends SherlockActivity implements
 			editor.putBoolean("taskertoastenabled", false);
 			editor.commit();
 		}
-		if (sdcard) {
+	/*	if (sdcard) {
 			editor.putBoolean("sdcard", true);
 			editor.commit();
 		} else {
 			editor.putBoolean("sdcard", false);
 			editor.commit();
-		}
+		}*/
 		if (vpnenabled) {
 			editor.putBoolean("vpnsupport", true);
 			editor.commit();
@@ -866,6 +869,13 @@ public class MainActivity extends SherlockActivity implements
 			editor.commit();
 		} else {
 			editor.putBoolean("logacceptenabled", false);
+			editor.commit();
+		}
+		if (colorenabled) {
+			editor.putBoolean("appcolor", true);
+			editor.commit();
+		} else {
+			editor.putBoolean("appcolor", false);
 			editor.commit();
 		}
 	}
@@ -963,6 +973,9 @@ public class MainActivity extends SherlockActivity implements
 		// Sort applications - selected first, then alphabetically
 		Collections.sort(apps, new sortList());
 
+		final int defaultColor = Color.WHITE;
+		final int color = Color.RED;
+
 		final LayoutInflater inflater = getLayoutInflater();
 		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,
 				R.layout.listitem, R.id.itemtext, apps) {
@@ -972,6 +985,7 @@ public class MainActivity extends SherlockActivity implements
 			boolean lanenabled = prefs.getBoolean(Api.PREF_LANENABLED, false);
 			boolean inputwifienabled = prefs.getBoolean(Api.PREF_INPUTENABLED,
 					false);
+			boolean colorenabled = prefs.getBoolean(Api.PREF_APPCOLOR, false);
 
 			@Override
 			public View getView(final int position, View convertView,
@@ -1051,6 +1065,19 @@ public class MainActivity extends SherlockActivity implements
 				}
 				entry.app = apps.get(position);
 				entry.text.setText(entry.app.toString());
+
+				ApplicationInfo app = entry.app.appinfo;
+				if (colorenabled) {
+					if (app != null
+							&& (app.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+						entry.text.setTextColor(defaultColor);
+					} else {
+						entry.text.setTextColor(color);
+					}
+				} else {
+					entry.text.setTextColor(defaultColor);
+				}
+
 				entry.icon.setImageDrawable(entry.app.cached_icon);
 				if (!entry.app.icon_loaded && entry.app.appinfo != null) {
 					// this icon has not been loaded yet - load it on a
@@ -2628,7 +2655,6 @@ public class MainActivity extends SherlockActivity implements
 			try {
 				for (String str : state.lastCommandResult.toString().split(
 						"\r\n")) {
-					Log.d(TAG, str);
 					fout = new FileOutputStream(file);
 					output = new OutputStreamWriter(fout);
 					output.write(str, 0, str.length());
@@ -2685,7 +2711,8 @@ public class MainActivity extends SherlockActivity implements
 				if (fout != null) {
 					fout.close();
 					Log.d(TAG, "FOUT Closed");
-					getIfconfigInfo();
+					//getIfconfigInfo();
+					getLogcatInfo();
 				}
 			} catch (IOException e) {
 				Log.e(TAG, String.format("File close failed: %s", e.toString()));
@@ -2697,15 +2724,15 @@ public class MainActivity extends SherlockActivity implements
 	 * get ifconfig Information
 	 */
 
-	private void getIfconfigInfo() {
+	/*private void getIfconfigInfo() {
 		final Context ctx = getApplicationContext();
-
+		String ifconfig = Api.getIfconfigPath(ctx);
 		IfconfigCallback cb = new IfconfigCallback();
 		cb.ctx = ctx;
 
 		new RootCommand().setReopenShell(true)
 				.setFailureToast(R.string.ifconfig_fail).setCallback(cb)
-				.setLogging(true).run(ctx, "busybox ifconfig");
+				.setLogging(true).run(ctx, ifconfig);
 	}
 
 	private class IfconfigCallback extends RootCommand.Callback {
@@ -2726,7 +2753,6 @@ public class MainActivity extends SherlockActivity implements
 			try {
 				for (String str : state.lastCommandResult.toString().split(
 						"\r\n")) {
-					Log.d(TAG, str);
 					fout = new FileOutputStream(file);
 					output = new OutputStreamWriter(fout);
 					output.write(str, 0, str.length());
@@ -2737,7 +2763,6 @@ public class MainActivity extends SherlockActivity implements
 				try {
 					if (output != null) {
 						output.close();
-						Log.d(TAG, "OUTPUT Closed");
 					}
 					if (fout != null) {
 						fout.close();
@@ -2750,7 +2775,7 @@ public class MainActivity extends SherlockActivity implements
 				}
 			}
 		}
-	}
+	} */
 
 	/**
 	 * get Logcat Information
@@ -2813,13 +2838,45 @@ public class MainActivity extends SherlockActivity implements
 	/**
 	 * get device information
 	 */
-	
+
 	public void getDeviceInfo() {
 		File sdCard = Environment.getExternalStorageDirectory();
 		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
 		String filename = "deviceinfo.txt";
 		File file = new File(dir, filename);
 		OutputStreamWriter output = null;
+		final SharedPreferences prefs = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0);
+		final boolean whitelist = prefs.getString(Api.PREF_MODE, Api.MODE_WHITELIST)
+				.equals(Api.MODE_WHITELIST);
+		final boolean logenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LOGENABLED, false);
+		final boolean vpnenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_VPNENABLED, false);
+		final boolean lanenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_LANENABLED, false);
+		final boolean roamenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ROAMENABLED, false);
+		final boolean ipv6enabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_IP6TABLES, false);
+		final boolean enabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_ENABLED, false);
+		final boolean tetherenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TETHER, false);
+		final boolean inputenabled = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_INPUTENABLED, false);
+		final boolean logacceptenabled = getApplicationContext()
+				.getSharedPreferences(Api.PREFS_NAME, 0).getBoolean(
+						Api.PREF_LOGACCEPTENABLED, false);
+		final boolean autorules = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_AUTORULES, false);
+		final boolean notify = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_NOTIFY, false);
+		final boolean taskernotify = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_TASKERNOTIFY, false);
+		final boolean appcolor = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_APPCOLOR, false);
+	/*	final boolean sdcard = getApplicationContext().getSharedPreferences(Api.PREFS_NAME, 0)
+				.getBoolean(Api.PREF_SDCARD, false);*/
 
 		try {
 			output = new OutputStreamWriter(new FileOutputStream(file));
@@ -2828,6 +2885,53 @@ public class MainActivity extends SherlockActivity implements
 			output.append("OEM: " + android.os.Build.MANUFACTURER + "\n");
 			output.append("Device Model: " + android.os.Build.MODEL + "\n");
 			output.append("Device Build: " + android.os.Build.DISPLAY + "\n");
+			if (whitelist) {
+				output.append("Whitelist Enabled\n");
+			} else {
+				output.append("Blacklist Enabled\n");
+			}
+			if (logenabled){
+				output.append("Log Enabled\n");
+			}
+			if (vpnenabled){
+				output.append("VPN Enabled\n");
+			}
+			if (autorules){
+				output.append("Automatic Rules Enabled\n");
+			}
+			if (lanenabled){
+				output.append("LAN Enabled\n");
+			}
+			if (roamenabled){
+				output.append("Roaming Enabled\n");
+			}
+			if (ipv6enabled){
+				output.append("IPv6 Enabled\n");
+			}
+			if (enabled){
+				output.append("Firewall Enabled\n");
+			}
+			if (tetherenabled){
+				output.append("Tethering Enabled\n");
+			}
+			if (inputenabled){
+				output.append("INPUT Chains Enabled\n");
+			}
+			if (logacceptenabled){
+				output.append("ACCEPT Log Enabled\n");
+			}
+		/*	if (sdcard){
+				output.append("SDCard Support Enabled\n");
+			}*/
+			if (notify){
+				output.append("Notifications Enabled\n");
+			}
+			if (taskernotify){
+				output.append("Tasker/Locale/Shortcut Notifications Enabled\n");
+			}
+			if (appcolor){
+				output.append("System App Color Enabled\n");
+			}
 		} catch (IOException error) {
 			error.printStackTrace();
 			Log.e(TAG, "IOException while creating deviceinfo.txt " + error);
@@ -2854,7 +2958,7 @@ public class MainActivity extends SherlockActivity implements
 		File dir = new File(sdCard.getAbsolutePath() + "/af_error_reports/");
 		String filename = "af_error_reports.zip";
 		String[] reports = { dir + "/iptables.txt", dir + "/logcat.txt",
-				dir + "/interfaces.txt", dir + "/ifconfig.txt",
+				dir + "/interfaces.txt", /*dir + "/ifconfig.txt",*/
 				dir + "/deviceinfo.txt" };
 		File file = new File(dir, filename);
 
